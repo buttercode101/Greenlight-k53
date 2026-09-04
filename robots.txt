@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://greenlight-k53.vercel.app/sitemap.xml
