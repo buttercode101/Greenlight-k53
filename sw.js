@@ -1,5 +1,5 @@
 /* K53 Weekend Warrior — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v4';
+const CACHE = 'greenlight-k53-v3';
 const CORE = [
   './',
   './index.html',
