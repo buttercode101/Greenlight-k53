@@ -38,7 +38,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    DESIGN.md COMPATIBLE TOKENS (Notion + Mintlify hybrid)
@@ -373,12 +373,28 @@ html[data-theme="dark"] .pwa-icon{background:rgba(14,143,62,.22);}
 .hero-note{margin:0 0 var(--s2);font-size:12.5px;letter-spacing:.1px;color:var(--ink-faint);
   display:block;line-height:1.5;}
 html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
+
+/* ---- K53 visual identity refresh: purposeful road-learning UI ---- */
+.skip-link{position:fixed;left:12px;top:-56px;z-index:200;background:var(--ink);color:#fff;padding:10px 14px;border-radius:6px;font-weight:700;text-decoration:none;transition:top .15s;}
+.skip-link:focus{top:12px;}
+.topbar .theme-toggle,.topbar .speak{width:44px;height:44px;border-radius:6px;}
+.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:var(--s4);align-items:end;background:#e8f6ec;box-shadow:none;border-color:rgba(14,143,62,.22);}
+.hero h1{font-family:'Barlow Condensed',Impact,sans-serif;font-size:clamp(38px,8vw,52px);font-weight:800;line-height:.92;letter-spacing:-.8px;max-width:12ch;}
+.hero-copy{position:relative;z-index:1;}.hero-art{align-self:stretch;min-height:190px;position:relative;overflow:hidden;border-radius:8px;background:#f7c948;isolation:isolate;}
+.hero-art:before{content:'';position:absolute;width:105px;height:250px;left:24px;bottom:-45px;background:#2b2a27;border-left:5px solid #fff;border-right:5px solid #fff;transform:perspective(180px) rotateX(10deg);}
+.hero-art:after{content:'K53';position:absolute;right:13px;top:16px;width:63px;height:63px;border:5px solid #fff;background:#0e8f3e;color:#fff;border-radius:50%;display:grid;place-items:center;font:800 22px/1 'Barlow Condensed',sans-serif;box-shadow:0 0 0 3px #1e1b18;}
+.hero .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}.hero .fact{padding:9px 8px;background:rgba(255,255,255,.72);border:1px solid rgba(23,19,15,.12);border-radius:6px;color:var(--ink-soft);}.hero .fact b{font-size:22px;}
+.milestones{display:flex;align-items:center;gap:0;margin:0 0 var(--s5);padding:12px 4px;overflow:auto;}.milestone{flex:1;min-width:88px;position:relative;font-size:11px;font-weight:700;color:var(--ink-soft);text-align:center;padding-top:26px;}.milestone:before{content:'';position:absolute;top:5px;left:50%;width:12px;height:12px;border:3px solid var(--paper);border-radius:50%;background:var(--line);z-index:1;}.milestone:not(:last-child):after{content:'';position:absolute;height:3px;background:var(--line);top:11px;left:50%;width:100%;}.milestone.active{color:var(--accent-dark);}.milestone.active:before{background:var(--accent);}.milestone.done:before{background:var(--accent);}
+.block{box-shadow:none;border-radius:12px;}.btn{border-radius:6px;min-height:48px;}.streak{border-radius:8px;background:#fff7df;border-color:#f0cf77;justify-content:flex-start;padding:12px var(--s4);}.primary-start{font-size:17px;text-align:center;}.onboarding{border-left:5px solid var(--accent);background:var(--accent-soft);}.onboarding h2{font-family:'Barlow Condensed',sans-serif;font-size:28px;}.onboarding-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;}.onboarding-steps span{font-size:12px;font-weight:600;padding:8px;background:var(--paper);border:1px solid var(--line-soft);border-radius:6px;}
+.flash-progress{font-size:13px;font-weight:700;color:var(--accent-dark);margin-bottom:8px;}
+@media(max-width:520px){.hero{grid-template-columns:1fr;padding:var(--s5) var(--s4);}.hero-art{min-height:108px;order:-1;}.hero-art:before{height:180px;left:38%;}.hero-art:after{right:18px;top:17px;}.hero h1{max-width:14ch;}.onboarding-steps{grid-template-columns:1fr;}.topbar{gap:6px;padding:8px;}.topbar .brand{font-size:13px;}.topbar .theme-toggle,.topbar .speak{width:40px;height:40px;}.topbar .prog-label{display:none;}}
 </style>
 </head>
 <body>
-<div class="wrap" id="app">
+<a class="skip-link" href="#app">Skip to main content</a>
+<main class="wrap" id="app" tabindex="-1">
   <!-- content injected by JS -->
-</div>
+</main>
 <script>
 /* =========================================================
    K53 WEEKEND WARRIOR v2 — data + logic
@@ -921,22 +937,26 @@ const ICONS={
 function icon(name, cls){ return `<svg class="ti ${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.doc}</svg>`; }
 function renderHome(){
   const r=readiness();
-  const facts=[[K.SIGNS.length,'road signs'],[K.RULES.length,'rules'],[K.CONTROLS.length,'controls']]
+  const facts=[[K.SIGNS.length,'🛑 road signs'],[K.RULES.length,'📖 rules'],[K.CONTROLS.length,'🎛 controls']]
     .map(([n,t])=>`<div class="fact"><b>${n}</b>${t}</div>`).join('');
   const rings=[['Signs',ringFor(1)],['Rules',ringFor(2)],['Controls',ringFor(3)]]
     .map(([t,v])=>`<div class="ringwrap"><div class="ring" style="--val:${v}" role="img" aria-label="${t} ${v}%"><span>${v}%</span></div><div class="rt">${t}</div></div>`).join('');
+  const showOnboarding=!K.state.onboardingDone;
   app.innerHTML=topbar()+`
   <div class="hero">
-    <h1>${T('tagline')}</h1>
-    <p>Learn it this weekend — the real 64-question CLLT format, in plain language, with signs you'll actually see on the road.</p>
+    <div class="hero-copy"><h1>${T('tagline')}</h1>
+    <p>Learn it this weekend — the real 64-question CLLT format, in plain language, with signs you'll actually see on South African roads.</p>
     <div class="facts">${facts}</div>
-    <p class="hero-note">Free forever · no ads · works offline · English, Afrikaans, isiZulu, Sesotho &amp; isiXhosa</p>
+    <p class="hero-note">Free forever · no ads · works offline · English, Afrikaans, isiZulu, Sesotho &amp; isiXhosa</p></div><div class="hero-art" role="img" aria-label="A GreenLight K53 road sign beside a South African road"></div>
   </div>
+  <nav class="milestones" aria-label="Your learning path"><span class="milestone active">Day 1</span><span class="milestone ${K.state.sessions[1]?'done':''}">Flashcards</span><span class="milestone ${K.state.sessions[2]?'done':''}">Quiz</span><span class="milestone ${K.state.sessions[3]?'done':''}">Mock test</span><span class="milestone">Test day</span></nav>
+  ${showOnboarding?`<section class="block onboarding" aria-label="Getting started"><p class="kicker">Your first 25 minutes</p><h2>Start with the signs.</h2><p class="lead">A quick route to your first confident answer.</p><div class="onboarding-steps"><span>1. Learn signs</span><span>2. Answer a quiz</span><span>3. Track your progress</span></div><button class="btn btn-primary primary-start" id="onboardingStart">Begin Session 1 →</button></section>`:''}
   <div class="streak"><span class="flame">🔥</span> ${streak()}-day study streak — keep it going!</div>
   <div class="block">
     <p class="kicker">Am I ready?</p><h2>${r.emoji} ${T('readyVerdicts.'+ (r.verdict==='Ready for Monday'?'ready':r.verdict==='Almost there'?'almost':r.verdict==='Just starting'?'start':r.verdict==='Getting there'?'getting':'close'))}</h2>
     <div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}" style="margin-bottom:var(--s3)"><i style="width:${r.score}%"></i></div>
     <p class="lead">${r.msg}</p>
+    <button class="btn btn-primary primary-start" data-go="session1">Start Session 1 →<span class="sub">Learn the signs first — about 25 minutes</span></button>
     <button class="btn btn-soft" data-go="checklist">📋 Test-Day Checklist<span class="sub">What to take on Monday</span></button>
   </div>
   <div class="block">
@@ -981,6 +1001,8 @@ function renderHome(){
   <a class="btn btn-ghost no-print" style="width:auto;margin:0 auto;text-align:center;display:block" href="https://k53-rhd-poster.vercel.app" target="_blank" rel="noopener">🖼️ Quick RHD Revision Poster <span class="sub">Open the fast bilingual poster + 30-question mock</span></a>
   <button class="btn btn-ghost no-print" id="resetProg" style="margin-top:var(--s5);width:auto;margin-left:auto;margin-right:auto;text-align:center">↺ Reset my progress</button>
 <p class="footnote no-print" style="margin-top:var(--s2)">Road sign artwork sourced from Wikimedia Commons (SADC Road Traffic Signs Manual, public domain). GreenLight K53 is a study aid, not an official product.</p>`;
+  const ob=$('#onboardingStart');
+  if(ob)ob.addEventListener('click',()=>{K.state.onboardingDone=true;K.save();openSession1();window.scrollTo(0,0);});
   const rp=$('#resetProg');
   if(rp)rp.addEventListener('click',()=>{if(confirm('Reset all progress and start over?')){K.state={sessions:{},mockPass:false,review:[],streak:K.state.streak,lastDay:K.state.lastDay};K.save();renderHome();}});
   bindGo();
@@ -1233,6 +1255,7 @@ function confetti(){
 
 /* ---------- FLASHCARDS (spaced repetition) ---------- */
 let flashDeck=[];
+let flashTotal=0;
 function flashPool(){
   const d=[];
   K.SIGNS.forEach(s=>d.push({front:signImg(s.svg),back:{t:s.name,mean:s.mean,extra:s.analogy},kind:'sign'}));
@@ -1245,6 +1268,7 @@ function flashPool(){
 function openFlash(cat){
   flashDeck=K.shuffle(cat?cat.slice():flashPool()).map(x=>({...x,pass:false}));
   if(!flashDeck.length)flashDeck=K.shuffle(flashPool());
+  flashTotal=flashDeck.length;
   renderFlash();
 }
 function renderFlash(){
@@ -1253,6 +1277,8 @@ function renderFlash(){
   const front=c.kind==='sign'?`<div class="art" style="width:96px;height:96px;margin-bottom:var(--s3)">${c.front}</div><div style="font-size:14px;color:var(--ink-soft)">What is this? (tap card to flip)</div>`:`<div style="font-size:20px;font-weight:700;color:var(--ink)">${c.front}</div><div style="margin-top:var(--s3);font-size:14px;color:var(--ink-soft)">Tap to reveal the answer</div>`;
   app.innerHTML=backbar('Flashcards',flashDeck.length)+`
   <div class="block">
+    <div class="flash-progress" aria-live="polite">Card ${flashTotal-flashDeck.length+1} of ${flashTotal}</div>
+    <div class="prog" aria-hidden="true"><i style="width:${Math.round((flashTotal-flashDeck.length)/flashTotal*100)}%"></i></div>
     <div class="flash-stage"><div class="flash-card" id="fc">
       <div class="flash-face">${front}</div>
       <div class="flash-face flash-back"><span class="hint">Answer</span>
@@ -1889,10 +1915,13 @@ if ('serviceWorker' in navigator && (location.protocol==='https:' || location.ho
     if(reloadPrompted)return; reloadPrompted=true;
     const t=document.createElement('div');
     t.id='swToast'; t.className='no-print';
-    t.style.cssText='position:fixed;bottom:16px;left:16px;right:16px;max-width:360px;margin:0 auto;z-index:99;padding:12px 16px;border-radius:12px;background:var(--ink, #17130f);color:#fff;font-size:13px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.3);';
-    t.innerHTML=`<span style="flex:1">A new version is ready.</span><button id="swReload" style="background:var(--accent,#0e8f3e);color:#fff;border:none;padding:7px 14px;border-radius:999px;font-weight:600;cursor:pointer;font-family:inherit">Reload</button>`;
+    t.setAttribute('role','status');
+    t.style.cssText='position:fixed;top:76px;right:16px;max-width:360px;z-index:99;padding:12px 14px;border-radius:6px;background:var(--ink, #17130f);color:#fff;font-size:13px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.3);';
+    t.innerHTML=`<span style="flex:1">A new version is ready.</span><button id="swReload" style="background:var(--accent,#0e8f3e);color:#fff;border:none;padding:9px 12px;border-radius:6px;font-weight:600;cursor:pointer;font-family:inherit">Reload</button><button id="swClose" aria-label="Dismiss update message" style="background:none;color:#fff;border:0;font-size:20px;cursor:pointer">×</button>`;
     document.body.appendChild(t);
     document.getElementById('swReload').addEventListener('click',()=>location.reload());
+    document.getElementById('swClose').addEventListener('click',()=>t.remove());
+    setTimeout(()=>t.remove(),9000);
   });
 }
 /* Privacy-respecting usage beacon: reports a page-view to Vercel Analytics when
