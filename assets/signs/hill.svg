@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%"><image href="hill.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#fff8e1"/><path d="M15,70 Q30,30 50,50 Q70,20 85,70 L85,100 L15,100 Z" fill="#a1887f" stroke="#6d4c41" stroke-width="2"/><text x="50" y="95" text-anchor="middle" font-size="12" fill="#3e2723">HILL</text></svg>

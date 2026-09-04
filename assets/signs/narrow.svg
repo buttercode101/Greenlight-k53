@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%"><image href="narrow.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#fff8e1"/><path d="M30,10 L30,90 M70,10 L70,90" stroke="#bf360c" stroke-width="4"/><text x="50" y="50" text-anchor="middle" font-size="24" font-weight="bold" fill="#bf360c">≡</text></svg>

@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%"><image href="speedbump.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#e8eaf6"/><path d="M10,50 L30,30 L50,50 L70,30 L90,50 L70,70 L50,50 L30,70 Z" fill="#37474a" stroke="#263238" stroke-width="2"/><text x="50" y="95" text-anchor="middle" font-size="10" fill="#37474a">SLOW</text></svg>

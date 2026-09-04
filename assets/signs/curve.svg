@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%"><image href="curve.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#fff8e1"/><path d="M20,60 Q50,20 80,60" fill="none" stroke="#f57f17" stroke-width="6" stroke-linecap="round"/><polygon points="75,55 85,50 80,60" fill="#f57f17"/></svg>
