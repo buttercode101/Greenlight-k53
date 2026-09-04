@@ -1,0 +1,17 @@
+{
+  "name": "K53 Weekend Warrior — Pass Your Learner's Test",
+  "short_name": "K53 Warrior",
+  "description": "Pass your South African K53 Learner's Licence test by Monday. Study road signs, rules and controls with flashcards, drills, a mock test and memory tricks. Works offline.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f5f4",
+  "theme_color": "#0075DE",
+  "lang": "en-ZA",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
