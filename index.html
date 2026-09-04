@@ -305,7 +305,11 @@ a:focus-visible,button:focus-visible,.opt:focus-visible{outline:2px solid var(--
   body{font-size:12px;}
 }
 /* Real SADC sign assets — consistent render */
-.signsvg{width:88px;height:88px;display:inline-block;object-fit:contain;}
+.signsvg{width:100%;height:100%;display:block;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(23,19,15,.12));}
+.signcard .art{width:112px;height:112px;padding:8px;background:#fff;border:1px solid var(--line);box-shadow:inset 0 0 0 4px var(--warm);}
+.signcard{transition:border-color .15s,transform .15s,box-shadow .15s;}.signcard:hover{border-color:rgba(14,143,62,.48);transform:translateY(-2px);box-shadow:var(--sh-card);}
+.sign-legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 var(--s4);}.sign-legend span{font-size:12px;font-weight:650;padding:6px 9px;border-radius:var(--r-pill);border:1px solid var(--line-soft);background:var(--warm);}.sign-legend .stop{border-color:rgba(216,36,47,.35);color:#9d1720}.sign-legend .must{border-color:rgba(7,95,186,.35);color:#075fba}.sign-legend .warn{border-color:rgba(185,123,6,.4);color:#805300}.sign-legend .info{border-color:rgba(19,138,71,.35);color:#0a6b2e;}
+@media (max-width:520px){.signcard .art{width:96px;height:96px;}.signcard:hover{transform:none;}}
 /* ============================================================
    POLISH v2 - responsive grids, no breakage
    ============================================================ */
@@ -402,6 +406,9 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 .block{box-shadow:none;border-radius:12px;}.btn{border-radius:6px;min-height:48px;}.streak{border-radius:8px;background:#fff7df;border-color:#f0cf77;justify-content:flex-start;padding:12px var(--s4);}.primary-start{font-size:17px;text-align:center;}.onboarding{border-left:5px solid var(--accent);background:var(--accent-soft);}.onboarding h2{font-family:'Barlow Condensed',sans-serif;font-size:28px;}.onboarding-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;}.onboarding-steps span{font-size:12px;font-weight:600;padding:8px;background:var(--paper);border:1px solid var(--line-soft);border-radius:6px;}
 .flash-progress{font-size:13px;font-weight:700;color:var(--accent-dark);margin-bottom:8px;}
 @media(max-width:520px){.hero{grid-template-columns:1fr;padding:var(--s5) var(--s4);}.hero-art{min-height:108px;order:-1;}.hero-art:before{height:180px;left:38%;}.hero-art:after{right:18px;top:17px;}.hero h1{max-width:14ch;}.onboarding-steps{grid-template-columns:1fr;}.topbar{gap:6px;padding:8px;}.topbar .brand{font-size:13px;}.topbar .theme-toggle,.topbar .speak{width:40px;height:40px;}.topbar .prog-label{display:none;}}
+
+/* ---- Focused learning dashboard ---- */
+.home-nav{display:flex;gap:6px;overflow:auto;margin:0 0 var(--s4);padding-bottom:2px}.home-nav button{border:0;background:transparent;color:var(--ink-soft);font:600 13px/1 inherit;padding:8px 10px;white-space:nowrap;cursor:pointer}.home-nav button:hover,.home-nav button:focus-visible{color:var(--accent-dark);text-decoration:underline}.dashboard{display:grid;gap:var(--s4)}.next-step{background:var(--ink);color:#fff;border-radius:var(--r-lg);padding:var(--s5);display:grid;gap:var(--s3)}.next-step .kicker{color:#8ee9ae}.next-step h2{margin:0;font:800 32px/.95 'Barlow Condensed',Impact,sans-serif;letter-spacing:-.4px}.next-step p{margin:0;color:rgba(255,255,255,.78);font-size:15px}.next-step .btn{margin:0;max-width:360px;text-align:center}.status-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.status-item{padding:12px 10px;background:var(--warm);border:1px solid var(--line-soft);border-radius:8px}.status-item b{display:block;font-size:20px;letter-spacing:-.5px}.status-item span{font-size:12px;color:var(--ink-soft)}.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.library .btn{margin:0;min-height:60px}.trust-note{font-size:12px;color:var(--ink-soft);border-left:3px solid var(--accent);padding-left:12px;margin:0}.language-menu{position:absolute;right:12px;top:58px;z-index:80;width:min(320px,calc(100vw - 24px));background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--sh-card)}.language-menu h3{font-size:14px;margin:0 0 6px}.language-menu p{font-size:12px;color:var(--ink-soft);margin:0 0 10px}.language-menu button{width:100%;text-align:left;margin:4px 0;padding:9px 10px;border:1px solid var(--line-soft);border-radius:6px;background:var(--warm);color:var(--ink);font:600 13px/1.3 inherit;cursor:pointer}.language-menu button.active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-dark)}@media(min-width:800px){.dashboard{grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);align-items:start}.dashboard .next-step{grid-row:span 2}.library{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:520px){.status-grid{grid-template-columns:1fr}.library{grid-template-columns:1fr}.next-step h2{font-size:29px}}
 </style>
 </head>
 <body>
@@ -447,10 +454,10 @@ function svgRobot(){return `<svg width="78" height="78" viewBox="0 0 100 100"><r
 
 /* ---------- SIGNS DATA (full K53 syllabus) ---------- */
 const SIGNS=[
- {id:'stop',svg:'assets/signs/stop.svg',name:'Stop',fam:'red',mean:'Come to a complete stop. Wait until safe, then go.',analogy:'Like a teacher holding up a STOP hand — freeze completely.',cat:'Red circle = DON\'T'},
- {id:'giveway',svg:'assets/signs/giveway.svg',name:'Give Way (Yield)',fam:'red',mean:'Slow down. Let other traffic go first, then join when safe.',analogy:'Like holding a door open — let others pass before you.',cat:'Red circle = DON\'T'},
+ {id:'stop',svg:'assets/signs/stop.svg',name:'Stop',fam:'red',mean:'Come to a complete stop. Wait until safe, then go.',analogy:'Like a teacher holding up a STOP hand — freeze completely.',cat:'Red octagon = STOP'},
+ {id:'giveway',svg:'assets/signs/giveway.svg',name:'Give Way (Yield)',fam:'red',mean:'Slow down. Let other traffic go first, then join when safe.',analogy:'Like holding a door open — let others pass before you.',cat:'Inverted triangle = GIVE WAY'},
  {id:'noentry',svg:'assets/signs/noentry.svg',name:'No Entry',fam:'red',mean:'You may NOT enter this road from here. Wrong way!',analogy:'Red circle with bar = "road closed to you".',cat:'Red circle = DON\'T'},
- {id:'robot',svg:'assets/signs/robot.svg',name:'Traffic Light (Robot)',fam:'red',mean:'RED = stop. YELLOW = stop if safe. GREEN = go when clear.',analogy:'Robot = the boss of the junction.',cat:'Red circle = DON\'T'},
+ {id:'robot',svg:'assets/signs/robot.svg',name:'Warning: Traffic Signals Ahead',fam:'tri',mean:'Traffic signals are ahead. Slow down, scan the junction and obey the signal when you reach it.',analogy:'The warning triangle tells you to prepare for a controlled junction.',cat:'Yellow triangle = WATCH OUT'},
  {id:'turnleft',svg:'assets/signs/turnleft.svg',name:'Mandatory: Turn Left',fam:'blue',mean:'You MUST turn left here. No other choice.',analogy:'Blue circle = you have to do this.',cat:'Blue circle = YOU MUST'},
  {id:'keepleft',svg:'assets/signs/keepleft.svg',name:'Mandatory: Keep Left',fam:'blue',mean:'Stay on the left side of the divider.',analogy:'Blue circle = a rule you must follow.',cat:'Blue circle = YOU MUST'},
  {id:'minspeed',svg:'assets/signs/minspeed.svg',name:'Minimum Speed 60',fam:'blue',mean:'You MUST drive at least 60 km/h in this lane — no slower.',analogy:'Blue circle with number = a floor, not a ceiling.',cat:'Blue circle = YOU MUST'},
@@ -467,14 +474,14 @@ const SIGNS=[
  {id:'disablepark',svg:'assets/signs/disablepark.svg',name:'Disabled Parking Only',fam:'blue',mean:'Only vehicles carrying a disabled person may park here.',analogy:'Blue box with wheelchair = reserved.',cat:'Blue box = INFO'},
  {id:'children',svg:'assets/signs/children.svg',name:'Warning: Children',fam:'tri',mean:'Children may be near the road. Slow down and watch out.',analogy:'Yellow triangle = caution, like a wet-floor sign.',cat:'Yellow triangle = WATCH OUT'},
  {id:'curve',svg:'assets/signs/curve.svg',name:'Warning: Curve Ahead',fam:'tri',mean:'The road bends ahead. Slow before the curve.',analogy:'Triangle points the danger — bend coming, ease off gas.',cat:'Yellow triangle = WATCH OUT'},
- {id:'ped',svg:'assets/signs/ped.svg',name:'Warning: Pedestrian Crossing',fam:'tri',mean:'People may walk across. Stop for them.',analogy:'Zebra stripes on road = people first, always.',cat:'Yellow triangle = WATCH OUT'},
+ {id:'ped',svg:'assets/signs/ped.svg',name:'Warning: Pedestrians',fam:'tri',mean:'Pedestrians may be near or crossing the road. Slow down and be prepared to stop.',analogy:'A warning triangle means people may enter your path.',cat:'Yellow triangle = WATCH OUT'},
  {id:'animal',svg:'assets/signs/animal.svg',name:'Warning: Animals',fam:'tri',mean:'Farm animals may be on the road. Drive slowly.',analogy:'Triangle = something unexpected ahead.',cat:'Yellow triangle = WATCH OUT'},
  {id:'hill',svg:'assets/signs/hill.svg',name:'Warning: Steep Hill',fam:'tri',mean:'Steep uphill or downhill ahead. Use a lower gear.',analogy:'Triangle = road shape changes sharply.',cat:'Yellow triangle = WATCH OUT'},
  {id:'slippery',svg:'assets/signs/slippery.svg',name:'Warning: Slippery Road',fam:'tri',mean:'The road may be slippery, especially when wet. Slow down.',analogy:'Triangle = surface grip drops — ease off.',cat:'Yellow triangle = WATCH OUT'},
  {id:'speedbump',svg:'assets/signs/speedbump.svg',name:'Warning: Speed Bump',fam:'tri',mean:'A bump is ahead. Slow right down.',analogy:'Triangle = bump — drop your speed.',cat:'Yellow triangle = WATCH OUT'},
  {id:'railway',svg:'assets/signs/railway.svg',name:'Warning: Railway Crossing',fam:'tri',mean:'Railway tracks ahead. Stop if a train is coming. Never race a train.',analogy:'X = tracks cross the road.',cat:'Yellow triangle = WATCH OUT'},
  {id:'narrow',svg:'assets/signs/narrow.svg',name:'Warning: Road Narrows',fam:'tri',mean:'The road narrows ahead. Keep well to the left.',analogy:'Triangle = space shrinks — ease off.',cat:'Yellow triangle = WATCH OUT'},
- {id:'rightofway',svg:'assets/signs/rightofway.svg',name:'Right of Way (Priority)',fam:'tri',mean:'Traffic on your road has priority over the road ahead of you.',analogy:'Thick arrow up = you go first.',cat:'Yellow triangle = WATCH OUT'},
+ {id:'rightofway',svg:'assets/signs/rightofway.svg',name:'Priority Road',fam:'info',mean:'You are on a priority road. Continue only when the road and intersection are clear.',analogy:'Priority is not permission to ignore hazards.',cat:'Diamond = PRIORITY'},
  {id:'crossroad',svg:'assets/signs/crossroad.svg',name:'Warning: Crossroads Ahead',fam:'tri',mean:'A four-way crossing is ahead. Slow down and look both ways.',analogy:'Triangle = junction — be ready to yield.',cat:'Yellow triangle = WATCH OUT'},
  {id:'tjunction',svg:'assets/signs/tjunction.svg',name:'Warning: T-Junction Ahead',fam:'tri',mean:'The road ends at a T. You must turn left or right.',analogy:'Triangle = junction shape changes.',cat:'Yellow triangle = WATCH OUT'},
  {id:'yjunction',svg:'assets/signs/yjunction.svg',name:'Warning: Y-Junction Ahead',fam:'tri',mean:'The road splits into a Y ahead. Slow and choose your fork.',analogy:'Triangle = road splits.',cat:'Yellow triangle = WATCH OUT'},
@@ -793,6 +800,9 @@ state.review=state.review||[];
 state.streak=state.streak||0;
 state.lastDay=state.lastDay||'';
 state.theme=state.theme||''; // '', 'dark', 'light'
+state.lang=state.lang||'en';
+state.mastery=state.mastery||{}; // evidence-based topic accuracy, keyed by session
+state.installNudged=state.installNudged||false;
 function isDark(){return document.documentElement.getAttribute('data-theme')==='dark';}
 function applyTheme(dark){
   const on=dark!==undefined?!!dark:(state.theme==='dark'||(!state.theme&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches));
@@ -878,22 +888,24 @@ function progPct(){
 }
 function topbar(){
   const isStandaloneNow=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
-  const installBtn = !isStandaloneNow
-    ? `<button class="theme-toggle" type="button" id="topbarInstall" aria-label="Install app" title="Install GreenLight K53">⬇️</button>` : '';
+  const installBtn = !isStandaloneNow ? `<button class="theme-toggle" type="button" id="topbarInstall" aria-label="Install app" title="Install GreenLight K53">↓</button>` : '';
+  const interfaceLabel=(K.state.lang==='af'?'Afrikaans':K.state.lang==='zu'?'isiZulu':'English');
   return `<div class="topbar no-print"><div class="brand">Green<span>Light</span> K53</div>
     <div class="prog" role="progressbar" aria-label="Study progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progPct()}"><i style="width:${progPct()}%"></i></div>
     <div class="prog-label">${progPct()}%</div>
     <button class="speak" type="button" data-speak-top aria-label="Read this screen aloud" title="Read this screen aloud">🔊</button>
     ${installBtn}
     <button class="theme-toggle" type="button" id="themeBtn" aria-label="Toggle dark mode">${isDark()?'☀️':'🌙'}</button>
-    <button class="theme-toggle" type="button" id="langBtn" aria-label="Change language" title="Change language">${(K.state.lang==='af'?'AF':K.state.lang==='zu'?'ZU':'EN')}</button></div>`;
+    <button class="theme-toggle" type="button" id="langBtn" aria-haspopup="dialog" aria-expanded="false" aria-label="Choose language" title="Choose language">${interfaceLabel.slice(0,2).toUpperCase()}</button></div>`;
 }
 function backbar(title,score){
   return `<div class="backbar no-print"><button data-go="home" type="button" aria-label="Back to home">‹</button><div class="ttl">${title}</div>${score?`<div class="sc">${score}</div>`:''}</div>`;
 }
 
 function streak(){ K.touch(); return K.state.streak||0; }
-function ringFor(n){ return K.state.sessions[n]?100:0; }
+function ringFor(n){ return Math.round((K.state.mastery&&K.state.mastery[n])||0); }
+function topicLabel(n){const value=ringFor(n);return value?value+'% recent accuracy':(K.state.sessions[n]?'Lesson complete — take the check':'Not assessed');}
+function nextStep(){const weak=[1,2,3].filter(n=>K.state.sessions[n]&&ringFor(n)<70);if(!K.state.sessions[1])return {go:'session1',title:'Start with road signs',copy:'Build recognition first. Finish a short check to unlock an evidence-based score.',cta:'Start signs · about 25 min'};if(weak.length){const n=weak[0], names={1:'Signs',2:'Rules',3:'Controls'};return {go:'session'+n,title:'Repair your '+names[n]+' score',copy:'Your recent accuracy is below 70%. A focused check is the fastest next step.',cta:'Practise '+names[n]};}if(!K.state.sessions[2])return {go:'session2',title:'Continue with road rules',copy:'Turn recognition into safe decisions with a short quiz.',cta:'Start rules · about 25 min'};if(!K.state.sessions[3])return {go:'session3',title:'Finish vehicle controls',copy:'Complete the final topic before a full mock.',cta:'Start controls · about 15 min'};return {go:'mock',title:'Take a realistic mock',copy:'Use the timed simulation only when you want exam pressure; this mock teaches as you go.',cta:'Start learning mock'};}
 /* Speak a raw string via TTS (voice+rate from state) */
 function speakText(t){ if(t&&window.__TTS&&window.__TTS.ok)window.__TTS.speak(t); }
 function stopSpeech(){ if(window.__TTS&&window.__TTS.ok)window.__TTS.stop(); }
@@ -950,79 +962,22 @@ const ICONS={
 };
 function icon(name, cls){ return `<svg class="ti ${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.doc}</svg>`; }
 function renderHome(){
-  const r=readiness();
-  const facts=[[K.SIGNS.length,'🛑 road signs'],[K.RULES.length,'📖 rules'],[K.CONTROLS.length,'🎛 controls']]
-    .map(([n,t])=>`<div class="fact"><b>${n}</b>${t}</div>`).join('');
-  const rings=[['Signs',ringFor(1)],['Rules',ringFor(2)],['Controls',ringFor(3)]]
-    .map(([t,v])=>`<div class="ringwrap"><div class="ring" style="--val:${v}" role="img" aria-label="${t} ${v}%"><span>${v}%</span></div><div class="rt">${t}</div></div>`).join('');
-  const showOnboarding=!K.state.onboardingDone;
+  const r=readiness(), next=nextStep();
+  const statuses=[[1,'Signs'],[2,'Rules'],[3,'Controls']].map(([n,label])=>`<div class="status-item"><b>${ringFor(n)}%</b><span>${label}<br>${topicLabel(n)}</span></div>`).join('');
   app.innerHTML=topbar()+`
-  <div class="hero">
-    <div class="hero-copy"><h1>${T('tagline')}</h1>
-    <p>Learn it this weekend — the real 64-question CLLT format, in plain language, with signs you'll actually see on South African roads.</p>
-    <div class="facts">${facts}</div>
-    <p class="hero-note">Free forever · no ads · works offline · English, Afrikaans, isiZulu, Sesotho &amp; isiXhosa</p></div><div class="hero-art" role="img" aria-label="A GreenLight K53 road sign beside a South African road"></div>
+  <div class="hero"><div class="hero-copy"><p class="kicker">South African learner’s licence practice</p><h1>${T('tagline')}</h1><p>Clear lessons, evidence-based practice, and a realistic route to your K53 test.</p><p class="hero-note">Free study aid · no account required · works offline after install</p></div><div class="hero-art" role="img" aria-label="A GreenLight K53 road sign beside a South African road"></div></div>
+  <nav class="home-nav no-print" aria-label="Study areas"><button data-go="home">Plan</button><button data-go="session1">Learn</button><button data-go="practice">Practise</button><button data-go="mock">Mock</button><button data-go="checklist">Test day</button></nav>
+  <div class="dashboard">
+    <section class="next-step" aria-labelledby="next-title"><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" data-go="${next.go}">${next.cta} →</button><p class="trust-note">Readiness is based on completed checks and mock-section results—not simply on pages viewed.</p></section>
+    <section class="block"><p class="kicker">Readiness</p><h2>${r.verdict}</h2><p class="lead">${r.msg}</p><div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div><p class="footnote" style="text-align:left;margin-top:10px">${r.score}% readiness · based on practice evidence</p></section>
+    <section class="block"><p class="kicker">Recent accuracy</p><h2>Topic evidence</h2><div class="status-grid">${statuses}</div></section>
   </div>
-  <nav class="milestones" aria-label="Your learning path"><span class="milestone active">Day 1</span><span class="milestone ${K.state.sessions[1]?'done':''}">Flashcards</span><span class="milestone ${K.state.sessions[2]?'done':''}">Quiz</span><span class="milestone ${K.state.sessions[3]?'done':''}">Mock test</span><span class="milestone">Test day</span></nav>
-  ${showOnboarding?`<section class="block onboarding" aria-label="Getting started"><p class="kicker">Your first 25 minutes</p><h2>Start with the signs.</h2><p class="lead">A quick route to your first confident answer.</p><div class="onboarding-steps"><span>1. Learn signs</span><span>2. Answer a quiz</span><span>3. Track your progress</span></div><button class="btn btn-primary primary-start" id="onboardingStart">Begin Session 1 →</button></section>`:''}
-  <div class="streak"><span class="flame">🔥</span> ${streak()}-day study streak — keep it going!</div>
-  <div class="block">
-    <p class="kicker">Am I ready?</p><h2>${r.emoji} ${T('readyVerdicts.'+ (r.verdict==='Ready for Monday'?'ready':r.verdict==='Almost there'?'almost':r.verdict==='Just starting'?'start':r.verdict==='Getting there'?'getting':'close'))}</h2>
-    <div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}" style="margin-bottom:var(--s3)"><i style="width:${r.score}%"></i></div>
-    <p class="lead">${r.msg}</p>
-    <button class="btn btn-primary primary-start" data-go="session1">Start Session 1 →<span class="sub">Learn the signs first — about 25 minutes</span></button>
-    <button class="btn btn-soft" data-go="checklist">📋 Test-Day Checklist<span class="sub">What to take on Monday</span></button>
-  </div>
-  <div class="block">
-    <p class="kicker">Your readiness</p><h2>Topic mastery</h2>
-    <div class="rings">${rings}</div>
-    <p class="lead" style="margin-bottom:0">Study a session to fill its ring. Master all three and you're ready for the mock.</p>
-  </div>
-  <div class="block">
-    <p class="kicker">Your weekend plan</p>
-    <h2>Three short sessions</h2>
-    <p class="lead">Do one per sitting. Each builds on the last. By Sunday night you'll be ready.</p>
-    <div class="chgrid">
-    <button class="btn btn-primary" data-go="session1"><span class="ti-wrap">${icon('sign')}</span><span class="ti-txt"><span class="ti-title">${K.state.sessions[1]?'↻ ':''}Session 1 · Signs</span><span class="ti-sub">${K.SIGNS.length} signs + markings · ~25 min</span></span></button>
-    <button class="btn btn-ghost" data-go="session2"><span class="ti-wrap">${icon('rules')}</span><span class="ti-txt"><span class="ti-title">${K.state.sessions[2]?'↻ ':''}Session 2 · Rules</span><span class="ti-sub">${K.RULES.length} golden rules · ~25 min</span></span></button>
-    <button class="btn btn-ghost" data-go="session3"><span class="ti-wrap">${icon('controls')}</span><span class="ti-txt"><span class="ti-title">${K.state.sessions[3]?'↻ ':''}Session 3 · Controls</span><span class="ti-sub">${K.CONTROLS.length} scenarios · ~15 min</span></span></button>
-    </div>
-  </div>
-  <div class="block">
-    <p class="kicker">Train your brain</p><h2>Fun, fast ways to learn</h2>
-    <p class="lead">Mix it up — these make the rules stick through play, not cramming.</p>
-    <div class="chgrid">
-    <button class="btn btn-soft" data-go="flash"><span class="ti-wrap">${icon('flash')}</span><span class="ti-txt"><span class="ti-title">Flashcards</span><span class="ti-sub">Spaced repetition</span></span></button>
-    <button class="btn btn-soft" data-go="row"><span class="ti-wrap">${icon('row')}</span><span class="ti-txt"><span class="ti-title">Right-of-Way</span><span class="ti-sub">Who goes first?</span></span></button>
-    <button class="btn btn-soft" data-go="practice"><span class="ti-wrap">${icon('target')}</span><span class="ti-txt"><span class="ti-title">Section Drills</span><span class="ti-sub">Real pass marks</span></span></button>
-    <button class="btn btn-soft" data-go="memory"><span class="ti-wrap">${icon('brain')}</span><span class="ti-txt"><span class="ti-title">Memory Tricks</span><span class="ti-sub">Mnemonics</span></span></button>
-    <button class="btn btn-soft" data-go="rhd"><span class="ti-wrap">${icon('car')}</span><span class="ti-txt"><span class="ti-title">RHD Cockpit</span><span class="ti-sub">Know your layout</span></span></button>
-    <button class="btn btn-soft" data-go="revision"><span class="ti-wrap">${icon('poster')}</span><span class="ti-txt"><span class="ti-title">Revision Poster</span><span class="ti-sub">One-page weekend recap</span></span></button>
-    <button class="btn btn-soft" data-go="lang"><span class="ti-wrap">${icon('lang')}</span><span class="ti-txt"><span class="ti-title">Translations</span><span class="ti-sub">5 languages</span></span></button>
-    </div>
-  </div>
-  <div class="block">
-    <p class="kicker">Test yourself</p>
-    <h2>Mock test &amp; cheat sheet</h2>
-    <p class="lead">When the sessions are done, take the mock. It predicts Monday.</p>
-    <div class="chgrid">
-    <button class="btn btn-ok" data-go="mock"><span class="ti-wrap">${icon('flag')}</span><span class="ti-txt"><span class="ti-title">Full Mock Test</span><span class="ti-sub">64 q · 3 sections</span></span></button>
-    <button class="btn btn-primary" data-go="sim"><span class="ti-wrap">${icon('bolt')}</span><span class="ti-txt"><span class="ti-title">Test-Day Simulation</span><span class="ti-sub">Like the real thing</span></span></button>
-    <button class="btn btn-ghost" data-go="cheat"><span class="ti-wrap">${icon('doc')}</span><span class="ti-txt"><span class="ti-title">Cheat Sheet</span><span class="ti-sub">Print for Monday</span></span></button>
-    <a class="btn btn-ghost" href="study-guide.html"><span class="ti-wrap">${icon('doc')}</span><span class="ti-txt"><span class="ti-title">Free K53 Study Guide</span><span class="ti-sub">Printable signs, rules &amp; test tips</span></span></a>
-    </div>
-  </div>
-  <p class="footnote">Based on the official South African K53 Learner's Licence structure.<br>Study aid only — practice makes perfect. <a href="study-guide.html">Read the free printable K53 study guide</a>.</p>
-  <a class="btn btn-ghost no-print" style="width:auto;margin:0 auto;text-align:center;display:block" href="https://k53-rhd-poster.vercel.app" target="_blank" rel="noopener">🖼️ Quick RHD Revision Poster <span class="sub">Open the fast bilingual poster + 30-question mock</span></a>
-  <button class="btn btn-ghost no-print" id="resetProg" style="margin-top:var(--s5);width:auto;margin-left:auto;margin-right:auto;text-align:center">↺ Reset my progress</button>
-<p class="footnote no-print" style="margin-top:var(--s2)">Road sign artwork sourced from Wikimedia Commons (SADC Road Traffic Signs Manual, public domain). GreenLight K53 is a study aid, not an official product.</p>`;
-  const ob=$('#onboardingStart');
-  if(ob)ob.addEventListener('click',()=>{K.state.onboardingDone=true;K.save();openSession1();window.scrollTo(0,0);});
-  const rp=$('#resetProg');
-  if(rp)rp.addEventListener('click',()=>{if(confirm('Reset all progress and start over?')){K.state={sessions:{},mockPass:false,review:[],streak:K.state.streak,lastDay:K.state.lastDay};K.save();renderHome();}});
+  <section class="block"><p class="kicker">Your route</p><h2>Learn, then prove it</h2><div class="library"><button class="btn btn-ghost" data-go="session1">Signs<span class="sub">Learn + short check</span></button><button class="btn btn-ghost" data-go="session2">Rules<span class="sub">Lesson + quiz</span></button><button class="btn btn-ghost" data-go="session3">Controls<span class="sub">Quick scenarios</span></button></div></section>
+  <section class="block"><p class="kicker">Practice tools</p><h2>Choose a focused format</h2><div class="library"><button class="btn btn-soft" data-go="practice">Section drills<span class="sub">Repair one weak area</span></button><button class="btn btn-soft" data-go="flash">Flashcards<span class="sub">Recall, don’t reread</span></button><button class="btn btn-soft" data-go="row">Right of way<span class="sub">Decision practice</span></button><button class="btn btn-soft" data-go="memory">Memory tricks<span class="sub">Fast revision</span></button><button class="btn btn-soft" data-go="lang">Study vocabulary<span class="sub">Five comprehension aids</span></button><button class="btn btn-soft" data-go="rhd">RHD cockpit<span class="sub">South African layout</span></button></div></section>
+  <section class="block"><p class="kicker">Assess</p><h2>Pick the right test mode</h2><div class="library"><button class="btn btn-primary" data-go="mock">Learning mock<span class="sub">Feedback after every answer</span></button><button class="btn btn-ghost" data-go="sim">Test-day simulation<span class="sub">Timed, exam-style pressure</span></button><button class="btn btn-ghost" data-go="checklist">Test-day checklist<span class="sub">Confirm with your local DLTC</span></button></div><p class="trust-note" style="margin-top:16px">GreenLight K53 is an independent study aid, not a government service. Confirm bookings, documents, fees and local requirements directly with your provincial authority or DLTC.</p></section>
+  <p class="footnote">Study progress stays on this device. <a href="study-guide.html">Read the printable study guide</a>.</p>`;
   bindGo();
 }
-
 function openSession1(){
   const cards=K.SIGNS.map(s=>`
     <div class="signcard">
@@ -1039,7 +994,8 @@ function openSession1(){
   app.innerHTML=backbar('Session 1 · Road Signs')+`
   <div class="block">
     <p class="kicker">Step 1</p><h2>Read every sign once</h2>
-    <p class="lead">Each sign shows its shape, what it means, and a simple analogy. Read top to bottom — no tricks.</p>
+    <p class="lead">Each illustration is a clean study reference. Learn the sign family first, then the symbol and the action it asks you to take.</p>
+    <div class="sign-legend" aria-label="Sign family key"><span class="stop">Red = restriction / stop</span><span class="must">Blue = instruction</span><span class="warn">Yellow = warning</span><span class="info">Board = information</span></div>
     ${ttsSettingsBar()}
     <div class="signgrid">${cards}</div>
   </div>
@@ -1049,11 +1005,11 @@ function openSession1(){
     ${marks}
   </div>
   <div class="block center">
-    <p class="lead">Understood all of them? Mark this session done.</p>
-    <button class="btn btn-primary" id="done1">✓ I've got the signs — mark done</button>
-    <button class="btn btn-ghost" data-go="session2">Skip to Rules →</button>
+    <p class="lead">Prove recognition with a short check. Your score—not scrolling—sets topic mastery.</p>
+    <button class="btn btn-primary" id="done1">Start the 5-question sign check →</button>
+    <button class="btn btn-ghost" data-go="session2">Skip for now</button>
   </div>`;
-  $('#done1').addEventListener('click',()=>{K.state.sessions[1]=true;K.save();confetti();renderHome();});
+  $('#done1').addEventListener('click',()=>{const qs=K.shuffle(K.SIGNS).slice(0,5).map(sign=>{const opts=K.shuffle([sign.name,...K.shuffle(K.SIGNS.filter(x=>x.id!==sign.id)).slice(0,3).map(x=>x.name)]);return {q:'What does this sign mean?',svg:signImg(sign.svg),opts,ans:opts.indexOf(sign.name),ex:sign.mean};});quizFlow(qs,1,'Road-sign check');});
   bindGo();
 }
 
@@ -1091,7 +1047,7 @@ function quizFlow(questions,sessNum,title){
     const q=questions[i];
     const card=ce('div');card.className='block';
     card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>
-      <h2 style="font-size:19px;letter-spacing:-0.4px;margin-bottom:14px">${q.q}</h2>
+      ${q.svg?`<div style="display:grid;place-items:center;margin-bottom:12px">${q.svg}</div>`:''}<h2 style="font-size:19px;letter-spacing:-0.4px;margin-bottom:14px">${q.q}</h2>
       <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div>
       <div class="feedback hidden" role="status" aria-live="polite"></div>
       <button class="btn btn-primary next hidden">Next →</button>`;
@@ -1113,7 +1069,7 @@ function quizFlow(questions,sessNum,title){
   render();
 }
 function finishQuiz(sessNum,title,correct,total){
-  K.state.sessions[sessNum]=true;K.save();
+  K.state.sessions[sessNum]=true;K.state.mastery=K.state.mastery||{};K.state.mastery[sessNum]=Math.round(correct/total*100);K.save();
   const pct=Math.round(correct/total*100);
   app.innerHTML=backbar(title)+`<div class="block center">
     <div class="badge-xl">${pct>=70?'🎉':'💪'}</div>
@@ -1384,7 +1340,7 @@ function drill(cat){
   const passMark=passMap[cat]||Math.ceil(total*0.8);
   render();
   function render(){
-    if(i>=total){const p=correct>=passMark;app.innerHTML=backbar(names[cat])+`<div class="block center"><div class="badge-xl">${p?'🎉':'💪'}</div><div class="result-title">${p?'Pass!':'Keep going'}</div><p class="result-sub">${correct}/${total} — needed ${passMark}</p><div class="stat-grid"><div class="stat"><div class="n">${correct}</div><div class="l">Correct</div></div><div class="stat"><div class="n">${total-correct}</div><div class="l">To review</div></div><div class="stat"><div class="n">${p?'PASS':'STUDY'}</div><div class="l">Verdict</div></div></div><button class="btn btn-primary" id="drillAgain" type="button">Retry</button><button class="btn btn-ghost" data-go="practice">More drills</button></div>`;const b=$('#drillAgain');if(b)b.addEventListener('click',()=>drill(cat));bindGo();return;}
+    if(i>=total){const p=correct>=passMark;const topicMap={signs:1,rules:2,controls:3};if(topicMap[cat]){K.state.mastery=K.state.mastery||{};K.state.mastery[topicMap[cat]]=Math.round(correct/total*100);K.save();}app.innerHTML=backbar(names[cat])+`<div class="block center"><div class="badge-xl">${p?'🎉':'💪'}</div><div class="result-title">${p?'Pass!':'Keep going'}</div><p class="result-sub">${correct}/${total} — needed ${passMark}</p><div class="stat-grid"><div class="stat"><div class="n">${correct}</div><div class="l">Correct</div></div><div class="stat"><div class="n">${total-correct}</div><div class="l">To review</div></div><div class="stat"><div class="n">${p?'PASS':'STUDY'}</div><div class="l">Verdict</div></div></div><button class="btn btn-primary" id="drillAgain" type="button">Retry</button><button class="btn btn-ghost" data-go="practice">More drills</button></div>`;const b=$('#drillAgain');if(b)b.addEventListener('click',()=>drill(cat));bindGo();return;}
     const q=qs[i];const card=ce('div');card.className='block';
     card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>${q.svg?`<div style="display:grid;place-items:center;margin-bottom:12px">${q.svg}</div>`:''}<h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2><div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button>`;
     app.innerHTML=backbar(names[cat],`${correct}/${total}`);app.appendChild(card);
@@ -1462,13 +1418,13 @@ function openChecklist(){
   app.innerHTML=backbar('Test-Day Checklist')+`
   <div class="block">
     <p class="kicker">Day of the test</p><h2>What to take to the DLTC</h2>
-    <p class="lead">Walking in prepared is half the battle. These are the official items.</p>
+    <p class="lead">Typical requirements can differ by province and DLTC. Confirm documents, photo requirements and fees directly with your local DLTC before you travel.</p>
     ${items}
   </div>
   <div class="block">
     <p class="kicker">What to expect</p><h2>On the day</h2>
     <ul class="cheat" style="padding-left:20px">
-      <li>Eye test first (at the centre, or bring a valid test with you).</li>
+      <li>Eye-test arrangements vary: confirm whether your DLTC conducts it on site or accepts a valid external test.</li>
       <li>The theory test is 64 questions across 3 sections — you must pass each section on its own.</li>
       <li>If you pass and pay the fee, your learner's licence is usually issued the same day.</li>
       <li>A learner's licence is valid for 24 months and cannot be extended.</li>
@@ -1494,7 +1450,7 @@ function bindGo(root){
   const tb=scope.querySelector('#themeBtn');
   if(tb)tb.addEventListener('click',(e)=>{e.stopPropagation();K.toggleTheme();renderHome();});
   const lb=scope.querySelector('#langBtn');
-  if(lb)lb.addEventListener('click',(e)=>{e.stopPropagation();const order=['en','af','zu'];const i=order.indexOf(K.state.lang||'en');K.state.lang=order[(i+1)%3];K.save();renderHome();});
+  if(lb)lb.addEventListener('click',(e)=>{e.stopPropagation();const existing=document.getElementById('languageMenu');if(existing){existing.remove();lb.setAttribute('aria-expanded','false');return;}const menu=document.createElement('section');menu.id='languageMenu';menu.className='language-menu';menu.setAttribute('role','dialog');menu.setAttribute('aria-label','Language choices');menu.innerHTML=`<h3>Language options</h3><p>Interface labels are available in English, Afrikaans and isiZulu. Sesotho/Setswana and isiXhosa are available in Study vocabulary.</p>${['en','af','zu'].map(k=>`<button class="${K.state.lang===k?'active':''}" data-interface-lang="${k}">${({en:'English',af:'Afrikaans',zu:'isiZulu'})[k]}</button>`).join('')}<button data-go="lang">Open five-language study vocabulary</button>`;document.body.appendChild(menu);lb.setAttribute('aria-expanded','true');menu.querySelectorAll('[data-interface-lang]').forEach(b=>b.addEventListener('click',()=>{K.state.lang=b.getAttribute('data-interface-lang');K.save();renderHome();}));menu.querySelector('[data-go=lang]').addEventListener('click',()=>{menu.remove();openLang();});});
   const ti=scope.querySelector('#topbarInstall');
   if(ti)ti.addEventListener('click',(e)=>{e.stopPropagation();maybeShowInstall();});
   const sb=scope.querySelector('[data-speak-top]');
@@ -1534,8 +1490,8 @@ function openMock(){
   const passed = SECTION_ORDER.filter(s=>K.state.secPass && K.state.secPass[s]);
   app.innerHTML=backbar('Mock Test')+`<div class="block center">
     <div class="badge-xl">🏁</div>
-    <div class="result-title" style="font-size:24px">The real 64-question test</div>
-    <p class="result-sub">3 sections — you must PASS EACH on its own.<br>Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}</p>
+    <div class="result-title" style="font-size:24px">Learning mock</div>
+    <p class="result-sub">Learn with immediate answer feedback and a break between sections. For exam-style pressure, use Test-Day Simulation instead.<br>3 sections — you must PASS EACH on its own.<br>Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}</p>
     <div class="stat-grid">
       <div class="stat"><div class="n" style="color:${K.state.secPass&&K.state.secPass.rules?'var(--ok)':'var(--err)'}">${K.state.secPass&&K.state.secPass.rules?'✓':'—'}</div><div class="l">Rules</div></div>
       <div class="stat"><div class="n" style="color:${K.state.secPass&&K.state.secPass.signs?'var(--ok)':'var(--err)'}">${K.state.secPass&&K.state.secPass.signs?'✓':'—'}</div><div class="l">Signs</div></div>
@@ -1699,6 +1655,13 @@ function finishMock(onlySec){
   }).join('');
   const overallPass = onlySec ? (K.state.secPass&&K.state.secPass[onlySec]) : allPass;
   K.state.mockPass=overallPass;
+  K.state.mastery=K.state.mastery||{};
+  const resultMap={rules:2,signs:1,controls:3};
+  sections.forEach(sec=>{const result=(K.state.mockResults||{})[sec];if(result&&result.total){K.state.mastery[resultMap[sec]]=Math.round(result.correct/result.total*100);}});
+  const allResults=Object.values(K.state.mockResults||{});
+  const totalSeen=allResults.reduce((sum,item)=>sum+(item.total||0),0);
+  const correctSeen=allResults.reduce((sum,item)=>sum+(item.correct||0),0);
+  if(totalSeen)K.state.acc={correct:correctSeen,total:totalSeen};
   K.save();
   app.innerHTML=backbar('Mock Result')+`<div class="block center">
     <div class="badge-xl">${overallPass?'🏆':'📚'}</div>
@@ -1788,8 +1751,9 @@ function startSim(){
       b.addEventListener('click',()=>{
         const ch=+b.getAttribute('data-i');
         card.querySelectorAll('.opt').forEach(x=>x.classList.add('disabled'));
-        if(ch===q.ans){b.classList.add('correct');correct++;secCorrect[q.sec]++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
-        else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q.q,q.opts[q.ans]);}
+        if(ch===q.ans){correct++;secCorrect[q.sec]++;}
+        else{addReview(q.q,q.opts[q.ans]);}
+        fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';
         next.classList.remove('hidden');
       });
     });
@@ -1802,7 +1766,10 @@ function startSim(){
     K.state.shareData={secCorrect,secCount,correct,total,passed:allPass};
     K.state.mockPass=allPass;
     K.state.secPass=K.state.secPass||{};
-    SECTION_ORDER.forEach(s=>{K.state.secPass[s]=secCount[s]>0&&secCorrect[s]>=SECTION_META[s].need;});
+    K.state.mastery=K.state.mastery||{};
+    const simMap={Rules:2,Signs:1,Controls:3};
+    SECTION_ORDER.forEach(s=>{K.state.secPass[s]=secCount[s]>0&&secCorrect[s]>=SECTION_META[s].need; if(secCount[s])K.state.mastery[simMap[SECTION_META[s].name]]=Math.round(secCorrect[SECTION_META[s].name]/secCount[SECTION_META[s].name]*100);});
+    K.state.acc={correct,total};
     K.save();
     app.innerHTML=backbar('Sim Result')+`<div class="block center">
       <div class="badge-xl">${allPass?'🏆':'📚'}</div>
@@ -1852,7 +1819,7 @@ const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 const isStandalone=(window.matchMedia&&(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true));
 window.addEventListener('beforeinstallprompt',(e)=>{
   e.preventDefault(); deferredPrompt=e;
-  if(!installDismissed) maybeShowInstall();
+  if(!installDismissed && K.state.installNudged) maybeShowInstall();
 });
 window.addEventListener('appinstalled',()=>{ deferredPrompt=null; installDismissed=true; removeInstallBanner(); });
 function installPromptHTML(){
@@ -1907,12 +1874,9 @@ function maybeShowInstall(){
   });
   if(d)d.addEventListener('click',()=>{ banner.classList.remove('pwa-in'); installDismissed=true; deferredPrompt=null; setTimeout(removeInstallBanner,180); });
 }
-// Auto-show after a beat (Android/desktop waits for the real prompt; iOS always shows the guide)
+// Do not interrupt a first study decision. Offer installation after a useful action or from the top bar.
 (function(){
-  setTimeout(()=>{
-    if(installDismissed||isStandalone||document.getElementById('installBanner'))return;
-    maybeShowInstall();
-  }, 2000);
+  document.addEventListener('click',(e)=>{if(e.target.closest('[data-go],#onboardingStart')&&!K.state.installNudged&&!installDismissed&&!isStandalone){K.state.installNudged=true;K.save();setTimeout(maybeShowInstall,1200);}}, {once:true});
 })();
 /* PWA: register service worker (guarded — only on secure contexts that support it) */
 if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) {
