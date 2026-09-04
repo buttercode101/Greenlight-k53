@@ -305,7 +305,11 @@ a:focus-visible,button:focus-visible,.opt:focus-visible{outline:2px solid var(--
   body{font-size:12px;}
 }
 /* Real SADC sign assets — consistent render */
-.signsvg{width:88px;height:88px;display:inline-block;object-fit:contain;}
+.signsvg{width:100%;height:100%;display:block;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(23,19,15,.12));}
+.signcard .art{width:112px;height:112px;padding:8px;background:#fff;border:1px solid var(--line);box-shadow:inset 0 0 0 4px var(--warm);}
+.signcard{transition:border-color .15s,transform .15s,box-shadow .15s;}.signcard:hover{border-color:rgba(14,143,62,.48);transform:translateY(-2px);box-shadow:var(--sh-card);}
+.sign-legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 var(--s4);}.sign-legend span{font-size:12px;font-weight:650;padding:6px 9px;border-radius:var(--r-pill);border:1px solid var(--line-soft);background:var(--warm);}.sign-legend .stop{border-color:rgba(216,36,47,.35);color:#9d1720}.sign-legend .must{border-color:rgba(7,95,186,.35);color:#075fba}.sign-legend .warn{border-color:rgba(185,123,6,.4);color:#805300}.sign-legend .info{border-color:rgba(19,138,71,.35);color:#0a6b2e;}
+@media (max-width:520px){.signcard .art{width:96px;height:96px;}.signcard:hover{transform:none;}}
 /* ============================================================
    POLISH v2 - responsive grids, no breakage
    ============================================================ */
@@ -450,10 +454,10 @@ function svgRobot(){return `<svg width="78" height="78" viewBox="0 0 100 100"><r
 
 /* ---------- SIGNS DATA (full K53 syllabus) ---------- */
 const SIGNS=[
- {id:'stop',svg:'assets/signs/stop.svg',name:'Stop',fam:'red',mean:'Come to a complete stop. Wait until safe, then go.',analogy:'Like a teacher holding up a STOP hand — freeze completely.',cat:'Red circle = DON\'T'},
- {id:'giveway',svg:'assets/signs/giveway.svg',name:'Give Way (Yield)',fam:'red',mean:'Slow down. Let other traffic go first, then join when safe.',analogy:'Like holding a door open — let others pass before you.',cat:'Red circle = DON\'T'},
+ {id:'stop',svg:'assets/signs/stop.svg',name:'Stop',fam:'red',mean:'Come to a complete stop. Wait until safe, then go.',analogy:'Like a teacher holding up a STOP hand — freeze completely.',cat:'Red octagon = STOP'},
+ {id:'giveway',svg:'assets/signs/giveway.svg',name:'Give Way (Yield)',fam:'red',mean:'Slow down. Let other traffic go first, then join when safe.',analogy:'Like holding a door open — let others pass before you.',cat:'Inverted triangle = GIVE WAY'},
  {id:'noentry',svg:'assets/signs/noentry.svg',name:'No Entry',fam:'red',mean:'You may NOT enter this road from here. Wrong way!',analogy:'Red circle with bar = "road closed to you".',cat:'Red circle = DON\'T'},
- {id:'robot',svg:'assets/signs/robot.svg',name:'Traffic Light (Robot)',fam:'red',mean:'RED = stop. YELLOW = stop if safe. GREEN = go when clear.',analogy:'Robot = the boss of the junction.',cat:'Red circle = DON\'T'},
+ {id:'robot',svg:'assets/signs/robot.svg',name:'Warning: Traffic Signals Ahead',fam:'tri',mean:'Traffic signals are ahead. Slow down, scan the junction and obey the signal when you reach it.',analogy:'The warning triangle tells you to prepare for a controlled junction.',cat:'Yellow triangle = WATCH OUT'},
  {id:'turnleft',svg:'assets/signs/turnleft.svg',name:'Mandatory: Turn Left',fam:'blue',mean:'You MUST turn left here. No other choice.',analogy:'Blue circle = you have to do this.',cat:'Blue circle = YOU MUST'},
  {id:'keepleft',svg:'assets/signs/keepleft.svg',name:'Mandatory: Keep Left',fam:'blue',mean:'Stay on the left side of the divider.',analogy:'Blue circle = a rule you must follow.',cat:'Blue circle = YOU MUST'},
  {id:'minspeed',svg:'assets/signs/minspeed.svg',name:'Minimum Speed 60',fam:'blue',mean:'You MUST drive at least 60 km/h in this lane — no slower.',analogy:'Blue circle with number = a floor, not a ceiling.',cat:'Blue circle = YOU MUST'},
@@ -470,14 +474,14 @@ const SIGNS=[
  {id:'disablepark',svg:'assets/signs/disablepark.svg',name:'Disabled Parking Only',fam:'blue',mean:'Only vehicles carrying a disabled person may park here.',analogy:'Blue box with wheelchair = reserved.',cat:'Blue box = INFO'},
  {id:'children',svg:'assets/signs/children.svg',name:'Warning: Children',fam:'tri',mean:'Children may be near the road. Slow down and watch out.',analogy:'Yellow triangle = caution, like a wet-floor sign.',cat:'Yellow triangle = WATCH OUT'},
  {id:'curve',svg:'assets/signs/curve.svg',name:'Warning: Curve Ahead',fam:'tri',mean:'The road bends ahead. Slow before the curve.',analogy:'Triangle points the danger — bend coming, ease off gas.',cat:'Yellow triangle = WATCH OUT'},
- {id:'ped',svg:'assets/signs/ped.svg',name:'Warning: Pedestrian Crossing',fam:'tri',mean:'People may walk across. Stop for them.',analogy:'Zebra stripes on road = people first, always.',cat:'Yellow triangle = WATCH OUT'},
+ {id:'ped',svg:'assets/signs/ped.svg',name:'Warning: Pedestrians',fam:'tri',mean:'Pedestrians may be near or crossing the road. Slow down and be prepared to stop.',analogy:'A warning triangle means people may enter your path.',cat:'Yellow triangle = WATCH OUT'},
  {id:'animal',svg:'assets/signs/animal.svg',name:'Warning: Animals',fam:'tri',mean:'Farm animals may be on the road. Drive slowly.',analogy:'Triangle = something unexpected ahead.',cat:'Yellow triangle = WATCH OUT'},
  {id:'hill',svg:'assets/signs/hill.svg',name:'Warning: Steep Hill',fam:'tri',mean:'Steep uphill or downhill ahead. Use a lower gear.',analogy:'Triangle = road shape changes sharply.',cat:'Yellow triangle = WATCH OUT'},
  {id:'slippery',svg:'assets/signs/slippery.svg',name:'Warning: Slippery Road',fam:'tri',mean:'The road may be slippery, especially when wet. Slow down.',analogy:'Triangle = surface grip drops — ease off.',cat:'Yellow triangle = WATCH OUT'},
  {id:'speedbump',svg:'assets/signs/speedbump.svg',name:'Warning: Speed Bump',fam:'tri',mean:'A bump is ahead. Slow right down.',analogy:'Triangle = bump — drop your speed.',cat:'Yellow triangle = WATCH OUT'},
  {id:'railway',svg:'assets/signs/railway.svg',name:'Warning: Railway Crossing',fam:'tri',mean:'Railway tracks ahead. Stop if a train is coming. Never race a train.',analogy:'X = tracks cross the road.',cat:'Yellow triangle = WATCH OUT'},
  {id:'narrow',svg:'assets/signs/narrow.svg',name:'Warning: Road Narrows',fam:'tri',mean:'The road narrows ahead. Keep well to the left.',analogy:'Triangle = space shrinks — ease off.',cat:'Yellow triangle = WATCH OUT'},
- {id:'rightofway',svg:'assets/signs/rightofway.svg',name:'Right of Way (Priority)',fam:'tri',mean:'Traffic on your road has priority over the road ahead of you.',analogy:'Thick arrow up = you go first.',cat:'Yellow triangle = WATCH OUT'},
+ {id:'rightofway',svg:'assets/signs/rightofway.svg',name:'Priority Road',fam:'info',mean:'You are on a priority road. Continue only when the road and intersection are clear.',analogy:'Priority is not permission to ignore hazards.',cat:'Diamond = PRIORITY'},
  {id:'crossroad',svg:'assets/signs/crossroad.svg',name:'Warning: Crossroads Ahead',fam:'tri',mean:'A four-way crossing is ahead. Slow down and look both ways.',analogy:'Triangle = junction — be ready to yield.',cat:'Yellow triangle = WATCH OUT'},
  {id:'tjunction',svg:'assets/signs/tjunction.svg',name:'Warning: T-Junction Ahead',fam:'tri',mean:'The road ends at a T. You must turn left or right.',analogy:'Triangle = junction shape changes.',cat:'Yellow triangle = WATCH OUT'},
  {id:'yjunction',svg:'assets/signs/yjunction.svg',name:'Warning: Y-Junction Ahead',fam:'tri',mean:'The road splits into a Y ahead. Slow and choose your fork.',analogy:'Triangle = road splits.',cat:'Yellow triangle = WATCH OUT'},
@@ -990,7 +994,8 @@ function openSession1(){
   app.innerHTML=backbar('Session 1 · Road Signs')+`
   <div class="block">
     <p class="kicker">Step 1</p><h2>Read every sign once</h2>
-    <p class="lead">Each sign shows its shape, what it means, and a simple analogy. Read top to bottom — no tricks.</p>
+    <p class="lead">Each illustration is a clean study reference. Learn the sign family first, then the symbol and the action it asks you to take.</p>
+    <div class="sign-legend" aria-label="Sign family key"><span class="stop">Red = restriction / stop</span><span class="must">Blue = instruction</span><span class="warn">Yellow = warning</span><span class="info">Board = information</span></div>
     ${ttsSettingsBar()}
     <div class="signgrid">${cards}</div>
   </div>
