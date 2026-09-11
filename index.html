@@ -374,6 +374,119 @@ html[data-theme="dark"] .pwa-icon{background:rgba(14,143,62,.22);}
   display:block;line-height:1.5;}
 html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 </style>
+
+// K53 DATABASE INTEGRATION
+// Loads data from k53-database.json and populates window.K global objects
+
+// Show loading indicator
+function showLoading() {
+  const existing = document.getElementById('db-loading');
+  if (existing) existing.remove();
+  const loader = document.createElement('div');
+  loader.id = 'db-loading';
+  loader.style = \`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--surface);
+    border: 2px solid var(--line);
+    padding: var(--s3);
+    z-index: 9999;
+    color: var(--ink)\;
+  \`;
+  loader.innerHTML = \`<div>Loading K53 Database...</div>\`;
+  document.body.appendChild(loader);
+}
+
+// Hide loading indicator
+function hideLoading() {
+  const loader = document.getElementById('db-loading');
+  if (loader) loader.remove();
+}
+
+// Main database loader
+async function loadK53Database() {
+  try {
+    showLoading();
+    const resp = await fetch('k53-database.json');
+    if (!resp.ok) throw new Error('Network response was not ok');
+    const db = await resp.json();
+    
+    // Populate SIGNS from database
+    window.K = window.K || {};
+    window.K.SIGNS = db.signs.map(s => ({
+      id: s.id,
+      svg: s.svg,
+      name: s.name,
+      fam: s.family,
+      mean: s.meaning,
+      cat: s.category,
+      analogy: s.analogy || ''
+    }));
+    
+    // Populate RULES from database
+    window.K.RULES = db.rules.map(r => ({
+      q: r.q,
+      a: r.a,
+      w: r.w
+    }));
+    
+    // Populate CONTROLS from database
+    window.K.CONTROLS = db.controls.map(c => ({
+      q: c.q,
+      opts: c.opts,
+      ans: c.ans,
+      ex: c.ex
+    }));
+    
+    // Populate MOCK_EXTRA from database
+    window.K.MOCK_EXTRA = db.mock_extra.map(m => ({
+      q: m.q,
+      opts: m.opts,
+      ans: m.ans,
+      ex: m.ex
+    }));
+    
+    // Populate MARKINGS from database
+    window.K.MARKINGS = db.markings;
+    
+    // Populate ROW from database
+    window.K.ROW = db.row;
+    
+    // Populate SECTION_META from database
+    window.K.SECTION_META = db.section_meta;
+    
+    // Set default readiness state
+    window.K.state = window.K.state || {};
+    window.K.state.sessions = window.K.state.sessions || {1: false, 2: false, 3: false};
+    window.K.state.mockPass = false;
+    
+    hideLoading();
+    console.log(`✅ K53 Database loaded: ${db.signs.length} signs, ${db.rules.length} rules, ${db.controls.length} controls, ${db.mock_extra.length} mocks, ${db.markings.length} markings`);
+    
+    // Initialize theme
+    if (window.__TTS && window.__TTS.initTheme) {
+      window.__TTS.initTheme();
+    }
+    
+  } catch (error) {
+    console.warn('⚠️ Failed to load K53 Database, using embedded fallback:', error);
+    hideLoading();
+    // Continue with embedded data - the app will use whatever globals already exist
+    // The existing SIGNS, RULES, CONTROLS, etc. will remain from the original code
+  }
+}
+
+// Run the database loader when the DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', loadK53Database);
+} else {
+  loadK53Database();
+}
+
+
+  <script src="database-loader.js"></script>
 </head>
 <body>
 <div class="wrap" id="app">

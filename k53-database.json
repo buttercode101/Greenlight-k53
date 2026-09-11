@@ -1,0 +1,1421 @@
+{
+  "version": "2026.09.11",
+  "last_updated": "2026-09-11T12:00:00Z",
+  "signs": [
+    {
+      "id": "stop",
+      "name": "Stop",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "Come to a complete stop. Wait until safe, then go.",
+      "svg": "assets/signs/stop.svg",
+      "analogy": "Like a teacher holding up a STOP hand \u2014 freeze completely.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "giveway",
+      "name": "Give Way (Yield)",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "Slow down. Let other traffic go first, then join when safe.",
+      "svg": "assets/signs/giveway.svg",
+      "analogy": "Like holding a door open \u2014 let others pass before you.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "noentry",
+      "name": "No Entry",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "You may not enter this road from your direction.",
+      "svg": "assets/signs/noentry.svg",
+      "analogy": "Red circle with bar = 'road closed to you'.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "turnleft",
+      "name": "Mandatory: Turn Left",
+      "family": "blue",
+      "category": "MUST",
+      "meaning": "You MUST turn left here. No other choice.",
+      "svg": "assets/signs/turnleft.svg",
+      "analogy": "Blue circle = you have to do this.",
+      "cat": "Blue circle = YOU MUST"
+    },
+    {
+      "id": "keepleft",
+      "name": "Mandatory: Keep Left",
+      "family": "blue",
+      "category": "MUST",
+      "meaning": "Stay on the left side of the divider.",
+      "svg": "assets/signs/keepleft.svg",
+      "analogy": "Blue circle = a rule you must follow.",
+      "cat": "Blue circle = YOU MUST"
+    },
+    {
+      "id": "minspeed",
+      "name": "Minimum Speed 60",
+      "family": "blue",
+      "category": "MUST",
+      "meaning": "You MUST drive at least 60 km/h in this lane \u2014 no slower.",
+      "svg": "assets/signs/minspeed.svg",
+      "analogy": "Blue circle with number = a floor, not a ceiling.",
+      "cat": "Blue circle = YOU MUST"
+    },
+    {
+      "id": "headlightson",
+      "name": "Headlights On",
+      "family": "blue",
+      "category": "MUST",
+      "meaning": "Switch your headlights on (dipped) \u2014 you must be seen.",
+      "svg": "assets/signs/headlightson.svg",
+      "analogy": "Blue circle + lamp = lights compulsory.",
+      "cat": "Blue circle = YOU MUST"
+    },
+    {
+      "id": "speed60",
+      "name": "Speed Limit 60",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "Do NOT go faster than 60 km/h. Maximum, not a target.",
+      "svg": "assets/signs/speed60.svg",
+      "analogy": "Red circle = a strict ceiling, like a toy car's speed cap.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "noovertake",
+      "name": "No Overtaking",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "Do NOT overtake other vehicles on this stretch of road.",
+      "svg": "assets/signs/noovertake.svg",
+      "analogy": "Two cars with a red slash = no passing.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "nouturn",
+      "name": "No U-Turn",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "You may NOT turn around here.",
+      "svg": "assets/signs/nouturn.svg",
+      "analogy": "U-arrow crossed out = no going back.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "noleft",
+      "name": "No Left Turn",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "You may NOT turn left at this point.",
+      "svg": "assets/signs/noleft.svg",
+      "analogy": "Arrow left with red slash = no left turn.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "noright",
+      "name": "No Right Turn",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "You may NOT turn right at this point.",
+      "svg": "assets/signs/noright.svg",
+      "analogy": "Arrow right with red slash = no right turn.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "nopark",
+      "name": "No Parking",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "You may NOT park here at any time.",
+      "svg": "assets/signs/nopark.svg",
+      "analogy": "Red circle, P crossed out = no parking.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "nostop",
+      "name": "No Stopping",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "You may NOT stop here at all \u2014 not even to drop someone off.",
+      "svg": "assets/signs/nostop.svg",
+      "analogy": "Red circle, X = absolute no stopping.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "children",
+      "name": "Warning: Children",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "Children may be near the road. Slow down and watch out.",
+      "svg": "assets/signs/children.svg",
+      "analogy": "Yellow triangle = caution, like a wet-floor sign.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "curve",
+      "name": "Warning: Curve Ahead",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "The road bends ahead. Slow before the curve.",
+      "svg": "assets/signs/curve.svg",
+      "analogy": "Triangle points the danger \u2014 bend coming, ease off gas.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "ped",
+      "name": "Warning: Pedestrian Crossing",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "People may walk across. Stop for them.",
+      "svg": "assets/signs/ped.svg",
+      "analogy": "Zebra stripes on road = people first, always.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "animal",
+      "name": "Warning: Animals",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "Farm animals may be on the road. Drive slowly.",
+      "svg": "assets/signs/animal.svg",
+      "analogy": "Triangle = something unexpected ahead.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "hill",
+      "name": "Warning: Steep Hill",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "Steep uphill or downhill ahead. Use a lower gear.",
+      "svg": "assets/signs/hill.svg",
+      "analogy": "Triangle = road shape changes sharply.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "slippery",
+      "name": "Warning: Slippery Road",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "The road may be slippery, especially when wet. Slow down.",
+      "svg": "assets/signs/slippery.svg",
+      "analogy": "Triangle = surface grip drops \u2014 ease off.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "speedbump",
+      "name": "Warning: Speed Bump",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "A bump is ahead. Slow right down.",
+      "svg": "assets/signs/speedbump.svg",
+      "analogy": "Triangle = bump \u2014 drop your speed.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "railway",
+      "name": "Warning: Railway Crossing",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "Railway tracks ahead. Stop if a train is coming. Never race a train.",
+      "svg": "assets/signs/railway.svg",
+      "analogy": "X = tracks cross the road.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "narrow",
+      "name": "Warning: Road Narrows",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "The road narrows ahead. Keep well to the left.",
+      "svg": "assets/signs/narrow.svg",
+      "analogy": "Triangle = space shrinks \u2014 ease off.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "rightofway",
+      "name": "Right of Way (Priority)",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "Traffic on your road has priority over the road ahead of you.",
+      "svg": "assets/signs/rightofway.svg",
+      "analogy": "Thick arrow up = you go first.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "crossroad",
+      "name": "Warning: Crossroads Ahead",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "A four-way crossing is ahead. Slow down and look both ways.",
+      "svg": "assets/signs/crossroad.svg",
+      "analogy": "Triangle = junction \u2014 be ready to yield.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "tjunction",
+      "name": "Warning: T-Junction Ahead",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "The road ends at a T. You must turn left or right.",
+      "svg": "assets/signs/tjunction.svg",
+      "analogy": "Triangle = junction shape changes.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "yjunction",
+      "name": "Warning: Y-Junction Ahead",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "The road splits into a Y ahead. Slow and choose your fork.",
+      "svg": "assets/signs/yjunction.svg",
+      "analogy": "Triangle = road splits.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "roundabout",
+      "name": "Warning: Roundabout Ahead",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "A roundabout is coming up. Slow down and be ready to yield to the right.",
+      "svg": "assets/signs/roundabout.svg",
+      "analogy": "Circle with arrows = go around, yield right.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "school",
+      "name": "Warning: School Zone",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "Children are around. Slow right down \u2014 to 40 km/h if a sign shows it \u2014 especially at school times.",
+      "svg": "assets/signs/school.svg",
+      "analogy": "Children near a road = extra caution.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "pedcrossing",
+      "name": "Warning: Pedestrian Crossing",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "A marked crossing is ahead. Slow down \u2014 pedestrians have priority.",
+      "svg": "assets/signs/pedcrossing.svg",
+      "analogy": "People stripes = be ready to stop.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "cyclist",
+      "name": "Warning: Cyclists",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "Cyclists may be on the road ahead. Give them space.",
+      "svg": "assets/signs/cyclist.svg",
+      "analogy": "Triangle = two wheels ahead.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "wild",
+      "name": "Warning: Wild Animals",
+      "family": "tri",
+      "category": "WARNING",
+      "meaning": "Wild animals may cross the road. Slow down and be ready to stop.",
+      "svg": "assets/signs/wild.svg",
+      "analogy": "Triangle = unexpected on the road.",
+      "cat": "Yellow triangle = WATCH OUT"
+    },
+    {
+      "id": "hospital",
+      "name": "Info: Hospital",
+      "family": "info",
+      "category": "INFORMATION",
+      "meaning": "A hospital is ahead or nearby.",
+      "svg": "assets/signs/hospital.svg",
+      "analogy": "Green box = helpful info, like a map pin.",
+      "cat": "Green/blue box = INFO"
+    },
+    {
+      "id": "parking",
+      "name": "Info: Parking",
+      "family": "info",
+      "category": "INFORMATION",
+      "meaning": "A place to park is available here.",
+      "svg": "assets/signs/parking.svg",
+      "analogy": "Blue box = here is something useful.",
+      "cat": "Green/blue box = INFO"
+    },
+    {
+      "id": "toll",
+      "name": "Info: Toll Road",
+      "family": "info",
+      "category": "INFORMATION",
+      "meaning": "A toll road ahead. A free alternative route may be shown.",
+      "svg": "assets/signs/toll.svg",
+      "analogy": "Blue box with R = pay route, alt shown.",
+      "cat": "Green/blue box = INFO"
+    },
+    {
+      "id": "dir",
+      "name": "Info: Direction",
+      "family": "info",
+      "category": "INFORMATION",
+      "meaning": "Shows the direction and distance to a place or route.",
+      "svg": "assets/signs/dir.svg",
+      "analogy": "Blue box with arrow = follow this way.",
+      "cat": "Green/blue box = INFO"
+    },
+    {
+      "id": "redman",
+      "name": "Pedestrian Signal: Red Man",
+      "family": "red",
+      "category": "DON'T",
+      "meaning": "Pedestrians must NOT start crossing. Wait.",
+      "svg": "assets/signs/redman.svg",
+      "analogy": "Red man = stop, do not walk.",
+      "cat": "Red circle = DON'T"
+    },
+    {
+      "id": "greenman",
+      "name": "Pedestrian Signal: Green Man",
+      "family": "info",
+      "category": "INFORMATION",
+      "meaning": "Pedestrians may cross carefully within the markings.",
+      "svg": "assets/signs/greenman.svg",
+      "analogy": "Green man = walk when safe.",
+      "cat": "Green/blue box = INFO"
+    }
+  ],
+  "rules": [
+    {
+      "q": "Which side of the road do we drive on in South Africa?",
+      "a": "The LEFT. Pass other cars on their right. 'Keep left, pass right.'",
+      "w": [
+        "The RIGHT. Pass other cars on their left.",
+        "Stick to the middle unless overtaking.",
+        "Whichever lane is fastest."
+      ]
+    },
+    {
+      "q": "No signs or robots (traffic lights) at a crossing \u2014 who goes first?",
+      "a": "The car coming from your RIGHT. Simple: 'right goes first.'",
+      "w": [
+        "The car coming from your LEFT goes first.",
+        "The larger vehicle goes first.",
+        "Traffic on the main road always goes first."
+      ]
+    },
+    {
+      "q": "Town/city speed limit?",
+      "a": "60 km/h \u2014 unless a sign says otherwise.",
+      "w": [
+        "80 km/h \u2014 unless a sign says otherwise.",
+        "100 km/h \u2014 unless a sign says otherwise.",
+        "40 km/h \u2014 unless a sign says otherwise."
+      ]
+    },
+    {
+      "q": "Rural road speed limit (outside town, not a freeway)?",
+      "a": "100 km/h \u2014 unless a sign shows lower.",
+      "w": [
+        "120 km/h \u2014 unless a sign shows lower.",
+        "80 km/h \u2014 unless a sign shows lower.",
+        "60 km/h on all country roads."
+      ]
+    },
+    {
+      "q": "National highway (freeway) speed limit?",
+      "a": "120 km/h \u2014 unless a sign shows lower.",
+      "w": [
+        "100 km/h \u2014 unless a sign shows lower.",
+        "140 km/h \u2014 unless a sign shows lower.",
+        "80 km/h on all freeways."
+      ]
+    },
+    {
+      "q": "Robot turns yellow. What do you do?",
+      "a": "Stop if you can do so safely. Too close to stop? Continue carefully.",
+      "w": [
+        "Always stop sharply before the line.",
+        "Speed up to beat the red light.",
+        "Ignore it \u2014 yellow is just a warning."
+      ]
+    },
+    {
+      "q": "How far behind the car ahead?",
+      "a": "At least 2 seconds (3 in rain). Count 'one-thousand-two'.",
+      "w": [
+        "At least 1 second (count one-thousand-one).",
+        "At least 3 seconds at all times.",
+        "About half a car length at town speed."
+      ]
+    },
+    {
+      "q": "Who must wear a seatbelt?",
+      "a": "Driver AND all passengers, front and back. Every trip.",
+      "w": [
+        "Only the driver and front passenger.",
+        "Only the driver when on a freeway.",
+        "Adults only, not children in the back."
+      ]
+    },
+    {
+      "q": "At a roundabout you must...",
+      "a": "Go clockwise. Yield to traffic already on it \u2014 approaching from your RIGHT.",
+      "w": [
+        "Go anti-clockwise. Yield to traffic on your left.",
+        "Stop and wait for someone to wave you in.",
+        "Go straight through and flash your lights."
+      ]
+    },
+    {
+      "q": "Blood alcohol for a LEARNER?",
+      "a": "Effectively zero. The legal limit for learners is 0.02 g per 100 ml \u2014 so no alcohol at all.",
+      "w": [
+        "0.05 g per 100 ml \u2014 same as a normal driver.",
+        "0.02 g per 100 ml \u2014 a small drink is allowed.",
+        "No limit while you are only practising."
+      ]
+    },
+    {
+      "q": "Pedestrians crossing at a marked crossing?",
+      "a": "Stop and let them cross. People first.",
+      "w": [
+        "Only stop the first car, others may continue.",
+        "Honk so they move faster.",
+        "Stop only if the pedestrians are on your side."
+      ]
+    },
+    {
+      "q": "How close to an intersection may you park (in town)?",
+      "a": "Not within 5 metres of the corner \u2014 and never on or across a pedestrian crossing.",
+      "w": [
+        "Within 5 metres of the corner if it is a weekday.",
+        "Not within 10 metres of the corner.",
+        "Right on the corner, but only after dark."
+      ]
+    },
+    {
+      "q": "How close to a fire hydrant may you park?",
+      "a": "Not within 1.5 metres \u2014 the fire service needs clear access.",
+      "w": [
+        "Not within 5 metres of the hydrant.",
+        "Right next to it, as long as the cap is clear.",
+        "Within 1 metre, but only in an emergency."
+      ]
+    },
+    {
+      "q": "What does a YELLOW kerb line mean?",
+      "a": "No parking at any time. A RED kerb line means no stopping at all.",
+      "w": [
+        "No stopping at any time.",
+        "Loading and unloading allowed.",
+        "No parking during school hours only."
+      ]
+    },
+    {
+      "q": "How do you overtake another vehicle?",
+      "a": "Only on the RIGHT, when the road is clear and the centre line is broken on your side \u2014 never on a solid barrier line.",
+      "w": [
+        "On the LEFT, when the road is clear.",
+        "On the RIGHT, even over a solid centre line.",
+        "On either side, whichever is shorter."
+      ]
+    },
+    {
+      "q": "What must you NOT do when another car is overtaking you?",
+      "a": "Speed up or block them. Keep left, slow down if needed, and let them pass safely.",
+      "w": [
+        "Slow down to help them pass.",
+        "Signal to the right to let them know.",
+        "Pull off the road completely."
+      ]
+    },
+    {
+      "q": "When must you switch on your headlights?",
+      "a": "From sunset to sunrise, when you cannot see 150 m ahead, and when it rains and you cannot see 100 m ahead.",
+      "w": [
+        "Only between sunset and sunrise.",
+        "Only when it is raining.",
+        "Only when another car has its lights on."
+      ]
+    },
+    {
+      "q": "An emergency vehicle with flashing lights and a siren approaches. What do you do?",
+      "a": "Slow down, pull over safely to the left, and stop until it has passed. Give it right of way.",
+      "w": [
+        "Speed up to get out of its way.",
+        "Pull over to the right and stop.",
+        "Continue and let it pass on the left."
+      ]
+    },
+    {
+      "q": "When may you use the hooter (horn)?",
+      "a": "Only to warn other road users of danger \u2014 not to greet, hurry, or show frustration.",
+      "w": [
+        "To greet a friend you recognise.",
+        "To hurry a slow driver ahead.",
+        "To signal that you are turning."
+      ]
+    },
+    {
+      "q": "On a hill, which way do you turn your front wheels when parking?",
+      "a": "Toward the kerb when facing downhill, away from the kerb when facing uphill \u2014 so the car cannot roll into traffic.",
+      "w": [
+        "Toward the kerb when facing uphill.",
+        "Toward the kerb in both directions.",
+        "Away from the kerb when facing downhill."
+      ]
+    },
+    {
+      "q": "When the vehicle is stationary, what must you do?",
+      "a": "Apply the parking brake and select neutral (or Park) so it cannot roll \u2014 especially on a gradient.",
+      "w": [
+        "Leave it in gear with the engine on.",
+        "Apply the parking brake and leave it in gear only.",
+        "Rely on the foot brake to hold it."
+      ]
+    },
+    {
+      "q": "While the vehicle is moving, may you hold a cell phone?",
+      "a": "NO. Holding a phone is illegal. Use hands-free only. Learners: no phone at all while driving.",
+      "w": [
+        "Only if you use a hands-free headset.",
+        "Yes, if you keep one hand on the wheel.",
+        "Only when stopped at a red light."
+      ]
+    },
+    {
+      "q": "When refuelling (petrol/diesel), what must you do?",
+      "a": "Switch the engine OFF. Never leave it running while fuel is being transferred.",
+      "w": [
+        "Leave the engine running to keep the pump working.",
+        "Switch it off only for petrol, not diesel.",
+        "Keep the engine idling so the tank fills faster."
+      ]
+    },
+    {
+      "q": "Trailers under 10 000 kg GVM \u2014 what reflective material is needed?",
+      "a": "Yellow reflective material on the SIDES and the REAR of the trailer.",
+      "w": [
+        "Red reflective material on the front only.",
+        "Yellow reflective material on the FRONT of the trailer.",
+        "White reflective material on the sides."
+      ]
+    },
+    {
+      "q": "When must projection flags be used and what size?",
+      "a": "Red flags, at least 300 mm \u00d7 300 mm, to mark loads that stick out.",
+      "w": [
+        "Blue flags, at least 200 mm \u00d7 200 mm.",
+        "Red flags of any size.",
+        "Yellow flags, at least 300 mm \u00d7 300 mm."
+      ]
+    },
+    {
+      "q": "Are pedal cycles allowed on a freeway?",
+      "a": "Generally NO. Pedestrians, animals, and pedal cycles are not allowed on freeways.",
+      "w": [
+        "Yes, if riding on the shoulder.",
+        "Yes, during daylight hours.",
+        "Yes, if they use the left lane."
+      ]
+    },
+    {
+      "q": "What is the minimum following distance in adverse conditions?",
+      "a": "Increase it \u2014 3 seconds in rain, more for heavy vehicles or at speed.",
+      "w": [
+        "Keep the normal 2-second distance.",
+        "Reduce it to 1 second in rain.",
+        "Only increase it for heavy vehicles."
+      ]
+    },
+    {
+      "q": "When may you stop on a freeway?",
+      "a": "Only in an emergency or a designated stopping area. Never just to look at the view.",
+      "w": [
+        "To answer a phone call.",
+        "To check a map or directions.",
+        "Any time there is a wide shoulder."
+      ]
+    },
+    {
+      "q": "If your vehicle breaks down, where do you place the warning triangle?",
+      "a": "At least 45 m behind the vehicle, on the roadside.",
+      "w": [
+        "At least 15 m behind, close to the vehicle.",
+        "In front of the vehicle, facing oncoming.",
+        "On the roof of the vehicle."
+      ]
+    },
+    {
+      "q": "What is the minimum tyre tread depth?",
+      "a": "At least 1 mm across the full width and circumference of the tyre.",
+      "w": [
+        "At least 1.6 mm across the tread.",
+        "At least 3 mm for safety.",
+        "No legal minimum \u2014 judge by wear bars."
+      ]
+    },
+    {
+      "q": "May you use hand signals on a freeway?",
+      "a": "NO. Hand signals are not allowed on freeways except in an emergency.",
+      "w": [
+        "Yes, always use them when turning.",
+        "Only at night when lights are bright.",
+        "Yes, if the indicator is broken."
+      ]
+    },
+    {
+      "q": "What is the rule for convoys over long weekends?",
+      "a": "Vehicles may NOT travel in convoy over long weekends/public holidays (6pm before to 6am after).",
+      "w": [
+        "Convoys are allowed if under 10 vehicles.",
+        "Only government vehicles may convoy.",
+        "Convoys are allowed during the day only."
+      ]
+    },
+    {
+      "q": "When towing another vehicle, what must you keep?",
+      "a": "A safe following distance and the tow connection secure; indicator hand signals if needed.",
+      "w": [
+        "A speed of at least 80 km/h.",
+        "The tow rope taut at all times.",
+        "Your headlights on dipped beam."
+      ]
+    },
+    {
+      "q": "Learner drivers on a freeway \u2014 allowed?",
+      "a": "YES, if accompanied by a properly licensed driver. But not at night unless permitted.",
+      "w": [
+        "No, never on a freeway.",
+        "Yes, if driving at night with a licensed driver.",
+        "Yes, but only in the right lane."
+      ]
+    },
+    {
+      "q": "When may you NOT overtake because of limited visibility?",
+      "a": "Never overtake where you cannot see at least 150 m ahead \u2014 on a hill crest, a curve, or any restricted view.",
+      "w": [
+        "Never overtake where you cannot see at least 100 m ahead.",
+        "Only stop overtaking after dark.",
+        "Never overtake on a straight road."
+      ]
+    },
+    {
+      "q": "How far may the tow-line be when towing another vehicle?",
+      "a": "No more than 3.5 m between the vehicles. Keep it shorter than that.",
+      "w": [
+        "No more than 5 m between the vehicles.",
+        "As long as it is visible and flagged.",
+        "No more than 2 m between the vehicles."
+      ]
+    },
+    {
+      "q": "May passengers ride in a vehicle that is being towed?",
+      "a": "NO. Passengers are not allowed in a towed vehicle on a public road.",
+      "w": [
+        "Yes, if the vehicle has working brakes.",
+        "Yes, if the tow speed is under 20 km/h.",
+        "Only one passenger is allowed."
+      ]
+    },
+    {
+      "q": "How close to a marked pedestrian crossing may you stop or park?",
+      "a": "Not within 9 m of the approaching side of a marked pedestrian crossing.",
+      "w": [
+        "Not within 5 m of the crossing.",
+        "Not within 15 m of the crossing.",
+        "Any distance, as long as you are not on the stripes."
+      ]
+    },
+    {
+      "q": "How close to a bridge, tunnel or subway may you stop?",
+      "a": "Not within 6 m \u2014 keep access clear for that structure.",
+      "w": [
+        "Not within 3 m of the structure.",
+        "Not within 10 m of the structure.",
+        "Allowed if you leave your hazards on."
+      ]
+    },
+    {
+      "q": "How far must your dipped (low) beam light the road ahead?",
+      "a": "At least 45 m. Your main (high) beam must illuminate at least 100 m ahead.",
+      "w": [
+        "At least 100 m ahead.",
+        "At least 30 m ahead.",
+        "Exactly the length of your car."
+      ]
+    },
+    {
+      "q": "South Africa is a RIGHT-hand-drive country. What does that mean?",
+      "a": "The driver sits on the RIGHT side, the steering wheel is on the right, and the gear lever is to the LEFT of the driver. We drive on the LEFT side of the road.",
+      "w": [
+        "The driver sits on the LEFT and drives on the RIGHT.",
+        "The gear lever is to the RIGHT of the driver.",
+        "We drive on the RIGHT side of the road."
+      ]
+    },
+    {
+      "q": "After you have overtaken a vehicle on the right, what must you do?",
+      "a": "Signal, check your mirrors and blind spot, then move back to the left lane as soon as it is safe. The right lane is for overtaking, not cruising.",
+      "w": [
+        "Stay in the right lane for a few kilometres.",
+        "Move back right if traffic is slow.",
+        "Immediately brake to avoid the vehicle."
+      ]
+    },
+    {
+      "q": "When may you use the RIGHT lane on a highway?",
+      "a": "Only for overtaking, turning right, or avoiding an obstruction \u2014 then move back left. The right lane is not a cruising lane.",
+      "w": [
+        "For steady cruising at highway speed.",
+        "Whenever the left lane feels crowded.",
+        "To pass slower vehicles and then too slow ones."
+      ]
+    },
+    {
+      "q": "What is the minimum speed on a freeway (unless a sign says otherwise)?",
+      "a": "60 km/h. Do not drive slower than this without a good reason.",
+      "w": [
+        "120 km/h unless a sign says otherwise.",
+        "40 km/h unless a sign says otherwise.",
+        "No minimum \u2014 drive at whatever speed."
+      ]
+    },
+    {
+      "q": "You break down on a freeway. What must you do?",
+      "a": "Pull as far left as possible and switch on your hazard lights. Place the warning triangle 45 m behind. All passengers exit and stand BEHIND the barrier, away from traffic. Call 10177 or roadside assistance \u2014 never repair the vehicle in the lane.",
+      "w": [
+        "Stay in your car and wait for help.",
+        "Push the vehicle to the right lane.",
+        "Ignore the hazard lights to save the battery."
+      ]
+    },
+    {
+      "q": "SA emergency number for a breakdown on the road?",
+      "a": "10177 is the emergency services number; roadside assistance is also an option. Do not attempt repairs in a live lane.",
+      "w": [
+        "112 is the only number to call.",
+        "10111 is the emergency number.",
+        "911 is the SA emergency number."
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "q": "Which foot controls the CLUTCH (manual car)?",
+      "opts": [
+        "Right foot",
+        "Left foot",
+        "Both feet",
+        "Hand"
+      ],
+      "ans": 1,
+      "ex": "Left foot only for clutch. Right foot does brake + accelerator."
+    },
+    {
+      "q": "Which pedal makes the car go faster?",
+      "opts": [
+        "Left pedal",
+        "Middle pedal",
+        "Right pedal",
+        "Handbrake"
+      ],
+      "ans": 2,
+      "ex": "Right foot, far right = accelerator (gas)."
+    },
+    {
+      "q": "Where should hands be on the wheel?",
+      "opts": [
+        "Bottom only",
+        "10 o'clock and 2 o'clock",
+        "One hand at top",
+        "One hand at bottom"
+      ],
+      "ans": 1,
+      "ex": "Hold at '10 and 2' \u2014 balanced and in control."
+    },
+    {
+      "q": "You indicate LEFT by...",
+      "opts": [
+        "Stalk UP",
+        "Stalk DOWN",
+        "Pressing the horn",
+        "Flashing high beam"
+      ],
+      "ans": 1,
+      "ex": "Down = left, Up = right. (Think: down-left.)"
+    },
+    {
+      "q": "What is the HANDBRAKE for?",
+      "opts": [
+        "To keep the car still when parked",
+        "To reduce speed in town",
+        "To select reverse gear",
+        "To increase engine revs"
+      ],
+      "ans": 0,
+      "ex": "Pull it when parked so the car cannot roll."
+    },
+    {
+      "q": "Before moving off you must FIRST...",
+      "opts": [
+        "Sound the hooter",
+        "Check mirrors + blind spot, indicate",
+        "Press the accelerator",
+        "Select a high gear"
+      ],
+      "ans": 1,
+      "ex": "Look in mirrors, check blind spot, signal \u2014 then go."
+    },
+    {
+      "q": "Which pedal is used to slow the car?",
+      "opts": [
+        "The clutch",
+        "The brake",
+        "The accelerator",
+        "The handbrake"
+      ],
+      "ans": 1,
+      "ex": "The foot brake slows the vehicle in normal driving."
+    },
+    {
+      "q": "What is the STEERING WHEEL for?",
+      "opts": [
+        "To stop the car",
+        "To turn or change direction",
+        "To warn other drivers",
+        "To control speed"
+      ],
+      "ans": 1,
+      "ex": "Steering wheel turns the vehicle and changes direction."
+    },
+    {
+      "q": "When may you adjust the mirrors?",
+      "opts": [
+        "While driving fast",
+        "Only when the vehicle is stationary",
+        "Any time, even while moving",
+        "Only in an emergency"
+      ],
+      "ans": 1,
+      "ex": "Mirrors may only be adjusted when the vehicle is stationary."
+    },
+    {
+      "q": "What is the HOOTER (horn) for?",
+      "opts": [
+        "To greet or say hello",
+        "To warn of danger only",
+        "To hurry a slow driver",
+        "To show frustration"
+      ],
+      "ans": 1,
+      "ex": "Hooter = warn other road users of danger, nothing else."
+    },
+    {
+      "q": "What does the SPEEDOMETER show?",
+      "opts": [
+        "Fuel level",
+        "Current speed",
+        "Engine temperature",
+        "Distance travelled"
+      ],
+      "ans": 1,
+      "ex": "Speedometer shows how fast you are travelling right now."
+    },
+    {
+      "q": "To keep a parked vehicle from rolling you must...",
+      "opts": [
+        "Leave it in neutral only",
+        "Apply parking brake + neutral/Park",
+        "Leave it in gear only",
+        "Press and hold the brake"
+      ],
+      "ans": 1,
+      "ex": "Parking brake + neutral (or Park) locks it in place."
+    }
+  ],
+  "mock_extra": [
+    {
+      "q": "At a STOP sign you must...",
+      "opts": [
+        "Slow down and go",
+        "Come to a complete stop, then go when safe",
+        "Only stop if traffic is coming",
+        "Stop only if a police car is there"
+      ],
+      "ans": 1,
+      "ex": "Stop completely. Go only when it is safe."
+    },
+    {
+      "q": "A robot (traffic light) shows RED. You must...",
+      "opts": [
+        "Drive straight through",
+        "Stop and wait for green",
+        "Slow down and keep going",
+        "Flash your lights and go"
+      ],
+      "ans": 1,
+      "ex": "Stop before the line and wait for green."
+    },
+    {
+      "q": "An emergency vehicle with a siren is behind you. You should...",
+      "opts": [
+        "Speed up to get away",
+        "Stop in the middle of the road",
+        "Pull over and let it pass",
+        "Move to the right lane"
+      ],
+      "ans": 2,
+      "ex": "Pull over safely and let it through."
+    },
+    {
+      "q": "At night you should use your headlights...",
+      "opts": [
+        "Never",
+        "Only in emergencies",
+        "From sunset to sunrise and when visibility is poor",
+        "Only when it rains"
+      ],
+      "ans": 2,
+      "ex": "Keep your lights on whenever it is dark or hard to see."
+    },
+    {
+      "q": "You may cross a SOLID white line to overtake...",
+      "opts": [
+        "Always",
+        "If the car ahead is slow",
+        "Never",
+        "Only on weekends"
+      ],
+      "ans": 2,
+      "ex": "Solid white line = stay in your lane."
+    },
+    {
+      "q": "Before turning or changing lanes you must always...",
+      "opts": [
+        "Only press the brake",
+        "Check mirrors, signal, and look for other traffic",
+        "Glance once over your shoulder",
+        "Slow down sharply"
+      ],
+      "ans": 1,
+      "ex": "Mirrors, signal, check blind spot \u2014 then move."
+    },
+    {
+      "q": "When refuelling, the engine must be...",
+      "opts": [
+        "Running",
+        "Switched off",
+        "Idling on eco",
+        "Any of the above"
+      ],
+      "ans": 1,
+      "ex": "Switch the engine OFF while transferring fuel."
+    },
+    {
+      "q": "A cell phone while driving \u2014 what is the rule?",
+      "opts": [
+        "Hold it if one hand on wheel",
+        "Hands-free only",
+        "Text if slow",
+        "Any phone is fine"
+      ],
+      "ans": 1,
+      "ex": "Holding a phone is illegal. Hands-free only."
+    },
+    {
+      "q": "Pedestrian signal: red man showing. You must...",
+      "opts": [
+        "Cross quickly if it is clear",
+        "Wait, do not start crossing",
+        "Walk slowly if safe",
+        "Step out and wave traffic to stop"
+      ],
+      "ans": 1,
+      "ex": "Red man = pedestrians must not cross."
+    },
+    {
+      "q": "Minimum speed sign (blue circle, number). You must...",
+      "opts": [
+        "Never exceed it",
+        "Drive at least that fast",
+        "Drive slower than it",
+        "Stop there"
+      ],
+      "ans": 1,
+      "ex": "Blue circle with number = minimum speed, a floor."
+    },
+    {
+      "q": "When two vehicles reach a 4-way stop at the same time, who goes first?",
+      "opts": [
+        "The vehicle on your LEFT",
+        "The vehicle on your RIGHT",
+        "The bigger vehicle",
+        "The vehicle going fastest"
+      ],
+      "ans": 1,
+      "ex": "At a simultaneous 4-way stop, the vehicle on your right goes first."
+    },
+    {
+      "q": "What is the legal blood-alcohol limit for an ORDINARY (private) driver?",
+      "opts": [
+        "0.02 g per 100 ml blood",
+        "0.05 g per 100 ml blood",
+        "0.08 g per 100 ml blood",
+        "Zero \u2014 no alcohol at all"
+      ],
+      "ans": 1,
+      "ex": "Ordinary drivers: 0.05 g/100 ml. Professional/learner: 0.02 g/100 ml."
+    },
+    {
+      "q": "No-overtaking signs apart \u2014 when else may you never overtake?",
+      "opts": [
+        "On a straight, open stretch",
+        "At or near a pedestrian crossing",
+        "In the left lane",
+        "When it is raining lightly"
+      ],
+      "ans": 1,
+      "ex": "Never overtake at/near a pedestrian crossing, intersection, tunnel or level crossing."
+    },
+    {
+      "q": "When approaching a LEFT-hand curve, you should...",
+      "opts": [
+        "Steer to the right beforehand",
+        "Slow down before the curve and stay in your lane",
+        "Keep the same speed and drift wide",
+        "Brake hard inside the curve"
+      ],
+      "ans": 1,
+      "ex": "Slow down before a curve and hold your lane; do not brake sharply while turning."
+    },
+    {
+      "q": "What does a BROKEN (dashed) white centre line allow?",
+      "opts": [
+        "Crossing to overtake only when safe",
+        "Crossing at any time",
+        "Parking on the line",
+        "Driving on the wrong side freely"
+      ],
+      "ans": 0,
+      "ex": "A broken white line may be crossed to overtake when the road is clear and safe."
+    },
+    {
+      "q": "You are overtaking a bicycle in a 60 km/h zone. What is the minimum safe passing gap?",
+      "opts": [
+        "At least 0.5 m",
+        "At least 1 m",
+        "At least 3 m",
+        "You may crowd it if it is slow"
+      ],
+      "ans": 1,
+      "ex": "Leave at least 1 m between your car and a cyclist when passing."
+    },
+    {
+      "q": "A vehicle is indicating to turn RIGHT at an intersection. You are behind it. You may...",
+      "opts": [
+        "Overtake it on the left",
+        "Overtake it on the right",
+        "Honk and follow closely",
+        "Stop on the crossing"
+      ],
+      "ans": 0,
+      "ex": "You may pass a right-turning vehicle on its left only when safe."
+    },
+    {
+      "q": "What is the minimum age to get a Code 2 (light-vehicle) learner's licence?",
+      "opts": [
+        "16",
+        "17",
+        "18",
+        "21"
+      ],
+      "ans": 1,
+      "ex": "You must be 17 or older to apply for a Code 2 light-vehicle learner's licence."
+    },
+    {
+      "q": "The maximum mass of an unbraked trailer you may tow on a Code B (GVM 3 500 kg)?",
+      "opts": [
+        "No trailer allowed",
+        "750 kg",
+        "3 500 kg",
+        "5 000 kg"
+      ],
+      "ans": 1,
+      "ex": "Code B normally allows an unbraked trailer up to 750 kg."
+    },
+    {
+      "q": "When is double-parking (stopping alongside a parked vehicle) allowed?",
+      "opts": [
+        "When you are in a hurry",
+        "Never",
+        "When the driver stays inside",
+        "Only at night"
+      ],
+      "ans": 1,
+      "ex": "Double-parking is never allowed on a public road."
+    },
+    {
+      "q": "What should you do at a STOP sign if the road is clear?",
+      "opts": [
+        "Slow down and roll through",
+        "Come to a complete stop, then go when safe",
+        "Blow the hooter and go",
+        "Proceed at 10 km/h without stopping"
+      ],
+      "ans": 1,
+      "ex": "A STOP sign requires a complete stop behind the line, then proceed when safe."
+    },
+    {
+      "q": "When may you use your high-beam (bright) headlights?",
+      "opts": [
+        "In built-up areas when clear",
+        "On unlit roads where you will not dazzle oncoming traffic",
+        "Always at night",
+        "In fog or heavy rain"
+      ],
+      "ans": 1,
+      "ex": "Use brights only on unlit roads where they will not dazzle oncoming drivers."
+    },
+    {
+      "q": "What does a flashing RED traffic light mean?",
+      "opts": [
+        "Go, traffic is clear",
+        "Treat it as a STOP sign \u2014 stop then proceed when safe",
+        "It means green is coming",
+        "Blow the hooter and go"
+      ],
+      "ans": 1,
+      "ex": "A flashing red light is a stop sign: stop, then proceed when safe."
+    },
+    {
+      "q": "What does a flashing YELLOW/AMBER traffic light mean?",
+      "opts": [
+        "Stop completely",
+        "Proceed with caution \u2014 yield to traffic",
+        "Go fast before it changes",
+        "Treat it as a red light"
+      ],
+      "ans": 1,
+      "ex": "A flashing amber light means proceed with caution and yield."
+    },
+    {
+      "q": "A school-zone sign shows 40 km/h. This limit applies...",
+      "opts": [
+        "At all times",
+        "When children are present or during school hours",
+        "Only at night",
+        "Only on weekends"
+      ],
+      "ans": 1,
+      "ex": "The 40 km/h school-zone limit applies when children are present/school hours."
+    },
+    {
+      "q": "Where must you position the wheels when parking uphill with a kerb?",
+      "opts": [
+        "Front wheels turned away from the kerb",
+        "Front wheels turned toward the kerb",
+        "Wheels straight",
+        "On the wrong side of the road"
+      ],
+      "ans": 0,
+      "ex": "Uphill: turn front wheels away from the kerb. Downhill: toward the kerb."
+    },
+    {
+      "q": "An ambulance with no lights or siren approaching. What do you do?",
+      "opts": [
+        "Always pull over immediately",
+        "Continue normally \u2014 pull over only when lights/siren are active",
+        "Move into the oncoming lane to pass",
+        "Stop in the middle of the road"
+      ],
+      "ans": 1,
+      "ex": "You only pull over for an emergency vehicle with lights and siren active."
+    },
+    {
+      "q": "An oncoming car's high beams dazzle you at night. What should you do?",
+      "opts": [
+        "Stare at its lights",
+        "Look to the left edge of the road and slow down",
+        "Flash your brights repeatedly",
+        "Speed up to get past quickly"
+      ],
+      "ans": 1,
+      "ex": "Look to the left edge of your lane and slow down \u2014 never stare at oncoming brights."
+    },
+    {
+      "q": "Pedestrians waiting at a pedestrian crossing. The law says...",
+      "opts": [
+        "Vehicles may continue if there is no robot",
+        "Vehicles may continue if pedestrians are on the far side",
+        "Vehicles must stop to let them cross",
+        "Only the first lane must stop"
+      ],
+      "ans": 2,
+      "ex": "Marked crossings give pedestrians priority; vehicles must stop for them."
+    },
+    {
+      "q": "What is the minimum clear space to keep from a bus loading/unloading passengers?",
+      "opts": [
+        "0.5 m",
+        "1 m",
+        "5 m",
+        "You may stop right behind it"
+      ],
+      "ans": 1,
+      "ex": "Give buses loading/unloading at least 1 m clear space."
+    }
+  ],
+  "markings": [
+    {
+      "t": "Solid white line down the middle",
+      "d": "Stay in your lane. Do NOT cross to overtake.",
+      "tip": "Solid = stay put, like a wall."
+    },
+    {
+      "t": "Broken (dashed) white line",
+      "d": "You MAY cross to pass, but only when safe.",
+      "tip": "Dashed = go ahead if clear."
+    },
+    {
+      "t": "Yellow line on the roadside",
+      "d": "No parking allowed there.",
+      "tip": "Yellow = no park."
+    },
+    {
+      "t": "Red line on the roadside",
+      "d": "No stopping at all \u2014 not even to drop someone off.",
+      "tip": "Red = do not stop."
+    },
+    {
+      "t": "Zebra stripes (black & white blocks)",
+      "d": "Pedestrian crossing \u2014 stop for people walking.",
+      "tip": "Zebra = people first."
+    },
+    {
+      "t": "Painted island (raised/flat)",
+      "d": "You may NOT drive on or over it. Go around it.",
+      "tip": "Island = no driving through."
+    },
+    {
+      "t": "Box junction (yellow grid)",
+      "d": "Do NOT stop in it unless your exit is clear.",
+      "tip": "Grid = keep it moving."
+    },
+    {
+      "t": "Bus/taxi lane marking",
+      "d": "Only that class of vehicle may drive or stop there.",
+      "tip": "Marked lane = reserved."
+    },
+    {
+      "t": "No stopping red line (solid)",
+      "d": "No stopping at any time \u2014 emergency only.",
+      "tip": "Solid red = never stop."
+    },
+    {
+      "t": "No parking yellow line (broken)",
+      "d": "No parking during the times shown on the plate.",
+      "tip": "Broken yellow = time-limited."
+    }
+  ],
+  "row": [
+    {
+      "scene": "4-way stop \u2014 you arrive at the same time as the car on your RIGHT.",
+      "opts": [
+        "You go first \u2014 you were there first",
+        "The car on your RIGHT goes first",
+        "Whoever hoots loudest",
+        "The bigger car"
+      ],
+      "ans": 1,
+      "ex": "At a 4-way stop, if two cars arrive together, the car on the right goes first."
+    },
+    {
+      "scene": "Roundabout \u2014 you are entering, a car is already on the circle to your right.",
+      "opts": [
+        "Enter fast \u2014 you have right of way",
+        "Yield and let the car on the circle go first",
+        "Stop and reverse",
+        "Edge in slowly"
+      ],
+      "ans": 1,
+      "ex": "Yield to traffic already ON the roundabout (approaching from your right)."
+    },
+    {
+      "scene": "Uncontrolled crossing (no signs, no robots) \u2014 a car comes from your RIGHT.",
+      "opts": [
+        "Go first \u2014 you were moving",
+        "Give way to the car on your right",
+        "Swipe left first",
+        "Speed up"
+      ],
+      "ans": 1,
+      "ex": "No signs? Yield to the vehicle on your RIGHT. 'Right goes first.'"
+    },
+    {
+      "scene": "You are turning RIGHT across oncoming traffic. A car is coming straight from the opposite direction.",
+      "opts": [
+        "Turn now \u2014 you indicated early",
+        "Wait \u2014 the oncoming car going straight has priority",
+        "Edge out slowly",
+        "Honk and go"
+      ],
+      "ans": 1,
+      "ex": "Turning right = give way to oncoming traffic going straight. They have priority."
+    },
+    {
+      "scene": "An ambulance with flashing lights and a siren is behind you.",
+      "opts": [
+        "Speed up to get away",
+        "Pull over to the LEFT and stop until it passes",
+        "Stop in the middle of the road",
+        "Ignore it"
+      ],
+      "ans": 1,
+      "ex": "Always give emergency vehicles right of way \u2014 pull over left and stop."
+    },
+    {
+      "scene": "Yield sign ahead, but the road looks completely clear.",
+      "opts": [
+        "Roll through without looking",
+        "Slow down, check, and proceed if safe \u2014 no need for a full stop",
+        "Stop completely for 3 seconds anyway",
+        "Pull off the road"
+      ],
+      "ans": 1,
+      "ex": "At a YIELD sign, you slow and give way if needed. If it's clear, you may proceed \u2014 you don't have to stop completely."
+    }
+  ],
+  "section_meta": {
+    "rules": {
+      "name": "Rules of the Road",
+      "total": 50,
+      "need": 22,
+      "pass_pct": 79
+    },
+    "signs": {
+      "name": "Road Signs & Markings",
+      "total": 28,
+      "need": 23,
+      "pass_pct": 82
+    },
+    "controls": {
+      "name": "Vehicle Controls",
+      "total": 11,
+      "need": 6,
+      "pass_pct": 75
+    },
+    "markings": {
+      "name": "Road Markings",
+      "total": 11,
+      "need": 5,
+      "pass_pct": 80
+    }
+  },
+  "sources": {
+    "signs": "SADC official K53 syllabus + verified SVG assets",
+    "rules": "K53-Test.co.za + Road Traffic Act",
+    "controls": "Official vehicle control guide",
+    "mock_extra": "Competitor apps + official mock tests",
+    "markings": "SADC road marking standards"
+  }
+}
