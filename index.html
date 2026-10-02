@@ -1527,7 +1527,10 @@ function openMock(){
 function startMock(onlySec){
   const sections = onlySec ? [onlySec] : SECTION_ORDER.slice();
   // Store results on K.state so finishMock/share handler can access
-  K.state.mockResults = K.state.mockResults || {};
+  K.state.mockResults = onlySec ? (K.state.mockResults || {}) : {};
+  K.state.secPass = onlySec ? (K.state.secPass || {}) : {};
+  if (onlySec) { delete K.state.mockResults[onlySec]; delete K.state.secPass[onlySec]; }
+  const timedMock = mockSeconds > 0;
   let si=0;
   function startSection(sec){
     const meta=SECTION_META[sec];
@@ -1577,6 +1580,7 @@ function startMock(onlySec){
       K.save();
       if(mockTimer){clearInterval(mockTimer);mockTimer=null;}
       const nextSec = onlySec ? null : SECTION_ORDER[SECTION_ORDER.indexOf(sec)+1];
+      if(timedMock && mockSeconds<=0){ finishMock(onlySec); return; }
       if(nextSec){
         // Section break screen
         app.innerHTML=backbar('Section Complete')+`<div class="block center">
@@ -1735,7 +1739,6 @@ function startSim(){
   function render(){
     if(i>=total){if(mockTimer){clearInterval(mockTimer);mockTimer=null;}finishSim();return;}
     const q=mockData[i];
-    secCount[q.sec.toLowerCase()]++;
     const card=ce('div');card.className='block';
     let head=q.svg?`<div style="display:grid;place-items:center;margin-bottom:12px">${q.svg}</div>`:'';
     card.innerHTML=`<p class="kicker">Q${i+1} of ${total}</p>
@@ -1751,6 +1754,7 @@ function startSim(){
       b.addEventListener('click',()=>{
         const ch=+b.getAttribute('data-i');
         card.querySelectorAll('.opt').forEach(x=>x.classList.add('disabled'));
+        secCount[q.sec.toLowerCase()]++;
         if(ch===q.ans){correct++;secCorrect[q.sec.toLowerCase()]++;}
         else{addReview(q.q,q.opts[q.ans]);}
         fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';
@@ -1761,14 +1765,14 @@ function startSim(){
     bindGo();
   }
   function finishSim(){
-    const rows=SECTION_ORDER.map(s=>{const m=SECTION_META[s];const c=secCorrect[s],t=secCount[s];const need=m.need;const passed=t>0&&c>=need;return `<tr><td>${m.name}</td><td>${t?c+'/'+t:'0/0'}</td><td>${passed?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}</td><td>${need}</td></tr>`;}).join('');
-    const allPass=SECTION_ORDER.every(s=>secCount[s]>0&&secCorrect[s]>=SECTION_META[s].need);
+    const rows=SECTION_ORDER.map(s=>{const m=SECTION_META[s];const c=secCorrect[s],t=secCount[s];const need=m.need;const passed=t===m.n&&c>=need;return `<tr><td>${m.name}</td><td>${c+'/'+m.n} (${t} answered)</td><td>${passed?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}</td><td>${need}</td></tr>`;}).join('');
+    const allPass=SECTION_ORDER.every(s=>secCount[s]===SECTION_META[s].n&&secCorrect[s]>=SECTION_META[s].need);
     K.state.shareData={secCorrect,secCount,correct,total,passed:allPass};
     K.state.mockPass=allPass;
     K.state.secPass=K.state.secPass||{};
     K.state.mastery=K.state.mastery||{};
-    const simMap={Rules:2,Signs:1,Controls:3};
-    SECTION_ORDER.forEach(s=>{K.state.secPass[s]=secCount[s]>0&&secCorrect[s]>=SECTION_META[s].need; if(secCount[s])K.state.mastery[simMap[SECTION_META[s].name]]=Math.round(secCorrect[s]/secCount[s]*100);});
+    const simMap={rules:2,signs:1,controls:3};
+    SECTION_ORDER.forEach(s=>{K.state.secPass[s]=secCount[s]===SECTION_META[s].n&&secCorrect[s]>=SECTION_META[s].need; if(secCount[s]===SECTION_META[s].n)K.state.mastery[simMap[s]]=Math.round(secCorrect[s]/secCount[s]*100);});
     K.state.acc={correct,total};
     K.save();
     app.innerHTML=backbar('Sim Result')+`<div class="block center">
