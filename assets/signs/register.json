@@ -1,24 +1,27 @@
 {
   "reference": "https://www.sartsma.co.za/_files/ugd/4f7773_f67422e7934a4141a73351ca9452b1f0.pdf",
-  "reference_note": "Department of Transport Road Traffic Signs chart, sheet 1 of 5 (2000); confirm against current SADC RTSM Volume 4 before release.",
+  "reference_note": "Department of Transport Road Traffic Signs chart, sheet 1 of 5 (2000). Redrawn signs still require independent visual comparison with current SADC RTSM Volume 4 before approval.",
   "signs": [
     {
       "id": "stop",
       "asset": "stop.svg",
       "code": "R1",
-      "status": "redrawn-needs-final-review"
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "giveway",
       "asset": "giveway.svg",
       "code": "R2",
-      "status": "redrawn-needs-final-review"
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "noentry",
       "asset": "noentry.svg",
       "code": "R3",
-      "status": "redrawn-needs-final-review"
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "robot",
@@ -36,13 +39,15 @@
       "id": "keepleft",
       "asset": "keepleft.svg",
       "code": "R103",
-      "status": "redrawn-needs-final-review"
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "minspeed",
       "asset": "minspeed.svg",
       "code": "R101 family",
-      "status": "redrawn-needs-final-review"
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "headlightson",
@@ -54,7 +59,8 @@
       "id": "speed60",
       "asset": "speed60.svg",
       "code": "R201",
-      "status": "redrawn-needs-final-review"
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "noovertake",
