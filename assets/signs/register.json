@@ -26,16 +26,16 @@
     {
       "id": "robot",
       "asset": "robot.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Geometric illustration; shape, colour and code need review"
+      "code": "W301",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "turnleft",
       "asset": "turnleft.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "R108",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "keepleft",
@@ -54,9 +54,9 @@
     {
       "id": "headlightson",
       "asset": "headlightson.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Geometric illustration; shape, colour and code need review"
+      "code": "R133",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "speed60",
