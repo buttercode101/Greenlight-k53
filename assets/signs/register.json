@@ -173,9 +173,9 @@
     {
       "id": "speedbump",
       "asset": "speedbump.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W332",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "railway",
@@ -187,9 +187,9 @@
     {
       "id": "narrow",
       "asset": "narrow.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W328",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "rightofway",
@@ -201,16 +201,16 @@
     {
       "id": "crossroad",
       "asset": "crossroad.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W101",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "tjunction",
       "asset": "tjunction.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W104",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "yjunction",
@@ -222,9 +222,9 @@
     {
       "id": "roundabout",
       "asset": "roundabout.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W201",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "school",
