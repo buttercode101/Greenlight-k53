@@ -68,44 +68,44 @@
     {
       "id": "noovertake",
       "asset": "noovertake.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "R214",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "nouturn",
       "asset": "nouturn.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Geometric illustration; shape, colour and code need review"
+      "code": "R213",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "noleft",
       "asset": "noleft.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Geometric illustration; shape, colour and code need review"
+      "code": "R211",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "noright",
       "asset": "noright.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Geometric illustration; shape, colour and code need review"
+      "code": "R212",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "nopark",
       "asset": "nopark.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Geometric illustration; shape, colour and code need review"
+      "code": "R216",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "nostop",
       "asset": "nostop.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "R217",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "buslane",
