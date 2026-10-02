@@ -131,23 +131,23 @@
     {
       "id": "children",
       "asset": "children.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W308",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "curve",
       "asset": "curve.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W202",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "ped",
       "asset": "ped.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Emoji used as sign artwork"
+      "code": "W307",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "animal",
@@ -180,9 +180,9 @@
     {
       "id": "railway",
       "asset": "railway.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W317",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "narrow",
@@ -215,9 +215,9 @@
     {
       "id": "yjunction",
       "asset": "yjunction.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W115",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "roundabout",
@@ -236,16 +236,16 @@
     {
       "id": "pedcrossing",
       "asset": "pedcrossing.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "W306",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "cyclist",
       "asset": "cyclist.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Emoji used as sign artwork"
+      "code": "W309",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "wild",
