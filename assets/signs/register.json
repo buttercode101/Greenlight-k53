@@ -1,0 +1,258 @@
+{
+  "reference": "https://www.sartsma.co.za/_files/ugd/4f7773_f67422e7934a4141a73351ca9452b1f0.pdf",
+  "reference_note": "Department of Transport Road Traffic Signs chart, sheet 1 of 5 (2000); confirm against current SADC RTSM Volume 4 before release.",
+  "signs": [
+    {
+      "id": "stop",
+      "asset": "stop.svg",
+      "code": "R1",
+      "status": "redrawn-needs-final-review"
+    },
+    {
+      "id": "giveway",
+      "asset": "giveway.svg",
+      "code": "R2",
+      "status": "redrawn-needs-final-review"
+    },
+    {
+      "id": "noentry",
+      "asset": "noentry.svg",
+      "code": "R3",
+      "status": "redrawn-needs-final-review"
+    },
+    {
+      "id": "robot",
+      "asset": "robot.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "turnleft",
+      "asset": "turnleft.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "keepleft",
+      "asset": "keepleft.svg",
+      "code": "R103",
+      "status": "redrawn-needs-final-review"
+    },
+    {
+      "id": "minspeed",
+      "asset": "minspeed.svg",
+      "code": "R101 family",
+      "status": "redrawn-needs-final-review"
+    },
+    {
+      "id": "headlightson",
+      "asset": "headlightson.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "speed60",
+      "asset": "speed60.svg",
+      "code": "R201",
+      "status": "redrawn-needs-final-review"
+    },
+    {
+      "id": "noovertake",
+      "asset": "noovertake.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "nouturn",
+      "asset": "nouturn.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "noleft",
+      "asset": "noleft.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "noright",
+      "asset": "noright.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "nopark",
+      "asset": "nopark.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "nostop",
+      "asset": "nostop.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "buslane",
+      "asset": "buslane.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "taxilane",
+      "asset": "taxilane.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "disablepark",
+      "asset": "disablepark.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "children",
+      "asset": "children.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "curve",
+      "asset": "curve.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "ped",
+      "asset": "ped.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "animal",
+      "asset": "animal.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "hill",
+      "asset": "hill.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "slippery",
+      "asset": "slippery.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "speedbump",
+      "asset": "speedbump.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "railway",
+      "asset": "railway.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "narrow",
+      "asset": "narrow.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "rightofway",
+      "asset": "rightofway.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "crossroad",
+      "asset": "crossroad.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "tjunction",
+      "asset": "tjunction.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "yjunction",
+      "asset": "yjunction.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "roundabout",
+      "asset": "roundabout.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "school",
+      "asset": "school.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "pedcrossing",
+      "asset": "pedcrossing.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "cyclist",
+      "asset": "cyclist.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "wild",
+      "asset": "wild.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "hospital",
+      "asset": "hospital.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "parking",
+      "asset": "parking.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "toll",
+      "asset": "toll.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "dir",
+      "asset": "dir.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "redman",
+      "asset": "redman.svg",
+      "code": null,
+      "status": "unverified"
+    },
+    {
+      "id": "greenman",
+      "asset": "greenman.svg",
+      "code": null,
+      "status": "unverified"
+    }
+  ]
+}
