@@ -1,15 +1,11 @@
-SIGN VERIFICATION STATUS
+# Sign verification — release blocker
 
-REAL SADC SVGs (17): stop, giveway, noentry, noovertake, noleft, noright, 
-  nouturn, nopark, nostop, buslane, taxilane, disablepark, keepleft, 
-  minspeed, headlightson, speed60, children
-  NOTE: Code mapping may not be perfect (R101=Keep Left not Stop)
+The artwork in this directory has **not** completed an item-by-item comparison with the SADC Road Traffic Signs Manual. Do not describe the complete set as verified or exam accurate.
 
-PLACEHOLDERS (25): turnleft, curve, ped, animal, hill, slippery, 
-  speedbump, railway, narrow, rightofway, crossroad, tjunction, yjunction,
-  roundabout, school, pedcrossing, cyclist, wild, hospital, parking, 
-  toll, dir, redman, greenman, robot
+The previous note claimed 17 real signs and 25 placeholders. That claim was not backed by a per-file manual reference and is superseded by this audit. Concrete placeholders remain: `animal.svg` is an emoji in a generic yellow circle; `dir.svg` is a generic arrow with “DIR”; `toll.svg` is a stylised toll booth. These must not be presented as exact road traffic signs.
 
-REQUIRED: Download correct files via local script or verify manually.
-Full set available at: ~/k53_best_signs/sadc_signs_full/ (295 PNGs)
-Correct SADC codes (from Wikipedia): R1=Stop, R2=Give Way, R3=No Entry, R101=Keep Left (BLUE)
+Authoritative reference: [SARTSMA, South African Road Traffic Signs Manuals](https://www.sartsma.co.za/saroadsignsmanuals). Volume 1 describes regulatory, warning, guidance, information, traffic signal and marking meanings; Volume 4 provides scalable drawings. Match each file to the specific manual sign code and figure. Record the code, source page, date, reviewer and visual comparison before clearing it.
+
+For each of the 42 SVGs, verify shape, border, colour, pictogram, orientation, sign name and app meaning. Then review the associated quiz distractors and rules. Remove or replace entries that have no direct manual match. Run the 28-question signs section with no duplicates or missing images, including offline after a clean install.
+
+No release approval is implied by the automated syntax and asset checks.
