@@ -668,7 +668,7 @@ const STOPPING=[
 const I18N = {
   en: {
     appName: "GreenLight K53",
-    tagline: "Pass your learner's test by Monday.",
+    tagline: "Prepare for your learner's test with focused practice.",
     readyVerdicts: {ready:"Ready for Monday", almost:"Almost there", start:"Just starting", getting:"Getting there", close:"Pass your weak section"},
     share: {title:"My K53 Mock Result", passed:"I passed all sections!", failed:"I need to work on"},
   },
@@ -965,7 +965,7 @@ function renderHome(){
   const r=readiness(), next=nextStep();
   const statuses=[[1,'Signs'],[2,'Rules'],[3,'Controls']].map(([n,label])=>`<div class="status-item"><b>${ringFor(n)}%</b><span>${label}<br>${topicLabel(n)}</span></div>`).join('');
   app.innerHTML=topbar()+`
-  <div class="hero"><div class="hero-copy"><p class="kicker">South African learner’s licence practice</p><h1>${T('tagline')}</h1><p>Clear lessons, evidence-based practice, and a realistic route to your K53 test.</p><p class="hero-note">Free study aid · no account required · works offline after install</p></div><div class="hero-art" role="img" aria-label="A GreenLight K53 road sign beside a South African road"></div></div>
+  <div class="hero"><div class="hero-copy"><p class="kicker">South African learner’s licence practice</p><h1>${T('tagline')}</h1><p>Clear lessons, evidence-based practice, and a clear route through K53 topics.</p><p class="hero-note">Free study aid · no account required · works offline after install</p></div><div class="hero-art" role="img" aria-label="A GreenLight K53 road sign beside a South African road"></div></div>
   <nav class="home-nav no-print" aria-label="Study areas"><button data-go="home">Plan</button><button data-go="session1">Learn</button><button data-go="practice">Practise</button><button data-go="mock">Mock</button><button data-go="checklist">Test day</button></nav>
   <div class="dashboard">
     <section class="next-step" aria-labelledby="next-title"><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" data-go="${next.go}">${next.cta} →</button><p class="trust-note">Readiness is based on completed checks and mock-section results—not simply on pages viewed.</p></section>
@@ -1501,7 +1501,7 @@ function openMock(){
     <button class="btn btn-ghost" id="mockNoTime" type="button">Start without a timer</button>
     <button class="btn btn-soft" id="mockSec" type="button">Practice one section only</button>
     <button class="btn btn-ghost" data-go="home">Home</button>
-    <p class="footnote" style="margin-top:var(--s4)">This is a <b>study aid</b> reproducing the official 64-question computerised (CLLT) structure. The real test draws at random from a national bank of 1,200+ questions, so treat this as the format + core facts, not the full database. The government pass rate for the computerised test has dropped to ~40% nationally — practise until each section feels easy.</p>
+    <p class="footnote" style="margin-top:var(--s4)">This is an independent <b>study aid</b> using a 64-question practice structure. Questions here are practice material, not the official question bank. Confirm current test requirements with your DLTC.</p>
   </div>`;
   const go=(time)=>{if(mockTimer){clearInterval(mockTimer);mockTimer=null;}mockSeconds=time;startMock();};
   $('#mockGo').addEventListener('click',()=>go(60*60));
