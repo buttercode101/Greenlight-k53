@@ -27,13 +27,15 @@
       "id": "robot",
       "asset": "robot.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Geometric illustration; shape, colour and code need review"
     },
     {
       "id": "turnleft",
       "asset": "turnleft.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "keepleft",
@@ -53,7 +55,8 @@
       "id": "headlightson",
       "asset": "headlightson.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Geometric illustration; shape, colour and code need review"
     },
     {
       "id": "speed60",
@@ -66,199 +69,232 @@
       "id": "noovertake",
       "asset": "noovertake.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "nouturn",
       "asset": "nouturn.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Geometric illustration; shape, colour and code need review"
     },
     {
       "id": "noleft",
       "asset": "noleft.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Geometric illustration; shape, colour and code need review"
     },
     {
       "id": "noright",
       "asset": "noright.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Geometric illustration; shape, colour and code need review"
     },
     {
       "id": "nopark",
       "asset": "nopark.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Geometric illustration; shape, colour and code need review"
     },
     {
       "id": "nostop",
       "asset": "nostop.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "buslane",
       "asset": "buslane.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "External vector artwork; provenance and sign variant need review"
     },
     {
       "id": "taxilane",
       "asset": "taxilane.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "External vector artwork; provenance and sign variant need review"
     },
     {
       "id": "disablepark",
       "asset": "disablepark.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "External vector artwork; provenance and sign variant need review"
     },
     {
       "id": "children",
       "asset": "children.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "curve",
       "asset": "curve.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "ped",
       "asset": "ped.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Emoji used as sign artwork"
     },
     {
       "id": "animal",
       "asset": "animal.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Emoji used as sign artwork"
     },
     {
       "id": "hill",
       "asset": "hill.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "slippery",
       "asset": "slippery.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "speedbump",
       "asset": "speedbump.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "railway",
       "asset": "railway.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "narrow",
       "asset": "narrow.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "rightofway",
       "asset": "rightofway.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "crossroad",
       "asset": "crossroad.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "tjunction",
       "asset": "tjunction.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "yjunction",
       "asset": "yjunction.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "roundabout",
       "asset": "roundabout.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "school",
       "asset": "school.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "pedcrossing",
       "asset": "pedcrossing.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "cyclist",
       "asset": "cyclist.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Emoji used as sign artwork"
     },
     {
       "id": "wild",
       "asset": "wild.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Emoji used as sign artwork"
     },
     {
       "id": "hospital",
       "asset": "hospital.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "parking",
       "asset": "parking.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Geometric illustration; shape, colour and code need review"
     },
     {
       "id": "toll",
       "asset": "toll.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "dir",
       "asset": "dir.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "redman",
       "asset": "redman.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "greenman",
       "asset": "greenman.svg",
       "code": null,
-      "status": "unverified"
+      "status": "unverified",
+      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     }
   ]
 }
