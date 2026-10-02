@@ -24,5 +24,7 @@ for (const path of ['study-guide.html', 'robots.txt', 'sitemap.xml', 'manifest.w
 assert(html.includes('secCount[q.sec.toLowerCase()]++'));
 assert(html.includes('secCorrect[q.sec.toLowerCase()]++'));
 assert(html.includes('secCorrect[s]/secCount[s]'));
+assert(html.includes('if (b.disabled) return;'), 'Simulator must reject repeat answers');
+assert(html.includes('x.disabled=true'), 'Simulator choices must disable after answer');
 assert(!html.includes('secCorrect[SECTION_META[s].name]'));
 console.log('Syntax, routes, score keys and offline asset references passed.');
