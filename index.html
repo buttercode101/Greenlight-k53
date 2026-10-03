@@ -1555,8 +1555,9 @@ function startMock(onlySec){
       const fb=card.querySelector('.feedback'),next=card.querySelector('.next');
       card.querySelectorAll('.opt').forEach(b=>{
         b.addEventListener('click',()=>{
+          if(b.disabled)return;
           const ch=+b.getAttribute('data-i');
-          card.querySelectorAll('.opt').forEach(x=>x.classList.add('disabled'));
+          card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
           if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
           else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q.q,q.opts[q.ans]);}
           next.classList.remove('hidden');
@@ -1664,7 +1665,7 @@ function finishMock(onlySec){
   K.save();
   app.innerHTML=backbar('Mock Result')+`<div class="block center">
     <div class="badge-xl">${overallPass?'🏆':'📚'}</div>
-    <div class="result-title" role="status">${overallPass?(onlySec?'SECTION PASSED!':'YOU\'RE READY!'):'Almost there'}</div>
+    <div class="result-title" role="status">${overallPass?(onlySec?'Section practice passed':'Practice test passed'):'Review your sections'}</div>
     <p class="result-sub">${onlySec?'Section result':'You must pass ALL three sections'}</p>
     <table class="span-table" style="margin:var(--s4) 0"><thead><tr><th>Section</th><th>Result</th><th>Pass mark</th></tr></thead><tbody>${rows}</tbody></table>
     <p class="footnote" style="margin-bottom:var(--s4)">Real K53 learner's test: Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}. You must reach each on its own.</p>
@@ -1773,7 +1774,7 @@ function startSim(){
     K.save();
     app.innerHTML=backbar('Sim Result')+`<div class="block center">
       <div class="badge-xl">${allPass?'🏆':'📚'}</div>
-      <div class="result-title" role="status">${allPass?'YOU\'RE READY!':'Check your sections'}</div>
+      <div class="result-title" role="status">${allPass?'Practice test passed':'Check your sections'}</div>
       <p class="result-sub">${correct}/${total} overall · you must pass each section</p>
       <table class="span-table" style="margin:var(--s4) 0"><thead><tr><th>Section</th><th>Your score</th><th>Result</th><th>Pass</th></tr></thead><tbody>${rows}</tbody></table>
       <p class="footnote" style="margin-bottom:var(--s4)">Real test: pass EACH section — Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}.</p>
