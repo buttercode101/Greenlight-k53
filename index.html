@@ -1839,13 +1839,12 @@ const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 const isStandalone=(window.matchMedia&&(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true));
 window.addEventListener('beforeinstallprompt',(e)=>{
   e.preventDefault(); deferredPrompt=e;
-  if(!installDismissed && K.state.installNudged) maybeShowInstall();
 });
 window.addEventListener('appinstalled',()=>{ deferredPrompt=null; installDismissed=true; removeInstallBanner(); });
 function installPromptHTML(){
   const canPrompt=!isIOS && !!deferredPrompt;
   const label=isIOS?'Get GreenLight on your Home Screen':(canPrompt?'Install GreenLight K53':'Add GreenLight to your phone');
-  const sub=isIOS?'Works offline · no accounts, no ads.':'Works offline · free forever · one tap.';
+  const sub=isIOS?'Works offline after adding to Home Screen.':'Free study aid · works offline after installation.';
   const icon = '<span class="pwa-icon" aria-hidden="true"><img src="icon.svg" alt="" width="24" height="24"></span>';
   const close = '<button class="pwa-close" id="pwaClose" type="button" aria-label="Dismiss install prompt">✕</button>';
   const btn = canPrompt
@@ -1894,10 +1893,7 @@ function maybeShowInstall(){
   });
   if(d)d.addEventListener('click',()=>{ banner.classList.remove('pwa-in'); installDismissed=true; deferredPrompt=null; setTimeout(removeInstallBanner,180); });
 }
-// Do not interrupt a first study decision. Offer installation after a useful action or from the top bar.
-(function(){
-  document.addEventListener('click',(e)=>{if(e.target.closest('[data-go],#onboardingStart')&&!K.state.installNudged&&!installDismissed&&!isStandalone){K.state.installNudged=true;K.save();setTimeout(maybeShowInstall,1200);}}, {once:true});
-})();
+// Installation guidance is available on demand through the top bar.
 /* PWA: register service worker (guarded — only on secure contexts that support it) */
 if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) {
   window.addEventListener('load', () => {
