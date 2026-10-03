@@ -455,7 +455,7 @@ function svgWild(){return svgWarn('<text x="50" y="66" font-size="30" text-ancho
 function svgNarrow(){return svgWarn('<path d="M30 40 L50 60 L70 40" stroke="#1a1c1e" stroke-width="5" fill="none"/>');}
 function svgRobot(){return `<svg width="78" height="78" viewBox="0 0 100 100"><rect x="36" y="14" width="28" height="72" rx="6" fill="#1a1c1e"/><circle cx="50" cy="28" r="9" fill="#dc2626"/><circle cx="50" cy="50" r="9" fill="#fbbf24"/><circle cx="50" cy="72" r="9" fill="#16a34a"/></svg>`;}
 
-/* ---------- SIGNS DATA (full K53 syllabus) ---------- */
+/* ---------- SIGNS DATA (selected illustrated study examples) ---------- */
 const SIGNS=[
  {id:'stop',svg:'assets/signs/stop.svg',name:'Stop',fam:'red',mean:'Come to a complete stop. Wait until safe, then go.',analogy:'Like a teacher holding up a STOP hand — freeze completely.',cat:'Red octagon = STOP'},
  {id:'giveway',svg:'assets/signs/giveway.svg',name:'Give Way (Yield)',fam:'red',mean:'Slow down. Let other traffic go first, then join when safe.',analogy:'Like holding a door open — let others pass before you.',cat:'Inverted triangle = GIVE WAY'},
@@ -508,7 +508,7 @@ function signImg(svg){
 
 /* ---------- ROAD MARKINGS ---------- */
 const MARKINGS=[
- {t:'Solid white line down the middle',d:'Stay in your lane. Do NOT cross to overtake.',tip:'Solid = stay put, like a wall.'},
+ {t:'No-overtaking centre line (RM1)',d:'Do not cross to overtake moving traffic; the official manual lists narrow exceptions for access or a stationary obstruction when safe.',tip:'No-overtaking line = do not pass moving traffic across it.'},
  {t:'Broken (dashed) white line',d:'You MAY cross to pass, but only when safe.',tip:'Dashed = go ahead if clear.'},
  {t:'Yellow line on the roadside',d:'No parking allowed there.',tip:'Yellow = no park.'},
  {t:'Red line on the roadside',d:'No stopping at all — not even to drop someone off.',tip:'Red = do not stop.'},
@@ -516,8 +516,8 @@ const MARKINGS=[
  {t:'Painted island (raised/flat)',d:'You may NOT drive on or over it. Go around it.',tip:'Island = no driving through.'},
  {t:'Box junction (yellow grid)',d:'Do NOT stop in it unless your exit is clear.',tip:'Grid = keep it moving.'},
  {t:'Bus/taxi lane marking',d:'Only that class of vehicle may drive or stop there.',tip:'Marked lane = reserved.'},
- {t:'No stopping red line (solid)',d:'No stopping at any time — emergency only.',tip:'Solid red = never stop.'},
- {t:'No parking yellow line (broken)',d:'No parking during the times shown on the plate.',tip:'Broken yellow = time-limited.'},
+ {t:'Yield line (RTM2)',d:'Give way to anyone crossing or wanting to cross your path, even without a yield sign.',tip:'Yield line = check and give priority.'},
+ {t:'Stop line (RTM1)',d:'Stop with the front of your vehicle behind the line. A stop line has stop-sign effect even without a sign.',tip:'Stop line = stop fully behind it.'},
 ];
 
 /* ---------- RULES (story cards) ---------- */
@@ -535,10 +535,10 @@ const RULES=[
 {q:'A pedestrian is crossing on your half of an unsignalised marked crossing. What should you do?',a:'Yield, slowing or stopping as needed so they can cross safely.',w:['Only stop the first car, others may continue.', 'Honk so they move faster.', 'Stop only if the pedestrians are on your side.']},
 {q:'How close to an intersection may you park (in town)?',a:'Not within 5 metres of the corner — and never on or across a pedestrian crossing.',w:['Within 5 metres of the corner if it is a weekday.', 'Not within 10 metres of the corner.', 'Right on the corner, but only after dark.']},
 {q:'How close to a fire hydrant may you park?',a:'Not within 1.5 metres — the fire service needs clear access.',w:['Not within 5 metres of the hydrant.', 'Right next to it, as long as the cap is clear.', 'Within 1 metre, but only in an emergency.']},
-{q:'What does a YELLOW kerb line mean?',a:'No parking at any time. A RED kerb line means no stopping at all.',w:['No stopping at any time.', 'Loading and unloading allowed.', 'No parking during school hours only.']},
-{q:'How do you overtake another vehicle?',a:'Only on the RIGHT, when the road is clear and the centre line is broken on your side — never on a solid barrier line.',w:['On the LEFT, when the road is clear.', 'On the RIGHT, even over a solid centre line.', 'On either side, whichever is shorter.']},
+{q:'What does a YELLOW kerb line mean?',a:'A no-parking line prohibits parking. A no-stopping line prohibits stopping except for emergencies; a broken no-stopping line can apply during signed times.',w:['No stopping at any time.', 'Loading and unloading allowed.', 'No parking during school hours only.']},
+{q:'How do you overtake another vehicle?',a:'Normally pass on the right only when permitted and safe. Do not cross a solid barrier line; check for legal exceptions and road signs.',w:['On the LEFT, when the road is clear.', 'On the RIGHT, even over a solid centre line.', 'On either side, whichever is shorter.']},
 {q:'What must you NOT do when another car is overtaking you?',a:'Speed up or block them. Keep left, slow down if needed, and let them pass safely.',w:['Slow down to help them pass.', 'Signal to the right to let them know.', 'Pull off the road completely.']},
-{q:'When must you switch on your headlights?',a:'From sunset to sunrise, when you cannot see 150 m ahead, and when it rains and you cannot see 100 m ahead.',w:['Only between sunset and sunrise.', 'Only when it is raining.', 'Only when another car has its lights on.']},
+{q:'When must you switch on your headlights?',a:'For light and heavy motor vehicles: from sunset to sunrise and whenever people or vehicles are not clearly visible at 150 m due to poor light or weather. Motorcycle headlamps must be lit while riding, day and night.',w:['Only between sunset and sunrise.', 'Only when it is raining.', 'Only when another car has its lights on.']},
 {q:'An emergency vehicle with flashing lights and a siren approaches. What do you do?',a:'Slow down, pull over safely to the left, and stop until it has passed. Give it right of way.',w:['Speed up to get out of its way.', 'Pull over to the right and stop.', 'Continue and let it pass on the left.']},
 {q:'When may you use the hooter (horn)?',a:'Only to warn other road users of danger — not to greet, hurry, or show frustration.',w:['To greet a friend you recognise.', 'To hurry a slow driver ahead.', 'To signal that you are turning.']},
 {q:'On a hill, which way do you turn your front wheels when parking?',a:'Toward the kerb when facing downhill, away from the kerb when facing uphill — so the car cannot roll into traffic.',w:['Toward the kerb when facing uphill.', 'Toward the kerb in both directions.', 'Away from the kerb when facing downhill.']},
@@ -548,7 +548,7 @@ const RULES=[
 {q:'Trailers under 10 000 kg GVM — what reflective material is needed?',a:'Yellow reflective material on the SIDES and the REAR of the trailer.',w:['Red reflective material on the front only.', 'Yellow reflective material on the FRONT of the trailer.', 'White reflective material on the sides.']},
 {q:'When must projection flags be used and what size?',a:'Red flags, at least 300 mm × 300 mm, to mark loads that stick out.',w:['Blue flags, at least 200 mm × 200 mm.', 'Red flags of any size.', 'Yellow flags, at least 300 mm × 300 mm.']},
 {q:'Are pedal cycles allowed on a freeway?',a:'Generally NO. Pedestrians, animals, and pedal cycles are not allowed on freeways.',w:['Yes, if riding on the shoulder.', 'Yes, during daylight hours.', 'Yes, if they use the left lane.']},
-{q:'What is the minimum following distance in adverse conditions?',a:'Increase your following distance substantially when grip or visibility is poor.',w:['Keep the same gap regardless of conditions.', 'Reduce it to 1 second in rain.', 'Only increase it for heavy vehicles.']},
+{q:'How should following distance change in adverse conditions?',a:'Increase your following distance substantially when grip or visibility is poor.',w:['Keep the same gap regardless of conditions.', 'Reduce it to 1 second in rain.', 'Only increase it for heavy vehicles.']},
 {q:'When may you stop on a freeway?',a:'Only in an emergency or a designated stopping area. Never just to look at the view.',w:['To answer a phone call.', 'To check a map or directions.', 'Any time there is a wide shoulder.']},
 {q:'If your vehicle breaks down, where do you place the warning triangle?',a:'At least 45 m behind the vehicle, on the roadside.',w:['At least 15 m behind, close to the vehicle.', 'In front of the vehicle, facing oncoming.', 'On the roof of the vehicle.']},
 {q:'What is the minimum tyre tread depth?',a:'At least 1 mm across the full width and circumference of the tyre.',w:['At least 1.6 mm across the tread.', 'At least 3 mm for safety.', 'No legal minimum — judge by wear bars.']},
@@ -572,8 +572,8 @@ const RULES=[
 const CONTROLS=[
  {q:'Which foot controls the CLUTCH (manual car)?',opts:['Right foot','Left foot','Both feet','Hand'],ans:1,ex:'Left foot only for clutch. Right foot does brake + accelerator.'},
  {q:'Which pedal makes the car go faster?',opts:['Left pedal','Middle pedal','Right pedal','Handbrake'],ans:2,ex:'Right foot, far right = accelerator (gas).'},
- {q:'Where should hands be on the wheel?',opts:['Bottom only','10 o\'clock and 2 o\'clock','One hand at top','One hand at bottom'],ans:1,ex:'Hold at "10 and 2" — balanced and in control.'},
- {q:'You indicate LEFT by…',opts:['Stalk UP','Stalk DOWN','Pressing the horn','Flashing high beam'],ans:1,ex:'Down = left, Up = right. (Think: down-left.)'},
+ {q:'What is the steering wheel used for?',opts:['Keeping directional control','Selecting a gear','Applying the parking brake','Sounding the horn'],ans:0,ex:'Steering changes the direction of a vehicle; keep control with both hands when possible.'},
+ {q:'What is an indicator used for?',opts:['To communicate an intended turn or lane change','To brake the vehicle','To sound a warning','To select a gear'],ans:0,ex:'Use the indicator to communicate your intention. Stalk direction varies by vehicle; check the actual controls.'},
  {q:'What is the HANDBRAKE for?',opts:['To keep the car still when parked','To reduce speed in town','To select reverse gear','To increase engine revs'],ans:0,ex:'Pull it when parked so the car cannot roll.'},
  {q:'Before moving off you must FIRST…',opts:['Sound the hooter','Check mirrors + blind spot, indicate','Press the accelerator','Select a high gear'],ans:1,ex:'Look in mirrors, check blind spot, signal — then go.'},
  {q:'Which pedal is used to slow the car?',opts:['The clutch','The brake','The accelerator','The handbrake'],ans:1,ex:'The foot brake slows the vehicle in normal driving.'},
@@ -584,6 +584,32 @@ const CONTROLS=[
  {q:'To keep a parked vehicle from rolling you must…',opts:['Leave it in neutral only','Apply parking brake + neutral/Park','Leave it in gear only','Press and hold the brake'],ans:1,ex:'Apply the parking brake to prevent rolling; select Park in an automatic.'}
 ];
 
+/* Vehicle-code control practice. These are original learning questions, not official exam items. */
+const MOTORCYCLE_CONTROLS=[
+ {q:'Which control normally changes engine speed on a motorcycle?',opts:['Right-hand throttle grip','Rear-view mirror','Clutch lever','Indicator switch'],ans:0,ex:'The throttle twist grip regulates engine speed.'},
+ {q:'Which controls normally slow a motorcycle?',opts:['Front and rear brakes','Throttle and horn','Indicators and mirrors','Gear lever only'],ans:0,ex:'Use the front and rear brakes with appropriate balance and road awareness.'},
+ {q:'What does the clutch lever do on a manual motorcycle?',opts:['Disengages engine drive for gear changes','Applies the front brake','Switches on the headlight','Steers the front wheel'],ans:0,ex:'The clutch separates engine drive from the gearbox for controlled gear changes.'},
+ {q:'Which control communicates a planned turn?',opts:['Indicator switch','Throttle grip','Clutch lever','Rear brake pedal'],ans:0,ex:'The indicator switch signals your intended direction.'},
+ {q:'What should you use to check traffic behind before moving?',opts:['Mirrors plus a direct observation','Throttle only','Horn only','Gear lever only'],ans:0,ex:'Check the mirrors and blind spots by direct observation before moving.'},
+ {q:'What controls help bring a motorcycle to a stop?',opts:['Both brakes, with clutch as needed','Horn and indicators','Throttle only','Handlebars only'],ans:0,ex:'Use both brakes progressively; disengage the clutch as appropriate to avoid stalling.'},
+ {q:'What happens to stopping distance when the road is wet?',opts:['It can increase','It always halves','It stays fixed','It only changes for cars'],ans:0,ex:'Reduced grip can increase braking distance. Slow down and create more space.'},
+ {q:'Which control steers the motorcycle?',opts:['Handlebars','Fuel gauge','Horn','Indicator switch'],ans:0,ex:'Use the handlebars to control direction, supported by appropriate body position.'},
+ {q:'Which control changes gear on a manual motorcycle?',opts:['Gear selector together with clutch','Rear-view mirror','Horn','Headlight switch'],ans:0,ex:'The gear selector and clutch are used together for a manual gear change.'},
+ {q:'Why check the actual motorcycle before riding?',opts:['Control layout can differ by model','All models have identical switches','Only colour matters','Mirrors replace observation'],ans:0,ex:'Identify the fitted controls on that motorcycle before using it.'}
+];
+const HEAVY_CONTROLS=[
+ {q:'Which control changes the direction of a heavy motor vehicle?',opts:['Steering gear or wheel','Wiper lever','Horn','Accelerator only'],ans:0,ex:'The steering gear controls direction.'},
+ {q:'Which control slows a heavy motor vehicle in normal driving?',opts:['Service brake','Horn','Indicator','Wiper lever'],ans:0,ex:'The service brake reduces speed. Learn the fitted brake system before driving.'},
+ {q:'What does an indicator lever communicate?',opts:['An intended turn or lane change','Current engine temperature','Air pressure','Vehicle mass'],ans:0,ex:'Indicators give advance warning of an intended change in direction.'},
+ {q:'What does the accelerator control?',opts:['Engine power and vehicle speed','Windshield visibility','Parking brake','Turn signal'],ans:0,ex:'The accelerator regulates power; use it smoothly for conditions.'},
+ {q:'Why check mirrors before a lane change in a large vehicle?',opts:['To assess traffic around the vehicle','To select a gear','To activate wipers','To test the horn'],ans:0,ex:'Large vehicles have substantial blind spots; use mirrors and direct observation.'},
+ {q:'What does the wiper control affect?',opts:['Windshield visibility','Brake pressure','Steering ratio','Vehicle mass'],ans:0,ex:'Wipers clear the windscreen for visibility.'},
+ {q:'What is the horn for?',opts:['Warning other road users of danger','Telling others to hurry','Selecting neutral','Checking the fuel level'],ans:0,ex:'Use the horn as a warning device, not to express frustration.'},
+ {q:'What keeps a parked heavy vehicle from rolling?',opts:['The fitted parking brake, applied correctly','The accelerator','The indicators','The wiper lever'],ans:0,ex:'Secure the vehicle with its parking brake and follow its operating instructions.'},
+ {q:'What should you check before operating an unfamiliar heavy vehicle?',opts:['Its specific controls and brake system','Only the paint colour','Only the radio','Nothing if you drove a car'],ans:0,ex:'Control and braking systems vary; identify the fitted controls before driving.'},
+ {q:'Which instrument shows current road speed?',opts:['Speedometer','Fuel gauge','Tachometer','Temperature gauge'],ans:0,ex:'The speedometer displays road speed.'}
+];
+function controlsForCode(code){return code==='1'?MOTORCYCLE_CONTROLS:code==='3'?HEAVY_CONTROLS:CONTROLS;}
 /* ---------- MOCK EXTRA (unambiguous, used only by the 40-question mock) ---------- */
 const MOCK_EXTRA=[
  {q:'At a STOP sign you must…',opts:['Slow down and go','Come to a complete stop, then go when safe','Only stop if traffic is coming','Stop only if a police car is there'],ans:1,ex:'Stop completely. Go only when it is safe.'},
@@ -620,6 +646,16 @@ const MOCK_EXTRA=[
 ];
 
 
+const CODE_1_RULE_EXCLUDES=[
+ 'Who must wear a seatbelt?', 'On a hill, which way', 'When the vehicle is stationary',
+ 'Trailers under', 'When towing another vehicle', 'When may a learner drive a car',
+ 'How far may the tow-line', 'May passengers ride in a vehicle that is being towed?',
+ 'South Africa is a RIGHT-hand-drive country', 'You break down on a freeway'
+];
+const CODE_3_RULE_EXCLUDES=['Trailers under 10 000 kg GVM'];
+function rulesForCode(code){const blocked=code==='1'?CODE_1_RULE_EXCLUDES:code==='3'?CODE_3_RULE_EXCLUDES:[];return RULES.filter(r=>!blocked.some(prefix=>r.q.startsWith(prefix)));}
+function extraForCode(code){return MOCK_EXTRA.filter(e=>code==='2'||!/Code 2|Code B|right-turning vehicle/.test(e.q));}
+
 /* ---------- RIGHT-OF-WAY GAME (who goes first?) ---------- */
 const ROW=[
  {scene:'4-way stop — you arrive at the same time as the car on your RIGHT.',
@@ -648,8 +684,8 @@ const MEMORY=[
  {trick:'Shapes tell you the rule',note:'Red OCTAGON = stop · inverted TRIANGLE = give way · red-ringed CIRCLE = prohibition · red-bordered TRIANGLE = warning · blue CIRCLE = command. Check the symbol and context too.'},
  {trick:'"Keep left, pass right"',note:'SA drives on the left. You overtake on the right. Two sides, one phrase.'},
  {trick:'At an uncontrolled crossing',note:'When there are no signs or signals, give way to traffic approaching from your right. At a four-way stop, stop fully and check arrival order and other road users.'},
- {trick:'"Down = left, up = right"',note:'Your indicator stalk: push DOWN for a LEFT turn, push UP for a RIGHT turn.'},
- {trick:'Speed doubles → distance quadruples',note:'Double your speed and your stopping distance roughly quadruples. At 100 km/h you need ~100 m to stop. Always brake earlier than feels polite.'},
+ {trick:'Signal your intention',note:'Find the indicator in the actual vehicle and check which direction activates each side. Do not assume all stalk layouts match.'},
+ {trick:'Speed raises stopping distance',note:'Higher speed sharply increases braking distance. The figures depend on reaction time, grip and conditions; slow down and leave more room.'},
  {trick:'Zebra = people first',note:'Zebra-stripe crossings mean pedestrians first, always. Stop for them.'},
  {trick:'Count a safe gap',note:'Choose a fixed roadside point. Count at least two full seconds from when the vehicle ahead passes it until you do; leave substantially more space in rain or poor visibility.'},
  {trick:'Mirrors → signal → manoeuvre',note:'Always check mirrors and blind spot BEFORE you signal and move. That order is part of the K53 method.'},
@@ -657,9 +693,9 @@ const MEMORY=[
 
 /* ---------- STOPPING DISTANCES (for the memory/extra screen) ---------- */
 const STOPPING=[
- {speed:'60 km/h',thinking:'~16 m',braking:'~24 m',total:'~40 m'},
- {speed:'100 km/h',thinking:'~27 m',braking:'~73 m',total:'~100 m'},
- {speed:'120 km/h',thinking:'~33 m',braking:'~120 m',total:'~160 m'},
+ {speed:'60 km/h',thinking:'Varies',braking:'Varies',total:'Conditions matter'},
+ {speed:'100 km/h',thinking:'Varies',braking:'Varies',total:'Conditions matter'},
+ {speed:'120 km/h',thinking:'Varies',braking:'Varies',total:'Conditions matter'},
 ];
 
 /* ---------- INTERFACE COPY ---------- */
@@ -681,11 +717,11 @@ function T(key){
 const REVISION=[
  {t:'Right-Hand Drive (RHD)',n:'South Africa drives on the LEFT; the driver sits on the RIGHT, steering wheel right, gear lever left of the driver.',tips:['Clutch leftmost · Brake middle · Accelerator right','Left foot = clutch only','Hands at 9 & 3 (10 & 2 also accepted)'],em:'RHD'},
  {t:'Two-Second Rule',n:'Allow at least two seconds in good conditions; count from a fixed roadside point.',tips:['Allow substantially more space in rain, fog or darkness','If you reach the point before the count ends, you are too close'],em:'2s'},
- {t:'Keep Left, Pass Right',n:'Stay as far left as safe. Overtake only on the right, then move back left when safe.',tips:['Right lane is for overtaking, not cruising','After overtaking, signal + mirror + blind spot, return left'],em:'L'},
- {t:'Headlights',n:'On from sunset to sunrise, when you cannot see 150 m ahead, and when it rains and you cannot see 100 m.',tips:['Dipped beam must light 45 m · main beam 100 m','Not brights on oncoming traffic — dazzle is dangerous'],em:'LIGHT'},
+ {t:'Keep Left, Pass Right',n:'Keep left; normally pass on the right where permitted and safe. Follow signs and check exceptions in the official manual.',tips:['Right lane is for overtaking, not cruising','After overtaking, signal + mirror + blind spot, return left'],em:'L'},
+ {t:'Headlights',n:'Car and heavy-vehicle lamps: sunset to sunrise and poor visibility at 150 m; motorcycle headlamps on while riding, day and night.',tips:['Dipped beam must light 45 m · main beam 100 m','Not brights on oncoming traffic — dazzle is dangerous'],em:'LIGHT'},
  {t:'Parking Distances',n:'Keep clear so others and emergency services can move.',tips:['9 m from a marked pedestrian crossing','6 m from a bridge / tunnel / subway','5 m from an intersection · 1.5 m from a fire hydrant'],em:'P'},
  {t:'Pedestrian Signals',n:'GREEN man = may cross (look right, left, right). RED man = must not start crossing.',tips:['Pedestrians always have priority at marked crossings'],em:'WALK'},
- {t:'Freeway Rules',n:'No pedestrians, pedal cycles, animals or hitch-hiking. Minimum speed 60 km/h.',tips:['Stop only in an emergency','Breakdown: hazard lights, triangle 45 m behind, all out behind the barrier, call 10177'],em:'F'},
+ {t:'Freeway Rules',n:'Check access restrictions, signed minimum speeds and emergency-stopping rules in the official manual.',tips:['Stop only in an emergency','Breakdown: hazard lights, triangle 45 m behind, all out behind the barrier, call 10177'],em:'F'},
 ];
 
 
@@ -746,6 +782,7 @@ state.review=Array.isArray(state.review)?state.review:[];
 state.attempts=state.attempts&&typeof state.attempts==='object'?state.attempts:{};
 state.bookmarks=state.bookmarks&&typeof state.bookmarks==='object'?state.bookmarks:{};
 state.vehicleCode=['1','2','3'].includes(state.vehicleCode)?state.vehicleCode:'2';
+state.codeProgress=state.codeProgress&&typeof state.codeProgress==='object'?state.codeProgress:{};
 state.testDate=typeof state.testDate==='string'?state.testDate:'';
 state.province=typeof state.province==='string'?state.province:'';
 state.streak=state.streak||0;
@@ -812,7 +849,7 @@ function touch(){
 }
 
 /* expose for later patch */
-window.__K53={SIGNS,MARKINGS,RULES,CONTROLS,MOCK_EXTRA,ROW,MEMORY,STOPPING,buildMock,signQuestion,state,save,shuffle,shufOpts,ruleWrongs,STORE,touch,dayKey,applyTheme,toggleTheme,initTheme,isDark,TTS};
+window.__K53={SIGNS,MARKINGS,RULES,CONTROLS,MOTORCYCLE_CONTROLS,HEAVY_CONTROLS,controlsForCode,MOCK_EXTRA,rulesForCode,extraForCode,ROW,MEMORY,STOPPING,buildMock,signQuestion,state,save,shuffle,shufOpts,ruleWrongs,STORE,touch,dayKey,applyTheme,toggleTheme,initTheme,isDark,TTS};
 window.__svg={svgStop,svgGiveWay,svgNoEntry,svgSpeed,svgWarn,svgMand,svgInfo,svgNo,svgRes,svgSignal,svgMinSpeed,svgNoPark,svgNoStop,svgToll,svgBusLane,svgTaxiLane,svgDisablePark,svgDir,svgNoLeft,svgNoRight,svgTJunction,svgYJunction,svgCyclist,svgWild,svgNarrow,svgRobot,svgRedMan,svgGreenMan};
 </script>
 <script>
@@ -919,13 +956,13 @@ function renderHome(){
   <div class="hero"><div class="hero-copy"><p class="kicker">South African learner’s licence practice</p><h1>${T('tagline')}</h1><p>Clear lessons, evidence-based practice, and a clear route through K53 topics.</p><p class="hero-note">Free study aid · no account required · works offline after install</p></div><div class="hero-art" role="img" aria-label="A GreenLight K53 road sign beside a South African road"></div></div>
   <nav class="home-nav no-print" aria-label="Study areas"><button data-go="home">Plan</button><button data-go="session1">Learn</button><button data-go="practice">Practise</button><button data-go="mock">Mock</button><button data-go="checklist">Test day</button></nav>
   <div class="dashboard">
-    <section class="next-step" aria-labelledby="next-title"><p class="footnote">Selected learner code: ${K.state.vehicleCode} · <a href="#journey" data-go="journey">Change code</a></p><p class="footnote">Today: ${reviewDue().length} due reviews · ${Object.values(K.state.attempts).filter(a=>a.wrong>a.correct).length} concepts need another try. <a href="#review" data-go="review">Open plan</a></p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" data-go="${next.go}">${next.cta} →</button><p class="trust-note">Readiness is based on completed checks and mock-section results—not simply on pages viewed.</p></section>
+    <section class="next-step" aria-labelledby="next-title"><p class="footnote">Selected learner code: ${K.state.vehicleCode} · <a href="#journey" data-go="journey">Change code</a></p><p class="footnote">Today: ${reviewDue().length} due reviews · ${Object.values(K.state.attempts).filter(a=>a.wrong>a.correct).length} concepts need another try. ${topicStats()[0]?.wrong?'Focus: '+safeHTML(topicStats()[0].topic)+'.':''} <a href="#review" data-go="review">Open plan</a></p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" data-go="${next.go}">${next.cta} →</button><p class="trust-note">Readiness is based on completed checks and mock-section results—not simply on pages viewed.</p></section>
     <section class="block"><p class="kicker">Readiness</p><h2>${r.verdict}</h2><p class="lead">${r.msg}</p><div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div><p class="footnote" style="text-align:left;margin-top:10px">${r.score}% readiness · based on practice evidence</p></section>
     <section class="block"><p class="kicker">Recent accuracy</p><h2>Topic evidence</h2><div class="status-grid">${statuses}</div></section>
   </div>
   <section class="block"><p class="kicker">Your route</p><h2>Learn, then prove it</h2><div class="library"><button class="btn btn-ghost" data-go="session1">Signs<span class="sub">Learn + short check</span></button><button class="btn btn-ghost" data-go="session2">Rules<span class="sub">Lesson + quiz</span></button><button class="btn btn-ghost" data-go="session3">Controls<span class="sub">Quick scenarios</span></button></div></section>
   <section class="block"><p class="kicker">Practice tools</p><h2>Choose a focused format</h2><div class="library"><button class="btn btn-soft" data-go="practice">Section drills<span class="sub">Repair one weak area</span></button><button class="btn btn-soft" data-go="flash">Flashcards<span class="sub">Recall, don’t reread</span></button><button class="btn btn-soft" data-go="row">Right of way<span class="sub">Decision practice</span></button><button class="btn btn-soft" data-go="memory">Memory tricks<span class="sub">Fast revision</span></button><button class="btn btn-soft" data-go="review">Weak spots<span class="sub">${reviewDue().length} ready to retry</span></button><button class="btn btn-soft" data-go="journey">Your code & test plan<span class="sub">Motorcycle, light or heavy vehicle</span></button><button class="btn btn-soft" data-go="signlibrary">Search signs<span class="sub">39 illustrated examples</span></button><button class="btn btn-soft" data-go="sources">Official study sources<span class="sub">Manuals and coverage</span></button><button class="btn btn-soft" data-go="rhd">RHD cockpit<span class="sub">South African layout</span></button></div></section>
-  <section class="block"><p class="kicker">Assess</p><h2>Pick the right test mode</h2><div class="library"><button class="btn btn-primary" data-go="mock">Learning mock<span class="sub">Feedback after every answer</span></button><button class="btn btn-ghost" data-go="sim">Test-day simulation<span class="sub">Timed, exam-style pressure</span></button><button class="btn btn-ghost" data-go="checklist">Test-day checklist<span class="sub">Confirm with your local DLTC</span></button></div><p class="trust-note" style="margin-top:16px">GreenLight K53 is an independent study aid with a limited selection of simplified signs and original practice questions. It is not the official question bank or a government service. Motorcycle and heavy vehicle controls are outside this app's current coverage. Confirm bookings, documents, fees and test requirements directly with your provincial authority or DLTC.</p></section>
+  <section class="block"><p class="kicker">Assess</p><h2>Pick the right test mode</h2><div class="library"><button class="btn btn-primary" data-go="mock">Learning mock<span class="sub">Feedback after every answer</span></button><button class="btn btn-ghost" data-go="sim">Test-day simulation<span class="sub">Timed, exam-style pressure</span></button><button class="btn btn-ghost" data-go="checklist">Test-day checklist<span class="sub">Confirm with your local DLTC</span></button></div><p class="trust-note" style="margin-top:16px">GreenLight K53 is an independent study aid with a limited selection of simplified signs and original practice questions. It is not the official question bank or a government service. Each learner code has a small control practice set, but none represents the complete official syllabus. Confirm bookings, documents, fees and test requirements directly with your provincial authority or DLTC.</p></section>
   <p class="footnote">Study progress stays on this device. Content and practice are in English. <a href="study-guide.html">Read the printable study guide</a>. Use <a href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">government links to the official learner manuals</a> before your test.</p>`;
   bindGo();
 }
@@ -936,7 +973,7 @@ function openSession1(){
       <div class="body">
         <div class="name">${s.name}<span class="fam fam-${s.fam}">${s.cat}</span> ${speakBtn(s.name+'. '+s.mean+'. '+s.analogy)}</div>
         <p class="mean">${s.mean}</p>
-        <p class="analogy">💡 ${s.analogy}</p>
+        <p class="analogy">💡 ${s.analogy}</p><a class="footnote" href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">Compare official sign manual ↗</a>
       </div>
     </div>`).join('');
   const marks=K.MARKINGS.map(m=>`
@@ -965,10 +1002,10 @@ function openSession1(){
 }
 
 function openSession2(){
-  const stories=K.RULES.map(r=>`<div class="story"><p class="q">${r.q}</p><p class="a">${r.a}</p></div>`).join('');
+  const stories=K.rulesForCode(K.state.vehicleCode).map(r=>`<div class="story"><p class="q">${r.q}</p><p class="a">${r.a}</p><a class="footnote" href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">Check official rule manual ↗</a></div>`).join('');
   app.innerHTML=backbar('Session 2 · Rules')+`
   <div class="block">
-    <p class="kicker">Step 1 · Read</p><h2>The ${K.RULES.length} golden rules</h2>
+    <p class="kicker">Step 1 · Read</p><h2>The ${K.rulesForCode(K.state.vehicleCode).length} selected rules</h2>
     <p class="lead">Short answers for selected road-rule topics. Continue with the official Rules of the Road manual for full coverage.</p>
     ${stories}
   </div>
@@ -976,7 +1013,7 @@ function openSession2(){
     <p class="lead">Check ten sampled rules now. Use Section drills to practise the full pool.</p>
     <button class="btn btn-primary" id="quiz2">▶ Start the rules quiz</button>
   </div>`;
-  $('#quiz2').addEventListener('click',()=>quizFlow(K.shuffle(K.RULES).slice(0,10).map(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);return {q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a};}),2,'Rules of the Road'));
+  $('#quiz2').addEventListener('click',()=>quizFlow(K.shuffle(K.rulesForCode(K.state.vehicleCode)).slice(0,10).map(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);return {q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a};}),2,'Rules of the Road'));
   bindGo();
 }
 
@@ -984,10 +1021,10 @@ function openSession3(){
   app.innerHTML=backbar('Session 3 · Controls')+`
   <div class="block">
     <p class="kicker">Quick scenarios</p><h2>Vehicle controls</h2>
-    <p class="lead">${K.CONTROLS.length} light-vehicle control questions. Consult the official vehicle-controls manual for the full syllabus and for other vehicle categories.</p>
-    <button class="btn btn-primary" id="quiz3">▶ Start the controls quiz</button>
+    <p class="lead">${K.controlsForCode(K.state.vehicleCode).length} selected Code ${K.state.vehicleCode} control questions. Consult the official vehicle-controls manual for the complete syllabus and your actual vehicle layout.</p>
+    <a class="btn btn-ghost" href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">Official controls manual ↗</a><button class="btn btn-primary" id="quiz3">▶ Start the controls quiz</button>
   </div>`;
-  $('#quiz3').addEventListener('click',()=>quizFlow(K.shuffle(K.CONTROLS.map(c=>{const so=K.shufOpts(c.opts,c.ans);return {q:c.q,opts:so.opts,ans:so.ans,ex:c.ex};})),3,'Vehicle Controls'));
+  $('#quiz3').addEventListener('click',()=>quizFlow(K.shuffle(K.controlsForCode(K.state.vehicleCode).map(c=>{const so=K.shufOpts(c.opts,c.ans);return {q:c.q,opts:so.opts,ans:so.ans,ex:c.ex};})),3,'Vehicle Controls'));
   bindGo();
 }
 
@@ -1013,7 +1050,7 @@ function quizFlow(questions,sessNum,title){
         card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
         recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
         else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
-        next.classList.remove('hidden');
+        renderAnswerTools(card,q);next.classList.remove('hidden');
       });
     });
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
@@ -1046,9 +1083,47 @@ function finishQuiz(sessNum,title,correct,total){
 function safeHTML(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function reviewArt(svg){const match=String(svg||'').match(/assets\/signs\/[a-z0-9-]+\.svg/);return match?signImg(match[0]):'';}
 function reviewKey(q){return (q.svg||'')+'|'+q.q+'|'+q.opts[q.ans];}
+const TOPIC_PATTERNS=[
+ ['Signs and signals',/sign|signal|robot|warning|speed limit|pedestrian man/i],
+ ['Parking and stopping',/park|stop|kerb|hydrant|breakdown|triangle/i],
+ ['Priority and crossings',/yield|give way|right.of.way|crossing|roundabout|intersection|junction/i],
+ ['Speed and distance',/speed|distance|overtak|follow|brak/i],
+ ['Visibility and lights',/headlight|light|visibility|mirror|wiper/i],
+ ['Vehicle controls',/pedal|clutch|gear|steer|throttle|horn|hooter|indicator|accelerator|control/i],
+ ['Safety and legal duties',/learner|licence|alcohol|phone|seatbelt|fuel|trailer|tow/i]
+];
+function topicFor(q){if(q.svg)return 'Signs and signals';if([...K.CONTROLS,...K.MOTORCYCLE_CONTROLS,...K.HEAVY_CONTROLS].some(c=>c.q===q.q))return 'Vehicle controls';return (TOPIC_PATTERNS.find(([,re])=>re.test(q.q))||['Rules of the road'])[0];}
+function topicStats(){const out={};Object.values(K.state.attempts).forEach(a=>{const t=a.topic||'Rules of the road';const row=out[t]||{topic:t,correct:0,wrong:0,items:0};row.correct+=a.correct;row.wrong+=a.wrong;row.items++;out[t]=row;});return Object.values(out).sort((a,b)=>(b.wrong/(b.wrong+b.correct+1))-(a.wrong/(a.wrong+a.correct+1)));}
+const VARIANT_LINKS=[
+ ['When refuelling','When refuelling, the engine must be…'],
+ ['While the vehicle is moving, may you hold a cell phone?','A cell phone while driving — what is the rule?'],
+ ['A pedestrian is crossing on your half','A pedestrian is crossing your half'],
+ ['What does a YELLOW kerb line mean?','No parking yellow line'],
+ ['What does a BROKEN','Broken (dashed) white line']
+];
+function variantFor(q){
+ if(q.svg){const sign=K.SIGNS.find(s=>q.svg.includes(s.svg));if(!sign)return null;const v=K.signQuestion(sign);v.q='Which action or restriction does this sign show?';v.ex=sign.analogy+' '+sign.mean;return v;}
+ const pair=VARIANT_LINKS.find(([a,b])=>q.q.startsWith(a)||q.q.startsWith(b));if(!pair)return null;
+ const other=q.q.startsWith(pair[0])?pair[1]:pair[0];
+ const extra=K.MOCK_EXTRA.find(x=>x.q.startsWith(other));if(extra){const so=K.shufOpts(extra.opts,extra.ans);return {q:extra.q,opts:so.opts,ans:so.ans,ex:extra.ex};}
+ const rule=K.RULES.find(x=>x.q.startsWith(other));if(rule){const opts=K.shuffle([rule.a,...K.ruleWrongs(rule)]);return {q:rule.q,opts,ans:opts.indexOf(rule.a),ex:rule.a};}
+ return null;
+}
+function optionRationale(q){
+ const wrong=q.opts.map((o,i)=>({o,i})).filter(x=>x.i!==q.ans);
+ return `<details class="d"><summary>Why the other choices are wrong</summary><ul>${wrong.map(({o})=>{const sign=K.SIGNS.find(s=>s.name===o);return `<li><b>${safeHTML(o)}</b>: ${safeHTML(sign?sign.mean:'It does not answer this situation. Compare the correct rule with the linked official manual topic.')}</li>`;}).join('')}</ul></details>`;
+}
+function renderAnswerTools(card,q){
+ const fb=card.querySelector('.feedback');fb.insertAdjacentHTML('afterend',optionRationale(q));
+ const v=variantFor(q);if(v){const button=ce('button');button.className='btn btn-soft';button.type='button';button.textContent='Practise another version';button.addEventListener('click',()=>practiceVariant(v));fb.after(button);}
+}
+function practiceVariant(q){
+ app.innerHTML=backbar('Another version')+`<div class="block"><p class="kicker">Same idea, different wording</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2>${safeHTML(q.q)}</h2>${q.opts.map((o,i)=>`<button class="opt" type="button" data-i="${i}">${safeHTML(o)}</button>`).join('')}<div class="feedback hidden" role="status"></div>${evidence(q)}<button class="btn btn-ghost" data-go="review">Back to review</button></div>`;
+ const card=app.querySelector('.block');card.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;const ok=Number(b.dataset.i)===q.ans;card.querySelectorAll('.opt').forEach(x=>x.disabled=true);b.classList.add(ok?'correct':'wrong');if(!ok){card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q);}recordAttempt(q,ok);const fb=card.querySelector('.feedback');fb.className='feedback '+(ok?'ok':'no');fb.textContent=q.ex;renderAnswerTools(card,q);}));bindGo();
+}
 function recordAttempt(q,ok){
-  const key=reviewKey(q), row=K.state.attempts[key]||{q:q.q,correct:0,wrong:0,last:0};
-  row.correct+=ok?1:0;row.wrong+=ok?0:1;row.last=Date.now();
+  const key=reviewKey(q), row=K.state.attempts[key]||{q:q.q,topic:topicFor(q),correct:0,wrong:0,last:0};
+  row.correct+=ok?1:0;row.wrong+=ok?0:1;row.last=Date.now();row.topic=topicFor(q);
   K.state.attempts[key]=row;K.save();
 }
 function bookmarkButton(q){
@@ -1060,7 +1135,7 @@ function bindBookmark(card,q){
   b.addEventListener('click',()=>{const key=reviewKey(q);if(K.state.bookmarks[key])delete K.state.bookmarks[key];else K.state.bookmarks[key]={q:q.q,a:q.opts[q.ans],svg:q.svg||'',ex:q.ex||''};K.save();b.setAttribute('aria-pressed',!!K.state.bookmarks[key]);b.textContent=K.state.bookmarks[key]?'★ Saved':'☆ Save question';});
 }
 const MANUALS={rules:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road',signs:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs',controls:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls'};
-function sourceFor(q){return q.svg||q.sec==='Signs'||q.type==='mark'||/marking|kerb line/i.test(q.q)?MANUALS.signs:q.sec==='Controls'||q.type==='ctrl'||/control/i.test(q.q)?MANUALS.controls:MANUALS.rules;}
+function sourceFor(q){return [...K.CONTROLS,...K.MOTORCYCLE_CONTROLS,...K.HEAVY_CONTROLS].some(c=>c.q===q.q)?MANUALS.controls:q.svg||q.sec==='Signs'||q.type==='mark'||/marking|kerb line/i.test(q.q)?MANUALS.signs:q.sec==='Controls'||q.type==='ctrl'||/control/i.test(q.q)?MANUALS.controls:MANUALS.rules;}
 function evidence(q){return `<p class="footnote">Study source: <a href="${sourceFor(q)}" target="_blank" rel="noopener noreferrer">NaTIS learner manual topic ↗</a> · mapped 3 October 2026 · independent subject review pending. Compare the manual before relying on this explanation.</p>`;}
 
 function addReview(q,answer){
@@ -1092,7 +1167,7 @@ function openReview(){
     ${due.length?`<button class="btn btn-primary" id="reviewStart" type="button">Retry ${due.length} due question${due.length===1?'':'s'} →</button>`:''}
     ${items||'<p>No mistakes saved yet. Try a section drill or a mock test.</p>'}
     <h3>Saved questions</h3>${Object.values(K.state.bookmarks).map(b=>`<div class="mini"><div class="t">${safeHTML(b.q)}</div><details><summary>Answer and explanation</summary><p>${safeHTML(b.a)} · ${safeHTML(b.ex)}</p></details></div>`).join('')||'<p>Save a question during practice to find it here.</p>'}
-    <h3>Repeated mistakes</h3>${Object.values(K.state.attempts).filter(a=>a.wrong).sort((a,b)=>b.wrong-a.wrong).slice(0,8).map(a=>`<div class="mini"><div class="t">${safeHTML(a.q)}</div><div class="d">${a.wrong} missed · ${a.correct} correct attempts</div></div>`).join('')||'<p>Your practice history will appear here.</p>'}
+    <h3>Topic weaknesses</h3>${topicStats().map(t=>`<div class="mini"><div class="t">${safeHTML(t.topic)}</div><div class="d">${t.correct}/${t.correct+t.wrong} correct across ${t.items} concepts · ${t.wrong} misses</div></div>`).join('')||'<p>Finish a few practice questions to identify weak topics.</p>'}<h3>Repeated mistakes</h3>${Object.values(K.state.attempts).filter(a=>a.wrong).sort((a,b)=>b.wrong-a.wrong).slice(0,8).map(a=>`<div class="mini"><div class="t">${safeHTML(a.q)}</div><div class="d">${a.wrong} missed · ${a.correct} correct attempts</div></div>`).join('')||'<p>Your practice history will appear here.</p>'}
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
   if($('#reviewStart'))$('#reviewStart').addEventListener('click',()=>startReview(due.map(r=>r.key)));
@@ -1228,9 +1303,9 @@ function flashPool(){
   const d=[];
   K.SIGNS.forEach(s=>d.push({front:signImg(s.svg),back:{t:s.name,mean:s.mean,extra:s.analogy},kind:'sign'}));
   K.MARKINGS.forEach(m=>d.push({front:m.t,back:{t:'Meaning',mean:m.d,extra:m.tip},kind:'mark'}));
-  K.RULES.forEach(r=>d.push({front:r.q,back:{t:'Answer',mean:r.a},kind:'rule'}));
-  K.CONTROLS.forEach(c=>d.push({front:c.q,back:{t:'Answer',mean:c.ex},kind:'ctrl'}));
-  K.MOCK_EXTRA.forEach(e=>d.push({front:e.q,back:{t:'Answer',mean:e.ex},kind:'extra'}));
+  K.rulesForCode(K.state.vehicleCode).forEach(r=>d.push({front:r.q,back:{t:'Answer',mean:r.a},kind:'rule'}));
+  K.controlsForCode(K.state.vehicleCode).forEach(c=>d.push({front:c.q,back:{t:'Answer',mean:c.ex},kind:'ctrl'}));
+  K.extraForCode(K.state.vehicleCode).forEach(e=>d.push({front:e.q,back:{t:'Answer',mean:e.ex},kind:'extra'}));
   return d;
 }
 function openFlash(cat){
@@ -1268,6 +1343,16 @@ function renderFlash(){
   $('#flashAgain').addEventListener('click',()=>{const x=flashDeck.shift();x.pass=true;flashDeck.push(x);renderFlash();});
   bindGo();
 }
+
+const CODE_1_RULE_EXCLUDES=[
+ 'Who must wear a seatbelt?', 'On a hill, which way', 'When the vehicle is stationary',
+ 'Trailers under', 'When towing another vehicle', 'When may a learner drive a car',
+ 'How far may the tow-line', 'May passengers ride in a vehicle that is being towed?',
+ 'South Africa is a RIGHT-hand-drive country', 'You break down on a freeway'
+];
+const CODE_3_RULE_EXCLUDES=['Trailers under 10 000 kg GVM'];
+function rulesForCode(code){const blocked=code==='1'?CODE_1_RULE_EXCLUDES:code==='3'?CODE_3_RULE_EXCLUDES:[];return RULES.filter(r=>!blocked.some(prefix=>r.q.startsWith(prefix)));}
+function extraForCode(code){return MOCK_EXTRA.filter(e=>code==='2'||!/Code 2|Code B|right-turning vehicle/.test(e.q));}
 
 /* ---------- RIGHT-OF-WAY GAME ---------- */
 let rowDeck=[];
@@ -1307,8 +1392,8 @@ function openPractice(){
     <p class="kicker">Train your weak section</p><h2>Focused practice</h2>
     <p class="lead">Focused drills use every available question. Pass targets are scaled to the drill length; the 64-question mock uses the test-section counts.</p>
     <button class="btn btn-soft" id="drillSigns" type="button">🛑 Signs <span class="sub">${K.SIGNS.length} signs + ${K.MARKINGS.length} markings · target ${Math.ceil((K.SIGNS.length+K.MARKINGS.length)*23/28)}/${K.SIGNS.length+K.MARKINGS.length}</span></button>
-    <button class="btn btn-soft" id="drillRules" type="button">📜 Rules <span class="sub">${K.RULES.length} rules · target ${Math.ceil(K.RULES.length*22/28)}/${K.RULES.length}</span></button>
-    <button class="btn btn-soft" id="drillCtrl" type="button">🎛 Controls <span class="sub">${K.CONTROLS.length} controls · target ${Math.ceil(K.CONTROLS.length*6/8)}/${K.CONTROLS.length}</span></button>
+    <button class="btn btn-soft" id="drillRules" type="button">📜 Rules <span class="sub">${K.rulesForCode(K.state.vehicleCode).length} rules · target ${Math.ceil(K.rulesForCode(K.state.vehicleCode).length*22/28)}/${K.rulesForCode(K.state.vehicleCode).length}</span></button>
+    <button class="btn btn-soft" id="drillCtrl" type="button">🎛 Controls <span class="sub">${K.controlsForCode(K.state.vehicleCode).length} Code ${K.state.vehicleCode} controls · target ${Math.ceil(K.controlsForCode(K.state.vehicleCode).length*6/8)}/${K.controlsForCode(K.state.vehicleCode).length}</span></button>
     <button class="btn btn-soft" id="drillMixed" type="button">🔀 Mixed 20 <span class="sub">Random across all topics</span></button>
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
@@ -1324,8 +1409,8 @@ function buildDrill(cat){
     K.SIGNS.forEach(s=>q.push(K.signQuestion(s)));
     K.MARKINGS.forEach(mk=>{const wrong=K.shuffle(K.MARKINGS.filter(x=>x!==mk).map(x=>x.d)).slice(0,3);const opts=K.shuffle([mk.d,...wrong]);q.push({q:mk.t+' — what does it mean?',opts,ans:opts.indexOf(mk.d),ex:mk.tip});});
   }
-  if(cat==='rules'||cat==='mixed')K.RULES.forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);q.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a});});
-  if(cat==='controls'||cat==='mixed')K.CONTROLS.forEach(c=>{const so=K.shufOpts(c.opts,c.ans);q.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex});});
+  if(cat==='rules'||cat==='mixed')K.rulesForCode(K.state.vehicleCode).forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);q.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a});});
+  if(cat==='controls'||cat==='mixed')K.controlsForCode(K.state.vehicleCode).forEach(c=>{const so=K.shufOpts(c.opts,c.ans);q.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex});});
   if(cat==='mixed')return K.shuffle(q).slice(0,20);
   if(cat==='signs')return q; // full section = 28+ questions in real test; we use all available
   if(cat==='rules')return q;
@@ -1345,7 +1430,7 @@ function drill(cat){
     card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2><div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button>`;
     app.innerHTML=backbar(names[cat],`${correct}/${total}`);app.appendChild(card);
     const fb=card.querySelector('.feedback'),next=card.querySelector('.next');
-    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q);}fb.textContent='💡 '+q.ex;next.classList.remove('hidden');});});
+    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q);}fb.textContent='💡 '+q.ex;renderAnswerTools(card,q);next.classList.remove('hidden');});});
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
     bindBookmark(card,q);bindGo();
   }
@@ -1407,30 +1492,63 @@ function readiness(){
   }
   const attempts=Object.values(s.attempts||{}), repeated=attempts.filter(a=>a.correct+a.wrong>=2).length;
   if(score>=85 && repeated<20){score=Math.min(score,79);msg+=' Build confidence with at least 20 concepts answered more than once; '+repeated+' have repeated evidence so far.';}
-  if(s.vehicleCode!=='2'){score=Math.min(score,60);msg+=' The controls covered here are car-specific; complete your selected code’s official manual.';}
+  if(s.vehicleCode!=='2'){score=Math.min(score,79);msg+=' Complete your selected code’s official controls manual too.';}
   return {verdict,emoji,msg,score,sessionsDone,acc,mockPass:!!s.mockPass,secRules,secSigns,secCtrl,allSec};
 }
 function openSignLibrary(){
  app.innerHTML=backbar('Sign library')+`<div class="block"><p class="kicker">Illustrated study selection</p><h2>Find a sign</h2><p class="lead">39 illustrations. Consult the official road traffic signs manual for the full catalogue and exact artwork.</p><label for="signSearch">Search by name or meaning</label><input id="signSearch" type="search" style="width:100%;padding:12px;margin:12px 0" placeholder="Search signs"><div id="signResults"></div><a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">Official sign manual ↗</a></div>`;
  const input=$('#signSearch'),results=$('#signResults');function draw(){const term=input.value.trim().toLowerCase();results.innerHTML=K.SIGNS.filter(s=>(s.name+' '+s.mean).toLowerCase().includes(term)).map(s=>`<div class="mini"><div class="review-art">${signImg(s.svg)}</div><div class="t">${safeHTML(s.name)}</div><div class="d">${safeHTML(s.mean)}</div></div>`).join('')||'<p>No matching signs.</p>';}input.addEventListener('input',draw);draw();bindGo();
 }
+const SYLLABUS_TOPICS=[
+ {name:'Rules: licence codes and duties',coverage:'Selected practice',source:'rules'},
+ {name:'Rules: lights and visibility',coverage:'Selected practice',source:'rules'},
+ {name:'Rules: vehicle equipment and safety',coverage:'Selected practice',source:'rules'},
+ {name:'Rules: priority, speed and manoeuvres',coverage:'Selected practice',source:'rules'},
+ {name:'Rules: parking, stopping and emergencies',coverage:'Selected practice',source:'rules'},
+ {name:'Signs: regulatory',coverage:'Illustrated selection',source:'signs'},
+ {name:'Signs: warning',coverage:'Illustrated selection',source:'signs'},
+ {name:'Signs: guidance and information',coverage:'Limited selection',source:'signs'},
+ {name:'Signs: road markings',coverage:'Ten descriptions',source:'signs'},
+ {name:'Signs: traffic signals',coverage:'Limited selection',source:'signs'},
+ {name:'Vehicle controls by code',coverage:'Ten to twelve selected questions',source:'controls'}
+];
 const PROVINCES=['Eastern Cape','Free State','Gauteng','KwaZulu-Natal','Limpopo','Mpumalanga','North West','Northern Cape','Western Cape'];
+const PROVINCE_GUIDE={
+ 'Eastern Cape':'https://www.gov.za/about-government/contact-directory/ec-municipalities',
+ 'Free State':'https://www.gov.za/about-government/contact-directory/fs-municipalities',
+ 'Gauteng':'https://online.natis.gov.za/#/',
+ 'KwaZulu-Natal':'https://www.gov.za/about-government/contact-directory/kzn-municipalities',
+ 'Limpopo':'https://www.gov.za/about-government/contact-directory/lp-municipalities',
+ 'Mpumalanga':'https://www.gov.za/about-government/contact-directory/mp-municipalities',
+ 'North West':'https://www.gov.za/about-government/contact-directory/nw-municipalities',
+ 'Northern Cape':'https://www.gov.za/about-government/contact-directory/nc-municipalities',
+ 'Western Cape':'https://www.westerncape.gov.za/service/learners-licence'
+};
+function setVehicleCode(code){
+ const s=K.state,old=s.vehicleCode;
+ s.codeProgress[old]={controlsDone:!!s.sessions[3],controlsMastery:s.mastery?.[3]||0,mockResults:s.mockResults||{},secPass:s.secPass||{},mockPass:!!s.mockPass};
+ s.vehicleCode=code;
+ const next=s.codeProgress[code]||{};
+ s.sessions[3]=!!next.controlsDone;s.mastery[3]=next.controlsMastery||0;s.mockResults=next.mockResults||{};s.secPass=next.secPass||{};s.mockPass=!!next.mockPass;
+ K.save();
+}
+
 function openJourney(){
  const code=K.state.vehicleCode;
- app.innerHTML=backbar('Your learner journey')+`<div class="block"><p class="kicker">Choose your vehicle</p><h2>Study for your learner code</h2><label for="vehicleCode">Learner code</label><select id="vehicleCode" style="width:100%;padding:12px"><option value="1" ${code==='1'?'selected':''}>Code 1 · motorcycle</option><option value="2" ${code==='2'?'selected':''}>Code 2 · light vehicle (up to 3 500 kg)</option><option value="3" ${code==='3'?'selected':''}>Code 3 · heavier vehicle</option></select><p class="lead">Rules and signs are useful across codes. The app's controls, cockpit and 64-question mock currently teach a manual car; they are not a complete Code 1 or Code 3 preparation path.</p><a href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">Official code and age requirements ↗</a></div>
- <div class="block"><p class="kicker">Syllabus map</p><h2>Use the complete manuals</h2><div class="mini"><div class="t">Rules of the road · selected practice</div><div class="d">Read every topic in the <a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">official rules manual ↗</a>; this app has 44 core questions and additional variants, without a verified chapter-by-chapter coverage claim.</div></div><div class="mini"><div class="t">Signs, signals and markings · selected practice</div><div class="d">39 sign illustrations and 10 marking descriptions. Compare the <a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">official sign manual ↗</a>.</div></div><div class="mini"><div class="t">Vehicle controls · Code ${code}</div><div class="d">The 12 in-app questions are car-oriented. For Code ${code}, read the relevant controls in the <a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">official controls manual ↗</a>.</div></div></div>
- <div class="block"><p class="kicker">Practical preparation</p><h2>From learner to driving test</h2><p>For your vehicle class, practise pre-trip checks, control use, observation, signalling and manoeuvres with a qualified instructor. Confirm the practical test and vehicle requirements with the DLTC. This is a study plan, not a booking service.</p><a href="https://www.gov.za/services/driving-licence/apply-driving-licence" target="_blank" rel="noopener noreferrer">Government driving-licence process ↗</a></div>
- <div class="block"><p class="kicker">Test-date plan</p><h2>Plan your visit</h2><label for="testDate">Your test date (on this device only)</label><input id="testDate" type="date" value="${safeHTML(K.state.testDate)}" style="width:100%;padding:12px"><label for="province">Province</label><select id="province" style="width:100%;padding:12px"><option value="">Select province</option>${PROVINCES.map(x=>`<option ${K.state.province===x?'selected':''}>${x}</option>`).join('')}</select><p id="dateHint" class="lead"></p><p>Check the provincial guidance and contact your chosen DLTC for bookings, fees, opening times and available slots. GreenLight cannot book a test.</p><a href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">National application guidance ↗</a><br><a href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">Western Cape service page and manuals ↗</a><p class="footnote">Official service pages checked 3 October 2026; reconfirm local details before travel.</p><button class="btn btn-primary" data-go="checklist">View test-day checklist</button></div>`;
- $('#vehicleCode').addEventListener('change',e=>{K.state.vehicleCode=e.target.value;K.save();openJourney();});$('#testDate').addEventListener('change',e=>{K.state.testDate=e.target.value;K.save();dateHint();});$('#province').addEventListener('change',e=>{K.state.province=e.target.value;K.save();});function dateHint(){const days=K.state.testDate?Math.ceil((new Date(K.state.testDate+'T12:00:00')-new Date())/86400000):null;$('#dateHint').textContent=days===null?'Add a date to see your daily plan.':days<0?'Your saved date has passed. Update it before planning.':days===0?'Test day: review documents and leave time for your DLTC visit.':days<7?days+' days left: review due mistakes, practise weak topics and confirm DLTC details.':days+' days left: use short daily topic reviews and repeat section mocks.';}dateHint();bindGo();
+ app.innerHTML=backbar('Your learner journey')+`<div class="block"><p class="kicker">Choose your vehicle</p><h2>Study for your learner code</h2><label for="vehicleCode">Learner code</label><select id="vehicleCode" style="width:100%;padding:12px"><option value="1" ${code==='1'?'selected':''}>Code 1 · motorcycle</option><option value="2" ${code==='2'?'selected':''}>Code 2 · light vehicle (up to 3 500 kg)</option><option value="3" ${code==='3'?'selected':''}>Code 3 · heavier vehicle</option></select><p class="lead">Rules and signs are useful across codes. Control questions follow the selected learner code. The RHD cockpit is only a car illustration. Each code-specific pool is small and must be used alongside the official manual.</p><a href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">Official code and age requirements ↗</a></div>
+ <div class="block"><p class="kicker">Syllabus map</p><h2>Use the complete manuals</h2><div class="mini"><div class="t">Rules of the road · selected practice</div><div class="d">Read every topic in the <a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">official rules manual ↗</a>; this app has 44 core questions and additional variants, without a verified chapter-by-chapter coverage claim.</div></div><div class="mini"><div class="t">Signs, signals and markings · selected practice</div><div class="d">39 sign illustrations and 10 marking descriptions. Compare the <a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">official sign manual ↗</a>.</div></div><div class="mini"><div class="t">Vehicle controls · Code ${code}</div><div class="d">This app has ${K.controlsForCode(code).length} selected Code ${code} questions. Read every relevant control in the <a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">official controls manual ↗</a>.</div></div></div>
+ <div class="block"><p class="kicker">Official topic checklist</p><h2>Coverage at a glance</h2><p class="lead">These manual areas are mapped to selected app practice, not certified as complete. Open each full manual area before relying on your mock result.</p>${SYLLABUS_TOPICS.map(t=>`<div class="mini"><div class="t">${t.name}</div><div class="d">${t.coverage} · <a href="${MANUALS[t.source]}" target="_blank" rel="noopener noreferrer">Official manual ↗</a></div></div>`).join('')}</div><div class="block"><p class="kicker">Practical preparation</p><h2>From learner to driving test</h2><p>After the learner test, prepare for the driving test with a qualified instructor. For Code ${code}, practise vehicle checks, observation, signalling, control use and the required manoeuvres. The practical test is a separate assessment. Confirm your vehicle and test requirements at the DLTC.</p>${code==='3'?'<a href="https://www.natis.gov.za/index.php/downloads/general-documents?download=61%3Ak53-heavy-motor-vehicle-part1-code-c1-c-ec1-and-ec" target="_blank" rel="noopener noreferrer">NaTIS heavy-vehicle practical manual ↗</a><br>':code==='1'?'<a href="https://www.natis.gov.za/index.php/downloads/general-documents?download=56%3Ak53-motor-cycles-part2" target="_blank" rel="noopener noreferrer">NaTIS motorcycle practical manual ↗</a><br>':''}<a href="https://www.gov.za/services/driving-licence/apply-driving-licence" target="_blank" rel="noopener noreferrer">Government driving-licence process ↗</a></div>
+ <div class="block"><p class="kicker">Test-date plan</p><h2>Plan your visit</h2><label for="testDate">Your test date (on this device only)</label><input id="testDate" type="date" value="${safeHTML(K.state.testDate)}" style="width:100%;padding:12px"><label for="province">Province</label><select id="province" style="width:100%;padding:12px"><option value="">Select province</option>${PROVINCES.map(x=>`<option ${K.state.province===x?'selected':''}>${x}</option>`).join('')}</select><p id="dateHint" class="lead"></p><p>Check the provincial guidance and contact your chosen DLTC for bookings, fees, opening times and available slots. GreenLight cannot book a test.</p><a href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">National application guidance ↗</a><br><a id="provinceGuide" href="${PROVINCE_GUIDE[K.state.province]||'https://www.gov.za/services/driving-licence/apply-learners-licence'}" target="_blank" rel="noopener noreferrer">${K.state.province?K.state.province+' official guidance ↗':'Select a province for guidance ↗'}</a><p class="footnote">Gauteng applicants: the national government directs residents to the NaTIS online application. In other provinces, the link leads to an official service page or municipal directory; confirm the specific DLTC. Official service pages checked 3 October 2026; reconfirm local details before travel.</p><button class="btn btn-primary" data-go="checklist">View test-day checklist</button></div>`;
+ $('#vehicleCode').addEventListener('change',e=>{setVehicleCode(e.target.value);openJourney();});$('#testDate').addEventListener('change',e=>{K.state.testDate=e.target.value;K.save();dateHint();});$('#province').addEventListener('change',e=>{K.state.province=e.target.value;K.save();const a=$('#provinceGuide');a.href=PROVINCE_GUIDE[K.state.province]||'https://www.gov.za/services/driving-licence/apply-learners-licence';a.textContent=K.state.province?K.state.province+' official guidance ↗':'Select a province for guidance ↗';});function dateHint(){const days=K.state.testDate?Math.ceil((new Date(K.state.testDate+'T12:00:00')-new Date())/86400000):null;$('#dateHint').textContent=days===null?'Add a date to see your daily plan.':days<0?'Your saved date has passed. Update it before planning.':days===0?'Test day: review documents and leave time for your DLTC visit.':days<7?days+' days left: review due mistakes, practise weak topics and confirm DLTC details.':days+' days left: use short daily topic reviews and repeat section mocks.';}dateHint();bindGo();
 }
 function openSources(){
   app.innerHTML=backbar('Official study sources')+`<div class="block">
     <p class="kicker">Know the coverage</p><h2>Use the official manuals alongside practice</h2>
-    <p class="lead">This independent app has a selected set of 39 simplified sign illustrations, 10 marking descriptions and light-vehicle control questions. It does not reproduce the complete road-sign catalogue, official examination questions, motorcycle controls or heavy-vehicle controls.</p>
+    <p class="lead">This independent app has a selected set of 39 simplified sign illustrations, 10 marking descriptions and light-vehicle control questions. It does not reproduce the complete road-sign catalogue or official examination questions. Its motorcycle and heavy-vehicle control selections are introductory.</p>
     <div class="mini"><div class="t">Rules of the road</div><div class="d">Read the full official Rules of the Road manual, then practise decisions here.</div></div>
     <div class="mini"><div class="t">Road traffic signs and markings</div><div class="d">Compare the official symbols and their conditions. The drawings here are study illustrations.</div></div>
     <div class="mini"><div class="t">Vehicle controls</div><div class="d">Study the manual for the vehicle category you will test in. The cockpit in this app illustrates a manual right-hand-drive car.</div></div>
-    <p class="footnote">Question and sign topics are linked to official manuals; no qualified external reviewer has signed off the complete question set. English is the only teaching language in this version. Afrikaans, isiZulu, isiXhosa, Sesotho and Setswana require separate fluent review before release.</p><a class="btn btn-primary" href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">Government page with all three manual links ↗</a>
+    <p class="footnote"><a href="content-register.json" target="_blank" rel="noopener noreferrer">Read the 179-entry source and review register ↗</a>. Source-area mapping is not an item-by-item legal fact check. Question and sign topics are linked to official manuals; no qualified external reviewer has signed off the complete question set. English is the only teaching language in this version. Afrikaans, isiZulu, isiXhosa, Sesotho and Setswana require separate fluent review before release.</p><a class="btn btn-primary" href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">Government page with all three manual links ↗</a>
     <a class="btn btn-ghost" href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">National application requirements ↗</a>
     <p class="footnote">Local booking, test format, documents and fees can change. Confirm them with your DLTC. Last checked against government service pages: 3 October 2026.</p>
     <button class="btn btn-ghost" data-go="home">Home</button>
@@ -1500,13 +1618,13 @@ let mockTimer=null, mockSeconds=0;
 function buildSection(sec){
   const q=[];
   if(sec==='rules'){
-    K.RULES.forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);q.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a});});
-    K.MOCK_EXTRA.forEach(e=>{const so=K.shufOpts(e.opts,e.ans);q.push({q:e.q,opts:so.opts,ans:so.ans,ex:e.ex});});
+    K.rulesForCode(K.state.vehicleCode).forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);q.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a});});
+    K.extraForCode(K.state.vehicleCode).forEach(e=>{const so=K.shufOpts(e.opts,e.ans);q.push({q:e.q,opts:so.opts,ans:so.ans,ex:e.ex});});
   } else if(sec==='signs'){
     K.SIGNS.forEach(s=>q.push(K.signQuestion(s)));
     K.MARKINGS.forEach(mk=>{const wrong=K.shuffle(K.MARKINGS.filter(x=>x!==mk).map(x=>x.d)).slice(0,3);const opts=K.shuffle([mk.d,...wrong]);q.push({q:mk.t+' — what does it mean?',opts,ans:opts.indexOf(mk.d),ex:mk.tip});});
   } else if(sec==='controls'){
-    K.CONTROLS.forEach(c=>{const so=K.shufOpts(c.opts,c.ans);q.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex});});
+    K.controlsForCode(K.state.vehicleCode).forEach(c=>{const so=K.shufOpts(c.opts,c.ans);q.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex});});
   }
   // Return exact official counts: Rules 28, Signs 28, Controls 8
   const target = sec==='rules' ? 28 : sec==='signs' ? 28 : 8;
@@ -1519,7 +1637,7 @@ function openMock(){
   app.innerHTML=backbar('Mock Test')+`<div class="block center">
     <div class="badge-xl">🏁</div>
     <div class="result-title" style="font-size:24px">Learning mock</div>
-    <p class="result-sub">${K.state.vehicleCode!=='2'?'Your selected Code '+K.state.vehicleCode+' uses different vehicle controls. This car-based mock is partial practice only; use the official controls manual for your code. ' : ''}Learn with immediate answer feedback and a break between sections. For exam-style pressure, use Test-Day Simulation instead.<br>3 sections — you must PASS EACH on its own.<br>Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}</p>
+    <p class="result-sub">Code ${K.state.vehicleCode} controls are sampled from a selected study pool. The complete official manual remains essential. Learn with immediate answer feedback and a break between sections. For exam-style pressure, use Test-Day Simulation instead.<br>3 sections — you must PASS EACH on its own.<br>Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}</p>
     <div class="stat-grid">
       <div class="stat"><div class="n" style="color:${K.state.secPass&&K.state.secPass.rules?'var(--ok)':'var(--err)'}">${K.state.secPass&&K.state.secPass.rules?'✓':'—'}</div><div class="l">Rules</div></div>
       <div class="stat"><div class="n" style="color:${K.state.secPass&&K.state.secPass.signs?'var(--ok)':'var(--err)'}">${K.state.secPass&&K.state.secPass.signs?'✓':'—'}</div><div class="l">Signs</div></div>
@@ -1594,7 +1712,7 @@ function startMock(onlySec){
           card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
           recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
           else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
-          next.classList.remove('hidden');
+          renderAnswerTools(card,q);next.classList.remove('hidden');
         });
       });
       next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
@@ -1734,7 +1852,7 @@ function openSim(){
   app.innerHTML=backbar('Test-Day Sim')+`<div class="block center">
     <div class="badge-xl">⚡</div>
     <div class="result-title" style="font-size:24px">Test-Day Simulation</div>
-    <p class="result-sub">${K.state.vehicleCode!== '2'?'Code '+K.state.vehicleCode+' learners: this simulation uses car controls, so it is partial practice for your code.<br>':''}Full 64 questions, mixed order, NO section breaks.<br>60-minute timer — the DLTC test may not exceed 1 hour.</p>
+    <p class="result-sub">Code ${K.state.vehicleCode}: selected control practice, not the full syllabus.<br>Full 64 questions, mixed order, NO section breaks.<br>60-minute timer — the DLTC test may not exceed 1 hour.</p>
     <button class="btn btn-primary" id="simGo" type="button">Start with 60:00 timer</button>
     <button class="btn btn-ghost" id="simNoTime" type="button">Start without a timer</button>
     <button class="btn btn-ghost" data-go="home">Home</button>
@@ -1747,11 +1865,11 @@ function openSim(){
 function startSim(){
   // Build full pool (all sections) and shuffle into 64 questions (28+28+8)
   let pool=[];
-  K.RULES.forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);pool.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a,sec:'Rules'});});
-  K.MOCK_EXTRA.forEach(e=>{const so=K.shufOpts(e.opts,e.ans);pool.push({q:e.q,opts:so.opts,ans:so.ans,ex:e.ex,sec:'Rules'});});
+  K.rulesForCode(K.state.vehicleCode).forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);pool.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a,sec:'Rules'});});
+  K.extraForCode(K.state.vehicleCode).forEach(e=>{const so=K.shufOpts(e.opts,e.ans);pool.push({q:e.q,opts:so.opts,ans:so.ans,ex:e.ex,sec:'Rules'});});
   K.SIGNS.forEach(s=>pool.push({...K.signQuestion(s),sec:'Signs'}));
   K.MARKINGS.forEach(mk=>{const wrong=K.shuffle(K.MARKINGS.filter(x=>x!==mk).map(x=>x.d)).slice(0,3);const opts=K.shuffle([mk.d,...wrong]);pool.push({q:mk.t+' — what does it mean?',opts,ans:opts.indexOf(mk.d),ex:mk.tip,sec:'Signs'});});
-  K.CONTROLS.forEach(c=>{const so=K.shufOpts(c.opts,c.ans);pool.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex,sec:'Controls'});});
+  K.controlsForCode(K.state.vehicleCode).forEach(c=>{const so=K.shufOpts(c.opts,c.ans);pool.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex,sec:'Controls'});});
   // Take proportional amounts to match official 64q: 28 rules, 28 signs, 8 controls
   const rulesPool = pool.filter(q=>q.sec==='Rules');
   const signsPool = pool.filter(q=>q.sec==='Signs');
