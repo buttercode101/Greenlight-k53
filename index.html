@@ -743,6 +743,11 @@ function save(){try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){
 state.sessions=state.sessions||{1:false,2:false,3:false};
 state.mockPass=state.mockPass||false;
 state.review=Array.isArray(state.review)?state.review:[];
+state.attempts=state.attempts&&typeof state.attempts==='object'?state.attempts:{};
+state.bookmarks=state.bookmarks&&typeof state.bookmarks==='object'?state.bookmarks:{};
+state.vehicleCode=['1','2','3'].includes(state.vehicleCode)?state.vehicleCode:'2';
+state.testDate=typeof state.testDate==='string'?state.testDate:'';
+state.province=typeof state.province==='string'?state.province:'';
 state.streak=state.streak||0;
 state.lastDay=state.lastDay||'';
 state.theme=state.theme||''; // '', 'dark', 'light'
@@ -914,12 +919,12 @@ function renderHome(){
   <div class="hero"><div class="hero-copy"><p class="kicker">South African learner’s licence practice</p><h1>${T('tagline')}</h1><p>Clear lessons, evidence-based practice, and a clear route through K53 topics.</p><p class="hero-note">Free study aid · no account required · works offline after install</p></div><div class="hero-art" role="img" aria-label="A GreenLight K53 road sign beside a South African road"></div></div>
   <nav class="home-nav no-print" aria-label="Study areas"><button data-go="home">Plan</button><button data-go="session1">Learn</button><button data-go="practice">Practise</button><button data-go="mock">Mock</button><button data-go="checklist">Test day</button></nav>
   <div class="dashboard">
-    <section class="next-step" aria-labelledby="next-title"><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" data-go="${next.go}">${next.cta} →</button><p class="trust-note">Readiness is based on completed checks and mock-section results—not simply on pages viewed.</p></section>
+    <section class="next-step" aria-labelledby="next-title"><p class="footnote">Selected learner code: ${K.state.vehicleCode} · <a href="#journey" data-go="journey">Change code</a></p><p class="footnote">Today: ${reviewDue().length} due reviews · ${Object.values(K.state.attempts).filter(a=>a.wrong>a.correct).length} concepts need another try. <a href="#review" data-go="review">Open plan</a></p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" data-go="${next.go}">${next.cta} →</button><p class="trust-note">Readiness is based on completed checks and mock-section results—not simply on pages viewed.</p></section>
     <section class="block"><p class="kicker">Readiness</p><h2>${r.verdict}</h2><p class="lead">${r.msg}</p><div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div><p class="footnote" style="text-align:left;margin-top:10px">${r.score}% readiness · based on practice evidence</p></section>
     <section class="block"><p class="kicker">Recent accuracy</p><h2>Topic evidence</h2><div class="status-grid">${statuses}</div></section>
   </div>
   <section class="block"><p class="kicker">Your route</p><h2>Learn, then prove it</h2><div class="library"><button class="btn btn-ghost" data-go="session1">Signs<span class="sub">Learn + short check</span></button><button class="btn btn-ghost" data-go="session2">Rules<span class="sub">Lesson + quiz</span></button><button class="btn btn-ghost" data-go="session3">Controls<span class="sub">Quick scenarios</span></button></div></section>
-  <section class="block"><p class="kicker">Practice tools</p><h2>Choose a focused format</h2><div class="library"><button class="btn btn-soft" data-go="practice">Section drills<span class="sub">Repair one weak area</span></button><button class="btn btn-soft" data-go="flash">Flashcards<span class="sub">Recall, don’t reread</span></button><button class="btn btn-soft" data-go="row">Right of way<span class="sub">Decision practice</span></button><button class="btn btn-soft" data-go="memory">Memory tricks<span class="sub">Fast revision</span></button><button class="btn btn-soft" data-go="review">Weak spots<span class="sub">${reviewDue().length} ready to retry</span></button><button class="btn btn-soft" data-go="sources">Official study sources<span class="sub">Manuals and coverage</span></button><button class="btn btn-soft" data-go="rhd">RHD cockpit<span class="sub">South African layout</span></button></div></section>
+  <section class="block"><p class="kicker">Practice tools</p><h2>Choose a focused format</h2><div class="library"><button class="btn btn-soft" data-go="practice">Section drills<span class="sub">Repair one weak area</span></button><button class="btn btn-soft" data-go="flash">Flashcards<span class="sub">Recall, don’t reread</span></button><button class="btn btn-soft" data-go="row">Right of way<span class="sub">Decision practice</span></button><button class="btn btn-soft" data-go="memory">Memory tricks<span class="sub">Fast revision</span></button><button class="btn btn-soft" data-go="review">Weak spots<span class="sub">${reviewDue().length} ready to retry</span></button><button class="btn btn-soft" data-go="journey">Your code & test plan<span class="sub">Motorcycle, light or heavy vehicle</span></button><button class="btn btn-soft" data-go="signlibrary">Search signs<span class="sub">39 illustrated examples</span></button><button class="btn btn-soft" data-go="sources">Official study sources<span class="sub">Manuals and coverage</span></button><button class="btn btn-soft" data-go="rhd">RHD cockpit<span class="sub">South African layout</span></button></div></section>
   <section class="block"><p class="kicker">Assess</p><h2>Pick the right test mode</h2><div class="library"><button class="btn btn-primary" data-go="mock">Learning mock<span class="sub">Feedback after every answer</span></button><button class="btn btn-ghost" data-go="sim">Test-day simulation<span class="sub">Timed, exam-style pressure</span></button><button class="btn btn-ghost" data-go="checklist">Test-day checklist<span class="sub">Confirm with your local DLTC</span></button></div><p class="trust-note" style="margin-top:16px">GreenLight K53 is an independent study aid with a limited selection of simplified signs and original practice questions. It is not the official question bank or a government service. Motorcycle and heavy vehicle controls are outside this app's current coverage. Confirm bookings, documents, fees and test requirements directly with your provincial authority or DLTC.</p></section>
   <p class="footnote">Study progress stays on this device. Content and practice are in English. <a href="study-guide.html">Read the printable study guide</a>. Use <a href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">government links to the official learner manuals</a> before your test.</p>`;
   bindGo();
@@ -996,6 +1001,7 @@ function quizFlow(questions,sessNum,title){
       ${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2 style="font-size:19px;letter-spacing:-0.4px;margin-bottom:14px">${q.q}</h2>
       <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div>
       <div class="feedback hidden" role="status" aria-live="polite"></div>
+      ${bookmarkButton(q)}${evidence(q)}
       <button class="btn btn-primary next hidden">Next →</button>`;
     app.innerHTML=backbar(title,`${i}/${total}`);
     app.appendChild(card);
@@ -1005,13 +1011,13 @@ function quizFlow(questions,sessNum,title){
         if(b.disabled)return;
         const ch=+b.getAttribute('data-i');
         card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
-        if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
+        recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
         else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
         next.classList.remove('hidden');
       });
     });
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
-    bindGo();
+    bindBookmark(card,q);bindGo();
   }
   render();
   window.scrollTo(0,0);
@@ -1040,6 +1046,23 @@ function finishQuiz(sessNum,title,correct,total){
 function safeHTML(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function reviewArt(svg){const match=String(svg||'').match(/assets\/signs\/[a-z0-9-]+\.svg/);return match?signImg(match[0]):'';}
 function reviewKey(q){return (q.svg||'')+'|'+q.q+'|'+q.opts[q.ans];}
+function recordAttempt(q,ok){
+  const key=reviewKey(q), row=K.state.attempts[key]||{q:q.q,correct:0,wrong:0,last:0};
+  row.correct+=ok?1:0;row.wrong+=ok?0:1;row.last=Date.now();
+  K.state.attempts[key]=row;K.save();
+}
+function bookmarkButton(q){
+  const key=reviewKey(q),saved=!!K.state.bookmarks[key];
+  return `<button class="btn btn-ghost bookmark" type="button" aria-pressed="${saved}">${saved?'★ Saved':'☆ Save question'}</button>`;
+}
+function bindBookmark(card,q){
+  const b=card.querySelector('.bookmark');if(!b)return;
+  b.addEventListener('click',()=>{const key=reviewKey(q);if(K.state.bookmarks[key])delete K.state.bookmarks[key];else K.state.bookmarks[key]={q:q.q,a:q.opts[q.ans],svg:q.svg||'',ex:q.ex||''};K.save();b.setAttribute('aria-pressed',!!K.state.bookmarks[key]);b.textContent=K.state.bookmarks[key]?'★ Saved':'☆ Save question';});
+}
+const MANUALS={rules:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road',signs:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs',controls:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls'};
+function sourceFor(q){return q.svg||q.sec==='Signs'||q.type==='mark'||/marking|kerb line/i.test(q.q)?MANUALS.signs:q.sec==='Controls'||q.type==='ctrl'||/control/i.test(q.q)?MANUALS.controls:MANUALS.rules;}
+function evidence(q){return `<p class="footnote">Study source: <a href="${sourceFor(q)}" target="_blank" rel="noopener noreferrer">NaTIS learner manual topic ↗</a> · mapped 3 October 2026 · independent subject review pending. Compare the manual before relying on this explanation.</p>`;}
+
 function addReview(q,answer){
   const item=typeof q==='string'?{q,a:answer}:q;
   const key=item.opts?reviewKey(item):item.q+'|'+item.a;
@@ -1068,6 +1091,8 @@ function openReview(){
     <p class="lead">${due.length} ready now · ${K.state.review.length} saved. Retry missed questions; correct answers come back tomorrow, then after three and seven days. Progress stays on this device.</p>
     ${due.length?`<button class="btn btn-primary" id="reviewStart" type="button">Retry ${due.length} due question${due.length===1?'':'s'} →</button>`:''}
     ${items||'<p>No mistakes saved yet. Try a section drill or a mock test.</p>'}
+    <h3>Saved questions</h3>${Object.values(K.state.bookmarks).map(b=>`<div class="mini"><div class="t">${safeHTML(b.q)}</div><details><summary>Answer and explanation</summary><p>${safeHTML(b.a)} · ${safeHTML(b.ex)}</p></details></div>`).join('')||'<p>Save a question during practice to find it here.</p>'}
+    <h3>Repeated mistakes</h3>${Object.values(K.state.attempts).filter(a=>a.wrong).sort((a,b)=>b.wrong-a.wrong).slice(0,8).map(a=>`<div class="mini"><div class="t">${safeHTML(a.q)}</div><div class="d">${a.wrong} missed · ${a.correct} correct attempts</div></div>`).join('')||'<p>Your practice history will appear here.</p>'}
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
   if($('#reviewStart'))$('#reviewStart').addEventListener('click',()=>startReview(due.map(r=>r.key)));
@@ -1087,7 +1112,7 @@ function startReview(keys){
       if(b.disabled)return;
       const chosen=Number(b.dataset.i),ok=chosen===r.ans;
       buttons.forEach(x=>x.disabled=true);buttons[r.ans].classList.add('correct');
-      if(!ok){b.classList.add('wrong');r.level=0;r.due=Date.now();r.misses=(r.misses||0)+1;}
+      recordAttempt({q:r.q,opts:r.opts,ans:r.ans,svg:r.svg},ok);if(!ok){b.classList.add('wrong');r.level=0;r.due=Date.now();r.misses=(r.misses||0)+1;}
       else{correct++;r.level=Math.min((r.level||0)+1,3);r.due=Date.now()+[0,1,3,7][r.level]*86400000;}
       K.save();fb.className='feedback '+(ok?'ok':'no');fb.textContent=(ok?'Correct. ':'Not yet. ')+(r.ex||'Answer: '+r.a);next.classList.remove('hidden');
     }));
@@ -1320,9 +1345,9 @@ function drill(cat){
     card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2><div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button>`;
     app.innerHTML=backbar(names[cat],`${correct}/${total}`);app.appendChild(card);
     const fb=card.querySelector('.feedback'),next=card.querySelector('.next');
-    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q);}fb.textContent='💡 '+q.ex;next.classList.remove('hidden');});});
+    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q);}fb.textContent='💡 '+q.ex;next.classList.remove('hidden');});});
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
-    bindGo();
+    bindBookmark(card,q);bindGo();
   }
 }
 
@@ -1382,6 +1407,19 @@ function readiness(){
   }
   return {verdict,emoji,msg,score,sessionsDone,acc,mockPass:!!s.mockPass,secRules,secSigns,secCtrl,allSec};
 }
+function openSignLibrary(){
+ app.innerHTML=backbar('Sign library')+`<div class="block"><p class="kicker">Illustrated study selection</p><h2>Find a sign</h2><p class="lead">39 illustrations. Consult the official road traffic signs manual for the full catalogue and exact artwork.</p><label for="signSearch">Search by name or meaning</label><input id="signSearch" type="search" style="width:100%;padding:12px;margin:12px 0" placeholder="Search signs"><div id="signResults"></div><a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">Official sign manual ↗</a></div>`;
+ const input=$('#signSearch'),results=$('#signResults');function draw(){const term=input.value.trim().toLowerCase();results.innerHTML=K.SIGNS.filter(s=>(s.name+' '+s.mean).toLowerCase().includes(term)).map(s=>`<div class="mini"><div class="review-art">${signImg(s.svg)}</div><div class="t">${safeHTML(s.name)}</div><div class="d">${safeHTML(s.mean)}</div></div>`).join('')||'<p>No matching signs.</p>';}input.addEventListener('input',draw);draw();bindGo();
+}
+const PROVINCES=['Eastern Cape','Free State','Gauteng','KwaZulu-Natal','Limpopo','Mpumalanga','North West','Northern Cape','Western Cape'];
+function openJourney(){
+ const code=K.state.vehicleCode;
+ app.innerHTML=backbar('Your learner journey')+`<div class="block"><p class="kicker">Choose your vehicle</p><h2>Study for your learner code</h2><label for="vehicleCode">Learner code</label><select id="vehicleCode" style="width:100%;padding:12px"><option value="1" ${code==='1'?'selected':''}>Code 1 · motorcycle</option><option value="2" ${code==='2'?'selected':''}>Code 2 · light vehicle (up to 3 500 kg)</option><option value="3" ${code==='3'?'selected':''}>Code 3 · heavier vehicle</option></select><p class="lead">Rules and signs are useful across codes. The app's controls, cockpit and 64-question mock currently teach a manual car; they are not a complete Code 1 or Code 3 preparation path.</p><a href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">Official code and age requirements ↗</a></div>
+ <div class="block"><p class="kicker">Syllabus map</p><h2>Use the complete manuals</h2><div class="mini"><div class="t">Rules of the road · selected practice</div><div class="d">Read every topic in the <a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">official rules manual ↗</a>; this app has 44 core questions and additional variants, without a verified chapter-by-chapter coverage claim.</div></div><div class="mini"><div class="t">Signs, signals and markings · selected practice</div><div class="d">39 sign illustrations and 10 marking descriptions. Compare the <a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">official sign manual ↗</a>.</div></div><div class="mini"><div class="t">Vehicle controls · Code ${code}</div><div class="d">The 12 in-app questions are car-oriented. For Code ${code}, read the relevant controls in the <a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">official controls manual ↗</a>.</div></div></div>
+ <div class="block"><p class="kicker">Practical preparation</p><h2>From learner to driving test</h2><p>For your vehicle class, practise pre-trip checks, control use, observation, signalling and manoeuvres with a qualified instructor. Confirm the practical test and vehicle requirements with the DLTC. This is a study plan, not a booking service.</p><a href="https://www.gov.za/services/driving-licence/apply-driving-licence" target="_blank" rel="noopener noreferrer">Government driving-licence process ↗</a></div>
+ <div class="block"><p class="kicker">Test-date plan</p><h2>Plan your visit</h2><label for="testDate">Your test date (on this device only)</label><input id="testDate" type="date" value="${safeHTML(K.state.testDate)}" style="width:100%;padding:12px"><label for="province">Province</label><select id="province" style="width:100%;padding:12px"><option value="">Select province</option>${PROVINCES.map(x=>`<option ${K.state.province===x?'selected':''}>${x}</option>`).join('')}</select><p id="dateHint" class="lead"></p><p>Check the provincial guidance and contact your chosen DLTC for bookings, fees, opening times and available slots. GreenLight cannot book a test.</p><a href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">National application guidance ↗</a><br><a href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">Western Cape service page and manuals ↗</a><p class="footnote">Official service pages checked 3 October 2026; reconfirm local details before travel.</p><button class="btn btn-primary" data-go="checklist">View test-day checklist</button></div>`;
+ $('#vehicleCode').addEventListener('change',e=>{K.state.vehicleCode=e.target.value;K.save();openJourney();});$('#testDate').addEventListener('change',e=>{K.state.testDate=e.target.value;K.save();dateHint();});$('#province').addEventListener('change',e=>{K.state.province=e.target.value;K.save();});function dateHint(){const days=K.state.testDate?Math.ceil((new Date(K.state.testDate+'T12:00:00')-new Date())/86400000):null;$('#dateHint').textContent=days===null?'Add a date to see your daily plan.':days<0?'Your saved date has passed. Update it before planning.':days===0?'Test day: review documents and leave time for your DLTC visit.':days<7?days+' days left: review due mistakes, practise weak topics and confirm DLTC details.':days+' days left: use short daily topic reviews and repeat section mocks.';}dateHint();bindGo();
+}
 function openSources(){
   app.innerHTML=backbar('Official study sources')+`<div class="block">
     <p class="kicker">Know the coverage</p><h2>Use the official manuals alongside practice</h2>
@@ -1389,7 +1427,7 @@ function openSources(){
     <div class="mini"><div class="t">Rules of the road</div><div class="d">Read the full official Rules of the Road manual, then practise decisions here.</div></div>
     <div class="mini"><div class="t">Road traffic signs and markings</div><div class="d">Compare the official symbols and their conditions. The drawings here are study illustrations.</div></div>
     <div class="mini"><div class="t">Vehicle controls</div><div class="d">Study the manual for the vehicle category you will test in. The cockpit in this app illustrates a manual right-hand-drive car.</div></div>
-    <a class="btn btn-primary" href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">Government page with all three manual links ↗</a>
+    <p class="footnote">Question and sign topics are linked to official manuals; no qualified external reviewer has signed off the complete question set. English is the only teaching language in this version. Afrikaans, isiZulu, isiXhosa, Sesotho and Setswana require separate fluent review before release.</p><a class="btn btn-primary" href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">Government page with all three manual links ↗</a>
     <a class="btn btn-ghost" href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">National application requirements ↗</a>
     <p class="footnote">Local booking, test format, documents and fees can change. Confirm them with your DLTC. Last checked against government service pages: 3 October 2026.</p>
     <button class="btn btn-ghost" data-go="home">Home</button>
@@ -1446,7 +1484,7 @@ function bindGo(root){
   scope.querySelectorAll('[data-go]').forEach(el=>{
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
-      const map={home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
+      const map={journey:openJourney,signlibrary:openSignLibrary,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}map[t]();window.scrollTo(0,0);}
     });
   });
@@ -1478,7 +1516,7 @@ function openMock(){
   app.innerHTML=backbar('Mock Test')+`<div class="block center">
     <div class="badge-xl">🏁</div>
     <div class="result-title" style="font-size:24px">Learning mock</div>
-    <p class="result-sub">Learn with immediate answer feedback and a break between sections. For exam-style pressure, use Test-Day Simulation instead.<br>3 sections — you must PASS EACH on its own.<br>Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}</p>
+    <p class="result-sub">${K.state.vehicleCode!=='2'?'Your selected Code '+K.state.vehicleCode+' uses different vehicle controls. This car-based mock is partial practice only; use the official controls manual for your code. ' : ''}Learn with immediate answer feedback and a break between sections. For exam-style pressure, use Test-Day Simulation instead.<br>3 sections — you must PASS EACH on its own.<br>Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}</p>
     <div class="stat-grid">
       <div class="stat"><div class="n" style="color:${K.state.secPass&&K.state.secPass.rules?'var(--ok)':'var(--err)'}">${K.state.secPass&&K.state.secPass.rules?'✓':'—'}</div><div class="l">Rules</div></div>
       <div class="stat"><div class="n" style="color:${K.state.secPass&&K.state.secPass.signs?'var(--ok)':'var(--err)'}">${K.state.secPass&&K.state.secPass.signs?'✓':'—'}</div><div class="l">Signs</div></div>
@@ -1488,7 +1526,7 @@ function openMock(){
     <button class="btn btn-ghost" id="mockNoTime" type="button">Start without a timer</button>
     <button class="btn btn-soft" id="mockSec" type="button">Practice one section only</button>
     <button class="btn btn-ghost" data-go="home">Home</button>
-    <p class="footnote" style="margin-top:var(--s4)">This is an independent <b>study aid</b> using a 64-question practice structure. Questions here are practice material, not the official question bank. Confirm current test requirements with your DLTC.</p>
+    <p class="footnote" style="margin-top:var(--s4)">Format: 28 rules (22 pass), 28 signs (23 pass), 8 controls (6 pass). <a href="https://www.natis.gov.za/index.php/downloads/learner-driver-manual" target="_blank" rel="noopener noreferrer">NaTIS manuals ↗</a> · checked 3 October 2026. Ask your DLTC about local changes. This is an independent <b>study aid</b> using a 64-question practice structure. Questions here are practice material, not the official question bank. Confirm current test requirements with your DLTC.</p>
   </div>`;
   const go=(time)=>{if(mockTimer){clearInterval(mockTimer);mockTimer=null;}mockSeconds=time;startMock();};
   $('#mockGo').addEventListener('click',()=>go(60*60));
@@ -1541,6 +1579,7 @@ function startMock(onlySec){
         <h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2>
         <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div>
         <div class="feedback hidden" role="status" aria-live="polite"></div>
+        ${bookmarkButton(q)}${evidence(q)}
         <button class="btn btn-primary next hidden">Next →</button>`;
       app.innerHTML=backbar(meta.name,`${i+1}/${total}`)+(mockSeconds?timerHTML():'');
       app.appendChild(card);
@@ -1550,13 +1589,13 @@ function startMock(onlySec){
           if(b.disabled)return;
           const ch=+b.getAttribute('data-i');
           card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
-          if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
+          recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
           else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
           next.classList.remove('hidden');
         });
       });
       next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
-      bindGo();
+      bindBookmark(card,q);bindGo();
     }
     function finishSection(sec){
       const meta=SECTION_META[sec];
@@ -1739,6 +1778,7 @@ function startSim(){
       <h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2>
       <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div>
       <div class="feedback hidden" role="status" aria-live="polite"></div>
+      ${bookmarkButton(q)}${evidence(q)}
       <button class="btn btn-primary next hidden">Next →</button>`;
     app.innerHTML=backbar('Test-Day Sim',`${i+1}/${total}`)+(mockSeconds?timerHTML():'');
     app.appendChild(card);
@@ -1749,14 +1789,14 @@ function startSim(){
         if (b.disabled) return;
         card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
         secCount[q.sec.toLowerCase()]++;
-        if(ch===q.ans){correct++;secCorrect[q.sec.toLowerCase()]++;}
+        recordAttempt(q,ch===q.ans);if(ch===q.ans){correct++;secCorrect[q.sec.toLowerCase()]++;}
         else{addReview(q);}
         fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';
         next.classList.remove('hidden');
       });
     });
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
-    bindGo();
+    bindBookmark(card,q);bindGo();
   }
   function finishSim(){
     const rows=SECTION_ORDER.map(s=>{const m=SECTION_META[s];const c=secCorrect[s],t=secCount[s];const need=m.need;const passed=t===m.n&&c>=need;return `<tr><td>${m.name}</td><td>${c+'/'+m.n} (${t} answered)</td><td>${passed?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}</td><td>${need}</td></tr>`;}).join('');
