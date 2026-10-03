@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { join } from 'node:path';
 
 const register = JSON.parse(readFileSync('assets/signs/register.json', 'utf8'));
-assert.equal(register.signs.length, 42, 'The sign register must cover all 42 app entries.');
+assert.equal(register.signs.length, 39, 'The register must cover all 39 displayed signs.');
 const html = readFileSync('index.html', 'utf8');
 const used = [...html.matchAll(/id:'([^']+)',svg:'assets\/signs\/([^']+)'/g)].map(m => ({id:m[1], asset:m[2]}));
 assert.equal(used.length, register.signs.length, 'Every displayed sign must have a register entry.');
