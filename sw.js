@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v6';
+const CACHE = 'greenlight-k53-v7';
 const CORE = [
   './',
   './index.html',
@@ -65,10 +65,21 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-// Cache-first for same-origin GET, falling back to network then cache.
+// Refresh navigations when online; serve the saved app shell when offline.
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
+
+  if (e.request.mode === 'navigate') {
+    e.respondWith(fetch(e.request).then((res) => {
+      if (res && res.ok) {
+        const copy = res.clone();
+        e.waitUntil(caches.open(CACHE).then((c) => c.put(e.request, copy)));
+      }
+      return res;
+    }).catch(() => caches.match(e.request).then((cached) => cached || caches.match('./index.html'))));
+    return;
+  }
 
   e.respondWith(
     caches.match(e.request).then((cached) => {
@@ -80,7 +91,7 @@ self.addEventListener('fetch', (e) => {
           e.waitUntil(caches.open(CACHE).then((c) => c.put(e.request, copy)));
         }
         return res;
-      }).catch(() => e.request.mode === 'navigate' ? caches.match('./index.html') : Response.error());
+      }).catch(() => Response.error());
     })
   );
 });
