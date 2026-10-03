@@ -271,9 +271,9 @@
     {
       "id": "toll",
       "asset": "toll.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "R132",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "dir",
