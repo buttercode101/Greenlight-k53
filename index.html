@@ -17,12 +17,12 @@
 <meta name="apple-mobile-web-app-title" content="GreenLight K53">
 <meta property="og:type" content="website">
 <meta property="og:title" content="GreenLight K53 — Pass Your Learner's Licence">
-<meta property="og:description" content="Your free all-in-one K53 platform: study signs, rules and controls, revision posters, 64-question CLLT-style mock, and a test-day simulator. Offline-first, in 5 languages.">
+<meta property="og:description" content="Free independent South African learner's licence practice for road signs, rules and vehicle controls. Study offline after loading the app.">
 <meta property="og:url" content="https://greenlight-k53-review.vercel.app/">
 <meta property="og:site_name" content="GreenLight K53">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="GreenLight K53 — Pass Your Learner's Licence">
-<meta name="twitter:description" content="GreenLight K53 — free all-in-one SA learner's licence prep: 64-question CLLT mock, revision posters, test-day simulator. Offline-first, 5 languages.">
+<meta name="twitter:description" content="GreenLight K53 — free independent South African learner's licence practice for signs, rules and controls.">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -30,7 +30,7 @@
   "name":"GreenLight K53",
   "url":"https://greenlight-k53-review.vercel.app/",
   "applicationCategory":"EducationalApplication",
-  "description":"Free South African K53 learner's licence study app: 64-question computerised (CLLT) format mock test, road signs, rules and vehicle controls. Offline-first and multilingual.",
+  "description":"Free independent South African learner's licence practice for road signs, rules and vehicle controls. Includes a 64-question practice mock and offline study after loading.",
   "offers":{"@type":"Offer","price":"0","priceCurrency":"ZAR"},
   "audience":{"@type":"EducationalAudience","educationalRole":"student","educationalLevel":"K53 learner"}
 }
@@ -43,9 +43,9 @@
       {"@type":"Question","name":"How many questions are in the K53 learner's licence test?","acceptedAnswer":{"@type":"Answer","text":"The computerised learner's licence test is commonly presented as 64 questions across road signs, rules of the road and vehicle controls. You must meet the pass requirement for each section."}},
       {"@type":"Question","name":"Can I practise a K53 test for free?","acceptedAnswer":{"@type":"Answer","text":"Yes. GreenLight K53 provides free road-sign, road-rule and vehicle-control practice plus a timed 64-question mock test."}},
       {"@type":"Question","name":"Does GreenLight K53 work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. Install the web app on a supported browser to revisit study material and practice without using mobile data after it has been cached."}},
-      {"@type":"Question","name":"Which learner's licence vehicle codes can I study for?","acceptedAnswer":{"@type":"Answer","text":"The core road signs and rules are useful preparation for Code 8, Code 10 and Code 14 learner's licence candidates. Always confirm code-specific requirements with your local licensing authority."}}
+      {"@type":"Question","name":"Which learner's licence vehicle codes can I study for?","acceptedAnswer":{"@type":"Answer","text":"This app focuses on common road signs, road rules and light motor vehicle controls. Consult the official manuals for motorcycle and heavy vehicle controls and confirm the code for your test with the licensing authority."}}
     ]},
-    {"@type":"LearningResource","name":"GreenLight K53 free learner's licence practice test","url":"https://greenlight-k53-review.vercel.app/","learningResourceType":"Practice test","inLanguage":["en-ZA","af","zu","xh"],"isAccessibleForFree":true,"about":"South African K53 learner's licence test preparation"}
+    {"@type":"LearningResource","name":"GreenLight K53 free learner's licence practice test","url":"https://greenlight-k53-review.vercel.app/","learningResourceType":"Practice test","inLanguage":"en-ZA","isAccessibleForFree":true,"about":"South African K53 learner's licence test preparation"}
   ]
 }
 </script>
@@ -528,7 +528,7 @@ const RULES=[
 {q:'Rural road speed limit (outside town, not a freeway)?',a:'100 km/h — unless a sign shows lower.',w:['120 km/h — unless a sign shows lower.', '80 km/h — unless a sign shows lower.', '60 km/h on all country roads.']},
 {q:'National highway (freeway) speed limit?',a:'120 km/h — unless a sign shows lower.',w:['100 km/h — unless a sign shows lower.', '140 km/h — unless a sign shows lower.', '80 km/h on all freeways.']},
 {q:'Robot turns yellow. What do you do?',a:'Stop if you can do so safely. Too close to stop? Continue carefully.',w:['Always stop sharply before the line.', 'Speed up to beat the red light.', 'Ignore it — yellow is just a warning.']},
-{q:'How far behind the car ahead?',a:'At least 2 seconds (3 in rain). Count "one-thousand-two".',w:['At least 1 second (count one-thousand-one).', 'At least 3 seconds at all times.', 'About half a car length at town speed.']},
+{q:'How far behind the car ahead?',a:'Allow at least two seconds in good conditions; increase the gap substantially in rain or poor visibility.',w:['A one-second gap is enough.', 'A fixed one-car-length gap at all speeds.', 'Half a car length at town speed.']},
 {q:'Who must wear a seatbelt?',a:'Driver AND all passengers, front and back. Every trip.',w:['Only the driver and front passenger.', 'Only the driver when on a freeway.', 'Adults only, not children in the back.']},
 {q:'At a roundabout you must…',a:'Go clockwise. Yield to traffic already on it — approaching from your RIGHT.',w:['Go anti-clockwise. Yield to traffic on your left.', 'Stop and wait for someone to wave you in.', 'Go straight through and flash your lights.']},
 {q:'What is the blood-alcohol limit for a professional driver?',a:'0.02 g per 100 ml of blood.',w:['0.05 g per 100 ml of blood.', '0.08 g per 100 ml of blood.', 'There is no limit for professional drivers.']},
@@ -548,7 +548,7 @@ const RULES=[
 {q:'Trailers under 10 000 kg GVM — what reflective material is needed?',a:'Yellow reflective material on the SIDES and the REAR of the trailer.',w:['Red reflective material on the front only.', 'Yellow reflective material on the FRONT of the trailer.', 'White reflective material on the sides.']},
 {q:'When must projection flags be used and what size?',a:'Red flags, at least 300 mm × 300 mm, to mark loads that stick out.',w:['Blue flags, at least 200 mm × 200 mm.', 'Red flags of any size.', 'Yellow flags, at least 300 mm × 300 mm.']},
 {q:'Are pedal cycles allowed on a freeway?',a:'Generally NO. Pedestrians, animals, and pedal cycles are not allowed on freeways.',w:['Yes, if riding on the shoulder.', 'Yes, during daylight hours.', 'Yes, if they use the left lane.']},
-{q:'What is the minimum following distance in adverse conditions?',a:'Increase it — 3 seconds in rain, more for heavy vehicles or at speed.',w:['Keep the normal 2-second distance.', 'Reduce it to 1 second in rain.', 'Only increase it for heavy vehicles.']},
+{q:'What is the minimum following distance in adverse conditions?',a:'Increase your following distance substantially when grip or visibility is poor.',w:['Keep the same gap regardless of conditions.', 'Reduce it to 1 second in rain.', 'Only increase it for heavy vehicles.']},
 {q:'When may you stop on a freeway?',a:'Only in an emergency or a designated stopping area. Never just to look at the view.',w:['To answer a phone call.', 'To check a map or directions.', 'Any time there is a wide shoulder.']},
 {q:'If your vehicle breaks down, where do you place the warning triangle?',a:'At least 45 m behind the vehicle, on the roadside.',w:['At least 15 m behind, close to the vehicle.', 'In front of the vehicle, facing oncoming.', 'On the roof of the vehicle.']},
 {q:'What is the minimum tyre tread depth?',a:'At least 1 mm across the full width and circumference of the tyre.',w:['At least 1.6 mm across the tread.', 'At least 3 mm for safety.', 'No legal minimum — judge by wear bars.']},
@@ -647,11 +647,11 @@ const ROW_NAME='Right of Way';
 const MEMORY=[
  {trick:'Shapes tell you the rule',note:'Red OCTAGON = stop · inverted TRIANGLE = give way · red-ringed CIRCLE = prohibition · red-bordered TRIANGLE = warning · blue CIRCLE = command. Check the symbol and context too.'},
  {trick:'"Keep left, pass right"',note:'SA drives on the left. You overtake on the right. Two sides, one phrase.'},
- {trick:'"Right goes first"',note:'No signs? The car on your right goes first — at 4-way stops and uncontrolled crossings.'},
+ {trick:'At an uncontrolled crossing',note:'When there are no signs or signals, give way to traffic approaching from your right. At a four-way stop, stop fully and check arrival order and other road users.'},
  {trick:'"Down = left, up = right"',note:'Your indicator stalk: push DOWN for a LEFT turn, push UP for a RIGHT turn.'},
  {trick:'Speed doubles → distance quadruples',note:'Double your speed and your stopping distance roughly quadruples. At 100 km/h you need ~100 m to stop. Always brake earlier than feels polite.'},
  {trick:'Zebra = people first',note:'Zebra-stripe crossings mean pedestrians first, always. Stop for them.'},
- {trick:'"A second a second"',note:'Stay at least 2 seconds behind the car ahead (3 in rain). Count "one-thousand-two" after they pass a pole — you should pass it after.'},
+ {trick:'Count a safe gap',note:'Choose a fixed roadside point. Count at least two full seconds from when the vehicle ahead passes it until you do; leave substantially more space in rain or poor visibility.'},
  {trick:'Mirrors → signal → manoeuvre',note:'Always check mirrors and blind spot BEFORE you signal and move. That order is part of the K53 method.'},
 ];
 
@@ -662,7 +662,7 @@ const STOPPING=[
  {speed:'120 km/h',thinking:'~33 m',braking:'~120 m',total:'~160 m'},
 ];
 
-/* ---------- LANGUAGE / TRANSLATION ---------- */
+/* ---------- INTERFACE COPY ---------- */
 const I18N = {
   en: {
     appName: "GreenLight K53",
@@ -670,72 +670,17 @@ const I18N = {
     readyVerdicts: {ready:"Strong practice result", almost:"Almost there", start:"Just starting", getting:"Getting there", close:"Pass your weak section"},
     share: {title:"My K53 Mock Result", passed:"I passed all sections!", failed:"I need to work on"},
   },
-  af: {
-    appName: "GreenLight K53 Naweek",
-    tagline: "Slaag jou leerlinglisensie toets teen Maandag.",
-    readyVerdicts: {ready:"Gereed vir Maandag", almost:"Amper daar", start:"Pas begin", getting:"Besig om te leer", close:"Slaag jou swak afdeling"},
-    share: {title:"My K53 Toets Resultaat", passed:"Ek het al die afdelings geslaag!", failed:"Ek moet werk aan"},
-  },
-  zu: {
-    appName: "GreenLight K53",
-    tagline: "Phasa ivavanyo lakho lweK53 ngoMsombuluko.",
-    readyVerdicts: {ready:"Ukuqala ngoMsombuluko", almost:"Uyaphinda ucarile", start:"Uqala nje", getting:"Uyafunda", close:"Phasa isigaba esibi"},
-    share: {title:"Imiphumela Yami YeK53", passed:"Ngiphasa zonke izinhlobo!", failed:"Kudingeka ngisebenze ku"},
-  }
 };
 function T(key){
-  const lang = (K&&K.state&&K.state.lang) || 'en';
-  const dict = I18N[lang] || I18N.en;
+  const dict = I18N.en;
   // Support dot paths like 'readyVerdicts.ready'
   return key.split('.').reduce((o,k)=> (o&&o[k]!==undefined)?o[k]:undefined, dict) ?? key;
 }
 
-/* ---------- TRANSLATION STUDY DATA (5 SA languages) ----------
-   Language keys: en, af, zu (isiZulu), st (Sesotho/Setswana), xh (isiXhosa).
-   The official DLTC computer test is offered in English + Afrikaans; the other
-   languages here are added purely as a comprehension aid for learners. */
-const LANGS=[{k:'en',n:'English'},{k:'af',n:'Afrikaans'},{k:'zu',n:'isiZulu'},{k:'st',n:'Sesotho/Setswana'},{k:'xh',n:'isiXhosa'}];
-const TRANSL_GROUPS=[
- {g:'Road rules', items:[
-   {en:'Keep left as far as safe',af:'Hou so ver links as wat veilig is',zu:'Hlala kwesokunxele ngokuphephile',st:'Dula ka ho le letšehali ka mokhoa o sireletsehileng',xh:'Hlala ngasekhohlo ngokukhuselekileyo'},
-   {en:'Yield / Give way',af:'Gee pad',zu:'Nikela indlela',st:'Fana ka tsela',xh:'Nika indlela'},
-   {en:'Stop completely',af:'Stop heeltemal',zu:'Misa ngokuphelele',st:'Emisa ka ho feletseng',xh:'Misa ngokupheleleyo'},
-   {en:'Two-second rule',af:'Twee-sekonde-reël',zu:'Umthetho wamasekhondi amabili',st:'Molao oa metsotsvana e \u2019meli',xh:'Umgaqo wemizuzu emibini'},
-   {en:'Urban speed limit 60 km/h',af:'Stedelike spoedbeperking 60 km/h',zu:'Umkhawulo wesivinini edolobeni 60 km/h',st:'Moeli oa lebelo toropong 60 km/h',xh:'Umkhawulo wesantya edolopini 60 km/h'},
-   {en:'Freeway speed limit 120 km/h',af:'Snelweg spoedbeperking 120 km/h',zu:'Umkhawulo wesivinini emgwaqeni omkhulu 120 km/h',st:'Moeli oa lebelo tseleng e kholo iki rokl 120 km/h',xh:'Umkhawulo wesantya kuhola wendlela 120 km/h'},
-   {en:'Take care / Be cautious',af:'Wees versigtig',zu:'Qaphela',st:'Ela hloko',xh:'Lumka'},
- ]},
- {g:'Vehicle controls', items:[
-   {en:'Clutch',af:'Koppelaar',zu:'Iklatshi',st:'Klatše',xh:'Iklatshi'},
-   {en:'Foot brake',af:'Voetrem',zu:'Ibhuleki yonyawo',st:'Boreki ba leoto',xh:'Ibhuleki yonyawo'},
-   {en:'Accelerator (gas)',af:'Versneller',zu:'I-accelerator',st:'Accelerator',xh:'I-accelerator'},
-   {en:'Handbrake / Parking brake',af:'Handrem / Parkeerrem',zu:'Ibhuleki yesandla',st:'Boreki ba letsoho',xh:'Ibhuleki yesandla'},
-   {en:'Gear lever',af:'Ratelstok',zu:'Isixhobo sogiya',st:'Levera ya gear',xh:'Isixhobo sogiya'},
-   {en:'Steering wheel',af:'Stuurwiel',zu:'Isondo lokushayela',st:'Lebili la ho tsamaisa',xh:'Isondo lokuqhuba'},
-   {en:'Speedometer',af:'Spoedmeter',zu:'Isilingansi so sesivinini',st:'Sefapo sa lebelo',xh:'Isilinganisi sesantya'},
-   {en:'Indicators',af:'Flikkers',zu:'Izikhombi',st:'Li-indicator',xh:'Izikhombi'},
- ]},
- {g:'Road signs', items:[
-   {en:'Stop',af:'Stop',zu:'Misa',st:'Emisa',xh:'Misa'},
-   {en:'Give way / Yield',af:'Gee pad',zu:'Nikela indlela',st:'Fana ka tsela',xh:'Nika indlela'},
-   {en:'No entry',af:'Geen toegang',zu:'Akukho ukungena',st:'Ha ho kenoe',xh:'Akukho ukungena'},
-   {en:'Speed limit',af:'Spoedbeperking',zu:'Umkhawulo sesivinini',st:'Moeli oa lebelo',xh:'Umkhawulo sesantya'},
-   {en:'Pedestrian crossing',af:'Voetgangeroorgang',zu:'Indawo yokuowela yabahamba ngezinyawo',st:'Sebaka sa ho tšela sa ba tsamaeang ka maoto',xh:'Indawa yokuowela yabahamba ngeenyawo'},
-   {en:'No U-turn',af:'Geen U-draai',zu:'Akukho ukujika okuphelele',st:'Ha ho na ho reteleha ka botlalo',xh:'Akukho ukujika okupheleleyo'},
-   {en:'No overtaking',af:'Geen verbyry',zu:'Akukho ukudlula',st:'Ha ho na ho feta',xh:'Akukho ukudlula'},
- ]},
- {g:'Exam phrases', items:[
-   {en:'Select the correct combination',af:'Kies die korrekte kombinasie',zu:'Khetha inhla nhl aniselane efanele',st:'Khetha motsoako o nepahetseng',xh:'Khetha indibaniselwano echanekileyo'},
-   {en:'Which one of the following is correct?',af:'Watter een van die volgende is korrek?',zu:'Yikuphi kulokhu okulandelayo okuyiqiniso?',st:'Ke eng ho tse latelang e nepahetseng?',xh:'Yeyiphi kwezi zilandelayo eyinyani?'},
-   {en:'You may not\u2026',af:'Jy mag nie\u2026',zu:'Awuvumelekile\u2026',st:'Ha u lumelloe\u2026',xh:'Awuvumelekanga\u2026'},
-   {en:'The driver must\u2026',af:'Die bestuurder moet\u2026',zu:'Umshayeli kufanele\u2026',st:'Mokhanni o tlameha\u2026',xh:'Umqhubi kufuneka\u2026'},
- ]},
-];
-const TRANSLANGS=LANGS;
 /* ---------- REVISION POSTER (unified RHD-poster content) ---------- */
 const REVISION=[
  {t:'Right-Hand Drive (RHD)',n:'South Africa drives on the LEFT; the driver sits on the RIGHT, steering wheel right, gear lever left of the driver.',tips:['Clutch leftmost · Brake middle · Accelerator right','Left foot = clutch only','Hands at 9 & 3 (10 & 2 also accepted)'],em:'RHD'},
- {t:'Two-Second Rule',n:'Keep at least 2 seconds behind the vehicle ahead — count "one-thousand-one, one-thousand-two" off a fixed point.',tips:['Double to 4s in rain / fog / night','If you reach the point before the count ends, you are too close'],em:'2s'},
+ {t:'Two-Second Rule',n:'Allow at least two seconds in good conditions; count from a fixed roadside point.',tips:['Allow substantially more space in rain, fog or darkness','If you reach the point before the count ends, you are too close'],em:'2s'},
  {t:'Keep Left, Pass Right',n:'Stay as far left as safe. Overtake only on the right, then move back left when safe.',tips:['Right lane is for overtaking, not cruising','After overtaking, signal + mirror + blind spot, return left'],em:'L'},
  {t:'Headlights',n:'On from sunset to sunrise, when you cannot see 150 m ahead, and when it rains and you cannot see 100 m.',tips:['Dipped beam must light 45 m · main beam 100 m','Not brights on oncoming traffic — dazzle is dangerous'],em:'LIGHT'},
  {t:'Parking Distances',n:'Keep clear so others and emergency services can move.',tips:['9 m from a marked pedestrian crossing','6 m from a bridge / tunnel / subway','5 m from an intersection · 1.5 m from a fire hydrant'],em:'P'},
@@ -887,14 +832,14 @@ function progPct(){
 function topbar(){
   const isStandaloneNow=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
   const installBtn = !isStandaloneNow ? `<button class="theme-toggle" type="button" id="topbarInstall" aria-label="Install app" title="Install GreenLight K53">↓</button>` : '';
-  const interfaceLabel=(K.state.lang==='af'?'Afrikaans':K.state.lang==='zu'?'isiZulu':'English');
+
   return `<div class="topbar no-print"><div class="brand">Green<span>Light</span> K53</div>
     <div class="prog" role="progressbar" aria-label="Study progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progPct()}"><i style="width:${progPct()}%"></i></div>
     <div class="prog-label">${progPct()}%</div>
     <button class="speak" type="button" data-speak-top aria-label="Read this screen aloud" title="Read this screen aloud">🔊</button>
     ${installBtn}
     <button class="theme-toggle" type="button" id="themeBtn" aria-label="Toggle dark mode">${isDark()?'☀️':'🌙'}</button>
-    <button class="theme-toggle" type="button" id="langBtn" aria-haspopup="dialog" aria-expanded="false" aria-label="Choose language" title="Choose language">${interfaceLabel.slice(0,2).toUpperCase()}</button></div>`;
+    </div>`;
 }
 function backbar(title,score){
   return `<div class="backbar no-print"><button data-go="home" type="button" aria-label="Back to home">‹</button><div class="ttl">${title}</div>${score?`<div class="sc">${score}</div>`:''}</div>`;
@@ -971,9 +916,9 @@ function renderHome(){
     <section class="block"><p class="kicker">Recent accuracy</p><h2>Topic evidence</h2><div class="status-grid">${statuses}</div></section>
   </div>
   <section class="block"><p class="kicker">Your route</p><h2>Learn, then prove it</h2><div class="library"><button class="btn btn-ghost" data-go="session1">Signs<span class="sub">Learn + short check</span></button><button class="btn btn-ghost" data-go="session2">Rules<span class="sub">Lesson + quiz</span></button><button class="btn btn-ghost" data-go="session3">Controls<span class="sub">Quick scenarios</span></button></div></section>
-  <section class="block"><p class="kicker">Practice tools</p><h2>Choose a focused format</h2><div class="library"><button class="btn btn-soft" data-go="practice">Section drills<span class="sub">Repair one weak area</span></button><button class="btn btn-soft" data-go="flash">Flashcards<span class="sub">Recall, don’t reread</span></button><button class="btn btn-soft" data-go="row">Right of way<span class="sub">Decision practice</span></button><button class="btn btn-soft" data-go="memory">Memory tricks<span class="sub">Fast revision</span></button><button class="btn btn-soft" data-go="lang">Study vocabulary<span class="sub">Five comprehension aids</span></button><button class="btn btn-soft" data-go="rhd">RHD cockpit<span class="sub">South African layout</span></button></div></section>
-  <section class="block"><p class="kicker">Assess</p><h2>Pick the right test mode</h2><div class="library"><button class="btn btn-primary" data-go="mock">Learning mock<span class="sub">Feedback after every answer</span></button><button class="btn btn-ghost" data-go="sim">Test-day simulation<span class="sub">Timed, exam-style pressure</span></button><button class="btn btn-ghost" data-go="checklist">Test-day checklist<span class="sub">Confirm with your local DLTC</span></button></div><p class="trust-note" style="margin-top:16px">GreenLight K53 is an independent study aid, not a government service. Confirm bookings, documents, fees and local requirements directly with your provincial authority or DLTC.</p></section>
-  <p class="footnote">Study progress stays on this device. <a href="study-guide.html">Read the printable study guide</a>.</p>`;
+  <section class="block"><p class="kicker">Practice tools</p><h2>Choose a focused format</h2><div class="library"><button class="btn btn-soft" data-go="practice">Section drills<span class="sub">Repair one weak area</span></button><button class="btn btn-soft" data-go="flash">Flashcards<span class="sub">Recall, don’t reread</span></button><button class="btn btn-soft" data-go="row">Right of way<span class="sub">Decision practice</span></button><button class="btn btn-soft" data-go="memory">Memory tricks<span class="sub">Fast revision</span></button><a class="btn btn-soft" href="https://www.natis.gov.za/index.php/downloads/learner-driver-manual" target="_blank" rel="noopener noreferrer">Official study sources<span class="sub">NaTIS learner manuals ↗</span></a><button class="btn btn-soft" data-go="rhd">RHD cockpit<span class="sub">South African layout</span></button></div></section>
+  <section class="block"><p class="kicker">Assess</p><h2>Pick the right test mode</h2><div class="library"><button class="btn btn-primary" data-go="mock">Learning mock<span class="sub">Feedback after every answer</span></button><button class="btn btn-ghost" data-go="sim">Test-day simulation<span class="sub">Timed, exam-style pressure</span></button><button class="btn btn-ghost" data-go="checklist">Test-day checklist<span class="sub">Confirm with your local DLTC</span></button></div><p class="trust-note" style="margin-top:16px">GreenLight K53 is an independent study aid with a limited selection of simplified signs and original practice questions. It is not the official question bank or a government service. Motorcycle and heavy vehicle controls are outside this app's current coverage. Confirm bookings, documents, fees and test requirements directly with your provincial authority or DLTC.</p></section>
+  <p class="footnote">Study progress stays on this device. Content and practice are in English. <a href="study-guide.html">Read the printable study guide</a>. Compare the <a href="https://www.natis.gov.za/index.php/downloads/learner-driver-manual" target="_blank" rel="noopener noreferrer">official NaTIS manuals</a> before your test.</p>`;
   bindGo();
 }
 function openSession1(){
@@ -1104,35 +1049,6 @@ function openReview(){
   bindGo();
 }
 
-/* TRANSLATION STUDY — browse K53 vocabulary in 5 SA languages */
-function openLang(){
-  function renderTokens(){
-    const lang = (K.state.transl && K.state.transl.lang) || 'en';
-    const picker = LANGS.map(l=>`<button class="btn ${l.k===lang?'btn-primary':'btn-ghost'}" data-lang="${l.k}" type="button">${l.n}</button>`).join('');
-    const groups = TRANSL_GROUPS.map(gr=>`
-      <div class="block">
-        <p class="kicker">${gr.g}</p>
-        ${gr.items.map(it=>`<div class="mini"><div class="t">${it[lang]||it.en}</div><div class="d">${it.en!==(it[lang]||it.en)?'<i>'+it.en+'</i>':''}</div></div>`).join('')}
-      </div>`).join('');
-    app.innerHTML=backbar('Translations')+`<div>
-      <div class="block">
-        <p class="kicker">Study in your language</p>
-        <h2>K53 in ${(LANGS.find(l=>l.k===lang)||{}).n}</h2>
-        <p class="lead">Vocabulary, signs and exam phrases — translated to help you understand. The real DLTC test is English or Afrikaans, so learn the English term too.</p>
-      </div>
-      <div class="block" style="display:flex;gap:8px;flex-wrap:wrap">${picker}</div>
-      ${groups}
-      <div class="block center"><button class="btn btn-ghost" data-go="home">Home</button></div>
-    </div>`;
-    // bind language picker
-    app.querySelectorAll('[data-lang]').forEach(b=>{
-      b.addEventListener('click',()=>{K.state.transl = K.state.transl||{}; K.state.transl.lang=b.getAttribute('data-lang'); K.save(); renderTokens(); });
-    });
-    bindGo();
-  }
-  renderTokens();
-}
-
 /* RHD COCKPIT — South Africa is a right-hand-drive country. Visual study aid. */
 function openRHD(){
   const tips=[
@@ -1183,7 +1099,6 @@ function openRHD(){
   bindGo();
 }
 
-
 /* REVISION POSTER — six panels consolidated in one study view */
 function openRevision(){
   const panels=REVISION.map(p=>`
@@ -1216,7 +1131,7 @@ function openCheat(){
     <h3>Road markings</h3>
     <ul><li>Solid white line = stay in your lane</li><li>Dashed white line = may cross if safe</li><li>Yellow line = no parking · Red line = no stopping</li><li>Zebra stripes = stop for people</li></ul>
     <h3>Key golden rules (the tested core)</h3>
-    <ul><li>Drive on the LEFT, pass on the right</li><li>No signs? Car on your right goes first</li><li>Town 60 · Rural 100 · Highway 120</li><li>Yellow robot = stop if safe</li><li>2 seconds behind (3 in rain)</li><li>Everyone wears a seatbelt</li><li>Roundabout = clockwise, yield right</li><li>Never drink and drive</li><li>Pedestrians at crossings = always stop</li><li>Check mirrors + blind spot before moving</li></ul>
+    <ul><li>Drive on the LEFT, pass on the right</li><li>No signs? Car on your right goes first</li><li>Town 60 · Rural 100 · Highway 120</li><li>Yellow robot = stop if safe</li><li>At least two seconds behind in good conditions; more in rain</li><li>Everyone wears a seatbelt</li><li>Roundabout = clockwise, yield right</li><li>Never drink and drive</li><li>Pedestrians at crossings = always stop</li><li>Check mirrors + blind spot before moving</li></ul>
     <h3>Vehicle controls</h3>
     <ul><li>Clutch = left foot only</li><li>Brake &amp; accelerator = right foot</li><li>Hands at 10 &amp; 2 (9 &amp; 3 also accepted)</li><li>Indicator: down = left, up = right</li><li>Handbrake = keep car still when parked</li></ul>
   </div>
@@ -1438,7 +1353,7 @@ function openChecklist(){
     <p class="kicker">What to expect</p><h2>On the day</h2>
     <ul class="cheat" style="padding-left:20px">
       <li>Eye-test arrangements vary: confirm whether your DLTC conducts it on site or accepts a valid external test.</li>
-      <li>The theory test is 64 questions across 3 sections — you must pass each section on its own.</li>
+      <li>This app's practice mock has 64 questions across 3 sections. Check the current format and pass marks with your DLTC.</li>
       <li>If you pass and pay the fee, your learner's licence is usually issued the same day.</li>
       <li>A learner's licence is valid for 24 months and cannot be extended.</li>
     </ul>
@@ -1462,8 +1377,6 @@ function bindGo(root){
   const scope=root||app;
   const tb=scope.querySelector('#themeBtn');
   if(tb)tb.addEventListener('click',(e)=>{e.stopPropagation();K.toggleTheme();renderHome();});
-  const lb=scope.querySelector('#langBtn');
-  if(lb)lb.addEventListener('click',(e)=>{e.stopPropagation();const existing=document.getElementById('languageMenu');if(existing){existing.remove();lb.setAttribute('aria-expanded','false');return;}const menu=document.createElement('section');menu.id='languageMenu';menu.className='language-menu';menu.setAttribute('role','dialog');menu.setAttribute('aria-label','Language choices');menu.innerHTML=`<h3>Language options</h3><p>Interface labels are available in English, Afrikaans and isiZulu. Sesotho/Setswana and isiXhosa are available in Study vocabulary.</p>${['en','af','zu'].map(k=>`<button class="${K.state.lang===k?'active':''}" data-interface-lang="${k}">${({en:'English',af:'Afrikaans',zu:'isiZulu'})[k]}</button>`).join('')}<button data-go="lang">Open five-language study vocabulary</button>`;document.body.appendChild(menu);lb.setAttribute('aria-expanded','true');menu.querySelectorAll('[data-interface-lang]').forEach(b=>b.addEventListener('click',()=>{K.state.lang=b.getAttribute('data-interface-lang');K.save();renderHome();}));menu.querySelector('[data-go=lang]').addEventListener('click',()=>{menu.remove();openLang();});});
   const ti=scope.querySelector('#topbarInstall');
   if(ti)ti.addEventListener('click',(e)=>{e.stopPropagation();maybeShowInstall();});
   const sb=scope.querySelector('[data-speak-top]');
@@ -1472,7 +1385,7 @@ function bindGo(root){
   scope.querySelectorAll('[data-go]').forEach(el=>{
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
-      const map={home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,checklist:openChecklist,sim:openSim,mock:openMock,lang:openLang,rhd:openRHD,revision:openRevision};
+      const map={home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}map[t]();window.scrollTo(0,0);}
     });
   });
@@ -1827,7 +1740,7 @@ renderHome();
 try{
   const gp=new URLSearchParams(location.search).get('go');
   if(gp){
-    const map={session1:'session1',session2:'session2',session3:'session3',mock:'mock',sim:'sim',flash:'flash',practice:'practice',row:'row',memory:'memory',cheat:'cheat',checklist:'checklist',review:'review',lang:'lang',rhd:'rhd',revision:'revision'};
+    const map={session1:'session1',session2:'session2',session3:'session3',mock:'mock',sim:'sim',flash:'flash',practice:'practice',row:'row',memory:'memory',cheat:'cheat',checklist:'checklist',review:'review',rhd:'rhd',revision:'revision'};
     const target=map[gp];
     if(target){
       setTimeout(()=>{const el=document.querySelector(`[data-go="${target}"]`); if(el){el.click();}} ,200);
