@@ -1595,7 +1595,7 @@ function startMock(onlySec){
 }
 
 /* ---------- SHARE CARD (canvas-generated result image) ---------- */
-function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, lang){
+function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, scope='full'){
   const cvs=document.createElement('canvas');
   cvs.width=800; cvs.height=600;
   const ctx=cvs.getContext('2d');
@@ -1613,16 +1613,16 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, lang){
   ctx.fillStyle=passed?'#7bf0a2':'#ffb08a';
   ctx.fillText(totalCorrect + ' / ' + total, 400, 180);
   ctx.font='24px Inter, Arial'; ctx.fillStyle='#e8f5ff';
-  ctx.fillText('Overall', 400, 210);
+  ctx.fillText(scope==='section'?'Section practice':'Full practice mock', 400, 210);
   // Section bars
   const meta={'rules':'Rules','signs':'Signs','controls':'Controls'};
   const order=['rules','signs','controls'];
   const barW=500, barH=48, startX=150, startY=260, gap=60;
   order.forEach((s,idx)=>{
     const c=secCorrect[s]||0, t=secCount[s]||0, need=SECTION_META[s].need;
-    const pct=t>0?c/t:0; const ok=t>0&&pct*100>=SECTION_META[s].pct;
-    ctx.fillStyle='rgba(255,255,255,0.15)'; ctx.roundRect(startX,startY+idx*gap,barW,barH,12); ctx.fill();
-    ctx.fillStyle=ok?'rgba(21,128,61,0.6)':'rgba(176,69,0,0.6)'; if(t){ctx.roundRect(startX,startY+idx*gap,barW*pct,barH,12); ctx.fill();}
+    const pct=t>0?c/t:0; const ok=t===SECTION_META[s].n&&c>=need;
+    ctx.fillStyle='rgba(255,255,255,0.15)'; ctx.beginPath(); ctx.roundRect(startX,startY+idx*gap,barW,barH,12); ctx.fill();
+    ctx.fillStyle=ok?'rgba(21,128,61,0.6)':'rgba(176,69,0,0.6)'; if(t&&c){ctx.beginPath();ctx.roundRect(startX,startY+idx*gap,barW*pct,barH,12);ctx.fill();}
     ctx.font='bold 22px Inter, Arial'; ctx.fillStyle='#fff'; ctx.textAlign='left';
     ctx.fillText(meta[s], startX+20, startY+idx*gap+32);
     ctx.font='20px Inter, Arial'; ctx.fillStyle='#cfefff'; ctx.textAlign='right';
@@ -1630,7 +1630,7 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, lang){
   });
   // Footer
   ctx.font='18px Inter, Arial'; ctx.fillStyle='#cfefff'; ctx.textAlign='center';
-  const msg = passed ? (T('share.passed')||'I passed all sections!') : (T('share.failed')||'Working on my weak sections');
+  const msg = scope==='section' ? (passed?'Section practice passed':'Keep practising this section') : (passed?'All sections passed in practice':'Working on my weak sections');
   ctx.fillText(msg, 400, 560);
   return cvs.toDataURL('image/png');
 }
@@ -1676,10 +1676,10 @@ function finishMock(onlySec){
   if($('#shareBtn'))$('#shareBtn').addEventListener('click',()=>{
     const r = K.state.mockResults || {};
     const secCorrect={}, secCount={};
-    SECTION_ORDER.forEach(s=>{secCorrect[s]=r[s]?.correct||0; secCount[s]=r[s]?.total||0;});
+    SECTION_ORDER.forEach(s=>{const item=onlySec&&s!==onlySec?null:r[s];secCorrect[s]=item?.correct||0;secCount[s]=item?.total||0;});
     const totalCorrect = SECTION_ORDER.reduce((sum,s)=>sum+(r[s]?.correct||0), 0);
     const totalQ = SECTION_ORDER.reduce((sum,s)=>sum+(r[s]?.total||0), 0);
-    const dataUrl=makeShareCard(secCorrect, secCount, totalCorrect, totalQ, overallPass, K.state.lang||'en');
+    const dataUrl=makeShareCard(secCorrect, secCount, totalCorrect, totalQ, overallPass, onlySec?'section':'full');
     const a=document.createElement('a'); a.href=dataUrl; a.download='k53-result.png'; a.click();
   });
   if(overallPass)confetti();
@@ -1785,7 +1785,7 @@ function startSim(){
   if($('#shareBtn'))$('#shareBtn').addEventListener('click',()=>{
     const d=K.state.shareData;
     if(!d)return;
-    const dataUrl=makeShareCard(d.secCorrect, d.secCount, d.correct, d.total, d.passed, K.state.lang||'en');
+    const dataUrl=makeShareCard(d.secCorrect, d.secCount, d.correct, d.total, d.passed);
     const a=document.createElement('a'); a.href=dataUrl; a.download='k53-sim-result.png'; a.click();
   });
   if(allPass)confetti();
