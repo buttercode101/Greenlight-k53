@@ -1,0 +1,295 @@
+{
+  "reference": "https://www.sartsma.co.za/_files/ugd/4f7773_f67422e7934a4141a73351ca9452b1f0.pdf",
+  "reference_note": "Department of Transport Road Traffic Signs chart, sheet 1 of 5 (2000). Redrawn signs still require independent visual comparison with current SADC RTSM Volume 4 before approval.",
+  "signs": [
+    {
+      "id": "stop",
+      "asset": "stop.svg",
+      "code": "R1",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "giveway",
+      "asset": "giveway.svg",
+      "code": "R2",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "noentry",
+      "asset": "noentry.svg",
+      "code": "R3",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "robot",
+      "asset": "robot.svg",
+      "code": "W301",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "turnleft",
+      "asset": "turnleft.svg",
+      "code": "R108",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "keepleft",
+      "asset": "keepleft.svg",
+      "code": "R103",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "minspeed",
+      "asset": "minspeed.svg",
+      "code": "R101 family",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "headlightson",
+      "asset": "headlightson.svg",
+      "code": "R133",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "speed60",
+      "asset": "speed60.svg",
+      "code": "R201",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "noovertake",
+      "asset": "noovertake.svg",
+      "code": "R214",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "nouturn",
+      "asset": "nouturn.svg",
+      "code": "R213",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "noleft",
+      "asset": "noleft.svg",
+      "code": "R211",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "noright",
+      "asset": "noright.svg",
+      "code": "R212",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "nopark",
+      "asset": "nopark.svg",
+      "code": "R216",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "nostop",
+      "asset": "nostop.svg",
+      "code": "R217",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "buslane",
+      "asset": "buslane.svg",
+      "code": "R302",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "taxilane",
+      "asset": "taxilane.svg",
+      "code": "R310",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "disablepark",
+      "asset": "disablepark.svg",
+      "code": "R323-P",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "children",
+      "asset": "children.svg",
+      "code": "W308",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "curve",
+      "asset": "curve.svg",
+      "code": "W202",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "ped",
+      "asset": "ped.svg",
+      "code": "W307",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "animal",
+      "asset": "animal.svg",
+      "code": "W310",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "hill",
+      "asset": "hill.svg",
+      "code": "W323",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "slippery",
+      "asset": "slippery.svg",
+      "code": "W333",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "speedbump",
+      "asset": "speedbump.svg",
+      "code": "W332",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "railway",
+      "asset": "railway.svg",
+      "code": "W317",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "narrow",
+      "asset": "narrow.svg",
+      "code": "W328",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "rightofway",
+      "asset": "rightofway.svg",
+      "code": "IN7",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "crossroad",
+      "asset": "crossroad.svg",
+      "code": "W101",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "tjunction",
+      "asset": "tjunction.svg",
+      "code": "W104",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "yjunction",
+      "asset": "yjunction.svg",
+      "code": "W115",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "roundabout",
+      "asset": "roundabout.svg",
+      "code": "W201",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "pedcrossing",
+      "asset": "pedcrossing.svg",
+      "code": "W306",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "cyclist",
+      "asset": "cyclist.svg",
+      "code": "W309",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "wild",
+      "asset": "wild.svg",
+      "code": "W311",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
+    },
+    {
+      "id": "parking",
+      "asset": "parking.svg",
+      "code": "R305-P",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "toll",
+      "asset": "toll.svg",
+      "code": "R132",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
+    },
+    {
+      "id": "redman",
+      "asset": "redman.svg",
+      "code": "S11P",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1,
+      "source_detail": "SARTSM Volume 2 section 14.7.2"
+    },
+    {
+      "id": "greenman",
+      "asset": "greenman.svg",
+      "code": "S11P",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1,
+      "source_detail": "SARTSM Volume 2 section 14.7.2"
+    }
+  ],
+  "excluded": [
+    {
+      "id": "school",
+      "reason": "Duplicate children warning question without a distinct validated sign face"
+    },
+    {
+      "id": "hospital",
+      "reason": "Generic H placeholder had no verified sign code or design"
+    },
+    {
+      "id": "dir",
+      "reason": "Generic arrow placeholder did not represent a specific direction sign"
+    }
+  ]
+}
