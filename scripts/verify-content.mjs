@@ -26,6 +26,6 @@ for(const code of ['1','2','3']){
 }
 assert(!/Monday|first.time pass|official question bank access/i.test(html));
 const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
-assert.equal(registry.records.length,179);
-assert(registry.records.every(x=>x.source.startsWith('https://www.natis.gov.za/') && x.reviewer===null && x.reviewDate===null));
+assert.equal(registry.records.length,189);
+assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source) && x.reviewer===null && x.reviewDate===null));
 console.log('Control choice invariants and code scope passed.');
