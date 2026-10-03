@@ -2150,6 +2150,126 @@
       "reviewDate": null,
       "reviewStatus": "Independent subject review pending",
       "language": "en"
+    },
+    {
+      "id": "rhd_tips-001",
+      "title": "In a typical South African right-hand-drive car, the steering wheel is on the right. Traffic normally keeps left.",
+      "sha256_16": "12fb3ca9f5b34ef6",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls",
+      "sourceArea": "controls",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "rhd_tips-002",
+      "title": "In this manual-car illustration the gear lever is to the driver’s left. Find each control in the vehicle you will use.",
+      "sha256_16": "d1a2cd9b2cde5038",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls",
+      "sourceArea": "controls",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "rhd_tips-003",
+      "title": "The illustration shows clutch, brake and accelerator from left to right. An automatic car has no clutch pedal.",
+      "sha256_16": "736866ab264e19fb",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls",
+      "sourceArea": "controls",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "rhd_tips-004",
+      "title": "Keep effective control of the wheel and check mirrors and blind spots when required. Follow your instructor’s vehicle-specific guidance.",
+      "sha256_16": "07898bfc0176f412",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls",
+      "sourceArea": "controls",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "rhd_tips-005",
+      "title": "Keep left where required and safe. Overtaking rules have conditions and exceptions; learn them in the road-rules section.",
+      "sha256_16": "a214386a6e8b0b23",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
+      "sourceArea": "rules",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "dltc_checklist-001",
+      "title": "Identity document",
+      "sha256_16": "9266cea4905c5539",
+      "source": "https://www.gov.za/services/driving-licence/apply-learners-licence",
+      "sourceArea": "application",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "dltc_checklist-002",
+      "title": "ID photographs",
+      "sha256_16": "790afcf35941c542",
+      "source": "https://www.gov.za/services/driving-licence/apply-learners-licence",
+      "sourceArea": "application",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "dltc_checklist-003",
+      "title": "Proof of address",
+      "sha256_16": "6f34bfec1985ca71",
+      "source": "https://www.gov.za/services/driving-licence/apply-learners-licence",
+      "sourceArea": "application",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "dltc_checklist-004",
+      "title": "Booking fee",
+      "sha256_16": "b4bd64d7bd1a5e4c",
+      "source": "https://www.gov.za/services/driving-licence/apply-learners-licence",
+      "sourceArea": "application",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "dltc_checklist-005",
+      "title": "LL1 application form",
+      "sha256_16": "663f1528f7ea00af",
+      "source": "https://www.gov.za/services/driving-licence/apply-learners-licence",
+      "sourceArea": "application",
+      "sourceMappingDate": "2026-10-03",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
     }
   ]
 }
