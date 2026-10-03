@@ -1404,7 +1404,7 @@ function readiness(){
     msg='You completed the sessions and passed every section in practice. Review the questions you missed and try another full mock.';
   } else if(sessionsDone===0 && !allSec){
     verdict=s.acc?.total?'Build your foundation':'Just starting'; emoji='🌱'; score=0;
-    msg=s.acc?.total?'You tried a full practice test. Study the signs, rules and controls, then retake the sections you missed.':'Start with Session 1, then use the section drills to track your progress.';
+    msg=s.acc?.total?'You completed practice questions. Study the signs, rules and controls, then retake the sections you missed.':'Start with Session 1, then use the section drills to track your progress.';
   } else if(!doneAll){
     verdict='Getting there'; emoji='📚'; score=Math.round(sessionsDone/3*60);
     msg='Keep going through the three sessions, then pass each section of the mock.';
@@ -1647,13 +1647,13 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, lang){
   const barW=500, barH=48, startX=150, startY=260, gap=60;
   order.forEach((s,idx)=>{
     const c=secCorrect[s]||0, t=secCount[s]||0, need=SECTION_META[s].need;
-    const pct=t>0?c/t:0; const ok=pct*100>=SECTION_META[s].pct;
+    const pct=t>0?c/t:0; const ok=t>0&&pct*100>=SECTION_META[s].pct;
     ctx.fillStyle='rgba(255,255,255,0.15)'; ctx.roundRect(startX,startY+idx*gap,barW,barH,12); ctx.fill();
-    ctx.fillStyle=ok?'rgba(21,128,61,0.6)':'rgba(176,69,0,0.6)'; ctx.roundRect(startX,startY+idx*gap,barW*pct,barH,12); ctx.fill();
+    ctx.fillStyle=ok?'rgba(21,128,61,0.6)':'rgba(176,69,0,0.6)'; if(t){ctx.roundRect(startX,startY+idx*gap,barW*pct,barH,12); ctx.fill();}
     ctx.font='bold 22px Inter, Arial'; ctx.fillStyle='#fff'; ctx.textAlign='left';
     ctx.fillText(meta[s], startX+20, startY+idx*gap+32);
     ctx.font='20px Inter, Arial'; ctx.fillStyle='#cfefff'; ctx.textAlign='right';
-    ctx.fillText(c+'/'+t+' (need '+need+')', startX+barW-20, startY+idx*gap+32);
+    ctx.fillText(t?c+'/'+t+' (need '+need+')':'Not taken', startX+barW-20, startY+idx*gap+32);
   });
   // Footer
   ctx.font='18px Inter, Arial'; ctx.fillStyle='#cfefff'; ctx.textAlign='center';
@@ -1667,13 +1667,14 @@ function finishMock(onlySec){
   let allPass=true, totalCorrect=0, totalQ=0;
   sections.forEach(s=>{const r=K.state.secPass&&K.state.secPass[s];if(!r)allPass=false;});
   // Build summary
-  const rows=SECTION_ORDER.map(s=>{
+  const rows=sections.map(s=>{
     const p=K.state.secPass&&K.state.secPass[s];
     const m=SECTION_META[s];
-    return `<tr><td>${m.name}</td><td>${p?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}</td><td>${m.need}/${m.n}</td></tr>`;
+    const taken=!!K.state.mockResults?.[s];
+    return `<tr><td>${m.name}</td><td>${!taken?'NOT TAKEN':p?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}</td><td>${m.need}/${m.n}</td></tr>`;
   }).join('');
   const overallPass = onlySec ? (K.state.secPass&&K.state.secPass[onlySec]) : allPass;
-  K.state.mockPass=overallPass;
+  if(!onlySec)K.state.mockPass=overallPass;
   K.state.mastery=K.state.mastery||{};
   const resultMap={rules:2,signs:1,controls:3};
   sections.forEach(sec=>{const result=(K.state.mockResults||{})[sec];if(result&&result.total){K.state.mastery[resultMap[sec]]=Math.round(result.correct/result.total*100);}});
