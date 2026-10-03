@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://k53.skillcert.co.za/sitemap.xml
+Sitemap: https://greenlight-k53-review.vercel.app/sitemap.xml
