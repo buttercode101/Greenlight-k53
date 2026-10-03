@@ -992,7 +992,7 @@ function openSession1(){
   app.innerHTML=backbar('Session 1 · Road Signs')+`
   <div class="block">
     <p class="kicker">Step 1</p><h2>Read every sign once</h2>
-    <p class="lead">Each illustration is a clean study reference. Learn the sign family first, then the symbol and the action it asks you to take.</p>
+    <p class="lead">These are simplified study illustrations. Learn the sign family, symbol and required action; compare the official road traffic signs manual before your test.</p>
     <div class="sign-legend" aria-label="Sign family key"><span class="stop">Red = restriction / stop</span><span class="must">Blue = instruction</span><span class="warn">Red triangle = warning</span><span class="info">Board = information</span></div>
     ${ttsSettingsBar()}
     <div class="signgrid">${cards}</div>
@@ -1389,7 +1389,7 @@ function readiness(){
     verdict='Almost there'; emoji='🚀'; score=85;
     msg='You completed the sessions and passed every section in practice. Review the questions you missed and try another full mock.';
   } else if(sessionsDone===0 && !allSec){
-    verdict='Just starting'; emoji='🌱'; score=10;
+    verdict='Just starting'; emoji='🌱'; score=0;
     msg='Start with Session 1, then use the section drills to track your progress.';
   } else if(!doneAll){
     verdict='Getting there'; emoji='📚'; score=Math.round(sessionsDone/3*60);
