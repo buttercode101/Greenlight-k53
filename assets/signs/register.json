@@ -1,281 +1,398 @@
 {
   "reference": "https://www.sartsma.co.za/_files/ugd/4f7773_f67422e7934a4141a73351ca9452b1f0.pdf",
-  "reference_note": "Department of Transport Road Traffic Signs chart, sheet 1 of 5 (2000). Redrawn signs still require independent visual comparison with current SADC RTSM Volume 4 before approval.",
+  "reference_note": "Department of Transport sign chart (2000), checked against SADC Road Traffic Signs Manual Volume 1 (2012). These are simplified study illustrations, not official scalable manufacturing drawings.",
   "signs": [
     {
       "id": "stop",
       "asset": "stop.svg",
       "code": "R1",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Stop sign R1; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "giveway",
       "asset": "giveway.svg",
       "code": "R2",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Give Way sign R2; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "noentry",
       "asset": "noentry.svg",
       "code": "R3",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "No Entry sign R3; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "robot",
       "asset": "robot.svg",
       "code": "W301",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Traffic signals ahead W301; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "turnleft",
       "asset": "turnleft.svg",
       "code": "R108",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Turn left command R108; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "keepleft",
       "asset": "keepleft.svg",
       "code": "R103",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Keep Left sign R103; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "minspeed",
       "asset": "minspeed.svg",
-      "code": "R101 family",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "code": "R101-60",
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Minimum Speed 60 command sign R101-60; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "headlightson",
       "asset": "headlightson.svg",
       "code": "R133",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Headlights on command R133; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "speed60",
       "asset": "speed60.svg",
       "code": "R201",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Maximum Speed 60 sign R201; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "noovertake",
       "asset": "noovertake.svg",
       "code": "R214",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "No overtaking R214; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "nouturn",
       "asset": "nouturn.svg",
       "code": "R213",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "No U-turn R213; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "noleft",
       "asset": "noleft.svg",
       "code": "R211",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "No left turn R211; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "noright",
       "asset": "noright.svg",
       "code": "R212",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "No right turn R212; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "nopark",
       "asset": "nopark.svg",
       "code": "R216",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "No parking R216; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "nostop",
       "asset": "nostop.svg",
       "code": "R217",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "No stopping R217; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "buslane",
       "asset": "buslane.svg",
       "code": "R302",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Bus lane reservation R302; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "taxilane",
       "asset": "taxilane.svg",
       "code": "R310",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Minibus reservation R310; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "disablepark",
       "asset": "disablepark.svg",
       "code": "R323-P",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Disabled persons parking R323-P; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "children",
       "asset": "children.svg",
       "code": "W308",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Children ahead W308; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "curve",
       "asset": "curve.svg",
       "code": "W202",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Curve ahead W202; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "ped",
       "asset": "ped.svg",
       "code": "W307",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Pedestrians ahead W307; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "animal",
       "asset": "animal.svg",
       "code": "W310",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Domestic animals ahead W310; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "hill",
       "asset": "hill.svg",
-      "code": "W323",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "code": "W322",
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Steep descent ahead W322; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "slippery",
       "asset": "slippery.svg",
       "code": "W333",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Slippery road ahead W333; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "speedbump",
       "asset": "speedbump.svg",
       "code": "W332",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Speed hump ahead W332; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "railway",
       "asset": "railway.svg",
       "code": "W317",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Railway crossing ahead W317; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "narrow",
       "asset": "narrow.svg",
       "code": "W328",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Road narrows ahead W328; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "rightofway",
       "asset": "rightofway.svg",
       "code": "IN7",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Priority road IN7; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "crossroad",
       "asset": "crossroad.svg",
       "code": "W101",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Crossroads ahead W101; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "tjunction",
       "asset": "tjunction.svg",
       "code": "W104",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "T-junction ahead W104; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "yjunction",
       "asset": "yjunction.svg",
       "code": "W115",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Y-junction ahead W115; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "roundabout",
       "asset": "roundabout.svg",
       "code": "W201",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Roundabout ahead W201; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "pedcrossing",
       "asset": "pedcrossing.svg",
       "code": "W306",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Pedestrian crossing ahead W306; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "cyclist",
       "asset": "cyclist.svg",
       "code": "W309",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Cyclists ahead W309; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "wild",
       "asset": "wild.svg",
       "code": "W311",
-      "status": "redrawn-needs-final-review",
-      "source_page": 2
+      "status": "reviewed-study-illustration",
+      "source_page": 2,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Wild animals ahead W311; compared shape, colour, symbol and orientation with Department of Transport chart sheet 2. Simplified study drawing."
     },
     {
       "id": "parking",
       "asset": "parking.svg",
       "code": "R305-P",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Parking sign R305-P; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "toll",
       "asset": "toll.svg",
       "code": "R132",
-      "status": "redrawn-needs-final-review",
-      "source_page": 1
+      "status": "reviewed-study-illustration",
+      "source_page": 1,
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Pay toll command sign R132; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing."
     },
     {
       "id": "redman",
       "asset": "redman.svg",
       "code": "S11P",
-      "status": "redrawn-needs-final-review",
+      "status": "reviewed-study-illustration",
       "source_page": 1,
-      "source_detail": "SARTSM Volume 2 section 14.7.2"
+      "source_detail": "SARTSM Volume 2 section 14.7.2",
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Steady red standing pedestrian aspect S11P; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing. Signal face reference: SADC RTSM Volume 4, Chapter 10, S11P."
     },
     {
       "id": "greenman",
       "asset": "greenman.svg",
       "code": "S11P",
-      "status": "redrawn-needs-final-review",
+      "status": "reviewed-study-illustration",
       "source_page": 1,
-      "source_detail": "SARTSM Volume 2 section 14.7.2"
+      "source_detail": "SARTSM Volume 2 section 14.7.2",
+      "reviewed_at": "2026-10-03",
+      "reviewer": "Codex visual comparison",
+      "review_note": "Steady green walking pedestrian aspect S11P; compared shape, colour, symbol and orientation with Department of Transport chart sheet 1. Simplified study drawing. Signal face reference: SADC RTSM Volume 4, Chapter 10, S11P."
     }
   ],
   "excluded": [
