@@ -1389,8 +1389,8 @@ function readiness(){
     verdict='Almost there'; emoji='🚀'; score=85;
     msg='You completed the sessions and passed every section in practice. Review the questions you missed and try another full mock.';
   } else if(sessionsDone===0 && !allSec){
-    verdict='Just starting'; emoji='🌱'; score=0;
-    msg='Start with Session 1, then use the section drills to track your progress.';
+    verdict=s.acc?.total?'Build your foundation':'Just starting'; emoji='🌱'; score=0;
+    msg=s.acc?.total?'You tried a full practice test. Study the signs, rules and controls, then retake the sections you missed.':'Start with Session 1, then use the section drills to track your progress.';
   } else if(!doneAll){
     verdict='Getting there'; emoji='📚'; score=Math.round(sessionsDone/3*60);
     msg='Keep going through the three sessions, then pass each section of the mock.';
