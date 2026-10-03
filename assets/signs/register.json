@@ -110,23 +110,23 @@
     {
       "id": "buslane",
       "asset": "buslane.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "External vector artwork; provenance and sign variant need review"
+      "code": "R302",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "taxilane",
       "asset": "taxilane.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "External vector artwork; provenance and sign variant need review"
+      "code": "R310",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "disablepark",
       "asset": "disablepark.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "External vector artwork; provenance and sign variant need review"
+      "code": "R323-P",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1
     },
     {
       "id": "children",
