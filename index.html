@@ -1126,7 +1126,9 @@ function variantFor(q){
 }
 function optionRationale(q){
  const wrong=q.opts.map((o,i)=>({o,i})).filter(x=>x.i!==q.ans);
- return `<details class="d"><summary>Why the other choices are wrong</summary><ul>${wrong.map(({o})=>{const sign=K.SIGNS.find(s=>s.name===o);return `<li><b>${safeHTML(o)}</b>: ${safeHTML(sign?sign.mean:'It does not answer this situation. Compare the correct rule with the linked official manual topic.')}</li>`;}).join('')}</ul></details>`;
+ const signMeanings=wrong.map(({o})=>({o,sign:K.SIGNS.find(s=>s.name===o)}));
+ if(signMeanings.every(x=>x.sign))return `<details class="d"><summary>Compare the signs</summary><ul>${signMeanings.map(({o,sign})=>`<li><b>${safeHTML(o)}</b>: ${safeHTML(sign.mean)}</li>`).join('')}</ul></details>`;
+ return `<details class="d"><summary>Review the answer</summary><p>The answer here is <b>${safeHTML(q.opts[q.ans])}</b>. ${safeHTML(q.ex||'')} Check the linked manual topic for the exact rule and its conditions.</p></details>`;
 }
 function renderAnswerTools(card,q){
  const fb=card.querySelector('.feedback');fb.insertAdjacentHTML('afterend',optionRationale(q));
@@ -1213,19 +1215,19 @@ function startReview(keys){
 }
 
 /* RHD COCKPIT — South Africa is a right-hand-drive country. Visual study aid. */
-function openRHD(){
-  const tips=[
-    ['Driver sits on the RIGHT', 'Steering wheel is on the right side, near the right door. You drive on the LEFT side of the road.'],
-    ['Gear lever LEFT of driver', 'In an RHD car the gear lever is to your left, operated by your left hand.'],
-    ['Clutch is LEFTMOST', 'Pedals (right footwell): Clutch (left), Brake (middle), Accelerator (right). Left foot = clutch only.'],
-    ['Hands at 9 & 3', 'Both hands on the wheel at the "9 and 3" position for full control (10 & 2 also accepted).'],
-    ['Stay LEFT, overtake RIGHT', 'Keep as far left as safe. Overtake only on the right. Move back left after passing.'],
+const RHD_TIPS=[
+    ['Driver sits on the RIGHT', 'In a typical South African right-hand-drive car, the steering wheel is on the right. Traffic normally keeps left.'],
+    ['Gear lever beside the driver', 'In this manual-car illustration the gear lever is to the driver’s left. Find each control in the vehicle you will use.'],
+    ['Manual pedals', 'The illustration shows clutch, brake and accelerator from left to right. An automatic car has no clutch pedal.'],
+    ['Steering and observation', 'Keep effective control of the wheel and check mirrors and blind spots when required. Follow your instructor’s vehicle-specific guidance.'],
+    ['Keep left', 'Keep left where required and safe. Overtaking rules have conditions and exceptions; learn them in the road-rules section.'],
   ];
-  const rows=tips.map((t,i)=>`<div class="mini"><div class="t">${i+1}. ${t[0]}</div><div class="d">${t[1]}</div></div>`).join('');
+function openRHD(){
+  const rows=RHD_TIPS.map((t,i)=>`<div class="mini"><div class="t">${i+1}. ${t[0]}</div><div class="d">${t[1]}</div></div>`).join('');
   app.innerHTML=backbar('RHD Cockpit')+`<div class="block">
     <p class="kicker">South Africa · Right-Hand Drive</p>
     <h2>RHD Cockpit — Know Your Layout</h2>
-    <p class="lead">SA is a right-hand-drive country. Look at the pedals and controls so the layout is second nature before the test.</p>
+    <p class="lead">A simplified manual-car layout. Real vehicles differ; identify the controls in your actual vehicle. This illustration does not apply to motorcycles or heavy vehicles.</p>
     <div style="display:grid;place-items:center;margin:var(--s4) 0">
       <svg class="cockpit-diagram" viewBox="0 0 440 350" role="img" aria-label="Right-hand-drive cockpit: steering wheel at the right, gear lever to the driver's left, and clutch, brake, accelerator from left to right in the driver's footwell">
         <rect x="2" y="2" width="436" height="346" rx="18" fill="#f3f5f2" stroke="#b9c5ba" stroke-width="2"/>
@@ -1548,16 +1550,17 @@ function openJourney(){
  $('#vehicleCode').addEventListener('change',e=>{setVehicleCode(e.target.value);openJourney();});$('#testDate').addEventListener('change',e=>{K.state.testDate=e.target.value;K.save();dateHint();});$('#province').addEventListener('change',e=>{K.state.province=e.target.value;K.save();const a=$('#provinceGuide');a.href=PROVINCE_GUIDE[K.state.province]||'https://www.gov.za/services/driving-licence/apply-learners-licence';a.textContent=K.state.province?K.state.province+' official guidance ↗':'National application guidance ↗';});function dateHint(){const days=K.state.testDate?Math.ceil((new Date(K.state.testDate+'T12:00:00')-new Date())/86400000):null;$('#dateHint').textContent=days===null?'No date saved. Start with signs, then repeat missed topics in short sessions.':days<0?'Your saved date has passed. Update it to plan the next session.':days===0?'Today: take your documents, allow travel time and follow your DLTC instructions.':days<7?days+' days left. Review due mistakes and one weak topic today, then confirm your DLTC details.':days+' days left. Study one topic today and check due mistakes tomorrow.';}dateHint();bindGo();
 }
 function openSources(){
- app.innerHTML=backbar('Coverage & sources')+`<div class="block"><p class="kicker">Learn here, verify there</p><h2>Your study map</h2><p class="lead">GreenLight offers original explanations, simplified illustrations and practice decisions. These are selected examples, not a complete or independently certified syllabus.</p><div class="journey-steps"><div class="journey-step"><span class="num">1</span><div><h3>Road signs & markings</h3><p>39 illustrated signs and 10 marking descriptions.</p><button data-go="signlibrary">Search GreenLight signs →</button></div></div><div class="journey-step"><span class="num">2</span><div><h3>Road rules</h3><p>Selected rules and varied practice questions for your learner code.</p><button data-go="session2">Learn rules →</button></div></div><div class="journey-step"><span class="num">3</span><div><h3>Vehicle controls</h3><p>${K.controlsForCode(K.state.vehicleCode).length} selected questions for Code ${K.state.vehicleCode}.</p><button data-go="session3">Study controls →</button></div></div></div></div><div class="block"><p class="kicker">Official reference library</p><h2>Check the full material</h2><p class="lead">Open a manual when you need exact sign artwork, wording or topics outside this app. These sources do not replace your lessons here.</p><div class="mini"><div class="t">Rules of the road</div><div class="d"><a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">NaTIS rules manual ↗</a></div></div><div class="mini"><div class="t">Road traffic signs</div><div class="d"><a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">NaTIS signs manual ↗</a></div></div><div class="mini"><div class="t">Vehicle controls</div><div class="d"><a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">NaTIS controls manual ↗</a></div></div><p class="reference-note">Our <a href="content-register.json" target="_blank" rel="noopener noreferrer">content register</a> maps 179 entries to manual areas. It is not item-by-item legal sign-off. No qualified independent reviewer has signed off the entire set; teaching is English only. Check bookings and local requirements directly with your DLTC. Source pages checked 3 October 2026.</p></div>`;bindGo();
+ app.innerHTML=backbar('Coverage & sources')+`<div class="block"><p class="kicker">Learn here, verify there</p><h2>Your study map</h2><p class="lead">GreenLight offers original explanations, simplified illustrations and practice decisions. These are selected examples, not a complete or independently certified syllabus.</p><div class="journey-steps"><div class="journey-step"><span class="num">1</span><div><h3>Road signs & markings</h3><p>39 illustrated signs and 10 marking descriptions.</p><button data-go="signlibrary">Search GreenLight signs →</button></div></div><div class="journey-step"><span class="num">2</span><div><h3>Road rules</h3><p>Selected rules and varied practice questions for your learner code.</p><button data-go="session2">Learn rules →</button></div></div><div class="journey-step"><span class="num">3</span><div><h3>Vehicle controls</h3><p>${K.controlsForCode(K.state.vehicleCode).length} selected questions for Code ${K.state.vehicleCode}.</p><button data-go="session3">Study controls →</button></div></div></div></div><div class="block"><p class="kicker">Official reference library</p><h2>Check the full material</h2><p class="lead">Open a manual when you need exact sign artwork, wording or topics outside this app. These sources do not replace your lessons here.</p><div class="mini"><div class="t">Rules of the road</div><div class="d"><a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">NaTIS rules manual ↗</a></div></div><div class="mini"><div class="t">Road traffic signs</div><div class="d"><a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">NaTIS signs manual ↗</a></div></div><div class="mini"><div class="t">Vehicle controls</div><div class="d"><a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">NaTIS controls manual ↗</a></div></div><p class="reference-note">Our <a href="content-register.json" target="_blank" rel="noopener noreferrer">content register</a> maps 189 entries to manual areas. It is not item-by-item legal sign-off. No qualified independent reviewer has signed off the entire set; teaching is English only. Check bookings and local requirements directly with your DLTC. Source pages checked 3 October 2026.</p></div>`;bindGo();
 }
-function openChecklist(){
-  const items=[
+const DLTC_CHECKLIST=[
     ['🪪','Identity document','Bring the identity document required by your DLTC; confirm acceptable documents when booking.'],
     ['📸','ID photographs','Confirm the number, size and colour requirements with your DLTC.'],
-    ['🏠','Proof of address','Utility bill in your name, or a signed affidavit + attached bill.'],
+    ['🏠','Proof of address','Bring acceptable proof of postal and residential address. If the account is in someone else’s name, ask the DLTC about the owner’s affidavit and attached bill. Other accepted documents and informal-settlement arrangements may apply.'],
     ['💰','Booking fee','Amount varies by province — check your local DLTC.'],
     ['📄','LL1 application form','Completed at the DLTC. If you\'re 65+ you\'ll also need an MC medical form.']
-  ].map(([e,t,d])=>`<div class="mini"><div class="t">${e} ${t}</div><div class="d">${d}</div></div>`).join('');
+  ];
+function openChecklist(){
+  const items=DLTC_CHECKLIST.map(([e,t,d])=>`<div class="mini"><div class="t">${e} ${t}</div><div class="d">${d}</div></div>`).join('');
   app.innerHTML=backbar('Test-Day Checklist')+`
   <div class="block">
     <p class="kicker">Day of the test</p><h2>What to take to the DLTC</h2>
@@ -1572,7 +1575,7 @@ function openChecklist(){
       <li>If you pass and pay the fee, your learner's licence is usually issued the same day.</li>
       <li>A learner's licence is valid for 24 months and cannot be extended.</li>
     </ul>
-    <button class="btn btn-primary" data-go="mock">🏁 Take the mock before you book<span class="sub">Confirm you're ready first</span></button>
+    <button class="btn btn-primary" data-go="mock">Try a learning mock<span class="sub">Use the result to guide another study session</span></button>
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
   bindGo();
