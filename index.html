@@ -1319,10 +1319,10 @@ function openRow(){
 function openPractice(){
   app.innerHTML=backbar('Section Drills')+`<div class="block">
     <p class="kicker">Train your weak section</p><h2>Focused practice</h2>
-    <p class="lead">Drill one section with the SAME pass marks as the real test. You must pass each section on its own.</p>
-    <button class="btn btn-soft" id="drillSigns" type="button">🛑 Signs <span class="sub">All ${K.SIGNS.length} signs + ${K.MARKINGS.length} markings · pass 23/28 (82%)</span></button>
-    <button class="btn btn-soft" id="drillRules" type="button">📜 Rules <span class="sub">All ${K.RULES.length} rules · pass 22/28 (79%)</span></button>
-    <button class="btn btn-soft" id="drillCtrl" type="button">🎛 Controls <span class="sub">All ${K.CONTROLS.length} controls · pass 6/8 (75%)</span></button>
+    <p class="lead">Focused drills use every available question. Pass targets are scaled to the drill length; the 64-question mock uses the test-section counts.</p>
+    <button class="btn btn-soft" id="drillSigns" type="button">🛑 Signs <span class="sub">${K.SIGNS.length} signs + ${K.MARKINGS.length} markings · target ${Math.ceil((K.SIGNS.length+K.MARKINGS.length)*23/28)}/${K.SIGNS.length+K.MARKINGS.length}</span></button>
+    <button class="btn btn-soft" id="drillRules" type="button">📜 Rules <span class="sub">${K.RULES.length} rules · target ${Math.ceil(K.RULES.length*22/28)}/${K.RULES.length}</span></button>
+    <button class="btn btn-soft" id="drillCtrl" type="button">🎛 Controls <span class="sub">${K.CONTROLS.length} controls · target ${Math.ceil(K.CONTROLS.length*6/8)}/${K.CONTROLS.length}</span></button>
     <button class="btn btn-soft" id="drillMixed" type="button">🔀 Mixed 20 <span class="sub">Random across all topics</span></button>
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
@@ -1474,7 +1474,7 @@ function bindGo(root){
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
       const map={home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,checklist:openChecklist,sim:openSim,mock:openMock,lang:openLang,rhd:openRHD,revision:openRevision};
-      if(map[t]){map[t]();window.scrollTo(0,0);}
+      if(map[t]){if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}map[t]();window.scrollTo(0,0);}
     });
   });
 }
