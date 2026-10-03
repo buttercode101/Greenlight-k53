@@ -2,18 +2,20 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import crypto from 'node:crypto';
 const html=fs.readFileSync('index.html','utf8');
-const sources={SIGNS:'signs',MARKINGS:'signs',RULES:'rules',CONTROLS:'controls',MOTORCYCLE_CONTROLS:'controls',HEAVY_CONTROLS:'controls',MOCK_EXTRA:'rules',ROW:'rules',MEMORY:'rules',STOPPING:'rules',REVISION:'rules'};
-const urls={signs:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs',rules:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road',controls:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls'};
+const sources={SIGNS:'signs',MARKINGS:'signs',RULES:'rules',CONTROLS:'controls',MOTORCYCLE_CONTROLS:'controls',HEAVY_CONTROLS:'controls',MOCK_EXTRA:'rules',ROW:'rules',MEMORY:'rules',STOPPING:'rules',REVISION:'rules',RHD_TIPS:'controls',DLTC_CHECKLIST:'application'};
+const urls={signs:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs',rules:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road',controls:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls',application:'https://www.gov.za/services/driving-licence/apply-learners-licence'};
 const records=[];
 for(const [name,topic] of Object.entries(sources)){
  const start=html.indexOf('const '+name+'=[');if(start<0)throw Error('Missing '+name);
- const end=html.indexOf('\n];',start);if(end<0)throw Error('Unclosed '+name);
- const literal=html.slice(start+('const '+name+'=').length,end+2);
+ const close=/\n\s*\];/.exec(html.slice(start));if(!close)throw Error('Unclosed '+name);
+ const end=start+close.index+close[0].length;
+ const literal=html.slice(start+('const '+name+'=').length,end).replace(/;$/,'');
  const data=vm.runInNewContext('('+literal+')');
  for(const [i,item] of data.entries()){
-  const content=item.q||item.name||item.t||item.scene||item.trick||item.speed;
+  const itemTopic=name==='RHD_TIPS'&&i===4?'rules':topic;
+  const content=Array.isArray(item)?item[1]||item[0]:item.q||item.name||item.t||item.scene||item.trick||item.speed;
   const digest=crypto.createHash('sha256').update(JSON.stringify(item)).digest('hex').slice(0,16);
-  records.push({id:name.toLowerCase()+'-'+String(i+1).padStart(3,'0'),title:content,sha256_16:digest,source:urls[topic],sourceArea:topic,sourceMappingDate:'2026-10-03',reviewer:null,reviewDate:null,reviewStatus:'Independent subject review pending',language:'en'});
+  records.push({id:name.toLowerCase()+'-'+String(i+1).padStart(3,'0'),title:content,sha256_16:digest,source:urls[itemTopic],sourceArea:itemTopic,sourceMappingDate:'2026-10-03',reviewer:null,reviewDate:null,reviewStatus:'Independent subject review pending',language:'en'});
  }
 }
 const output=JSON.stringify({schema:1,generated:'2026-10-03',note:'A source-area mapping is not an item-level fact check. No human or qualified reviewer is implied.',records},null,2)+'\n';
