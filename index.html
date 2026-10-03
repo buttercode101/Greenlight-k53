@@ -463,7 +463,7 @@ const SIGNS=[
  {id:'robot',svg:'assets/signs/robot.svg',name:'Warning: Traffic Signals Ahead',fam:'tri',mean:'Traffic signals are ahead. Slow down, scan the junction and obey the signal when you reach it.',analogy:'The warning triangle tells you to prepare for a controlled junction.',cat:'Red-bordered triangle = WARNING'},
  {id:'turnleft',svg:'assets/signs/turnleft.svg',name:'Turn Left Ahead',fam:'blue',mean:'You MUST turn left at the next road.',analogy:'Blue circle = you have to do this.',cat:'Blue circle = YOU MUST'},
  {id:'keepleft',svg:'assets/signs/keepleft.svg',name:'Mandatory: Keep Left',fam:'blue',mean:'Stay on the left side of the divider.',analogy:'Blue circle = a rule you must follow.',cat:'Blue circle = YOU MUST'},
- {id:'minspeed',svg:'assets/signs/minspeed.svg',name:'Minimum Speed 60',fam:'blue',mean:'You MUST drive at least 60 km/h in this lane — no slower.',analogy:'Blue circle with number = a floor, not a ceiling.',cat:'Blue circle = YOU MUST'},
+ {id:'minspeed',svg:'assets/signs/minspeed.svg',name:'Minimum Speed 60',fam:'blue',mean:'Where this sign applies, drive at least 60 km/h unless safety requires otherwise.',analogy:'Blue circle with number = a floor, not a ceiling.',cat:'Blue circle = YOU MUST'},
  {id:'headlightson',svg:'assets/signs/headlightson.svg',name:'Headlights On',fam:'blue',mean:'Switch your headlights on (dipped) — you must be seen.',analogy:'Blue circle + lamp = lights compulsory.',cat:'Blue circle = YOU MUST'},
  {id:'speed60',svg:'assets/signs/speed60.svg',name:'Speed Limit 60',fam:'red',mean:'Do NOT go faster than 60 km/h. Maximum, not a target.',analogy:'Red circle = a strict ceiling, like a toy car\'s speed cap.',cat:'Red circle = DON\'T'},
  {id:'noovertake',svg:'assets/signs/noovertake.svg',name:'No Overtaking',fam:'red',mean:'Do NOT overtake other vehicles on this stretch of road.',analogy:'Two cars with a red slash = no passing.',cat:'Red circle = DON\'T'},
@@ -492,13 +492,13 @@ const SIGNS=[
  {id:'pedcrossing',svg:'assets/signs/pedcrossing.svg',name:'Warning: Pedestrian Crossing',fam:'tri',mean:'A marked crossing is ahead. Slow down — pedestrians have priority.',analogy:'People stripes = be ready to stop.',cat:'Red-bordered triangle = WARNING'},
  {id:'cyclist',svg:'assets/signs/cyclist.svg',name:'Warning: Cyclists',fam:'tri',mean:'Cyclists may be on the road ahead. Give them space.',analogy:'Triangle = two wheels ahead.',cat:'Red-bordered triangle = WARNING'},
  {id:'wild',svg:'assets/signs/wild.svg',name:'Warning: Wild Animals',fam:'tri',mean:'Wild animals may cross the road. Slow down and be ready to stop.',analogy:'Triangle = unexpected on the road.',cat:'Red-bordered triangle = WARNING'},
- {id:'parking',svg:'assets/signs/parking.svg',name:'Info: Parking',fam:'info',mean:'A place to park is available here.',analogy:'Blue box = here is something useful.',cat:'Information sign = GUIDANCE'},
+ {id:'parking',svg:'assets/signs/parking.svg',name:'Parking Reservation',fam:'blue',mean:'Parking is reserved in the signed area, subject to any displayed conditions.',analogy:'Blue board with P = designated parking.',cat:'Blue board = RESERVATION'},
  {id:'toll',svg:'assets/signs/toll.svg',name:'Pay Toll',fam:'blue',mean:'This is a toll route; payment is required where indicated.',analogy:'Blue command sign with T = toll payment.',cat:'Blue circle = COMMAND'},
  {id:'redman',svg:'assets/signs/redman.svg',name:'Pedestrian Signal: Red Man',fam:'red',mean:'Pedestrians must NOT start crossing. Wait.',analogy:'Red man = stop, do not walk.',cat:'Signal = WAIT'},
- {id:'greenman',svg:'assets/signs/greenman.svg',name:'Pedestrian Signal: Green Man',fam:'info',mean:'Pedestrians may cross carefully within the markings.',analogy:'Green man = walk when safe.',cat:'Information sign = GUIDANCE'},
+ {id:'greenman',svg:'assets/signs/greenman.svg',name:'Pedestrian Signal: Green Man',fam:'info',mean:'Pedestrians may cross carefully within the markings.',analogy:'Green man = walk when safe.',cat:'Signal = WALK'},
 ];
 
-/* Render a sign asset from its path (real SADC road-sign SVG). */
+/* Render a simplified sign study illustration from its asset path. */
 function signImg(svg){
   if(typeof svg==='function') return svg();
   if(typeof svg==='string' && svg.endsWith('.svg')) return '<img class="signsvg" src="'+svg+'" alt="" width="88" height="88" >';
