@@ -471,7 +471,7 @@ const SIGNS=[
  {id:'noleft',svg:'assets/signs/noleft.svg',name:'No Left Turn',fam:'red',mean:'You may NOT turn left at this point.',analogy:'Arrow left with red slash = no left turn.',cat:'Red circle = DON\'T'},
  {id:'noright',svg:'assets/signs/noright.svg',name:'No Right Turn',fam:'red',mean:'You may NOT turn right at this point.',analogy:'Arrow right with red slash = no right turn.',cat:'Red circle = DON\'T'},
  {id:'nopark',svg:'assets/signs/nopark.svg',name:'No Parking',fam:'red',mean:'You may NOT park here at any time.',analogy:'Red circle, P crossed out = no parking.',cat:'Red circle = DON\'T'},
- {id:'nostop',svg:'assets/signs/nostop.svg',name:'No Stopping',fam:'red',mean:'You may NOT stop here at all — not even to drop someone off.',analogy:'Red circle, X = absolute no stopping.',cat:'Red circle = DON\'T'},
+ {id:'nostop',svg:'assets/signs/nostop.svg',name:'No Stopping',fam:'red',mean:'You may NOT stop here at all — not even to drop someone off.',analogy:'Red circle with S crossed out = no stopping.',cat:'Red circle = DON\'T'},
  {id:'buslane',svg:'assets/signs/buslane.svg',name:'Bus Lane Reserved',fam:'blue',mean:'This lane is reserved for buses under the sign conditions.',analogy:'Blue reservation sign with bus = bus lane.',cat:'Blue board = RESERVATION'},
  {id:'taxilane',svg:'assets/signs/taxilane.svg',name:'Minibus Reservation',fam:'blue',mean:'This roadway or portion is reserved for minibuses.',analogy:'Blue reservation sign with minibus = minibus access.',cat:'Blue board = RESERVATION'},
  {id:'disablepark',svg:'assets/signs/disablepark.svg',name:'Disabled Persons Parking',fam:'blue',mean:'This parking area is reserved for disabled persons vehicles.',analogy:'Blue parking sign with wheelchair = reserved bay.',cat:'Blue board = RESERVATION'},
@@ -1066,6 +1066,7 @@ function quizFlow(questions,sessNum,title){
     bindGo();
   }
   render();
+  window.scrollTo(0,0);
 }
 function finishQuiz(sessNum,title,correct,total){
   K.state.sessions[sessNum]=true;K.state.mastery=K.state.mastery||{};K.state.mastery[sessNum]=Math.round(correct/total*100);K.save();
