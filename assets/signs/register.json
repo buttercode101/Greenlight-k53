@@ -264,7 +264,7 @@
     {
       "id": "parking",
       "asset": "parking.svg",
-      "code": "R301",
+      "code": "R305-P",
       "status": "redrawn-needs-final-review",
       "source_page": 1
     },
