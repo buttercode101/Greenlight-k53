@@ -956,7 +956,7 @@ function renderHome(){
   <div class="hero"><div class="hero-copy"><p class="kicker">South African learner’s licence practice</p><h1>${T('tagline')}</h1><p>Clear lessons, evidence-based practice, and a clear route through K53 topics.</p><p class="hero-note">Free study aid · no account required · works offline after install</p></div><div class="hero-art" role="img" aria-label="A GreenLight K53 road sign beside a South African road"></div></div>
   <nav class="home-nav no-print" aria-label="Study areas"><button data-go="home">Plan</button><button data-go="session1">Learn</button><button data-go="practice">Practise</button><button data-go="mock">Mock</button><button data-go="checklist">Test day</button></nav>
   <div class="dashboard">
-    <section class="next-step" aria-labelledby="next-title"><p class="footnote">Selected learner code: ${K.state.vehicleCode} · <a href="#journey" data-go="journey">Change code</a></p><p class="footnote">Today: ${reviewDue().length} due reviews · ${Object.values(K.state.attempts).filter(a=>a.wrong>a.correct).length} concepts need another try. ${topicStats()[0]?.wrong?'Focus: '+safeHTML(topicStats()[0].topic)+'.':''} <a href="#review" data-go="review">Open plan</a></p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" data-go="${next.go}">${next.cta} →</button><p class="trust-note">Readiness is based on completed checks and mock-section results—not simply on pages viewed.</p></section>
+    <section class="next-step" aria-labelledby="next-title"><p class="footnote">Selected learner code: ${K.state.vehicleCode} · <a href="#journey" data-go="journey">Change code</a></p><p class="footnote">Today: ${reviewDue().length} due reviews · ${Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)&&a.wrong>a.correct).length} concepts need another try. ${topicStats()[0]?.wrong?'Focus: '+safeHTML(topicStats()[0].topic)+'.':''} <a href="#review" data-go="review">Open plan</a></p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" data-go="${next.go}">${next.cta} →</button><p class="trust-note">Readiness is based on completed checks and mock-section results—not simply on pages viewed.</p></section>
     <section class="block"><p class="kicker">Readiness</p><h2>${r.verdict}</h2><p class="lead">${r.msg}</p><div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div><p class="footnote" style="text-align:left;margin-top:10px">${r.score}% readiness · based on practice evidence</p></section>
     <section class="block"><p class="kicker">Recent accuracy</p><h2>Topic evidence</h2><div class="status-grid">${statuses}</div></section>
   </div>
@@ -1092,8 +1092,10 @@ const TOPIC_PATTERNS=[
  ['Vehicle controls',/pedal|clutch|gear|steer|throttle|horn|hooter|indicator|accelerator|control/i],
  ['Safety and legal duties',/learner|licence|alcohol|phone|seatbelt|fuel|trailer|tow/i]
 ];
+function questionCode(q){const title=typeof q==='string'?q:q.q;return K.CONTROLS.some(c=>c.q===title)?'2':K.MOTORCYCLE_CONTROLS.some(c=>c.q===title)?'1':K.HEAVY_CONTROLS.some(c=>c.q===title)?'3':null;}
+function visibleForCode(q){const code=questionCode(q);return !code||code===K.state.vehicleCode;}
 function topicFor(q){if(q.svg)return 'Signs and signals';if([...K.CONTROLS,...K.MOTORCYCLE_CONTROLS,...K.HEAVY_CONTROLS].some(c=>c.q===q.q))return 'Vehicle controls';return (TOPIC_PATTERNS.find(([,re])=>re.test(q.q))||['Rules of the road'])[0];}
-function topicStats(){const out={};Object.values(K.state.attempts).forEach(a=>{const t=a.topic||'Rules of the road';const row=out[t]||{topic:t,correct:0,wrong:0,items:0};row.correct+=a.correct;row.wrong+=a.wrong;row.items++;out[t]=row;});return Object.values(out).sort((a,b)=>(b.wrong/(b.wrong+b.correct+1))-(a.wrong/(a.wrong+a.correct+1)));}
+function topicStats(){const out={};Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)).forEach(a=>{const t=a.topic||'Rules of the road';const row=out[t]||{topic:t,correct:0,wrong:0,items:0};row.correct+=a.correct;row.wrong+=a.wrong;row.items++;out[t]=row;});return Object.values(out).sort((a,b)=>(b.wrong/(b.wrong+b.correct+1))-(a.wrong/(a.wrong+a.correct+1)));}
 const VARIANT_LINKS=[
  ['When refuelling','When refuelling, the engine must be…'],
  ['While the vehicle is moving, may you hold a cell phone?','A cell phone while driving — what is the rule?'],
@@ -1153,21 +1155,22 @@ function addReview(q,answer){
   found.due=now;
   K.save();
 }
-function reviewDue(){return K.state.review.filter(r=>Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)&&r.due<=Date.now());}
+function reviewDue(){return K.state.review.filter(r=>visibleForCode(r.q)&&Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)&&r.due<=Date.now());}
 function openReview(){
   const due=reviewDue();
-  const items=K.state.review.map((r,i)=>`<div class="mini">
+  const visible=K.state.review.map((r,i)=>({r,i})).filter(({r})=>visibleForCode(r.q));
+  const items=visible.map(({r,i})=>`<div class="mini">
     <div class="t">${safeHTML(r.q)} <button class="review-remove" data-remove="${i}" type="button" aria-label="Remove saved question">Remove</button></div>
     ${r.svg?`<div class="review-art">${reviewArt(r.svg)}</div>`:''}<details class="d"><summary>Reveal answer</summary><p>Answer: ${safeHTML(r.a)}</p></details>
     <p class="footnote">${r.opts?(r.due<=Date.now()?'Ready to retry':`Next review ${new Date(r.due).toLocaleDateString('en-ZA')}`):'Saved from an earlier version · answer only'}</p>
   </div>`).join('');
   app.innerHTML=backbar('Review')+`<div class="block">
     <p class="kicker">Practice your mistakes</p><h2>Weak spots</h2>
-    <p class="lead">${due.length} ready now · ${K.state.review.length} saved. Retry missed questions; correct answers come back tomorrow, then after three and seven days. Progress stays on this device.</p>
+    <p class="lead">${due.length} ready now · ${visible.length} saved. Retry missed questions; correct answers come back tomorrow, then after three and seven days. Progress stays on this device.</p>
     ${due.length?`<button class="btn btn-primary" id="reviewStart" type="button">Retry ${due.length} due question${due.length===1?'':'s'} →</button>`:''}
     ${items||'<p>No mistakes saved yet. Try a section drill or a mock test.</p>'}
-    <h3>Saved questions</h3>${Object.values(K.state.bookmarks).map(b=>`<div class="mini"><div class="t">${safeHTML(b.q)}</div><details><summary>Answer and explanation</summary><p>${safeHTML(b.a)} · ${safeHTML(b.ex)}</p></details></div>`).join('')||'<p>Save a question during practice to find it here.</p>'}
-    <h3>Topic weaknesses</h3>${topicStats().map(t=>`<div class="mini"><div class="t">${safeHTML(t.topic)}</div><div class="d">${t.correct}/${t.correct+t.wrong} correct across ${t.items} concepts · ${t.wrong} misses</div></div>`).join('')||'<p>Finish a few practice questions to identify weak topics.</p>'}<h3>Repeated mistakes</h3>${Object.values(K.state.attempts).filter(a=>a.wrong).sort((a,b)=>b.wrong-a.wrong).slice(0,8).map(a=>`<div class="mini"><div class="t">${safeHTML(a.q)}</div><div class="d">${a.wrong} missed · ${a.correct} correct attempts</div></div>`).join('')||'<p>Your practice history will appear here.</p>'}
+    <h3>Saved questions</h3>${Object.values(K.state.bookmarks).filter(b=>visibleForCode(b.q)).map(b=>`<div class="mini"><div class="t">${safeHTML(b.q)}</div><details><summary>Answer and explanation</summary><p>${safeHTML(b.a)} · ${safeHTML(b.ex)}</p></details></div>`).join('')||'<p>Save a question during practice to find it here.</p>'}
+    <h3>Topic weaknesses</h3>${topicStats().map(t=>`<div class="mini"><div class="t">${safeHTML(t.topic)}</div><div class="d">${t.correct}/${t.correct+t.wrong} correct across ${t.items} concepts · ${t.wrong} misses</div></div>`).join('')||'<p>Finish a few practice questions to identify weak topics.</p>'}<h3>Repeated mistakes</h3>${Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)&&a.wrong).sort((a,b)=>b.wrong-a.wrong).slice(0,8).map(a=>`<div class="mini"><div class="t">${safeHTML(a.q)}</div><div class="d">${a.wrong} missed · ${a.correct} correct attempts</div></div>`).join('')||'<p>Your practice history will appear here.</p>'}
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
   if($('#reviewStart'))$('#reviewStart').addEventListener('click',()=>startReview(due.map(r=>r.key)));
@@ -1480,7 +1483,7 @@ function readiness(){
     verdict='Close — pass the mock'; emoji='🎯'; score=45;
     msg='Sessions are done. Now lock it in: retake the mock until you pass all sections comfortably.';
   }
-  const attempts=Object.values(s.attempts||{}), repeated=attempts.filter(a=>a.correct+a.wrong>=2).length;
+  const attempts=Object.values(s.attempts||{}).filter(a=>visibleForCode(a.q)), repeated=attempts.filter(a=>a.correct+a.wrong>=2).length;
   if(score>=85 && repeated<20){score=Math.min(score,79);msg+=' Build confidence with at least 20 concepts answered more than once; '+repeated+' have repeated evidence so far.';}
   if(s.vehicleCode!=='2'){score=Math.min(score,79);msg+=' Complete your selected code’s official controls manual too.';}
   return {verdict,emoji,msg,score,sessionsDone,acc,mockPass:!!s.mockPass,secRules,secSigns,secCtrl,allSec};
