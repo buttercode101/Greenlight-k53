@@ -904,7 +904,7 @@ function backbar(title,score){
 
 function streak(){ K.touch(); return K.state.streak||0; }
 function ringFor(n){ return Math.round((K.state.mastery&&K.state.mastery[n])||0); }
-function topicLabel(n){const value=ringFor(n);return value?value+'% recent accuracy':(K.state.sessions[n]?'Lesson complete — take the check':'Not assessed');}
+function topicLabel(n){const value=ringFor(n);return K.state.mastery?.[n]!==undefined?value+'% recent accuracy':(K.state.sessions[n]?'Lesson complete — take the check':'Not assessed');}
 function nextStep(){const weak=[1,2,3].filter(n=>K.state.sessions[n]&&ringFor(n)<70);if(!K.state.sessions[1])return {go:'session1',title:'Start with road signs',copy:'Build recognition first. Finish a short check to unlock an evidence-based score.',cta:'Start signs · about 25 min'};if(weak.length){const n=weak[0], names={1:'Signs',2:'Rules',3:'Controls'};return {go:'session'+n,title:'Repair your '+names[n]+' score',copy:'Your recent accuracy is below 70%. A focused check is the fastest next step.',cta:'Practise '+names[n]};}if(!K.state.sessions[2])return {go:'session2',title:'Continue with road rules',copy:'Turn recognition into safe decisions with a short quiz.',cta:'Start rules · about 25 min'};if(!K.state.sessions[3])return {go:'session3',title:'Finish vehicle controls',copy:'Complete the final topic before a full mock.',cta:'Start controls · about 15 min'};return {go:'mock',title:'Take a realistic mock',copy:'Use the timed simulation only when you want exam pressure; this mock teaches as you go.',cta:'Start learning mock'};}
 /* Speak a raw string via TTS (voice+rate from state) */
 function speakText(t){ if(t&&window.__TTS&&window.__TTS.ok)window.__TTS.speak(t); }
@@ -1534,10 +1534,12 @@ const PROVINCE_GUIDE={
 };
 function setVehicleCode(code){
  const s=K.state,old=s.vehicleCode;
- s.codeProgress[old]={controlsDone:!!s.sessions[3],controlsMastery:s.mastery?.[3]||0,mockResults:s.mockResults||{},secPass:s.secPass||{},mockPass:!!s.mockPass};
+ s.codeProgress[old]={controlsDone:!!s.sessions[3],controlsMastery:s.mastery?.[3],mockResults:s.mockResults||{},secPass:s.secPass||{},mockPass:!!s.mockPass};
  s.vehicleCode=code;
  const next=s.codeProgress[code]||{};
- s.sessions[3]=!!next.controlsDone;s.mastery[3]=next.controlsMastery||0;s.mockResults=next.mockResults||{};s.secPass=next.secPass||{};s.mockPass=!!next.mockPass;
+ s.sessions[3]=!!next.controlsDone;
+ if(Number.isFinite(next.controlsMastery))s.mastery[3]=next.controlsMastery;else delete s.mastery[3];
+ s.mockResults=next.mockResults||{};s.secPass=next.secPass||{};s.mockPass=!!next.mockPass;
  K.save();
 }
 
