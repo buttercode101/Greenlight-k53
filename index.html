@@ -1344,16 +1344,6 @@ function renderFlash(){
   bindGo();
 }
 
-const CODE_1_RULE_EXCLUDES=[
- 'Who must wear a seatbelt?', 'On a hill, which way', 'When the vehicle is stationary',
- 'Trailers under', 'When towing another vehicle', 'When may a learner drive a car',
- 'How far may the tow-line', 'May passengers ride in a vehicle that is being towed?',
- 'South Africa is a RIGHT-hand-drive country', 'You break down on a freeway'
-];
-const CODE_3_RULE_EXCLUDES=['Trailers under 10 000 kg GVM'];
-function rulesForCode(code){const blocked=code==='1'?CODE_1_RULE_EXCLUDES:code==='3'?CODE_3_RULE_EXCLUDES:[];return RULES.filter(r=>!blocked.some(prefix=>r.q.startsWith(prefix)));}
-function extraForCode(code){return MOCK_EXTRA.filter(e=>code==='2'||!/Code 2|Code B|right-turning vehicle/.test(e.q));}
-
 /* ---------- RIGHT-OF-WAY GAME ---------- */
 let rowDeck=[];
 function openRow(){
