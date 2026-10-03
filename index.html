@@ -1669,7 +1669,7 @@ function finishMock(onlySec){
     <p class="result-sub">${onlySec?'Section result':'You must pass ALL three sections'}</p>
     <table class="span-table" style="margin:var(--s4) 0"><thead><tr><th>Section</th><th>Result</th><th>Pass mark</th></tr></thead><tbody>${rows}</tbody></table>
     <p class="footnote" style="margin-bottom:var(--s4)">Real K53 learner's test: Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}. You must reach each on its own.</p>
-    ${overallPass?'<p>Go book that test. You\'ve got this by Monday! 🚀</p>':'<p>Retake the section(s) you missed, then come back. You\'re close.</p>'}
+    ${overallPass?'<p>You passed this practice test. Review the official material before booking.</p>':'<p>Review the sections you missed, then try again.</p>'}
     ${K.state.review.length?`<button class="btn btn-soft" id="revBtn">Review my weak spots (${K.state.review.length})</button>`:''}
     <button class="btn btn-primary" id="shareBtn" type="button">📤 Share Result</button>
     <button class="btn btn-ghost" data-go="mock">Retake mock</button>
@@ -1778,7 +1778,7 @@ function startSim(){
       <p class="result-sub">${correct}/${total} overall · you must pass each section</p>
       <table class="span-table" style="margin:var(--s4) 0"><thead><tr><th>Section</th><th>Your score</th><th>Result</th><th>Pass</th></tr></thead><tbody>${rows}</tbody></table>
       <p class="footnote" style="margin-bottom:var(--s4)">Real test: pass EACH section — Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}.</p>
-      ${allPass?'<p>You passed this practice simulation. Review the official material before booking your test.</p>':'<p>Retake the section(s) you missed. You\'re close.</p>'}
+      ${allPass?'<p>You passed this practice simulation. Review the official material before booking your test.</p>':'<p>Review the sections you missed, then try again.</p>'}
       ${K.state.review.length?`<button class="btn btn-soft" id="revBtn">Review weak spots (${K.state.review.length})</button>`:''}
       <button class="btn btn-primary" id="shareBtn" type="button">📤 Share Result</button>
       <button class="btn btn-ghost" data-go="sim">Retry sim</button>
