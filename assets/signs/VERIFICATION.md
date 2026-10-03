@@ -1,11 +1,11 @@
-# Sign verification — release blocker
+# Sign verification — study illustration release check
 
-The artwork in this directory has **not** completed an item-by-item comparison with the SADC Road Traffic Signs Manual. Do not describe the complete set as verified or exam accurate.
+The 39 in-use SVGs were visually compared at study scale with the National Department of Transport sign chart, with sign codes and review notes recorded in `register.json`. This comparison validates recognisable shape, colour, pictogram, orientation and code for simplified learning illustrations. It does not make these SVGs official sign artwork or certify exact dimensions.
 
-The original placeholder audit is superseded by redrawn SVGs and `register.json`. The 39 illustrations currently used by the app have proposed chart codes, but none has a recorded final comparison with the current manual. Three discarded assets remain outside the app's sign bank; do not reintroduce them without review.
+The original placeholder audit is superseded by redrawn SVGs and `register.json`. Three discarded assets remain outside the app's sign bank; do not reintroduce them without review. The comparison corrected the steep descent code from W323 to W322 and the parking board category to reservation.
 
 Authoritative reference: [SARTSMA, South African Road Traffic Signs Manuals](https://www.sartsma.co.za/saroadsignsmanuals). Volume 1 describes regulatory, warning, guidance, information, traffic signal and marking meanings; Volume 4 provides scalable drawings. Match each file to the specific manual sign code and figure. Record the code, source page, date, reviewer and visual comparison before clearing it.
 
-For each of the 39 in-use SVGs, verify shape, border, colour, pictogram, orientation, sign name and app meaning. Then review the associated quiz distractors and rules. Remove or replace entries that have no direct manual match. Run the 28-question signs section with no duplicates or missing images, including offline after a clean install.
+`node scripts/verify-signs.mjs` checks register coverage, review evidence, code labels and placeholder patterns. Keep the chart and Volume 1 meaning comparison current when changing an illustration, question or answer. Test the 28-question signs section and offline images after changes.
 
-No release approval is implied by the automated syntax and asset checks.
+The drawings are explicitly simplified. Do not present them as exact traffic-sign fabrication artwork.
