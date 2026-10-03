@@ -285,16 +285,18 @@
     {
       "id": "redman",
       "asset": "redman.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "S11P",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1,
+      "source_detail": "SARTSM Volume 2 section 14.7.2"
     },
     {
       "id": "greenman",
       "asset": "greenman.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
+      "code": "S11P",
+      "status": "redrawn-needs-final-review",
+      "source_page": 1,
+      "source_detail": "SARTSM Volume 2 section 14.7.2"
     }
   ]
 }
