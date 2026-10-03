@@ -952,10 +952,10 @@ function openSession1(){
   </div>
   <div class="block center">
     <p class="lead">Prove recognition with a short check. Your score—not scrolling—sets topic mastery.</p>
-    <button class="btn btn-primary" id="done1">Start the 5-question sign check →</button>
+    <button class="btn btn-primary" id="done1">Start the 10-question sign check →</button>
     <button class="btn btn-ghost" data-go="session2">Skip for now</button>
   </div>`;
-  $('#done1').addEventListener('click',()=>{const qs=K.shuffle(K.SIGNS).slice(0,5).map(K.signQuestion);quizFlow(qs,1,'Road-sign check');});
+  $('#done1').addEventListener('click',()=>{const qs=K.shuffle(K.SIGNS).slice(0,10).map(K.signQuestion);quizFlow(qs,1,'Road-sign check');});
   bindGo();
 }
 
@@ -968,10 +968,10 @@ function openSession2(){
     ${stories}
   </div>
   <div class="block center">
-    <p class="lead">Now prove it — ${K.RULES.length} quick questions.</p>
+    <p class="lead">Check ten sampled rules now. Use Section drills to practise the full pool.</p>
     <button class="btn btn-primary" id="quiz2">▶ Start the rules quiz</button>
   </div>`;
-  $('#quiz2').addEventListener('click',()=>quizFlow(K.shuffle(K.RULES.map(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);return {q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a};})),2,'Rules of the Road'));
+  $('#quiz2').addEventListener('click',()=>quizFlow(K.shuffle(K.RULES).slice(0,10).map(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);return {q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a};}),2,'Rules of the Road'));
   bindGo();
 }
 
@@ -1060,7 +1060,7 @@ function openReview(){
   const due=reviewDue();
   const items=K.state.review.map((r,i)=>`<div class="mini">
     <div class="t">${safeHTML(r.q)} <button class="review-remove" data-remove="${i}" type="button" aria-label="Remove saved question">Remove</button></div>
-    <div class="d">${r.svg?`<div class="review-art">${reviewArt(r.svg)}</div>`:''}Answer: ${safeHTML(r.a)}</div>
+    ${r.svg?`<div class="review-art">${reviewArt(r.svg)}</div>`:''}<details class="d"><summary>Reveal answer</summary><p>Answer: ${safeHTML(r.a)}</p></details>
     <p class="footnote">${r.opts?(r.due<=Date.now()?'Ready to retry':`Next review ${new Date(r.due).toLocaleDateString('en-ZA')}`):'Saved from an earlier version · answer only'}</p>
   </div>`).join('');
   app.innerHTML=backbar('Review')+`<div class="block">
