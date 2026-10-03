@@ -3,6 +3,8 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const html=fs.readFileSync('index.html','utf8');
 const js=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+const names=[...html.matchAll(/^const ([A-Z][A-Z0-9_]+)=/gm)].map(m=>m[1]);
+assert.equal(new Set(names).size,names.length,'Duplicate top-level constant across inline scripts');
 assert(js,'Data script missing');
 const window={};const ctx=vm.createContext({window,localStorage:{getItem:()=>null,setItem:()=>{}},console,Date,Math});
 vm.runInContext(js,ctx);
