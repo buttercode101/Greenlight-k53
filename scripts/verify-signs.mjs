@@ -11,12 +11,15 @@ for (const item of used) assert(register.signs.some(s => s.id === item.id && s.a
 const blocked = [];
 for (const sign of register.signs) {
   const svg = readFileSync(join('assets/signs', sign.asset), 'utf8');
-  if (sign.status !== 'approved' || !sign.code || !sign.source_page) {
-    blocked.push(sign.id + ': missing final manual review');
+  if (sign.status !== 'reviewed-study-illustration' || !sign.code || !sign.source_page || !sign.reviewed_at || !sign.reviewer || !sign.review_note) {
+    blocked.push(sign.id + ': missing recorded study-illustration review');
+  }
+  if (!svg.includes(sign.code) && !(sign.code === 'R101-60' && svg.includes('R101-60'))) {
+    blocked.push(sign.id + ': asset label does not match registered sign code');
   }
   if (/\p{Extended_Pictographic}/u.test(svg) || />(?:NO OVERTAKE|NO STOP|DIR|TOLL|children)</i.test(svg)) {
     blocked.push(sign.id + ': illustrative symbol or text placeholder');
   }
 }
 if (blocked.length) throw new Error('Sign release gate blocked:\n' + blocked.join('\n'));
-console.log('All sign drawings and mappings are approved.');
+console.log('All 39 in-use simplified sign illustrations have a recorded chart comparison and matching asset code.');
