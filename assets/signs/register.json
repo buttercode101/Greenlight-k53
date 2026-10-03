@@ -152,9 +152,9 @@
     {
       "id": "animal",
       "asset": "animal.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Emoji used as sign artwork"
+      "code": "W310",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "hill",
@@ -250,9 +250,9 @@
     {
       "id": "wild",
       "asset": "wild.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Emoji used as sign artwork"
+      "code": "W311",
+      "status": "redrawn-needs-final-review",
+      "source_page": 2
     },
     {
       "id": "hospital",
