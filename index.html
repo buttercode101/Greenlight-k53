@@ -306,6 +306,9 @@ a:focus-visible,button:focus-visible,.opt:focus-visible{outline:2px solid var(--
 }
 /* Real SADC sign assets — consistent render */
 .signsvg{width:100%;height:100%;display:block;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(23,19,15,.12));}
+.question-art{width:min(100%,180px);height:180px;margin:0 auto 16px;display:grid;place-items:center;background:#fff;border:1px solid var(--line-soft);border-radius:12px;padding:12px;box-sizing:border-box;}
+.question-art .signsvg{width:100%;height:100%;}
+@media(max-width:520px){.question-art{width:144px;height:144px;}}
 .signcard .art{width:112px;height:112px;padding:8px;background:#fff;border:1px solid var(--line);box-shadow:inset 0 0 0 4px var(--warm);}
 .signcard{transition:border-color .15s,transform .15s,box-shadow .15s;}.signcard:hover{border-color:rgba(14,143,62,.48);transform:translateY(-2px);box-shadow:var(--sh-card);}
 .sign-legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 var(--s4);}.sign-legend span{font-size:12px;font-weight:650;padding:6px 9px;border-radius:var(--r-pill);border:1px solid var(--line-soft);background:var(--warm);}.sign-legend .stop{border-color:rgba(216,36,47,.35);color:#9d1720}.sign-legend .must{border-color:rgba(7,95,186,.35);color:#075fba}.sign-legend .warn{border-color:rgba(185,123,6,.4);color:#805300}.sign-legend .info{border-color:rgba(19,138,71,.35);color:#0a6b2e;}
@@ -664,7 +667,7 @@ const I18N = {
   en: {
     appName: "GreenLight K53",
     tagline: "Prepare for your learner's test with focused practice.",
-    readyVerdicts: {ready:"Ready for Monday", almost:"Almost there", start:"Just starting", getting:"Getting there", close:"Pass your weak section"},
+    readyVerdicts: {ready:"Strong practice result", almost:"Almost there", start:"Just starting", getting:"Getting there", close:"Pass your weak section"},
     share: {title:"My K53 Mock Result", passed:"I passed all sections!", failed:"I need to work on"},
   },
   af: {
@@ -1042,7 +1045,7 @@ function quizFlow(questions,sessNum,title){
     const q=questions[i];
     const card=ce('div');card.className='block';
     card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>
-      ${q.svg?`<div style="display:grid;place-items:center;margin-bottom:12px">${q.svg}</div>`:''}<h2 style="font-size:19px;letter-spacing:-0.4px;margin-bottom:14px">${q.q}</h2>
+      ${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2 style="font-size:19px;letter-spacing:-0.4px;margin-bottom:14px">${q.q}</h2>
       <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div>
       <div class="feedback hidden" role="status" aria-live="polite"></div>
       <button class="btn btn-primary next hidden">Next →</button>`;
@@ -1051,8 +1054,9 @@ function quizFlow(questions,sessNum,title){
     const fb=card.querySelector('.feedback'),next=card.querySelector('.next');
     card.querySelectorAll('.opt').forEach(b=>{
       b.addEventListener('click',()=>{
+        if(b.disabled)return;
         const ch=+b.getAttribute('data-i');
-        card.querySelectorAll('.opt').forEach(x=>x.classList.add('disabled'));
+        card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
         if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
         else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q.q,q.opts[q.ans]);}
         next.classList.remove('hidden');
@@ -1081,7 +1085,7 @@ function finishQuiz(sessNum,title,correct,total){
     <button class="btn btn-ghost" data-go="home">Back to home</button>
   </div>`;
   if($('#revBtn'))$('#revBtn').addEventListener('click',openReview);
-  confetti();bindGo();
+  if(pct>=70)confetti();bindGo();
 }
 
 function addReview(q,a){if(!K.state.review.find(r=>r.q===q)){K.state.review.push({q,a});K.save();}}
@@ -1337,10 +1341,10 @@ function drill(cat){
   function render(){
     if(i>=total){const p=correct>=passMark;const topicMap={signs:1,rules:2,controls:3};if(topicMap[cat]){K.state.mastery=K.state.mastery||{};K.state.mastery[topicMap[cat]]=Math.round(correct/total*100);K.save();}app.innerHTML=backbar(names[cat])+`<div class="block center"><div class="badge-xl">${p?'🎉':'💪'}</div><div class="result-title">${p?'Pass!':'Keep going'}</div><p class="result-sub">${correct}/${total} — needed ${passMark}</p><div class="stat-grid"><div class="stat"><div class="n">${correct}</div><div class="l">Correct</div></div><div class="stat"><div class="n">${total-correct}</div><div class="l">To review</div></div><div class="stat"><div class="n">${p?'PASS':'STUDY'}</div><div class="l">Verdict</div></div></div><button class="btn btn-primary" id="drillAgain" type="button">Retry</button><button class="btn btn-ghost" data-go="practice">More drills</button></div>`;const b=$('#drillAgain');if(b)b.addEventListener('click',()=>drill(cat));bindGo();return;}
     const q=qs[i];const card=ce('div');card.className='block';
-    card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>${q.svg?`<div style="display:grid;place-items:center;margin-bottom:12px">${q.svg}</div>`:''}<h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2><div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button>`;
+    card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2><div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button>`;
     app.innerHTML=backbar(names[cat],`${correct}/${total}`);app.appendChild(card);
     const fb=card.querySelector('.feedback'),next=card.querySelector('.next');
-    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>x.classList.add('disabled'));if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');}fb.textContent='💡 '+q.ex;next.classList.remove('hidden');});});
+    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q.q,q.opts[q.ans]);}fb.textContent='💡 '+q.ex;next.classList.remove('hidden');});});
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
     bindGo();
   }
@@ -1366,7 +1370,7 @@ function openMemory(){
   bindGo();
 }
 
-/* ---------- READINESS ENGINE ("Am I ready for Monday?") ---------- */
+/* ---------- PRACTICE PROGRESS ---------- */
 function mockAcc(){const a=K.state.acc;return a?.total? Math.round(a.correct/a.total*100):0;}
 function sectionPass(sec){const p=K.state.secPass;return !!(p&&p[sec]);}
 function readiness(){
@@ -1378,14 +1382,14 @@ function readiness(){
   const allSec=secRules&&secSigns&&secCtrl;
   let verdict,emoji,msg,score;
   if(doneAll && allSec && acc>=85){
-    verdict='Ready for Monday'; emoji='🏆'; score=100;
-    msg='You\'ve passed all three sections and the mock comfortably. Book that test — you\'ve got this.';
+    verdict='Strong practice result'; emoji='🏆'; score=100;
+    msg='You passed every section in practice and completed the study sessions. Keep reviewing mistakes and use the current official material before your test.';
   } else if(doneAll && allSec){
     verdict='Almost there'; emoji='🚀'; score=85;
-    msg='All sessions done and every section passed. A couple more rounds on weak spots and you\'re bulletproof.';
+    msg='You completed the sessions and passed every section in practice. Review the questions you missed and try another full mock.';
   } else if(sessionsDone===0 && !allSec){
     verdict='Just starting'; emoji='🌱'; score=10;
-    msg='Do Session 1 to begin. You\'ll be amazed how quickly it clicks.';
+    msg='Start with Session 1, then use the section drills to track your progress.';
   } else if(!doneAll){
     verdict='Getting there'; emoji='📚'; score=Math.round(sessionsDone/3*60);
     msg='Keep going through the three sessions, then pass each section of the mock.';
@@ -1543,7 +1547,7 @@ function startMock(onlySec){
       if(i>=total){finishSection(sec);return;}
       const q=mockData[i];
       const card=ce('div');card.className='block';
-      let head=q.svg?`<div style="display:grid;place-items:center;margin-bottom:12px">${q.svg}</div>`:'';
+      let head=q.svg?`<div class="question-art">${q.svg}</div>`:'';
       card.innerHTML=`<p class="kicker">${meta.name} · Q${i+1} of ${total}</p>
         ${head}
         <h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2>
@@ -1736,7 +1740,7 @@ function startSim(){
     if(i>=total){if(mockTimer){clearInterval(mockTimer);mockTimer=null;}finishSim();return;}
     const q=mockData[i];
     const card=ce('div');card.className='block';
-    let head=q.svg?`<div style="display:grid;place-items:center;margin-bottom:12px">${q.svg}</div>`:'';
+    let head=q.svg?`<div class="question-art">${q.svg}</div>`:'';
     card.innerHTML=`<p class="kicker">Q${i+1} of ${total}</p>
       ${head}
       <h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2>
