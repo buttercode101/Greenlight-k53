@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v7';
+const CACHE = 'greenlight-k53-v8';
 const CORE = [
   './',
   './index.html',
@@ -8,8 +8,6 @@ const CORE = [
   './sitemap.xml',
   './manifest.webmanifest',
   './icon.svg',
-  './icon-192.png',
-  './icon-512.png',
   './assets/signs/animal.svg',
   './assets/signs/buslane.svg',
   './assets/signs/children.svg',
