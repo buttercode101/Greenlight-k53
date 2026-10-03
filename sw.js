@@ -1,5 +1,5 @@
 /* K53 Weekend Warrior — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v4';
+const CACHE = 'greenlight-k53-v5';
 const CORE = [
   './',
   './index.html',
@@ -16,13 +16,11 @@ const CORE = [
   './assets/signs/crossroad.svg',
   './assets/signs/curve.svg',
   './assets/signs/cyclist.svg',
-  './assets/signs/dir.svg',
   './assets/signs/disablepark.svg',
   './assets/signs/giveway.svg',
   './assets/signs/greenman.svg',
   './assets/signs/headlightson.svg',
   './assets/signs/hill.svg',
-  './assets/signs/hospital.svg',
   './assets/signs/keepleft.svg',
   './assets/signs/minspeed.svg',
   './assets/signs/narrow.svg',
@@ -41,7 +39,6 @@ const CORE = [
   './assets/signs/rightofway.svg',
   './assets/signs/robot.svg',
   './assets/signs/roundabout.svg',
-  './assets/signs/school.svg',
   './assets/signs/slippery.svg',
   './assets/signs/speed60.svg',
   './assets/signs/speedbump.svg',
