@@ -411,7 +411,7 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 
 /* ---- Focused learning dashboard ---- */
 .home-nav{display:flex;gap:6px;overflow:auto;margin:0 0 var(--s4);padding-bottom:2px}.home-nav button{border:0;background:transparent;color:var(--ink-soft);font:600 13px/1 inherit;padding:8px 10px;white-space:nowrap;cursor:pointer}.home-nav button:hover,.home-nav button:focus-visible{color:var(--accent-dark);text-decoration:underline}.dashboard{display:grid;gap:var(--s4)}.next-step{background:var(--ink);color:#fff;border-radius:var(--r-lg);padding:var(--s5);display:grid;gap:var(--s3)}.next-step .kicker{color:#8ee9ae}.next-step h2{margin:0;font:800 32px/.95 'Barlow Condensed',Impact,sans-serif;letter-spacing:-.4px}.next-step p{margin:0;color:rgba(255,255,255,.78);font-size:15px}.next-step .btn{margin:0;max-width:360px;text-align:center}.status-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.status-item{padding:12px 10px;background:var(--warm);border:1px solid var(--line-soft);border-radius:8px}.status-item b{display:block;font-size:20px;letter-spacing:-.5px}.status-item span{font-size:12px;color:var(--ink-soft)}.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.library .btn{margin:0;min-height:60px}.trust-note{font-size:12px;color:var(--ink-soft);border-left:3px solid var(--accent);padding-left:12px;margin:0}.language-menu{position:absolute;right:12px;top:58px;z-index:80;width:min(320px,calc(100vw - 24px));background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--sh-card)}.language-menu h3{font-size:14px;margin:0 0 6px}.language-menu p{font-size:12px;color:var(--ink-soft);margin:0 0 10px}.language-menu button{width:100%;text-align:left;margin:4px 0;padding:9px 10px;border:1px solid var(--line-soft);border-radius:6px;background:var(--warm);color:var(--ink);font:600 13px/1.3 inherit;cursor:pointer}.language-menu button.active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-dark)}@media(min-width:980px){.wrap:has(.dashboard){max-width:1120px;padding-left:32px;padding-right:32px}.dashboard{grid-template-columns:minmax(0,1.35fr) minmax(290px,.65fr);align-items:start}.dashboard .next-step{grid-row:span 2}.library{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:minmax(0,1fr) 260px;min-height:360px}.hero h1{font-size:clamp(54px,5.5vw,74px);max-width:16ch}.hero-art{min-height:300px}}@media(max-width:520px){.status-grid{grid-template-columns:1fr}.library{grid-template-columns:1fr}.next-step h2{font-size:29px}}
-.cockpit-diagram{display:block;width:100%;max-width:560px;height:auto;overflow:visible}
+.review-remove{float:right;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink-soft);padding:5px 9px;cursor:pointer}.review-remove:hover{color:var(--err)}.review-art{width:64px;height:64px;display:inline-block;vertical-align:middle;margin:4px 12px 4px 0}.review-art .signsvg{width:100%;height:100%}.cockpit-diagram{display:block;width:100%;max-width:560px;height:auto;overflow:visible}
 </style>
 </head>
 <body>
@@ -697,6 +697,13 @@ function shufOpts(opts, correctIdx){
   const sh=shuffle(tagged);
   return {opts:sh.map(x=>x.o), ans: sh.findIndex(x=>x.i===correctIdx)};
 }
+function signQuestion(sign){
+  const related=shuffle(SIGNS.filter(x=>x.id!==sign.id&&x.fam===sign.fam));
+  const others=shuffle(SIGNS.filter(x=>x.id!==sign.id&&x.fam!==sign.fam));
+  const wrongs=[...related,...others].slice(0,3).map(x=>x.name);
+  const opts=shuffle([sign.name,...wrongs]);
+  return {q:'What does this sign mean?',svg:signImg(sign.svg),opts,ans:opts.indexOf(sign.name),ex:sign.mean};
+}
 /* Build 3 plausible-but-wrong options for a rules question, avoiding the correct answer
    and avoiding duplicates. Mixes real content (other rule answers) with sensible decoys so
    the wrong answers read like a real multiple-choice test, not "The opposite". */
@@ -714,11 +721,7 @@ function ruleWrongs(rule){
 }
 function buildMock(){
  const m=[];
- SIGNS.forEach(s=>{
-   const wrongs=shuffle(SIGNS.filter(x=>x.id!==s.id)).slice(0,3).map(x=>x.name);
-   const opts=shuffle([s.name,...wrongs]);
-   m.push({type:'sign',svg:signImg(s.svg),q:'What does this sign mean?',opts,ans:opts.indexOf(s.name),ex:s.mean});
- });
+ SIGNS.forEach(s=>m.push({type:'sign',...signQuestion(s)}));
  MARKINGS.forEach(mk=>{
    const wrongs=shuffle(MARKINGS.filter(x=>x!==mk).map(x=>x.d)).slice(0,3);
    const opts=shuffle([mk.d,...wrongs]);
@@ -739,7 +742,7 @@ let state; try { state=JSON.parse(localStorage.getItem(STORE)||'{}'); if (!state
 function save(){try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){console.warn('Progress could not be saved on this device.',e);}}
 state.sessions=state.sessions||{1:false,2:false,3:false};
 state.mockPass=state.mockPass||false;
-state.review=state.review||[];
+state.review=Array.isArray(state.review)?state.review:[];
 state.streak=state.streak||0;
 state.lastDay=state.lastDay||'';
 state.theme=state.theme||''; // '', 'dark', 'light'
@@ -804,7 +807,7 @@ function touch(){
 }
 
 /* expose for later patch */
-window.__K53={SIGNS,MARKINGS,RULES,CONTROLS,MOCK_EXTRA,ROW,MEMORY,STOPPING,buildMock,state,save,shuffle,shufOpts,ruleWrongs,STORE,touch,dayKey,applyTheme,toggleTheme,initTheme,isDark,TTS};
+window.__K53={SIGNS,MARKINGS,RULES,CONTROLS,MOCK_EXTRA,ROW,MEMORY,STOPPING,buildMock,signQuestion,state,save,shuffle,shufOpts,ruleWrongs,STORE,touch,dayKey,applyTheme,toggleTheme,initTheme,isDark,TTS};
 window.__svg={svgStop,svgGiveWay,svgNoEntry,svgSpeed,svgWarn,svgMand,svgInfo,svgNo,svgRes,svgSignal,svgMinSpeed,svgNoPark,svgNoStop,svgToll,svgBusLane,svgTaxiLane,svgDisablePark,svgDir,svgNoLeft,svgNoRight,svgTJunction,svgYJunction,svgCyclist,svgWild,svgNarrow,svgRobot,svgRedMan,svgGreenMan};
 </script>
 <script>
@@ -916,9 +919,9 @@ function renderHome(){
     <section class="block"><p class="kicker">Recent accuracy</p><h2>Topic evidence</h2><div class="status-grid">${statuses}</div></section>
   </div>
   <section class="block"><p class="kicker">Your route</p><h2>Learn, then prove it</h2><div class="library"><button class="btn btn-ghost" data-go="session1">Signs<span class="sub">Learn + short check</span></button><button class="btn btn-ghost" data-go="session2">Rules<span class="sub">Lesson + quiz</span></button><button class="btn btn-ghost" data-go="session3">Controls<span class="sub">Quick scenarios</span></button></div></section>
-  <section class="block"><p class="kicker">Practice tools</p><h2>Choose a focused format</h2><div class="library"><button class="btn btn-soft" data-go="practice">Section drills<span class="sub">Repair one weak area</span></button><button class="btn btn-soft" data-go="flash">Flashcards<span class="sub">Recall, don’t reread</span></button><button class="btn btn-soft" data-go="row">Right of way<span class="sub">Decision practice</span></button><button class="btn btn-soft" data-go="memory">Memory tricks<span class="sub">Fast revision</span></button><a class="btn btn-soft" href="https://www.natis.gov.za/index.php/downloads/learner-driver-manual" target="_blank" rel="noopener noreferrer">Official study sources<span class="sub">NaTIS learner manuals ↗</span></a><button class="btn btn-soft" data-go="rhd">RHD cockpit<span class="sub">South African layout</span></button></div></section>
+  <section class="block"><p class="kicker">Practice tools</p><h2>Choose a focused format</h2><div class="library"><button class="btn btn-soft" data-go="practice">Section drills<span class="sub">Repair one weak area</span></button><button class="btn btn-soft" data-go="flash">Flashcards<span class="sub">Recall, don’t reread</span></button><button class="btn btn-soft" data-go="row">Right of way<span class="sub">Decision practice</span></button><button class="btn btn-soft" data-go="memory">Memory tricks<span class="sub">Fast revision</span></button><button class="btn btn-soft" data-go="review">Weak spots<span class="sub">${reviewDue().length} ready to retry</span></button><button class="btn btn-soft" data-go="sources">Official study sources<span class="sub">Manuals and coverage</span></button><button class="btn btn-soft" data-go="rhd">RHD cockpit<span class="sub">South African layout</span></button></div></section>
   <section class="block"><p class="kicker">Assess</p><h2>Pick the right test mode</h2><div class="library"><button class="btn btn-primary" data-go="mock">Learning mock<span class="sub">Feedback after every answer</span></button><button class="btn btn-ghost" data-go="sim">Test-day simulation<span class="sub">Timed, exam-style pressure</span></button><button class="btn btn-ghost" data-go="checklist">Test-day checklist<span class="sub">Confirm with your local DLTC</span></button></div><p class="trust-note" style="margin-top:16px">GreenLight K53 is an independent study aid with a limited selection of simplified signs and original practice questions. It is not the official question bank or a government service. Motorcycle and heavy vehicle controls are outside this app's current coverage. Confirm bookings, documents, fees and test requirements directly with your provincial authority or DLTC.</p></section>
-  <p class="footnote">Study progress stays on this device. Content and practice are in English. <a href="study-guide.html">Read the printable study guide</a>. Compare the <a href="https://www.natis.gov.za/index.php/downloads/learner-driver-manual" target="_blank" rel="noopener noreferrer">official NaTIS manuals</a> before your test.</p>`;
+  <p class="footnote">Study progress stays on this device. Content and practice are in English. <a href="study-guide.html">Read the printable study guide</a>. Use <a href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">government links to the official learner manuals</a> before your test.</p>`;
   bindGo();
 }
 function openSession1(){
@@ -952,7 +955,7 @@ function openSession1(){
     <button class="btn btn-primary" id="done1">Start the 5-question sign check →</button>
     <button class="btn btn-ghost" data-go="session2">Skip for now</button>
   </div>`;
-  $('#done1').addEventListener('click',()=>{const qs=K.shuffle(K.SIGNS).slice(0,5).map(sign=>{const opts=K.shuffle([sign.name,...K.shuffle(K.SIGNS.filter(x=>x.id!==sign.id)).slice(0,3).map(x=>x.name)]);return {q:'What does this sign mean?',svg:signImg(sign.svg),opts,ans:opts.indexOf(sign.name),ex:sign.mean};});quizFlow(qs,1,'Road-sign check');});
+  $('#done1').addEventListener('click',()=>{const qs=K.shuffle(K.SIGNS).slice(0,5).map(K.signQuestion);quizFlow(qs,1,'Road-sign check');});
   bindGo();
 }
 
@@ -961,7 +964,7 @@ function openSession2(){
   app.innerHTML=backbar('Session 2 · Rules')+`
   <div class="block">
     <p class="kicker">Step 1 · Read</p><h2>The ${K.RULES.length} golden rules</h2>
-    <p class="lead">Short, plain answers. These cover most rule questions on the test.</p>
+    <p class="lead">Short answers for selected road-rule topics. Continue with the official Rules of the Road manual for full coverage.</p>
     ${stories}
   </div>
   <div class="block center">
@@ -976,7 +979,7 @@ function openSession3(){
   app.innerHTML=backbar('Session 3 · Controls')+`
   <div class="block">
     <p class="kicker">Quick scenarios</p><h2>Vehicle controls</h2>
-    <p class="lead">6 questions. Know these and the controls section is yours.</p>
+    <p class="lead">${K.CONTROLS.length} light-vehicle control questions. Consult the official vehicle-controls manual for the full syllabus and for other vehicle categories.</p>
     <button class="btn btn-primary" id="quiz3">▶ Start the controls quiz</button>
   </div>`;
   $('#quiz3').addEventListener('click',()=>quizFlow(K.shuffle(K.CONTROLS.map(c=>{const so=K.shufOpts(c.opts,c.ans);return {q:c.q,opts:so.opts,ans:so.ans,ex:c.ex};})),3,'Vehicle Controls'));
@@ -1003,7 +1006,7 @@ function quizFlow(questions,sessNum,title){
         const ch=+b.getAttribute('data-i');
         card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
         if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
-        else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q.q,q.opts[q.ans]);}
+        else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
         next.classList.remove('hidden');
       });
     });
@@ -1034,19 +1037,63 @@ function finishQuiz(sessNum,title,correct,total){
   if(pct>=70)confetti();bindGo();
 }
 
-function addReview(q,a){if(!K.state.review.find(r=>r.q===q)){K.state.review.push({q,a});K.save();}}
+function safeHTML(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function reviewArt(svg){const match=String(svg||'').match(/assets\/signs\/[a-z0-9-]+\.svg/);return match?signImg(match[0]):'';}
+function reviewKey(q){return (q.svg||'')+'|'+q.q+'|'+q.opts[q.ans];}
+function addReview(q,answer){
+  const item=typeof q==='string'?{q,a:answer}:q;
+  const key=item.opts?reviewKey(item):item.q+'|'+item.a;
+  const now=Date.now();
+  let found=K.state.review.find(r=>r.key===key);
+  if(!found){found={key,q:item.q,a:item.opts?item.opts[item.ans]:item.a,opts:item.opts||null,ans:item.ans,ex:item.ex||'',svg:item.svg||'',due:now,level:0,misses:0};K.state.review.push(found);}
+  found.opts=item.opts||found.opts;
+  found.ans=item.ans??found.ans;
+  found.ex=item.ex||found.ex;
+  found.svg=item.svg||found.svg;
+  found.misses=(found.misses||0)+1;
+  found.level=0;
+  found.due=now;
+  K.save();
+}
+function reviewDue(){return K.state.review.filter(r=>Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)&&r.due<=Date.now());}
 function openReview(){
-  if(!K.state.review.length){app.innerHTML=backbar('Review')+`<div class="block center">Nothing to review. You're on fire! 🔥</div>`;bindGo();return;}
-  const items=K.state.review.map(r=>`<div class="mini"><div class="t">Q: ${r.q}</div><div class="d">Answer: ${r.a}</div></div>`).join('');
+  const due=reviewDue();
+  const items=K.state.review.map((r,i)=>`<div class="mini">
+    <div class="t">${safeHTML(r.q)} <button class="review-remove" data-remove="${i}" type="button" aria-label="Remove saved question">Remove</button></div>
+    <div class="d">${r.svg?`<div class="review-art">${reviewArt(r.svg)}</div>`:''}Answer: ${safeHTML(r.a)}</div>
+    <p class="footnote">${r.opts?(r.due<=Date.now()?'Ready to retry':`Next review ${new Date(r.due).toLocaleDateString('en-ZA')}`):'Saved from an earlier version · answer only'}</p>
+  </div>`).join('');
   app.innerHTML=backbar('Review')+`<div class="block">
-    <p class="kicker">Spaced practice</p><h2>Your saved weak spots</h2>
-    <p class="lead">Read each answer. When it sticks, clear it.</p>
-    ${items}
-    <button class="btn btn-primary" id="clearRev">Clear all (I remember now)</button>
+    <p class="kicker">Practice your mistakes</p><h2>Weak spots</h2>
+    <p class="lead">${due.length} ready now · ${K.state.review.length} saved. Retry missed questions; correct answers come back tomorrow, then after three and seven days. Progress stays on this device.</p>
+    ${due.length?`<button class="btn btn-primary" id="reviewStart" type="button">Retry ${due.length} due question${due.length===1?'':'s'} →</button>`:''}
+    ${items||'<p>No mistakes saved yet. Try a section drill or a mock test.</p>'}
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
-  $('#clearRev').addEventListener('click',()=>{K.state.review=[];K.save();renderHome();});
+  if($('#reviewStart'))$('#reviewStart').addEventListener('click',()=>startReview(due.map(r=>r.key)));
+  app.querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{K.state.review.splice(Number(b.dataset.remove),1);K.save();openReview();}));
   bindGo();
+}
+function startReview(keys){
+  let i=0,correct=0;
+  const total=keys.length;
+  function render(){
+    if(i>=total){app.innerHTML=backbar('Review complete')+`<div class="block center"><h2>Review complete</h2><p>${correct}/${total} correct. Missed questions remain ready to practise; correct ones return on a later day.</p><button class="btn btn-primary" id="reviewReturn">View weak spots</button><button class="btn btn-ghost" data-go="home">Home</button></div>`;$('#reviewReturn').addEventListener('click',openReview);bindGo();return;}
+    const r=K.state.review.find(item=>item.key===keys[i]);
+    if(!r){i++;render();return;}
+    app.innerHTML=backbar('Weak spots',`${i+1}/${total}`)+`<div class="block"><p class="kicker">Retry ${i+1} of ${total}</p>${r.svg?`<div class="question-art">${reviewArt(r.svg)}</div>`:''}<h2>${safeHTML(r.q)}</h2><div>${r.opts.map((o,n)=>`<button class="opt" type="button" data-i="${n}">${safeHTML(o)}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button></div>`;
+    const buttons=app.querySelectorAll('.opt'),fb=app.querySelector('.feedback'),next=app.querySelector('.next');
+    buttons.forEach(b=>b.addEventListener('click',()=>{
+      if(b.disabled)return;
+      const chosen=Number(b.dataset.i),ok=chosen===r.ans;
+      buttons.forEach(x=>x.disabled=true);buttons[r.ans].classList.add('correct');
+      if(!ok){b.classList.add('wrong');r.level=0;r.due=Date.now();r.misses=(r.misses||0)+1;}
+      else{correct++;r.level=Math.min((r.level||0)+1,3);r.due=Date.now()+[0,1,3,7][r.level]*86400000;}
+      K.save();fb.className='feedback '+(ok?'ok':'no');fb.textContent=(ok?'Correct. ':'Not yet. ')+(r.ex||'Answer: '+r.a);next.classList.remove('hidden');
+    }));
+    next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});bindGo();
+  }
+  render();
 }
 
 /* RHD COCKPIT — South Africa is a right-hand-drive country. Visual study aid. */
@@ -1149,7 +1196,7 @@ function confetti(){
     document.body.appendChild(d);setTimeout(()=>d.remove(),4200);}
 }
 
-/* ---------- FLASHCARDS (spaced repetition) ---------- */
+/* ---------- FLASHCARDS (repeat-within-session recall) ---------- */
 let flashDeck=[];
 let flashTotal=0;
 function flashPool(){
@@ -1249,7 +1296,7 @@ function openPractice(){
 function buildDrill(cat){
   const q=[];
   if(cat==='signs'||cat==='mixed'){
-    K.SIGNS.forEach(s=>{const wrong=K.shuffle(K.SIGNS.filter(x=>x.id!==s.id)).slice(0,3).map(x=>x.name);const opts=K.shuffle([s.name,...wrong]);q.push({q:'What does this sign mean?',svg:signImg(s.svg),opts,ans:opts.indexOf(s.name),ex:s.mean});});
+    K.SIGNS.forEach(s=>q.push(K.signQuestion(s)));
     K.MARKINGS.forEach(mk=>{const wrong=K.shuffle(K.MARKINGS.filter(x=>x!==mk).map(x=>x.d)).slice(0,3);const opts=K.shuffle([mk.d,...wrong]);q.push({q:mk.t+' — what does it mean?',opts,ans:opts.indexOf(mk.d),ex:mk.tip});});
   }
   if(cat==='rules'||cat==='mixed')K.RULES.forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);q.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a});});
@@ -1273,7 +1320,7 @@ function drill(cat){
     card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2><div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button>`;
     app.innerHTML=backbar(names[cat],`${correct}/${total}`);app.appendChild(card);
     const fb=card.querySelector('.feedback'),next=card.querySelector('.next');
-    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q.q,q.opts[q.ans]);}fb.textContent='💡 '+q.ex;next.classList.remove('hidden');});});
+    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q);}fb.textContent='💡 '+q.ex;next.classList.remove('hidden');});});
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
     bindGo();
   }
@@ -1335,6 +1382,20 @@ function readiness(){
   }
   return {verdict,emoji,msg,score,sessionsDone,acc,mockPass:!!s.mockPass,secRules,secSigns,secCtrl,allSec};
 }
+function openSources(){
+  app.innerHTML=backbar('Official study sources')+`<div class="block">
+    <p class="kicker">Know the coverage</p><h2>Use the official manuals alongside practice</h2>
+    <p class="lead">This independent app has a selected set of 39 simplified sign illustrations, 10 marking descriptions and light-vehicle control questions. It does not reproduce the complete road-sign catalogue, official examination questions, motorcycle controls or heavy-vehicle controls.</p>
+    <div class="mini"><div class="t">Rules of the road</div><div class="d">Read the full official Rules of the Road manual, then practise decisions here.</div></div>
+    <div class="mini"><div class="t">Road traffic signs and markings</div><div class="d">Compare the official symbols and their conditions. The drawings here are study illustrations.</div></div>
+    <div class="mini"><div class="t">Vehicle controls</div><div class="d">Study the manual for the vehicle category you will test in. The cockpit in this app illustrates a manual right-hand-drive car.</div></div>
+    <a class="btn btn-primary" href="https://www.westerncape.gov.za/service/learners-licence" target="_blank" rel="noopener noreferrer">Government page with all three manual links ↗</a>
+    <a class="btn btn-ghost" href="https://www.gov.za/services/driving-licence/apply-learners-licence" target="_blank" rel="noopener noreferrer">National application requirements ↗</a>
+    <p class="footnote">Local booking, test format, documents and fees can change. Confirm them with your DLTC. Last checked against government service pages: 3 October 2026.</p>
+    <button class="btn btn-ghost" data-go="home">Home</button>
+  </div>`;
+  bindGo();
+}
 function openChecklist(){
   const items=[
     ['🪪','Identity document','Bring the identity document required by your DLTC; confirm acceptable documents when booking.'],
@@ -1385,7 +1446,7 @@ function bindGo(root){
   scope.querySelectorAll('[data-go]').forEach(el=>{
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
-      const map={home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
+      const map={home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}map[t]();window.scrollTo(0,0);}
     });
   });
@@ -1401,7 +1462,7 @@ function buildSection(sec){
     K.RULES.forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);q.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a});});
     K.MOCK_EXTRA.forEach(e=>{const so=K.shufOpts(e.opts,e.ans);q.push({q:e.q,opts:so.opts,ans:so.ans,ex:e.ex});});
   } else if(sec==='signs'){
-    K.SIGNS.forEach(s=>{const wrong=K.shuffle(K.SIGNS.filter(x=>x.id!==s.id)).slice(0,3).map(x=>x.name);const opts=K.shuffle([s.name,...wrong]);q.push({q:'What does this sign mean?',svg:signImg(s.svg),opts,ans:opts.indexOf(s.name),ex:s.mean});});
+    K.SIGNS.forEach(s=>q.push(K.signQuestion(s)));
     K.MARKINGS.forEach(mk=>{const wrong=K.shuffle(K.MARKINGS.filter(x=>x!==mk).map(x=>x.d)).slice(0,3);const opts=K.shuffle([mk.d,...wrong]);q.push({q:mk.t+' — what does it mean?',opts,ans:opts.indexOf(mk.d),ex:mk.tip});});
   } else if(sec==='controls'){
     K.CONTROLS.forEach(c=>{const so=K.shufOpts(c.opts,c.ans);q.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex});});
@@ -1435,7 +1496,7 @@ function openMock(){
   $('#mockSec').addEventListener('click',()=>{
     app.innerHTML=backbar('Mock Test')+`<div class="block">
       <p class="kicker">Pick a section</p><h2>Practice one section</h2>
-      <p class="lead">Drill a single section with the real pass mark.</p>
+      <p class="lead">Drill a single section using this app's practice pass target.</p>
       <button class="btn btn-soft" id="sRules" type="button">📜 Rules — ${SECTION_META.rules.need}/${SECTION_META.rules.n}</button>
       <button class="btn btn-soft" id="sSigns" type="button">🛑 Signs — ${SECTION_META.signs.need}/${SECTION_META.signs.n}</button>
       <button class="btn btn-soft" id="sCtrl" type="button">🎛 Controls — ${SECTION_META.controls.need}/${SECTION_META.controls.n}</button>
@@ -1490,7 +1551,7 @@ function startMock(onlySec){
           const ch=+b.getAttribute('data-i');
           card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
           if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
-          else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q.q,q.opts[q.ans]);}
+          else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
           next.classList.remove('hidden');
         });
       });
@@ -1646,7 +1707,7 @@ function startSim(){
   let pool=[];
   K.RULES.forEach(r=>{const opts=K.shuffle([r.a,...K.ruleWrongs(r)]);pool.push({q:r.q,opts,ans:opts.indexOf(r.a),ex:r.a,sec:'Rules'});});
   K.MOCK_EXTRA.forEach(e=>{const so=K.shufOpts(e.opts,e.ans);pool.push({q:e.q,opts:so.opts,ans:so.ans,ex:e.ex,sec:'Rules'});});
-  K.SIGNS.forEach(s=>{const wrong=K.shuffle(K.SIGNS.filter(x=>x.id!==s.id)).slice(0,3).map(x=>x.name);const opts=K.shuffle([s.name,...wrong]);pool.push({q:'What does this sign mean?',svg:signImg(s.svg),opts,ans:opts.indexOf(s.name),ex:s.mean,sec:'Signs'});});
+  K.SIGNS.forEach(s=>pool.push({...K.signQuestion(s),sec:'Signs'}));
   K.MARKINGS.forEach(mk=>{const wrong=K.shuffle(K.MARKINGS.filter(x=>x!==mk).map(x=>x.d)).slice(0,3);const opts=K.shuffle([mk.d,...wrong]);pool.push({q:mk.t+' — what does it mean?',opts,ans:opts.indexOf(mk.d),ex:mk.tip,sec:'Signs'});});
   K.CONTROLS.forEach(c=>{const so=K.shufOpts(c.opts,c.ans);pool.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex,sec:'Controls'});});
   // Take proportional amounts to match official 64q: 28 rules, 28 signs, 8 controls
@@ -1689,7 +1750,7 @@ function startSim(){
         card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
         secCount[q.sec.toLowerCase()]++;
         if(ch===q.ans){correct++;secCorrect[q.sec.toLowerCase()]++;}
-        else{addReview(q.q,q.opts[q.ans]);}
+        else{addReview(q);}
         fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';
         next.classList.remove('hidden');
       });
@@ -1740,7 +1801,7 @@ renderHome();
 try{
   const gp=new URLSearchParams(location.search).get('go');
   if(gp){
-    const map={session1:'session1',session2:'session2',session3:'session3',mock:'mock',sim:'sim',flash:'flash',practice:'practice',row:'row',memory:'memory',cheat:'cheat',checklist:'checklist',review:'review',rhd:'rhd',revision:'revision'};
+    const map={session1:'session1',session2:'session2',session3:'session3',mock:'mock',sim:'sim',flash:'flash',practice:'practice',row:'row',memory:'memory',sources:'sources',cheat:'cheat',checklist:'checklist',review:'review',rhd:'rhd',revision:'revision'};
     const target=map[gp];
     if(target){
       setTimeout(()=>{const el=document.querySelector(`[data-go="${target}"]`); if(el){el.click();}} ,200);
