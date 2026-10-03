@@ -18,9 +18,19 @@ for (const path of signPaths) {
   assert(existsSync(path), `Missing sign asset: ${path}`);
   assert(sw.includes('./' + path), `Sign not precached for offline use: ${path}`);
 }
-for (const path of ['study-guide.html', 'robots.txt', 'sitemap.xml', 'manifest.webmanifest']) {
+for (const path of ['study-guide.html', 'robots.txt', 'sitemap.xml', 'manifest.webmanifest', 'icon.svg']) {
   assert(existsSync(path), `Missing public asset: ${path}`);
 }
+// Every local URL in markup, CSS and the install cache must exist at build time.
+const manifest = JSON.parse(readFileSync('manifest.webmanifest', 'utf8'));
+const local = new Set([
+  ...[...html.matchAll(/(?:src|href)=["']((?:assets\/|icon[^"']*|study-guide[^"']*)[^"']*)["']/g)].map(m => m[1]),
+  ...[...sw.matchAll(/'\.\/([^']+)'/g)].map(m => m[1]),
+  ...manifest.icons.map(i => i.src.replace(/^\.\//, '')),
+]);
+for (const path of local) assert(existsSync(path), `Missing local asset: ${path}`);
+assert(!html.includes('assets/ctrl/'), 'Cockpit must not rely on missing external art');
+assert(html.includes('RIGHT-HAND-DRIVE LAYOUT') && html.includes('ACCELERATOR'), 'Cockpit illustration absent');
 assert(html.includes('secCount[q.sec.toLowerCase()]++'));
 assert(html.includes('secCorrect[q.sec.toLowerCase()]++'));
 assert(html.includes('secCorrect[s]/secCount[s]'));
