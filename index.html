@@ -1405,6 +1405,9 @@ function readiness(){
     verdict='Close — pass the mock'; emoji='🎯'; score=45;
     msg='Sessions are done. Now lock it in: retake the mock until you pass all sections comfortably.';
   }
+  const attempts=Object.values(s.attempts||{}), repeated=attempts.filter(a=>a.correct+a.wrong>=2).length;
+  if(score>=85 && repeated<20){score=Math.min(score,79);msg+=' Build confidence with at least 20 concepts answered more than once; '+repeated+' have repeated evidence so far.';}
+  if(s.vehicleCode!=='2'){score=Math.min(score,60);msg+=' The controls covered here are car-specific; complete your selected code’s official manual.';}
   return {verdict,emoji,msg,score,sessionsDone,acc,mockPass:!!s.mockPass,secRules,secSigns,secCtrl,allSec};
 }
 function openSignLibrary(){
@@ -1526,7 +1529,7 @@ function openMock(){
     <button class="btn btn-ghost" id="mockNoTime" type="button">Start without a timer</button>
     <button class="btn btn-soft" id="mockSec" type="button">Practice one section only</button>
     <button class="btn btn-ghost" data-go="home">Home</button>
-    <p class="footnote" style="margin-top:var(--s4)">Format: 28 rules (22 pass), 28 signs (23 pass), 8 controls (6 pass). <a href="https://www.natis.gov.za/index.php/downloads/learner-driver-manual" target="_blank" rel="noopener noreferrer">NaTIS manuals ↗</a> · checked 3 October 2026. Ask your DLTC about local changes. This is an independent <b>study aid</b> using a 64-question practice structure. Questions here are practice material, not the official question bank. Confirm current test requirements with your DLTC.</p>
+    <p class="footnote" style="margin-top:var(--s4)">Format: 28 rules (22 pass), 28 signs (23 pass), 8 controls (6 pass). <a href="https://www.natis.gov.za/index.php/downloads/general-documents?download=54%3Aminimum-requirements-for-registration-and-retention-of-grading-for-driving-licence-testing-centres" target="_blank" rel="noopener noreferrer">NaTIS testing-centre requirements ↗</a> · checked 3 October 2026. Ask your DLTC about local changes. This is an independent <b>study aid</b> using a 64-question practice structure. Questions here are practice material, not the official question bank. Confirm current test requirements with your DLTC.</p>
   </div>`;
   const go=(time)=>{if(mockTimer){clearInterval(mockTimer);mockTimer=null;}mockSeconds=time;startMock();};
   $('#mockGo').addEventListener('click',()=>go(60*60));
@@ -1731,7 +1734,7 @@ function openSim(){
   app.innerHTML=backbar('Test-Day Sim')+`<div class="block center">
     <div class="badge-xl">⚡</div>
     <div class="result-title" style="font-size:24px">Test-Day Simulation</div>
-    <p class="result-sub">Full 64 questions, mixed order, NO section breaks.<br>60-minute timer — the DLTC test may not exceed 1 hour.</p>
+    <p class="result-sub">${K.state.vehicleCode!== '2'?'Code '+K.state.vehicleCode+' learners: this simulation uses car controls, so it is partial practice for your code.<br>':''}Full 64 questions, mixed order, NO section breaks.<br>60-minute timer — the DLTC test may not exceed 1 hour.</p>
     <button class="btn btn-primary" id="simGo" type="button">Start with 60:00 timer</button>
     <button class="btn btn-ghost" id="simNoTime" type="button">Start without a timer</button>
     <button class="btn btn-ghost" data-go="home">Home</button>
