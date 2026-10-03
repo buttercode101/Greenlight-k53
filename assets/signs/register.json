@@ -227,13 +227,6 @@
       "source_page": 2
     },
     {
-      "id": "school",
-      "asset": "school.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
-    },
-    {
       "id": "pedcrossing",
       "asset": "pedcrossing.svg",
       "code": "W306",
@@ -255,13 +248,6 @@
       "source_page": 2
     },
     {
-      "id": "hospital",
-      "asset": "hospital.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
-    },
-    {
       "id": "parking",
       "asset": "parking.svg",
       "code": "R305-P",
@@ -274,13 +260,6 @@
       "code": "R132",
       "status": "redrawn-needs-final-review",
       "source_page": 1
-    },
-    {
-      "id": "dir",
-      "asset": "dir.svg",
-      "code": null,
-      "status": "unverified",
-      "review_note": "Text or symbol substitute; needs comparison with official sign face"
     },
     {
       "id": "redman",
@@ -297,6 +276,20 @@
       "status": "redrawn-needs-final-review",
       "source_page": 1,
       "source_detail": "SARTSM Volume 2 section 14.7.2"
+    }
+  ],
+  "excluded": [
+    {
+      "id": "school",
+      "reason": "Duplicate children warning question without a distinct validated sign face"
+    },
+    {
+      "id": "hospital",
+      "reason": "Generic H placeholder had no verified sign code or design"
+    },
+    {
+      "id": "dir",
+      "reason": "Generic arrow placeholder did not represent a specific direction sign"
     }
   ]
 }
