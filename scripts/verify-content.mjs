@@ -45,6 +45,22 @@ for(const code of ['1','2','3']){
 assert.equal(new Set([...K.MOCK_EXTRA,...K.RULE_VARIANTS,...K.SIGN_VARIANTS,...K.CONTROL_VARIANTS].map(x=>x.q)).size,K.MOCK_EXTRA.length+K.RULE_VARIANTS.length+K.SIGN_VARIANTS.length+K.CONTROL_VARIANTS.length);
 assert(!/Monday|first.time pass|official question bank access/i.test(html));
 const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
-assert.equal(registry.records.length,277);
+assert.equal(registry.records.length,283);
 assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source) && x.reviewer===null && x.reviewDate===null));
+const extract=(name)=>{
+ const start=html.indexOf('const '+name+'=[');assert(start>=0);
+ const end=/\n\s*\];/.exec(html.slice(start));assert(end);
+ return vm.runInNewContext('('+html.slice(start+('const '+name+'=').length,start+end.index+end[0].length).replace(/;$/,'')+')');
+};
+const situations=extract('SITUATIONS');
+assert.equal(situations.length,6);
+for(const s of situations){
+ assert(K.SIGNS.some(sign=>sign.id===s.sign),`Missing scene sign ${s.sign}`);
+ assert.equal(s.opts.length,s.why.length);
+ assert.equal(new Set(s.opts).size,s.opts.length);
+ assert(Number.isInteger(s.ans)&&s.ans>=0&&s.ans<s.opts.length);
+ assert(s.q&&s.ex&&s.note&&s.why.every(x=>x.trim()));
+}
+assert.equal(registry.records.filter(x=>x.id.startsWith('situations-')).length,situations.length);
+assert(html.includes('situations:openSituations')&&html.includes('data-go="situations"'));
 console.log('Control choice invariants and code scope passed.');

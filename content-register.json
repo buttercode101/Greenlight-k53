@@ -1012,6 +1012,78 @@
       "language": "en"
     },
     {
+      "id": "situations-001",
+      "title": "What should you do at this stop sign?",
+      "sha256_16": "8f35bed72cbf9228",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs",
+      "sourceArea": "signs",
+      "sourceMappingDate": "2026-10-04",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "situations-002",
+      "title": "What should you do at the give-way sign?",
+      "sha256_16": "2919379b3fc4b183",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs",
+      "sourceArea": "signs",
+      "sourceMappingDate": "2026-10-04",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "situations-003",
+      "title": "May you drive past this sign to reach your destination?",
+      "sha256_16": "ba9e2d0d661d6bc0",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs",
+      "sourceArea": "signs",
+      "sourceMappingDate": "2026-10-04",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "situations-004",
+      "title": "What does this 60 km/h sign mean here?",
+      "sha256_16": "5933ccbb52544a05",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs",
+      "sourceArea": "signs",
+      "sourceMappingDate": "2026-10-04",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "situations-005",
+      "title": "What action does this warning call for?",
+      "sha256_16": "e0d5a073f9826f56",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs",
+      "sourceArea": "signs",
+      "sourceMappingDate": "2026-10-04",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
+      "id": "situations-006",
+      "title": "How should you treat this signed lane?",
+      "sha256_16": "75bbc58c7da69abd",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs",
+      "sourceArea": "signs",
+      "sourceMappingDate": "2026-10-04",
+      "reviewer": null,
+      "reviewDate": null,
+      "reviewStatus": "Independent subject review pending",
+      "language": "en"
+    },
+    {
       "id": "rules-001",
       "title": "Which side of the road do we drive on in South Africa?",
       "sha256_16": "21f563a69e1a1f0f",
