@@ -1,6 +1,6 @@
 # GreenLight K53 content release ledger
 
-Checked 3 October 2026. This ledger separates a source-area mapping from an independent review of each statement. The latter has **not** happened. The machine-readable [content register](content-register.json) lists the question, sign, lesson-data, cockpit-tip and DLTC-checklist entries and its content fingerprint, official manual area, mapping date, review status, reviewer and review date. Reviewer and review date remain `null` until a real subject expert signs an entry. English is the only available teaching language; Afrikaans, isiZulu, isiXhosa, Sesotho and Setswana are distinct future work, not a combined or partial translation.
+Checked 4 October 2026. This ledger separates a source-area mapping from an independent review of each statement. The latter has **not** happened. The machine-readable [content register](content-register.json) lists the question, sign, lesson-data, cockpit-tip and DLTC-checklist entries and its content fingerprint, official manual area, mapping date, review status, reviewer and review date. Reviewer and review date remain `null` until a real subject expert signs an entry. English is the only available teaching language; Afrikaans, isiZulu, isiXhosa, Sesotho and Setswana are distinct future work, not a combined or partial translation.
 
 ## Primary sources
 
@@ -24,7 +24,7 @@ Checked 3 October 2026. This ledger separates a source-area mapping from an inde
 
 ## Coverage and release gate
 
-The register now includes five cockpit tips and five DLTC checklist entries, in addition to the question and sign set. The app has 39 simplified sign illustrations, 10 marking descriptions, 44 base road-rule questions, 30 additional questions, 12 light-vehicle controls and 10 introductory controls for each motorcycle/heavy path. These numbers are selection sizes, **not** a claim of full official syllabus coverage. The topic checklist in the app directs users through rules, regulatory/warning/guidance/information signs, markings, signals, and controls. The full manuals remain necessary.
+The register now includes five cockpit tips and five DLTC checklist entries, in addition to the question and sign set. The app has 39 simplified sign illustrations, 10 marking descriptions, 44 base road-rule questions, 30 additional questions, 20 new rule scenarios, 20 sign scenarios, 9 shared control checks, 12 light-vehicle controls and 10 introductory controls for each motorcycle/heavy path. These numbers are selection sizes, **not** a claim of full official syllabus coverage. The topic checklist in the app directs users through rules, regulatory/warning/guidance/information signs, markings, signals, and controls. The full manuals remain necessary.
 
 Every entry in the register requires a source passage or figure identifier, a qualified or accountable reviewer, a review date, and a checked explanation/decoy set before the app can describe that entry as independently reviewed. Legal changes, local formats, fees, booking availability, and real test questions require fresh official verification. No translation should be enabled until the full question/answer/lesson path has a separate fluent review in that language.
 
