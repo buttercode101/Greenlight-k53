@@ -1808,7 +1808,12 @@ function bindGo(root){
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
       const map={journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
-      if(map[t]){if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}map[t]();window.scrollTo(0,0);}
+      if(map[t]){
+        if(assessmentActive && !window.confirm('Leave this practice test? Your answers in this attempt will be lost.'))return;
+        assessmentActive=false;
+        if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}
+        map[t]();window.scrollTo(0,0);
+      }
     });
   });
 }
@@ -1816,6 +1821,9 @@ function bindGo(root){
 /* MOCK TEST + RESULT — 3 sections like the real K53 test */
 let mockData=[];
 let mockTimer=null, mockSeconds=0;
+let assessmentActive=false;
+function remainingSeconds(deadline,now=Date.now()){return Math.max(0,Math.ceil((deadline-now)/1000));}
+function sectionPassed(correct,answered,total,need){return answered===total&&correct>=need;}
 /* Build one section's questions (full pool, shuffled) */
 function buildSection(sec,series){
   const q=[];
@@ -1875,6 +1883,7 @@ function openMock(){
 
 /* Start a full test (sequential sections) or a single section */
 function startMock(onlySec){
+  assessmentActive=true;
   K.state.paperSeries=(K.state.paperSeries||0)+1;K.save();
   const series=K.state.paperSeries;
   const sections = onlySec ? [onlySec] : SECTION_ORDER.slice();
@@ -1883,18 +1892,19 @@ function startMock(onlySec){
   K.state.secPass = onlySec ? (K.state.secPass || {}) : {};
   if (onlySec) { delete K.state.mockResults[onlySec]; delete K.state.secPass[onlySec]; }
   const timedMock = mockSeconds > 0;
+  const deadline = timedMock ? Date.now() + mockSeconds * 1000 : 0;
   let si=0;
   function startSection(sec){
     const meta=SECTION_META[sec];
     mockData=buildSection(sec,series);
-    let i=0,correct=0,total=mockData.length;
+    let i=0,correct=0,answered=0,total=mockData.length;
     function timerHTML(){
       if(!mockSeconds)return '';
       const m=String(Math.floor(mockSeconds/60)).padStart(2,'0'),s=String(mockSeconds%60).padStart(2,'0');
       return `<div class="timer no-print ${mockSeconds<=60?'warn':''}"><span class="ttl">Time left</span><span class="time">${m}:${s}</span></div>`;
     }
     if(mockSeconds){
-      mockTimer=setInterval(()=>{mockSeconds--;const t=document.querySelector('.timer .time');if(t)t.textContent=String(Math.floor(mockSeconds/60)).padStart(2,'0')+':'+String(mockSeconds%60).padStart(2,'0');if(mockSeconds<=60&&document.querySelector('.timer'))document.querySelector('.timer').classList.add('warn');if(mockSeconds<=0){clearInterval(mockTimer);mockTimer=null;finishSection(sec);}},1000);
+      mockTimer=setInterval(()=>{mockSeconds=remainingSeconds(deadline);const t=document.querySelector('.timer .time');if(t)t.textContent=String(Math.floor(mockSeconds/60)).padStart(2,'0')+':'+String(mockSeconds%60).padStart(2,'0');if(mockSeconds<=60&&document.querySelector('.timer'))document.querySelector('.timer').classList.add('warn');if(mockSeconds<=0){clearInterval(mockTimer);mockTimer=null;finishSection(sec);}},250);
     }
     function render(){
       if(i>=total){finishSection(sec);return;}
@@ -1916,6 +1926,7 @@ function startMock(onlySec){
           if(b.disabled)return;
           const ch=+b.getAttribute('data-i');
           card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
+          answered++;
           recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
           else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
           renderAnswerTools(card,q);next.classList.remove('hidden');
@@ -1927,8 +1938,8 @@ function startMock(onlySec){
     function finishSection(sec){
       const meta=SECTION_META[sec];
       const need=meta.need;
-      const passed=correct>=need;
-      K.state.mockResults[sec]={correct,total,pass:passed,need};
+      const passed=sectionPassed(correct,answered,total,need);
+      K.state.mockResults[sec]={correct,total,answered,pass:passed,need};
       K.state.secPass=K.state.secPass||{};
       K.state.secPass[sec]=passed;
       K.save();
@@ -1940,7 +1951,7 @@ function startMock(onlySec){
         app.innerHTML=backbar('Section Complete')+`<div class="block center">
           <div class="badge-xl">${passed?'✅':'📚'}</div>
           <div class="result-title">${meta.name} done</div>
-          <p class="result-sub">${correct}/${total} — needed ${need} · ${passed?'PASSED ✓':'NOT PASSED'}</p>
+          <p class="result-sub">${correct}/${total} correct · ${answered} answered · needed ${need} · ${passed?'PASSED ✓':'NOT PASSED'}</p>
           <div class="stat-grid">
             <div class="stat"><div class="n">${correct}</div><div class="l">Correct</div></div>
             <div class="stat"><div class="n">${total-correct}</div><div class="l">Wrong</div></div>
@@ -2002,6 +2013,7 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, scope=
 }
 
 function finishMock(onlySec){
+  assessmentActive=false;
   const sections = onlySec ? [onlySec] : SECTION_ORDER;
   let allPass=true, totalCorrect=0, totalQ=0;
   sections.forEach(s=>{const r=K.state.secPass&&K.state.secPass[s];if(!r)allPass=false;});
@@ -2010,7 +2022,7 @@ function finishMock(onlySec){
     const p=K.state.secPass&&K.state.secPass[s];
     const m=SECTION_META[s];
     const result=K.state.mockResults?.[s];
-    return `<tr><td>${m.name}</td><td>${!result?'NOT TAKEN':`${result.correct}/${result.total} · ${p?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}`}</td><td>${m.need}/${m.n}</td></tr>`;
+    return `<tr><td>${m.name}</td><td>${!result?'NOT TAKEN':`${result.correct}/${result.total} · ${result.answered ?? result.total} answered · ${p?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}`}</td><td>${m.need}/${m.n}</td></tr>`;
   }).join('');
   const overallPass = onlySec ? (K.state.secPass&&K.state.secPass[onlySec]) : allPass;
   const attempted=sections.map(s=>K.state.mockResults?.[s]).filter(Boolean);
@@ -2069,6 +2081,8 @@ function openSim(){
   bindGo();
 }
 function startSim(){
+  assessmentActive=true;
+  const deadline = mockSeconds ? Date.now() + mockSeconds * 1000 : 0;
   K.state.paperSeries=(K.state.paperSeries||0)+1;K.save();
   const series=K.state.paperSeries;
   // Build full pool (all sections) and shuffle into 64 questions (28+28+8)
@@ -2097,7 +2111,7 @@ function startSim(){
     return `<div class="timer no-print ${mockSeconds<=60?'warn':''}"><span class="ttl">Time left</span><span class="time">${m}:${s}</span></div>`;
   }
   if(mockSeconds){
-    mockTimer=setInterval(()=>{mockSeconds--;const t=document.querySelector('.timer .time');if(t)t.textContent=String(Math.floor(mockSeconds/60)).padStart(2,'0')+':'+String(mockSeconds%60).padStart(2,'0');if(mockSeconds<=60&&document.querySelector('.timer'))document.querySelector('.timer').classList.add('warn');if(mockSeconds<=0){clearInterval(mockTimer);mockTimer=null;finishSim();}},1000);
+    mockTimer=setInterval(()=>{mockSeconds=remainingSeconds(deadline);const t=document.querySelector('.timer .time');if(t)t.textContent=String(Math.floor(mockSeconds/60)).padStart(2,'0')+':'+String(mockSeconds%60).padStart(2,'0');if(mockSeconds<=60&&document.querySelector('.timer'))document.querySelector('.timer').classList.add('warn');if(mockSeconds<=0){clearInterval(mockTimer);mockTimer=null;finishSim();}},250);
   }
   function render(){
     if(i>=total){if(mockTimer){clearInterval(mockTimer);mockTimer=null;}finishSim();return;}
@@ -2130,6 +2144,7 @@ function startSim(){
     bindBookmark(card,q);bindGo();
   }
   function finishSim(){
+    assessmentActive=false;
     const rows=SECTION_ORDER.map(s=>{const m=SECTION_META[s];const c=secCorrect[s],t=secCount[s];const need=m.need;const passed=t===m.n&&c>=need;return `<tr><td>${m.name}</td><td>${c+'/'+m.n} (${t} answered)</td><td>${passed?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}</td><td>${need}</td></tr>`;}).join('');
     const allPass=SECTION_ORDER.every(s=>secCount[s]===SECTION_META[s].n&&secCorrect[s]>=SECTION_META[s].need);
     K.state.shareData={secCorrect,secCount,correct,total,passed:allPass};
