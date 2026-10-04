@@ -29,7 +29,8 @@ for(const code of ['1','2','3']){
  if(code==='1')assert(!rules.some(x=>/learner drive a car|seatbelt|trailer/i.test(x.q)));
  console.log(`Code ${code}: ${rules.length}+${extras.length} rules, ${K.SIGNS.length}+${K.MARKINGS.length} signs/markings, ${controls.length} controls`);
 }
-assert(K.SIGN_VARIANTS.length>=20&&K.RULE_VARIANTS.length>=20&&K.CONTROL_VARIANTS.length>=9);
+assert(K.SIGN_VARIANTS.length>=35&&K.RULE_VARIANTS.length>=20&&K.CONTROL_VARIANTS.length>=9);
+for(const code of ['1','2','3'])assert.equal(K.CONTROL_LESSONS.filter(x=>x.code===code).length,5);
 for(const code of ['1','2','3']){
  const rules=K.rulesForCode(code).concat(K.extraForCode(code));
  const sign=K.SIGNS.concat(K.MARKINGS,K.SIGN_VARIANTS);
@@ -44,6 +45,6 @@ for(const code of ['1','2','3']){
 assert.equal(new Set([...K.MOCK_EXTRA,...K.RULE_VARIANTS,...K.SIGN_VARIANTS,...K.CONTROL_VARIANTS].map(x=>x.q)).size,K.MOCK_EXTRA.length+K.RULE_VARIANTS.length+K.SIGN_VARIANTS.length+K.CONTROL_VARIANTS.length);
 assert(!/Monday|first.time pass|official question bank access/i.test(html));
 const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
-assert.equal(registry.records.length,238);
+assert.equal(registry.records.length,268);
 assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source) && x.reviewer===null && x.reviewDate===null));
 console.log('Control choice invariants and code scope passed.');
