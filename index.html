@@ -728,7 +728,11 @@ function extraForCode(code){return [...MOCK_EXTRA.filter(e=>code==='2'||!/Code 2
 function selectPaper(pool,count,series){
   // Alternate disjoint item rosters. The third sitting may revisit prior items.
   if(pool.length<count*2)throw Error('Question pool too small for two distinct papers');
-  return shuffle(pool.slice(((series-1)%2)*count,((series-1)%2+1)*count));
+  const width=Math.ceil(pool.length/4),spread=[];
+  for(let i=0;i<width;i++)for(let lane=0;lane<4;lane++){
+    const item=pool[i+lane*width];if(item)spread.push(item);
+  }
+  return shuffle(spread.slice(((series-1)%2)*count,((series-1)%2+1)*count));
 }
 
 /* ---------- RIGHT-OF-WAY GAME (who goes first?) ---------- */
