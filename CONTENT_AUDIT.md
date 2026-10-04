@@ -24,8 +24,15 @@ Checked 4 October 2026. This ledger separates a source-area mapping from an inde
 
 ## Coverage and release gate
 
-The register now includes five cockpit tips and five DLTC checklist entries, in addition to the question and sign set. The app has 39 simplified sign illustrations, 10 marking descriptions, 44 base road-rule questions, 30 additional questions, 20 new rule scenarios, 20 sign scenarios, 9 shared control checks, 12 light-vehicle controls and 10 introductory controls for each motorcycle/heavy path. These numbers are selection sizes, **not** a claim of full official syllabus coverage. The topic checklist in the app directs users through rules, regulatory/warning/guidance/information signs, markings, signals, and controls. The full manuals remain necessary.
+The register now includes five cockpit tips and five DLTC checklist entries, in addition to the question and sign set. The app has 39 simplified sign illustrations, 10 marking descriptions, 44 base road-rule questions, 30 additional questions, 20 new rule scenarios, 35 sign scenarios, 15 code-specific control lessons, 9 shared control checks, 12 light-vehicle controls and 10 introductory controls for each motorcycle/heavy path. These numbers are selection sizes, **not** a claim of full official syllabus coverage. The topic checklist in the app directs users through rules, regulatory/warning/guidance/information signs, markings, signals, and controls. The full manuals remain necessary.
 
 Every entry in the register requires a source passage or figure identifier, a qualified or accountable reviewer, a review date, and a checked explanation/decoy set before the app can describe that entry as independently reviewed. Legal changes, local formats, fees, booking availability, and real test questions require fresh official verification. No translation should be enabled until the full question/answer/lesson path has a separate fluent review in that language.
 
 The app does not book tests, reproduce the official question bank, or guarantee a pass. The 64-question mode cites the published NaTIS minimum standards; a centre may use a different process, so users are sent to their DLTC to confirm.
+
+## Manual cross-check, 4 October 2026
+
+- Replaced ambiguous yellow roadside line teaching with the named no-parking marking RM13 and its loading distinction from no-stopping RM12.
+- Replaced an overly definite simultaneous four-way-stop answer with the manual’s earlier-arrival rule.
+- Corrected temporary sign colour to yellow and expanded sign/marking scenarios on R1.2, RM10–RM14 and WM1–WM6, plus mini-circles and lane direction.
+- Added original in-app control lessons for Codes 1, 2 and 3. This remains a selective guide, not a reproduction of the Department of Transport manuals.
