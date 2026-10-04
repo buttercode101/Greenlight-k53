@@ -16,9 +16,9 @@ for(const code of ['1','2','3']){
  assert(rules.length+extras.length>=28,`Code ${code} rules below 28`);
  assert(controls.length>=8,`Code ${code} controls below 8`);
  for(const [pool,n] of [[rules.concat(extras),28],[K.SIGNS.concat(K.MARKINGS,K.SIGN_VARIANTS),28],[controls.concat(K.CONTROL_VARIANTS),8]]){
-  const first=K.selectPaper(pool,n,1),second=K.selectPaper(pool,n,2);
-  assert.equal(first.length,n);assert.equal(second.length,n);
-  assert.equal(first.filter(x=>second.includes(x)).length,0,`Code ${code} papers overlap within a section`);
+  const papers=[1,2,3].map(i=>K.selectPaper(pool,n,i));
+  papers.forEach(p=>assert.equal(p.length,n));
+  assert.equal(new Set(papers.flat()).size,n*3,`Code ${code} paper rosters overlap within a section`);
  }
  assert.equal(new Set(controls.map(x=>x.q)).size,controls.length);
  for(const q of controls.concat(extras,K.SIGN_VARIANTS,K.CONTROL_VARIANTS)){
@@ -29,13 +29,13 @@ for(const code of ['1','2','3']){
  if(code==='1')assert(!rules.some(x=>/learner drive a car|seatbelt|trailer/i.test(x.q)));
  console.log(`Code ${code}: ${rules.length}+${extras.length} rules, ${K.SIGNS.length}+${K.MARKINGS.length} signs/markings, ${controls.length} controls`);
 }
-assert(K.SIGN_VARIANTS.length>=35&&K.RULE_VARIANTS.length>=20&&K.CONTROL_VARIANTS.length>=9);
+assert(K.SIGN_VARIANTS.length>=35&&K.RULE_VARIANTS.length>=23&&K.CONTROL_VARIANTS.length>=15);
 for(const code of ['1','2','3'])assert.equal(K.CONTROL_LESSONS.filter(x=>x.code===code).length,5);
 for(const code of ['1','2','3']){
  const rules=K.rulesForCode(code).concat(K.extraForCode(code));
  const sign=K.SIGNS.concat(K.MARKINGS,K.SIGN_VARIANTS);
  const ctrl=K.controlsForCode(code).concat(K.CONTROL_VARIANTS);
- const papers=[1,2].map(i=>({rules:K.selectPaper(rules,28,i),sign:K.selectPaper(sign,28,i),ctrl:K.selectPaper(ctrl,8,i)}));
+ const papers=[1,2,3].map(i=>({rules:K.selectPaper(rules,28,i),sign:K.selectPaper(sign,28,i),ctrl:K.selectPaper(ctrl,8,i)}));
  for(const paper of papers){
   assert(paper.rules.some(x=>K.RULE_VARIANTS.includes(x)),`Code ${code} paper omits new rule scenarios`);
   assert(paper.sign.some(x=>K.SIGN_VARIANTS.includes(x)),`Code ${code} paper omits sign scenarios`);
@@ -45,6 +45,6 @@ for(const code of ['1','2','3']){
 assert.equal(new Set([...K.MOCK_EXTRA,...K.RULE_VARIANTS,...K.SIGN_VARIANTS,...K.CONTROL_VARIANTS].map(x=>x.q)).size,K.MOCK_EXTRA.length+K.RULE_VARIANTS.length+K.SIGN_VARIANTS.length+K.CONTROL_VARIANTS.length);
 assert(!/Monday|first.time pass|official question bank access/i.test(html));
 const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
-assert.equal(registry.records.length,268);
+assert.equal(registry.records.length,277);
 assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source) && x.reviewer===null && x.reviewDate===null));
 console.log('Control choice invariants and code scope passed.');
