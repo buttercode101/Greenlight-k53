@@ -15,8 +15,13 @@ for(const code of ['1','2','3']){
  const rules=K.rulesForCode(code),extras=K.extraForCode(code),controls=K.controlsForCode(code);
  assert(rules.length+extras.length>=28,`Code ${code} rules below 28`);
  assert(controls.length>=8,`Code ${code} controls below 8`);
+ for(const [pool,n] of [[rules.concat(extras),28],[K.SIGNS.concat(K.MARKINGS,K.SIGN_VARIANTS),28],[controls.concat(K.CONTROL_VARIANTS),8]]){
+  const first=K.selectPaper(pool,n,1),second=K.selectPaper(pool,n,2);
+  assert.equal(first.length,n);assert.equal(second.length,n);
+  assert.equal(first.filter(x=>second.includes(x)).length,0,`Code ${code} papers overlap within a section`);
+ }
  assert.equal(new Set(controls.map(x=>x.q)).size,controls.length);
- for(const q of controls.concat(extras)){
+ for(const q of controls.concat(extras,K.SIGN_VARIANTS,K.CONTROL_VARIANTS)){
   assert(q.q?.trim()&&q.ex?.trim(),`Code ${code} incomplete explanation`);
   assert(Number.isInteger(q.ans)&&q.ans>=0&&q.ans<q.opts.length);
   assert.equal(new Set(q.opts.map(x=>x.trim())).size,q.opts.length,`Duplicate choices: ${q.q}`);
@@ -24,8 +29,10 @@ for(const code of ['1','2','3']){
  if(code==='1')assert(!rules.some(x=>/learner drive a car|seatbelt|trailer/i.test(x.q)));
  console.log(`Code ${code}: ${rules.length}+${extras.length} rules, ${K.SIGNS.length}+${K.MARKINGS.length} signs/markings, ${controls.length} controls`);
 }
+assert(K.SIGN_VARIANTS.length>=20&&K.RULE_VARIANTS.length>=20&&K.CONTROL_VARIANTS.length>=9);
+assert.equal(new Set([...K.MOCK_EXTRA,...K.RULE_VARIANTS,...K.SIGN_VARIANTS,...K.CONTROL_VARIANTS].map(x=>x.q)).size,K.MOCK_EXTRA.length+K.RULE_VARIANTS.length+K.SIGN_VARIANTS.length+K.CONTROL_VARIANTS.length);
 assert(!/Monday|first.time pass|official question bank access/i.test(html));
 const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
-assert.equal(registry.records.length,189);
+assert.equal(registry.records.length,238);
 assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source) && x.reviewer===null && x.reviewDate===null));
 console.log('Control choice invariants and code scope passed.');
