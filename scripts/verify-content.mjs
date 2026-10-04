@@ -30,6 +30,17 @@ for(const code of ['1','2','3']){
  console.log(`Code ${code}: ${rules.length}+${extras.length} rules, ${K.SIGNS.length}+${K.MARKINGS.length} signs/markings, ${controls.length} controls`);
 }
 assert(K.SIGN_VARIANTS.length>=20&&K.RULE_VARIANTS.length>=20&&K.CONTROL_VARIANTS.length>=9);
+for(const code of ['1','2','3']){
+ const rules=K.rulesForCode(code).concat(K.extraForCode(code));
+ const sign=K.SIGNS.concat(K.MARKINGS,K.SIGN_VARIANTS);
+ const ctrl=K.controlsForCode(code).concat(K.CONTROL_VARIANTS);
+ const papers=[1,2].map(i=>({rules:K.selectPaper(rules,28,i),sign:K.selectPaper(sign,28,i),ctrl:K.selectPaper(ctrl,8,i)}));
+ for(const paper of papers){
+  assert(paper.rules.some(x=>K.RULE_VARIANTS.includes(x)),`Code ${code} paper omits new rule scenarios`);
+  assert(paper.sign.some(x=>K.SIGN_VARIANTS.includes(x)),`Code ${code} paper omits sign scenarios`);
+  assert(paper.ctrl.some(x=>K.CONTROL_VARIANTS.includes(x)),`Code ${code} paper omits shared controls`);
+ }
+}
 assert.equal(new Set([...K.MOCK_EXTRA,...K.RULE_VARIANTS,...K.SIGN_VARIANTS,...K.CONTROL_VARIANTS].map(x=>x.q)).size,K.MOCK_EXTRA.length+K.RULE_VARIANTS.length+K.SIGN_VARIANTS.length+K.CONTROL_VARIANTS.length);
 assert(!/Monday|first.time pass|official question bank access/i.test(html));
 const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
