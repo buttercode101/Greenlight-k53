@@ -45,7 +45,7 @@ for(const code of ['1','2','3']){
 assert.equal(new Set([...K.MOCK_EXTRA,...K.RULE_VARIANTS,...K.SIGN_VARIANTS,...K.CONTROL_VARIANTS].map(x=>x.q)).size,K.MOCK_EXTRA.length+K.RULE_VARIANTS.length+K.SIGN_VARIANTS.length+K.CONTROL_VARIANTS.length);
 assert(!/Monday|first.time pass|official question bank access/i.test(html));
 const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
-assert.equal(registry.records.length,283);
+assert.equal(registry.records.length,295);
 assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source) && x.reviewer===null && x.reviewDate===null));
 const extract=(name)=>{
  const start=html.indexOf('const '+name+'=[');assert(start>=0);
@@ -62,5 +62,7 @@ for(const s of situations){
  assert(s.q&&s.ex&&s.note&&s.why.every(x=>x.trim()));
 }
 assert.equal(registry.records.filter(x=>x.id.startsWith('situations-')).length,situations.length);
+assert.equal(registry.records.filter(x=>x.id.startsWith('practical-')).length,12);
 assert(html.includes('situations:openSituations')&&html.includes('data-go="situations"'));
+assert(html.includes('practical:openPractical')&&html.includes('concepts:openConceptFocus'));
 console.log('Control choice invariants and code scope passed.');

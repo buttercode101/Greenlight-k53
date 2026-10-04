@@ -18,6 +18,15 @@ for(const [name,topic] of Object.entries(sources)){
   records.push({id:name.toLowerCase()+'-'+String(i+1).padStart(3,'0'),title:content,sha256_16:digest,source:urls[itemTopic],sourceArea:itemTopic,sourceMappingDate:'2026-10-04',reviewer:null,reviewDate:null,reviewStatus:'Independent subject review pending',language:'en'});
  }
 }
+const practicalStart=html.indexOf('const PRACTICAL_GUIDES={');
+if(practicalStart<0)throw Error('Missing practical guides');
+const practicalEnd=/\n\};/.exec(html.slice(practicalStart));
+if(!practicalEnd)throw Error('Unclosed practical guides');
+const practical=vm.runInNewContext('('+html.slice(practicalStart+'const PRACTICAL_GUIDES='.length,practicalStart+practicalEnd.index+practicalEnd[0].length).replace(/;$/,'')+')');
+for(const [code,guide] of Object.entries(practical))for(const [i,step] of guide.steps.entries()){
+ const digest=crypto.createHash('sha256').update(JSON.stringify(step)).digest('hex').slice(0,16);
+ records.push({id:`practical-${code}-${i+1}`,title:step[0],sha256_16:digest,source:guide.source,sourceArea:'practical',sourceMappingDate:'2026-10-04',reviewer:null,reviewDate:null,reviewStatus:'Independent subject review pending',language:'en'});
+}
 const output=JSON.stringify({schema:1,generated:'2026-10-04',note:'A source-area mapping is not an item-level fact check. No human or qualified reviewer is implied.',records},null,2)+'\n';
 if(process.argv.includes('--check')){if(fs.readFileSync('content-register.json','utf8')!==output)throw Error('Content register is stale; regenerate and review changes.');}
 else fs.writeFileSync('content-register.json',output);
