@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import crypto from 'node:crypto';
 const html=fs.readFileSync('index.html','utf8');
-const sources={SIGNS:'signs',MARKINGS:'signs',RULES:'rules',CONTROLS:'controls',MOTORCYCLE_CONTROLS:'controls',HEAVY_CONTROLS:'controls',MOCK_EXTRA:'rules',ROW:'rules',MEMORY:'rules',STOPPING:'rules',REVISION:'rules',RHD_TIPS:'controls',DLTC_CHECKLIST:'application'};
+const sources={SIGNS:'signs',MARKINGS:'signs',SIGN_VARIANTS:'signs',RULES:'rules',RULE_VARIANTS:'rules',CONTROLS:'controls',CONTROL_VARIANTS:'controls',MOTORCYCLE_CONTROLS:'controls',HEAVY_CONTROLS:'controls',MOCK_EXTRA:'rules',ROW:'rules',MEMORY:'rules',STOPPING:'rules',REVISION:'rules',RHD_TIPS:'controls',DLTC_CHECKLIST:'application'};
 const urls={signs:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs',rules:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road',controls:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls',application:'https://www.gov.za/services/driving-licence/apply-learners-licence'};
 const records=[];
 for(const [name,topic] of Object.entries(sources)){
