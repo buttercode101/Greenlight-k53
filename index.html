@@ -1629,7 +1629,7 @@ function openSignLibrary(){
   results.innerHTML=entries.slice(0,limit).join('')||'<p>No matching entries. Try another term or family.</p>';more.classList.toggle('hidden',entries.length<=limit);
   results.querySelectorAll('.atlas-practice').forEach(b=>b.addEventListener('click',()=>{const s=K.SIGNS.find(x=>x.id===b.dataset.signId);if(s)practiceVariant(K.signQuestion(s),'signlibrary');}));
  }
- input.addEventListener('input',()=>{limit=12;draw();});category.addEventListener('change',()=>{limit=12;draw();});family.addEventListener('change',()=>{limit=12;draw();});more.addEventListener('click',()=>{limit+=12;draw();});draw();bindGo();
+ input.addEventListener('input',()=>{limit=12;draw();});category.addEventListener('change',()=>{limit=12;if(category.value==='markings'||category.value==='concepts'){family.value='all';family.disabled=true;}else family.disabled=false;draw();});family.addEventListener('change',()=>{limit=12;draw();});more.addEventListener('click',()=>{limit+=12;draw();});draw();bindGo();
 }
 /* Diagram is deliberately schematic: the sign and the written situation carry the rule. */
 const SITUATIONS=[
