@@ -11,6 +11,9 @@ Checked 4 October 2026. This ledger separates a source-area mapping from an inde
 - [NaTIS minimum DLTC requirements](https://www.natis.gov.za/index.php/downloads/general-documents?download=54%3Aminimum-requirements-for-registration-and-retention-of-grading-for-driving-licence-testing-centres): 28/28/8 with section minima 22/23/6.
 - [Western Cape learner guidance](https://www.westerncape.gov.za/service/learners-licence): official manual links and local process; local fees must be reconfirmed.
 - [Western Cape driving licence guidance](https://www.westerncape.gov.za/service/driving-licence-0): practical test is separate and tests ability for the vehicle class.
+- [NaTIS motorcycle practical manual](https://www.natis.gov.za/index.php/downloads/general-documents?download=55%3Ak53-motor-cycles-part1) for the later Code A1/A riding test.
+- [NaTIS light-vehicle practical manual](https://www.natis.gov.za/index.php/downloads/general-documents?download=59%3Ak53-light-motor-vehicle-part1-code-b) for the later Code B driving test.
+- [NaTIS heavy-vehicle practical manual](https://www.natis.gov.za/index.php/downloads/general-documents?download=61%3Ak53-heavy-motor-vehicle-part1-code-c1-c-ec1-and-ec) for the later C1/C/EC1/EC driving tests.
 
 ## Corrected in this release
 
