@@ -11,6 +11,9 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/verify.mjs
+      - run: node scripts/verify-content.mjs
+      - run: node scripts/verify-offline.mjs
+      - run: node scripts/verify-assessment.mjs
   signs:
     runs-on: ubuntu-latest
     steps:
