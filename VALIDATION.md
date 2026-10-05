@@ -42,3 +42,14 @@ Implementation commit: `2ce95e983ab97da1b07ded9b04fa71928e6b0f6a`.
 - Vercel rejected deployment of this commit at 2026-10-05 05:59 UTC with `Deployment rate limited — retry in 24 hours.` No deployment/alias promotion or live recovery verification is claimed.
 
 Remaining release checks: after the provider permits deployment, verify recovery and bookmarked artwork visually in the deployed app; run Android/iOS/tablet layouts and assistive technology checks. Content completeness, 294 remaining item source checks, qualified independent review, translations and outcome studies remain open.
+
+## Production reconciliation — 6 October 2026
+
+Canonical source branch: `master`.
+
+- The earlier review deployment at `d044f760...` was an ancestor of the actual source head, not the final release candidate.
+- The six later commits through `8d89c44...` contain bookmarked-sign restoration and assessment-recovery work and must be included in the production artifact.
+- Fresh source hardening at `d8852f6...` adds regression checks around official-test boundary language and learner-licence validity disclosure.
+- Release certification must bind the deployed artifact to the current `master` SHA. An older passing deployment must not be described as current production evidence.
+- Current official South African Government guidance still states learner licences are valid for 24 months and cannot be extended; Codes 1/2/3 remain the learner-licence categories described by government guidance.
+- Content completeness, qualified independent review, translation review and real-learner outcome evidence remain explicitly open and must not be inferred from engineering verification.
