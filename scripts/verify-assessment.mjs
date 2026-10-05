@@ -24,7 +24,12 @@ assert(html.includes('saveAssessment({version:1,type:\'mock\''));
 assert(html.includes('const resume=loadAssessment()'));
 assert(html.includes('clearAssessment();'));
 assert(html.includes('mockSeconds=remainingSeconds(Number(resume.deadline)||0)'));
-console.log('Assessment deadline, full-section pass gate and exit guard passed.');
+const quizStart=html.indexOf('function quizFlow('),quizEnd=html.indexOf('function finishQuiz(',quizStart);
+assert(quizStart>=0&&quizEnd>quizStart,'Missing quizFlow');
+const quizFlow=html.slice(quizStart,quizEnd);
+assert(!quizFlow.includes("type:'mock'"),'Lesson quiz must not execute mock-only persistence code');
+assert(quizFlow.includes("next.classList.remove('hidden')"),'Lesson quiz must expose forward navigation after an answer');
+console.log('Assessment deadline, full-section pass gate, lesson progression and exit guard passed.');
 
 let storageBlocked=true,errors=0;
 const window={dispatchEvent:()=>errors++};
