@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- release parity: verified 2026-10-05 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free K53 Test South Africa 2026 | Learner's Licence Practice | GreenLight K53</title>
@@ -41,7 +40,7 @@
   "@context":"https://schema.org",
   "@graph":[
     {"@type":"FAQPage","mainEntity":[
-      {"@type":"Question","name":"How many questions are in the K53 learner's licence test?","acceptedAnswer":{"@type":"Answer","text":"GreenLight's independent mock uses 64 questions across road signs, rules of the road and vehicle controls, following the published NaTIS minimum section counts. Actual DLTC test presentation can vary; confirm the current process with your testing centre."}},
+      {"@type":"Question","name":"How many questions are in the K53 learner's licence test?","acceptedAnswer":{"@type":"Answer","text":"The computerised learner's licence test is commonly presented as 64 questions across road signs, rules of the road and vehicle controls. You must meet the pass requirement for each section."}},
       {"@type":"Question","name":"Can I practise a K53 test for free?","acceptedAnswer":{"@type":"Answer","text":"Yes. GreenLight K53 provides free road-sign, road-rule and vehicle-control practice plus a timed 64-question mock test."}},
       {"@type":"Question","name":"Does GreenLight K53 work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. Install the web app on a supported browser to revisit study material and practice without using mobile data after it has been cached."}},
       {"@type":"Question","name":"Which learner's licence vehicle codes can I study for?","acceptedAnswer":{"@type":"Answer","text":"Choose Code 1 (motorcycle), Code 2 (light vehicle) or Code 3 (heavy vehicle). GreenLight offers shared signs and rules plus selected original control practice for each code. It is an independent study aid, so use the official manuals for complete coverage and confirm your test code with your DLTC."}}
@@ -1104,9 +1103,9 @@ function renderHome(){
   <section class="block"><p class="kicker">Your route</p><h2>Learn, then prove it</h2><div class="library"><button class="btn btn-ghost" data-go="session1">Signs<span class="sub">Learn + short check</span></button><button class="btn btn-ghost" data-go="session2">Rules<span class="sub">Lesson + quiz</span></button><button class="btn btn-ghost" data-go="session3">Controls<span class="sub">Quick scenarios</span></button></div></section>
   <section class="block"><p class="kicker">Build confidence</p><h2>Practise and check your understanding</h2><div class="library"><button class="btn" data-go="practice">Section drills<span class="sub">Work on one topic at a time</span></button><button class="btn" data-go="review">Review mistakes<span class="sub">${reviewDue().length} due today</span></button><button class="btn" data-go="mock">Learning mock<span class="sub">See explanations as you go</span></button><button class="btn" data-go="sim">Timed simulation<span class="sub">64 questions without hints</span></button></div></section>
   <details class="tool-disclosure"><summary>Explore more study tools</summary><div class="library"><button class="btn" data-go="signlibrary">Sign atlas<span class="sub">Search 39 illustrated examples</span></button><button class="btn" data-go="situations">Road situations<span class="sub">Choose the safe action</span></button><button class="btn" data-go="concepts">Concept focus<span class="sub">See repeated sign evidence</span></button><button class="btn" data-go="flash">Flashcards<span class="sub">Recall from memory</span></button><button class="btn" data-go="row">Right of way<span class="sub">Decide who goes first</span></button><button class="btn" data-go="memory">Memory tricks<span class="sub">Quick revision</span></button>${K.state.vehicleCode==='2'?'<button class="btn" data-go="rhd">RHD cockpit<span class="sub">Explore manual-car controls</span></button>':''}<button class="btn" data-go="journey">Code & test plan<span class="sub">Prepare for your date</span></button></div></details>
-  <p class="footnote">Independent English study aid with selected practice — not the official question bank or a complete syllabus. <a href="#sources" data-go="sources">Coverage and official references</a>.</p>
+  <p class="footnote">Independent English study aid with selected practice, not the official question bank or complete syllabus. <a href="#sources" data-go="sources">Coverage and official references</a>.</p>
   <p class="footnote">Study progress stays on this device. <a href="study-guide.html">Printable study guide</a> · <a href="#sources" data-go="sources">Official reference library</a>.</p>`;
-  bindGo();
+  bindGo();recoveryNotice();
 }
 function openSession1(){
   const cards=K.SIGNS.map(s=>`
@@ -1827,8 +1826,7 @@ function bindGo(root){
       const t=el.getAttribute('data-go');
       const map={journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){
-        if(assessmentActive && !window.confirm('Leave this practice test? This attempt will be discarded.'))return;
-        if(assessmentActive) clearAssessment();
+        if(assessmentActive && !window.confirm('Leave this practice test? You can resume from Home; a timed attempt keeps counting down.'))return;
         assessmentActive=false;
         if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}
         map[t]();window.scrollTo(0,0);
@@ -1841,10 +1839,33 @@ function bindGo(root){
 let mockData=[];
 let mockTimer=null, mockSeconds=0;
 let assessmentActive=false;
-const ASSESSMENT_STORE='greenlight-k53-assessment-v1';
-function saveAssessment(snapshot){try{localStorage.setItem(ASSESSMENT_STORE,JSON.stringify(snapshot));return true;}catch{return false;}}
-function loadAssessment(){try{const raw=localStorage.getItem(ASSESSMENT_STORE);if(!raw)return null;const parsed=JSON.parse(raw);return parsed&&parsed.version===1?parsed:null;}catch{return null;}}
-function clearAssessment(){try{localStorage.removeItem(ASSESSMENT_STORE);}catch{}}
+/* A checkpoint keeps the exact paper and deadline; refreshing never grants extra time. */
+function validAssessment(c){
+  if(!c||c.version!==1||!['sim','mock'].includes(c.mode)||!['1','2','3'].includes(c.code)||!Number.isFinite(c.deadline)||c.deadline<0||!Number.isInteger(c.i)||!Array.isArray(c.questions)||!c.questions.length||c.questions.length>64||c.i<0||c.i>c.questions.length||!Array.isArray(c.answers)||c.answers.length!==c.questions.length)return false;
+  if(c.mode==='mock'&&(!Number.isInteger(c.series)||c.series<1||!SECTION_ORDER.includes(c.sec)||(c.onlySec!==null&&c.onlySec!==c.sec)||c.questions.length!==SECTION_META[c.sec].n))return false;
+  if(c.mode==='sim'&&(c.questions.length!==64||SECTION_ORDER.some(sec=>c.questions.filter(q=>q&&q.sec===SECTION_META[sec].name).length!==SECTION_META[sec].n)))return false;
+  return c.questions.every((q,n)=>q&&typeof q.q==='string'&&Array.isArray(q.opts)&&q.opts.length>=2&&q.opts.length<=6&&q.opts.every(o=>typeof o==='string')&&Number.isInteger(q.ans)&&q.ans>=0&&q.ans<q.opts.length&&(c.mode!=='sim'||['Rules','Signs','Controls'].includes(q.sec))&&(c.answers[n]===null||(Number.isInteger(c.answers[n])&&c.answers[n]>=0&&c.answers[n]<q.opts.length))&&(n<c.i?c.answers[n]!==null:n>c.i?c.answers[n]===null:true));
+}
+function saveAssessment(c){K.state.activeAssessment={...c,version:1,code:K.state.vehicleCode};K.save();}
+function clearAssessment(){delete K.state.activeAssessment;K.save();}
+function resumeAssessment(){
+  const c=K.state.activeAssessment;
+  if(!validAssessment(c)){clearAssessment();renderHome();return;}
+  if(K.state.vehicleCode!==c.code)setVehicleCode(c.code);
+  c.questions=c.questions.map(q=>({...q,svg:reviewArt(q.svg),ex:typeof q.ex==='string'?q.ex:''}));
+  mockSeconds=c.deadline?remainingSeconds(c.deadline):0;
+  if(c.mode==='sim')startSim(c);else startMock(c.onlySec,c);
+}
+function recoveryNotice(){
+  const c=K.state.activeAssessment;
+  if(!validAssessment(c)||document.getElementById('resumeAssessment'))return;
+  const box=ce('section');box.className='block';box.id='assessmentRecovery';
+  box.innerHTML=`<h2>Continue your unfinished ${c.mode==='sim'?'simulation':'learning mock'}</h2><p>Code ${c.code} · ${c.answers.filter(a=>a!==null).length}/${c.questions.length} answers saved in this ${c.mode==='sim'?'paper':'section'}. ${c.deadline?'The original timer keeps running while you are away.':'Untimed practice.'}</p><button class="btn btn-primary" id="resumeAssessment">${c.deadline&&remainingSeconds(c.deadline)===0?'View expired attempt':'Resume attempt'}</button><button class="btn btn-ghost" id="discardAssessment">Discard unfinished attempt</button>`;
+  app.prepend(box);
+  $('#resumeAssessment').addEventListener('click',resumeAssessment);
+  $('#discardAssessment').addEventListener('click',()=>{if(window.confirm('Discard this unfinished attempt? Completed practice history will remain.')){clearAssessment();box.remove();}});
+}
+window.addEventListener('beforeunload',e=>{if(assessmentActive&&window.__storageFailed){e.preventDefault();e.returnValue='';}});
 function remainingSeconds(deadline,now=Date.now()){return Math.max(0,Math.ceil((deadline-now)/1000));}
 function sectionPassed(correct,answered,total,need){return answered===total&&correct>=need;}
 /* Build one section's questions (full pool, shuffled) */
@@ -1905,45 +1926,45 @@ function openMock(){
 }
 
 /* Start a full test (sequential sections) or a single section */
-function startMock(onlySec){
+function startMock(onlySec,resume=null){
+  if(!resume&&validAssessment(K.state.activeAssessment)&&!window.confirm('Start a new attempt and replace the unfinished one?'))return;
   assessmentActive=true;
-  K.state.paperSeries=(K.state.paperSeries||0)+1;K.save();
-  const series=K.state.paperSeries;
+  if(!resume){K.state.paperSeries=(K.state.paperSeries||0)+1;K.save();}
+  const series=resume?resume.series:K.state.paperSeries;
   const sections = onlySec ? [onlySec] : SECTION_ORDER.slice();
   // Store results on K.state so finishMock/share handler can access
-  K.state.mockResults = onlySec ? (K.state.mockResults || {}) : {};
-  K.state.secPass = onlySec ? (K.state.secPass || {}) : {};
-  if (onlySec) { delete K.state.mockResults[onlySec]; delete K.state.secPass[onlySec]; }
-  const timedMock = mockSeconds > 0;
-  const deadline = timedMock ? Date.now() + mockSeconds * 1000 : 0;
-  saveAssessment({version:1,type:'mock',onlySec:onlySec||null,series,sections,sectionIndex:0,questionIndex:0,correct:0,answered:0,deadline,timed:timedMock,vehicleCode:K.state.vehicleCode});
+  if(!resume)K.state.mockResults = onlySec ? (K.state.mockResults || {}) : {};
+  if(!resume)K.state.secPass = onlySec ? (K.state.secPass || {}) : {};
+  if (!resume && onlySec) { delete K.state.mockResults[onlySec]; delete K.state.secPass[onlySec]; }
+  const deadline = resume?resume.deadline:(mockSeconds?Date.now()+mockSeconds*1000:0);
+  const timedMock = deadline>0;
   let si=0;
   function startSection(sec){
     const meta=SECTION_META[sec];
-    mockData=buildSection(sec,series);
-    let i=0,correct=0,answered=0,total=mockData.length;
-    const resume=loadAssessment();
-    if(resume&&resume.type==='mock'&&resume.series===series&&resume.sections?.[resume.sectionIndex]===sec&&resume.vehicleCode===K.state.vehicleCode){
-      i=Math.min(Number(resume.questionIndex)||0,total-1);correct=Number(resume.correct)||0;answered=Number(resume.answered)||0;
-      if(resume.timed){mockSeconds=remainingSeconds(Number(resume.deadline)||0);}
-    }
+    const saved=resume&&resume.sec===sec?resume:null;resume=null;
+    mockData=saved?saved.questions:buildSection(sec,series);
+    const answers=saved?saved.answers:Array(mockData.length).fill(null);
+    let i=saved?saved.i:0,correct=answers.filter((a,n)=>a!==null&&a===mockData[n].ans).length,answered=answers.filter(a=>a!==null).length,total=mockData.length;
+    const checkpoint=()=>saveAssessment({mode:'mock',onlySec:onlySec||null,sec,series,deadline,i,questions:mockData,answers});
+    checkpoint();
     function timerHTML(){
       if(!mockSeconds)return '';
       const m=String(Math.floor(mockSeconds/60)).padStart(2,'0'),s=String(mockSeconds%60).padStart(2,'0');
       return `<div class="timer no-print ${mockSeconds<=60?'warn':''}"><span class="ttl">Time left</span><span class="time">${m}:${s}</span></div>`;
     }
-    if(mockSeconds){
-      mockTimer=setInterval(()=>{mockSeconds=remainingSeconds(deadline);const t=document.querySelector('.timer .time');if(t)t.textContent=String(Math.floor(mockSeconds/60)).padStart(2,'0')+':'+String(mockSeconds%60).padStart(2,'0');if(mockSeconds<=60&&document.querySelector('.timer'))document.querySelector('.timer').classList.add('warn');if(mockSeconds<=0){clearInterval(mockTimer);mockTimer=null;finishSection(sec);}},250);
+    if(deadline&&remainingSeconds(deadline)>0){
+      mockSeconds=remainingSeconds(deadline);mockTimer=setInterval(()=>{mockSeconds=remainingSeconds(deadline);const t=document.querySelector('.timer .time');if(t)t.textContent=String(Math.floor(mockSeconds/60)).padStart(2,'0')+':'+String(mockSeconds%60).padStart(2,'0');if(mockSeconds<=60&&document.querySelector('.timer'))document.querySelector('.timer').classList.add('warn');if(mockSeconds<=0){clearInterval(mockTimer);mockTimer=null;finishSection(sec);}},250);
     }
     function render(){
+      if(deadline&&remainingSeconds(deadline)===0){mockSeconds=0;finishSection(sec);return;}
       if(i>=total){finishSection(sec);return;}
       const q=mockData[i];
       const card=ce('div');card.className='block';
       let head=q.svg?`<div class="question-art">${q.svg}</div>`:'';
       card.innerHTML=`<p class="kicker">${meta.name} · Q${i+1} of ${total}</p>
         ${head}
-        <h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2>
-        <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div>
+        <h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${safeHTML(q.q)}</h2>
+        <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${safeHTML(o)}</button>`).join('')}</div>
         <div class="feedback hidden" role="status" aria-live="polite"></div>
         ${bookmarkButton(q)}${evidence(q)}
         <button class="btn btn-primary next hidden">Next →</button>`;
@@ -1953,16 +1974,17 @@ function startMock(onlySec){
       card.querySelectorAll('.opt').forEach(b=>{
         b.addEventListener('click',()=>{
           if(b.disabled)return;
+          if(deadline&&remainingSeconds(deadline)===0){mockSeconds=0;finishSection(sec);return;}
           const ch=+b.getAttribute('data-i');
           card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
-          answered++;
-          saveAssessment({version:1,type:'mock',onlySec:onlySec||null,series,sections,sectionIndex:SECTION_ORDER.indexOf(sec),questionIndex:i,correct,answered,deadline,timed:timedMock,vehicleCode:K.state.vehicleCode});
+          answers[i]=ch;answered++;
           recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
           else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
-          renderAnswerTools(card,q);next.classList.remove('hidden');
+          checkpoint();renderAnswerTools(card,q);next.classList.remove('hidden');
         });
       });
-      next.addEventListener('click',()=>{i++;saveAssessment({version:1,type:'mock',onlySec:onlySec||null,series,sections,sectionIndex:SECTION_ORDER.indexOf(sec),questionIndex:i,correct,answered,deadline,timed:timedMock,vehicleCode:K.state.vehicleCode});render();window.scrollTo(0,0);});
+      if(answers[i]!==null){const ch=answers[i],ok=ch===q.ans;card.querySelectorAll('.opt').forEach((b,n)=>{b.disabled=true;if(n===q.ans)b.classList.add('correct');else if(n===ch)b.classList.add('wrong');});fb.className='feedback '+(ok?'ok':'no');fb.textContent=q.ex;next.classList.remove('hidden');renderAnswerTools(card,q);}
+      next.addEventListener('click',()=>{i++;checkpoint();render();window.scrollTo(0,0);});
       bindBookmark(card,q);bindGo();
     }
     function finishSection(sec){
@@ -1977,7 +1999,6 @@ function startMock(onlySec){
       const nextSec = onlySec ? null : SECTION_ORDER[SECTION_ORDER.indexOf(sec)+1];
       if(timedMock && mockSeconds<=0){ finishMock(onlySec); return; }
       if(nextSec){
-        saveAssessment({version:1,type:'mock',onlySec:null,series,sections,sectionIndex:SECTION_ORDER.indexOf(nextSec),questionIndex:0,correct:0,answered:0,deadline,timed:timedMock,vehicleCode:K.state.vehicleCode});
         // Section break screen
         app.innerHTML=backbar('Section Complete')+`<div class="block center">
           <div class="badge-xl">${passed?'✅':'📚'}</div>
@@ -1999,7 +2020,7 @@ function startMock(onlySec){
     }
     render();
   }
-  startSection(sections[0]);
+  startSection(resume?resume.sec:sections[0]);
 }
 
 /* ---------- SHARE CARD (canvas-generated result image) ---------- */
@@ -2044,8 +2065,7 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, scope=
 }
 
 function finishMock(onlySec){
-  assessmentActive=false;
-  clearAssessment();
+  assessmentActive=false;clearAssessment();
   const sections = onlySec ? [onlySec] : SECTION_ORDER;
   let allPass=true, totalCorrect=0, totalQ=0;
   sections.forEach(s=>{const r=K.state.secPass&&K.state.secPass[s];if(!r)allPass=false;});
@@ -2112,10 +2132,11 @@ function openSim(){
   $('#simNoTime').addEventListener('click',()=>go(0));
   bindGo();
 }
-function startSim(){
+function startSim(resume=null){
+  if(!resume&&validAssessment(K.state.activeAssessment)&&!window.confirm('Start a new attempt and replace the unfinished one?'))return;
   assessmentActive=true;
-  const deadline = mockSeconds ? Date.now() + mockSeconds * 1000 : 0;
-  K.state.paperSeries=(K.state.paperSeries||0)+1;K.save();
+  const deadline = resume?resume.deadline:(mockSeconds ? Date.now() + mockSeconds * 1000 : 0);
+  if(!resume){K.state.paperSeries=(K.state.paperSeries||0)+1;K.save();}
   const series=K.state.paperSeries;
   // Build full pool (all sections) and shuffle into 64 questions (28+28+8)
   let pool=[];
@@ -2135,25 +2156,31 @@ function startSim(){
     ...K.selectPaper(signsPool,28,series),
     ...K.selectPaper(ctrlPool,8,series)
   ]);
-  let i=0,correct=0,total=mockData.length;
+  if(resume)mockData=resume.questions;
+  const answers=resume?resume.answers:Array(mockData.length).fill(null);
+  let i=resume?resume.i:0,correct=0,total=mockData.length;
   const secCount={rules:0,signs:0,controls:0}, secCorrect={rules:0,signs:0,controls:0};
+  answers.forEach((a,n)=>{if(a!==null){const q=mockData[n],sec=q.sec.toLowerCase();secCount[sec]++;if(a===q.ans){correct++;secCorrect[sec]++;}}});
+  const checkpoint=()=>saveAssessment({mode:'sim',deadline,i,questions:mockData,answers});
+  checkpoint();
   function timerHTML(){
     if(!mockSeconds)return '';
     const m=String(Math.floor(mockSeconds/60)).padStart(2,'0'),s=String(mockSeconds%60).padStart(2,'0');
     return `<div class="timer no-print ${mockSeconds<=60?'warn':''}"><span class="ttl">Time left</span><span class="time">${m}:${s}</span></div>`;
   }
-  if(mockSeconds){
-    mockTimer=setInterval(()=>{mockSeconds=remainingSeconds(deadline);const t=document.querySelector('.timer .time');if(t)t.textContent=String(Math.floor(mockSeconds/60)).padStart(2,'0')+':'+String(mockSeconds%60).padStart(2,'0');if(mockSeconds<=60&&document.querySelector('.timer'))document.querySelector('.timer').classList.add('warn');if(mockSeconds<=0){clearInterval(mockTimer);mockTimer=null;finishSim();}},250);
+  if(deadline&&remainingSeconds(deadline)>0){
+    mockSeconds=remainingSeconds(deadline);mockTimer=setInterval(()=>{mockSeconds=remainingSeconds(deadline);const t=document.querySelector('.timer .time');if(t)t.textContent=String(Math.floor(mockSeconds/60)).padStart(2,'0')+':'+String(mockSeconds%60).padStart(2,'0');if(mockSeconds<=60&&document.querySelector('.timer'))document.querySelector('.timer').classList.add('warn');if(mockSeconds<=0){clearInterval(mockTimer);mockTimer=null;finishSim();}},250);
   }
   function render(){
+    if(deadline&&remainingSeconds(deadline)===0){finishSim();return;}
     if(i>=total){if(mockTimer){clearInterval(mockTimer);mockTimer=null;}finishSim();return;}
     const q=mockData[i];
     const card=ce('div');card.className='block';
     let head=q.svg?`<div class="question-art">${q.svg}</div>`:'';
     card.innerHTML=`<p class="kicker">Q${i+1} of ${total}</p>
       ${head}
-      <h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2>
-      <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div>
+      <h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${safeHTML(q.q)}</h2>
+      <div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${safeHTML(o)}</button>`).join('')}</div>
       <div class="feedback hidden" role="status" aria-live="polite"></div>
       ${bookmarkButton(q)}${evidence(q)}
       <button class="btn btn-primary next hidden">Next →</button>`;
@@ -2164,19 +2191,21 @@ function startSim(){
       b.addEventListener('click',()=>{
         const ch=+b.getAttribute('data-i');
         if (b.disabled) return;
+        if(deadline&&remainingSeconds(deadline)===0){finishSim();return;}
         card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
-        secCount[q.sec.toLowerCase()]++;
+        answers[i]=ch;secCount[q.sec.toLowerCase()]++;
         recordAttempt(q,ch===q.ans);if(ch===q.ans){correct++;secCorrect[q.sec.toLowerCase()]++;}
         else{addReview(q);}
         fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';
-        next.classList.remove('hidden');
+        checkpoint();next.classList.remove('hidden');
       });
     });
-    next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
+    if(answers[i]!==null){card.querySelectorAll('.opt').forEach(b=>b.disabled=true);fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';next.classList.remove('hidden');}
+    next.addEventListener('click',()=>{i++;checkpoint();render();window.scrollTo(0,0);});
     bindBookmark(card,q);bindGo();
   }
   function finishSim(){
-    assessmentActive=false;
+    assessmentActive=false;clearAssessment();
     const rows=SECTION_ORDER.map(s=>{const m=SECTION_META[s];const c=secCorrect[s],t=secCount[s];const need=m.need;const passed=t===m.n&&c>=need;return `<tr><td>${m.name}</td><td>${c+'/'+m.n} (${t} answered)</td><td>${passed?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}</td><td>${need}</td></tr>`;}).join('');
     const allPass=SECTION_ORDER.every(s=>secCount[s]===SECTION_META[s].n&&secCorrect[s]>=SECTION_META[s].need);
     K.state.shareData={secCorrect,secCount,correct,total,passed:allPass};

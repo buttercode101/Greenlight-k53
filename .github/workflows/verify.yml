@@ -14,6 +14,7 @@ jobs:
       - run: node scripts/verify-content.mjs
       - run: node scripts/verify-offline.mjs
       - run: node scripts/verify-assessment.mjs
+      - run: node scripts/verify-recovery.mjs
       - run: node scripts/build-content-register.mjs --check
       - run: node scripts/verify-review.mjs
   signs:
