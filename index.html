@@ -2043,6 +2043,7 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, scope=
 
 function finishMock(onlySec){
   assessmentActive=false;
+  clearAssessment();
   const sections = onlySec ? [onlySec] : SECTION_ORDER;
   let allPass=true, totalCorrect=0, totalQ=0;
   sections.forEach(s=>{const r=K.state.secPass&&K.state.secPass[s];if(!r)allPass=false;});
