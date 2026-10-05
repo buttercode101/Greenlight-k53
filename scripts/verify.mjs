@@ -9,7 +9,7 @@ const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
 assert.equal(scripts.length, 2, 'Expected data and view scripts');
 for (const match of scripts) new vm.Script(match[1]);
 assert(!html.includes('database-loader.js'), 'Dead database loader must not run');
-assert(html.includes('https://greenlight-k53-review.vercel.app/'), 'Canonical URL must match review deployment');
+assert(html.includes('https://greenlight-k53-review.vercel.app/'), 'Canonical URL must match public production deployment');
 
 const signPaths = [...html.matchAll(/svg:'(assets\/signs\/[^']+)'/g)].map(match => match[1]);
 assert(signPaths.length >= 28, 'Not enough sign questions for a 28-question section');
@@ -49,4 +49,7 @@ assert(html.includes("GreenLight's independent mock uses 64 questions"), 'FAQ mu
 assert(html.includes('class="review-art"'), 'Saved sign questions must restore their artwork');
 assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), 'Image without alt text found');
 
-console.log('Syntax, routes, score keys, accessibility invariants and offline asset references passed.');
+assert(html.includes("GreenLight's independent mock uses 64 questions"), '64-question count must be identified as GreenLight mock design');
+assert(!html.includes("official 64-question"), 'Do not present 64 questions as a universal official format');
+assert(html.includes('24 months'), 'Learner-licence validity disclosure missing');
+console.log('Syntax, routes, claim boundaries, score keys, accessibility invariants and offline asset references passed.');
