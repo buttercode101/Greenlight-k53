@@ -428,6 +428,15 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 .scene-road .scene-cross{position:absolute;z-index:1;top:39%;left:0;right:0;height:52px;background:#424947;border-top:3px solid #f6f4db;border-bottom:3px solid #f6f4db}.scene-road .scene-cross span{position:absolute;right:12%;top:8px;background:#f6d368;color:#302b1d;border-radius:6px;padding:4px 7px;font-size:11px;font-weight:800}.scene-road.junction .scene-sign{top:12px}
 .task-row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-top:1px solid var(--line)}.task-row input{width:20px;height:20px;flex:none;margin:2px 0;accent-color:var(--accent)}.task-row span{display:block;color:var(--ink-soft);font-size:13px;margin-top:3px}.practical-step{border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:14px 0}.practical-step h3{margin:0 0 5px;font-size:17px}.practical-step p{margin:0;color:var(--ink-soft)}
 @media(max-width:520px){.atlas-toolbar{grid-template-columns:1fr}.scene-road{min-height:190px}.scene-road .scene-sign{left:5%;width:76px;height:76px}.scene-road .scene-sign img{width:66px;height:66px}}
+/* Keep supporting references quiet while preserving accessible detail. */
+.question-source{margin-top:16px;border-top:1px solid var(--line-soft);padding-top:8px;color:var(--ink-soft);font-size:13px;text-align:left}
+.question-source summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;font-weight:600}
+.question-source summary::before{content:'+';font-size:18px;color:var(--accent-dark)}
+.question-source[open] summary::before{content:'−'}
+.question-source p{margin:4px 0 10px;line-height:1.55}
+.question-source a{color:var(--accent-dark);text-underline-offset:3px}
+.storage-status{max-width:1100px;margin:12px auto;padding:12px 16px;border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:10px;font-size:14px}
+@media(max-width:480px){.storage-status{margin:8px 12px}.span-table th,.span-table td{padding:8px 5px;font-size:12px}.question-source{font-size:13px}}
 </style>
 </head>
 <body>
@@ -782,9 +791,9 @@ function selectPaper(pool,count,series){
 
 /* ---------- RIGHT-OF-WAY GAME (who goes first?) ---------- */
 const ROW=[
- {scene:'4-way stop — you arrive at the same time as the car on your RIGHT.',
-  opts:['You go first — you were there first','The car on your RIGHT goes first','Whoever hoots loudest','The bigger car'],ans:1,
-  ex:'At a 4-way stop, if two cars arrive together, the car on the right goes first.'},
+ {scene:'4-way stop — another car stopped before you. Who moves off first when it is safe?',
+  opts:['You, because you are on the right','The car that stopped before you','Whoever hoots first','The larger vehicle'],ans:1,
+  ex:'Let vehicles that stopped before you move off first. Proceed only when it is safe. Source: NaTIS Road Traffic Signs, section 3.1, four-way stop R1.4.'},
  {scene:'Roundabout — you are entering, a car is already on the circle to your right.',
   opts:['Enter fast — you have right of way','Yield and let the car on the circle go first','Stop and reverse','Edge in slowly'],ans:1,
   ex:'Yield to traffic already ON the roundabout (approaching from your right).'},
@@ -899,7 +908,7 @@ function buildMock(){
 /* ---------- STATE ---------- */
 const STORE='k53ww_v2';
 let state; try { state=JSON.parse(localStorage.getItem(STORE)||'{}'); if (!state || typeof state!=='object' || Array.isArray(state)) state={}; } catch { state={}; }
-function save(){try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){console.warn('Progress could not be saved on this device.',e);}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(state));window.__storageFailed=false;return true;}catch(e){window.__storageFailed=true;console.warn('Progress could not be saved on this device.',e);if(typeof window.dispatchEvent==='function'&&typeof Event!=='undefined')window.dispatchEvent(new Event('k53-storage-error'));return false;}}
 state.sessions=state.sessions||{1:false,2:false,3:false};
 state.mockPass=state.mockPass||false;
 state.review=Array.isArray(state.review)?state.review:[];
@@ -992,6 +1001,13 @@ const SECTION_ORDER=['rules','signs','controls'];
 const app=document.getElementById('app');
 const $=s=>document.querySelector(s);
 const ce=el=>document.createElement(el);
+function showStorageStatus(){
+  let notice=document.getElementById('storageStatus');
+  if(!window.__storageFailed){if(notice)notice.remove();return;}
+  if(!notice){notice=document.createElement('p');notice.id='storageStatus';notice.className='storage-status';notice.setAttribute('role','status');document.body.prepend(notice);}
+  notice.textContent='Progress is not being saved on this device. Your browser may have blocked storage or run out of space. Keep this tab open while practising.';
+}
+window.addEventListener('k53-storage-error',showStorageStatus);
 
 function progPct(){
   let done=0; for(let n=1;n<=3;n++) if(K.state.sessions[n]) done++;
@@ -1036,7 +1052,7 @@ function toggleTopSpeech(){
 }
 /* Speak a specific text via a small button */
 function speakBtn(text){
-  const safe=String(text).replace(/"/g,'&quot;').replace(/&/g,'&amp;');
+  const safe=String(text).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   return `<button class="speak" type="button" data-speak="${safe}" aria-label="Read this aloud" title="Read aloud">🔊</button>`;
 }
 /* Build a TTS settings bar (voice + rate) used on content screens */
@@ -1274,7 +1290,7 @@ function bindBookmark(card,q){
 const MANUALS={rules:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road',signs:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs',controls:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls'};
 const SIGN_CODES={stop:'R1',giveway:'R2',noentry:'R3',robot:'W301',turnleft:'R108',keepleft:'R103',minspeed:'R101-60',headlightson:'R133',speed60:'R201',noovertake:'R214',nouturn:'R213',noleft:'R211',noright:'R212',nopark:'R216',nostop:'R217',buslane:'R302',taxilane:'R310',disablepark:'R323-P',children:'W308',curve:'W202',ped:'W307',animal:'W310',hill:'W322',slippery:'W333',speedbump:'W332',railway:'W317',narrow:'W328',rightofway:'IN7',crossroad:'W101',tjunction:'W104',yjunction:'W115',roundabout:'W201',pedcrossing:'W306',cyclist:'W309',wild:'W311',parking:'R305-P',toll:'R132',redman:'S11P',greenman:'S11P'};
 function sourceFor(q){return [...K.CONTROLS,...K.MOTORCYCLE_CONTROLS,...K.HEAVY_CONTROLS,...K.CONTROL_VARIANTS].some(c=>c.q===q.q)||q.sec==='Controls'||q.type==='ctrl'?MANUALS.controls:K.SIGN_VARIANTS.some(c=>c.q===q.q)||q.svg||q.sec==='Signs'||q.type==='mark'||/marking|kerb line/i.test(q.q)?MANUALS.signs:MANUALS.rules;}
-function evidence(q){const sign=K.SIGNS.find(s=>q.svg&&q.svg.includes(s.svg));const code=sign?` · illustrated sign ${safeHTML(SIGN_CODES[sign.id])}`:'';return `<p class="footnote">Study source: <a href="${sourceFor(q)}" target="_blank" rel="noopener noreferrer">NaTIS learner manual topic ↗</a>${code} · mapped 4 October 2026 · independent subject review pending. Compare the manual before relying on this explanation.</p>`;}
+function evidence(q){const sign=K.SIGNS.find(s=>q.svg&&q.svg.includes(s.svg));const code=sign?` · illustrated sign ${safeHTML(SIGN_CODES[sign.id])}`:'';return `<details class="question-source"><summary>Source & review status</summary><p><a href="${sourceFor(q)}" target="_blank" rel="noopener noreferrer">NaTIS learner manual ↗</a>${code}</p><p>Selected practice material. Independent subject review is pending; use the official manual for complete coverage.</p></details>`;}
 
 function addReview(q,answer){
   const item=typeof q==='string'?{q,a:answer}:q;
@@ -1796,6 +1812,7 @@ function bindTTS(scope){
   if(r)r.addEventListener('input',()=>{state.rate=parseFloat(r.value);K.save();});
 }
 function bindGo(root){
+  showStorageStatus();
   const scope=root||app;
   const tb=scope.querySelector('#themeBtn');
   if(tb)tb.addEventListener('click',(e)=>{e.stopPropagation();K.toggleTheme();renderHome();});
@@ -2055,8 +2072,8 @@ function finishMock(onlySec){
     const r = K.state.mockResults || {};
     const secCorrect={}, secCount={};
     SECTION_ORDER.forEach(s=>{const item=onlySec&&s!==onlySec?null:r[s];secCorrect[s]=item?.correct||0;secCount[s]=item?.total||0;});
-    const totalCorrect = SECTION_ORDER.reduce((sum,s)=>sum+(r[s]?.correct||0), 0);
-    const totalQ = SECTION_ORDER.reduce((sum,s)=>sum+(r[s]?.total||0), 0);
+    const totalCorrect = sections.reduce((sum,s)=>sum+(r[s]?.correct||0), 0);
+    const totalQ = sections.reduce((sum,s)=>sum+(r[s]?.total||0), 0);
     const dataUrl=makeShareCard(secCorrect, secCount, totalCorrect, totalQ, overallPass, onlySec?'section':'full');
     const a=document.createElement('a'); a.href=dataUrl; a.download='k53-result.png'; a.click();
   });

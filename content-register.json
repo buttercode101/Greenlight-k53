@@ -1,7 +1,7 @@
 {
-  "schema": 1,
-  "generated": "2026-10-04",
-  "note": "A source-area mapping is not an item-level fact check. No human or qualified reviewer is implied.",
+  "schema": 2,
+  "generated": "2026-10-05",
+  "note": "A source-area mapping is not an item-level fact check. Source checks are recorded separately from independent human review.",
   "records": [
     {
       "id": "signs-001",
@@ -2993,15 +2993,24 @@
     },
     {
       "id": "row-001",
-      "title": "4-way stop — you arrive at the same time as the car on your RIGHT.",
-      "sha256_16": "0eca3453a8fe51eb",
-      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
+      "title": "4-way stop — another car stopped before you. Who moves off first when it is safe?",
+      "sha256_16": "72e80d9a76ae01c1",
+      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual?download=6%3Amanual-on-road-traffic-signs-draft1",
       "sourceArea": "rules",
       "sourceMappingDate": "2026-10-04",
       "reviewer": null,
       "reviewDate": null,
       "reviewStatus": "Independent subject review pending",
-      "language": "en"
+      "language": "en",
+      "sourceLocator": "Section 3.1 Control Signs, 4-way stop R1.4, printed page 3 of 56",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual?download=6%3Amanual-on-road-traffic-signs-draft1",
+        "locator": "Section 3.1 Control Signs, 4-way stop R1.4, printed page 3 of 56",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-05",
+        "method": "Compared the question, answer and explanation with the indexed official NaTIS manual passage; direct PDF retrieval returned HTTP 403.",
+        "finding": "The scenario now states that another vehicle stopped earlier and requires waiting for it before proceeding safely. The previous simultaneous-arrival scenario was removed."
+      }
     },
     {
       "id": "row-002",

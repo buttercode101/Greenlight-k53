@@ -1,5 +1,15 @@
 # GreenLight K53 content release ledger
 
+## 5 October 2026 follow-up
+
+- Corrected the remaining simultaneous-arrival question in the right-of-way game to the earlier-arrival rule from NaTIS Road Traffic Signs section 3.1, R1.4, printed page 3. The exact source check and retrieval limitation are recorded in `content-reviews.json`; independent review remains pending.
+- Source checks and independent reviews now live separately from the generated register and are bound to the item's fingerprint. Regeneration preserves approved metadata. A content change invalidates its old review and fails generation until it is rechecked.
+- `node scripts/build-content-register.mjs --require-reviewed` is the gate for an independently reviewed release. It intentionally fails while any item awaits independent review. Normal selected-practice releases retain that disclosure.
+- The question screen now keeps its source and review status in an expandable disclosure. A storage-failure notice tells learners when progress is not saving.
+- The assessment countdown uses an absolute deadline; unfinished learning-mock sections cannot pass. In-app navigation asks before abandoning an active test. These changes do not implement reload recovery.
+
+Remaining release work: full official-topic coverage mapping; item-level source checks for the other 294 entries; qualified independent review; complete code-specific content expansion; real-device mobile/tablet verification; reload recovery; full accessibility audit; fluent-language review before enabling translations; real-learner outcome study. None is represented as completed by these engineering checks.
+
 Checked 4 October 2026. This ledger separates a source-area mapping from an independent review of each statement. The latter has **not** happened. The machine-readable [content register](content-register.json) lists the question, sign, lesson-data, cockpit-tip and DLTC-checklist entries and its content fingerprint, official manual area, mapping date, review status, reviewer and review date. Reviewer and review date remain `null` until a real subject expert signs an entry. English is the only available teaching language; Afrikaans, isiZulu, isiXhosa, Sesotho and Setswana are distinct future work, not a combined or partial translation.
 
 ## Primary sources

@@ -46,7 +46,8 @@ assert.equal(new Set([...K.MOCK_EXTRA,...K.RULE_VARIANTS,...K.SIGN_VARIANTS,...K
 assert(!/Monday|first.time pass|official question bank access/i.test(html));
 const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
 assert.equal(registry.records.length,295);
-assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source) && x.reviewer===null && x.reviewDate===null));
+assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source)));
+assert(registry.records.every(x=>x.reviewStatus==='Independently reviewed' ? x.reviewer&&x.reviewDate&&x.sourceLocator&&x.independentReview : x.reviewer===null&&x.reviewDate===null));
 const extract=(name)=>{
  const start=html.indexOf('const '+name+'=[');assert(start>=0);
  const end=/\n\s*\];/.exec(html.slice(start));assert(end);

@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {applyReviews,requireReviewedRelease} from './review-records.mjs';
+const item={id:'test-only',sha256_16:'test-fingerprint',reviewStatus:'Independent subject review pending',reviewer:null,reviewDate:null};
+const check={url:'https://www.gov.za/',locator:'Test fixture section',checkedBy:'Test fixture',checkedDate:'2026-10-05',method:'Test fixture',finding:'Test fixture'};
+const entry={id:item.id,sha256_16:item.sha256_16,sourceCheck:check};
+assert.throws(()=>applyReviews([{...item}],[{...entry,sha256_16:'old'}]),/Stale review/);
+assert.throws(()=>applyReviews([{...item}],[entry,entry]),/Duplicate review/);
+assert.throws(()=>applyReviews([{...item}],[{...entry,sourceCheck:{...check,locator:''}}]),/locator/);
+const checked=applyReviews([{...item}],[entry]);
+assert.equal(checked[0].reviewer,null,'Source check must not invent a human reviewer');
+assert.throws(()=>requireReviewedRelease(checked),/Verified release blocked/);
+assert.throws(()=>applyReviews([{...item}],[{...entry,independentReview:{reviewer:'Test'}}]),/qualification/);
+console.log('Review freshness, required evidence, duplicate protection and verified-release gate passed.');

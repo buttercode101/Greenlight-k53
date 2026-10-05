@@ -20,3 +20,16 @@ assert.equal(ctx.sectionPassed(5,8,8,6),false);
 assert(html.includes('answered++')&&html.includes('sectionPassed(correct,answered,total,need)'));
 assert(html.includes('assessmentActive && !window.confirm'));
 console.log('Assessment deadline, full-section pass gate and exit guard passed.');
+
+let storageBlocked=true,errors=0;
+const window={dispatchEvent:()=>errors++};
+const data=html.match(/<script>([\s\S]*?)<\/script>/)[1];
+const stateContext=vm.createContext({window,console:{warn(){}},Date,Math,Event:class{},localStorage:{getItem(){return null;},setItem(){if(storageBlocked)throw Error('Quota exceeded');}}});
+vm.runInContext(data,stateContext);
+assert.equal(window.__K53.save(),false);
+assert.equal(window.__storageFailed,true);
+assert.equal(errors,1);
+storageBlocked=false;
+assert.equal(window.__K53.save(),true);
+assert.equal(window.__storageFailed,false);
+console.log('Storage failure and recovery signals passed.');

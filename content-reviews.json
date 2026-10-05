@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "note": "Source checks and independent reviews are different. A Codex source check is not a qualified human sign-off. Every record is bound to the exact content fingerprint.",
+  "entries": [
+    {
+      "id": "row-001",
+      "sha256_16": "72e80d9a76ae01c1",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual?download=6%3Amanual-on-road-traffic-signs-draft1",
+        "locator": "Section 3.1 Control Signs, 4-way stop R1.4, printed page 3 of 56",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-05",
+        "method": "Compared the question, answer and explanation with the indexed official NaTIS manual passage; direct PDF retrieval returned HTTP 403.",
+        "finding": "The scenario now states that another vehicle stopped earlier and requires waiting for it before proceeding safely. The previous simultaneous-arrival scenario was removed."
+      },
+      "independentReview": null
+    }
+  ]
+}
