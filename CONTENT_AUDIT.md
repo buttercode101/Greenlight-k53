@@ -53,3 +53,14 @@ The app does not book tests, reproduce the official question bank, or guarantee 
 - Replaced an overly definite simultaneous four-way-stop answer with the manual’s earlier-arrival rule.
 - Corrected temporary sign colour to yellow and expanded sign/marking scenarios on R1.2, RM10–RM14 and WM1–WM6, plus mini-circles and lane direction.
 - Added original in-app control lessons for Codes 1, 2 and 3. This remains a selective guide, not a reproduction of the Department of Transport manuals.
+
+## Release-bound truth refresh — 6 October 2026
+
+Fresh authoritative checks before the reconciled production release:
+
+- South African Government learner-licence guidance continues to state a 24-month, non-extendable validity period and the Code 1/2/3 learner categories.
+- The Department of Transport service guidance is consistent with that position.
+- The NaTIS learner manual remains the primary teaching reference for rules of the road, road traffic signs and vehicle/motorcycle controls; the manual itself warns that it is not a precise legal interpretation and points readers to the National Road Traffic Act and Regulations for precise law.
+- A September 2026 Western Cape Government notice describes proposed driving-licence regulation amendments and explicitly says the proposed amendments retain learner-licence validity at 24 months. Draft/proposed rules are not represented in GreenLight as enacted changes.
+
+This refresh does not convert the 294 outstanding item-level source checks or independent reviews into PASS. Those remain open until actual item-level evidence/review exists.
