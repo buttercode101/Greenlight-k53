@@ -19,6 +19,11 @@ assert.equal(ctx.sectionPassed(23,28,28,23),true);
 assert.equal(ctx.sectionPassed(5,8,8,6),false);
 assert(html.includes('answered++')&&html.includes('sectionPassed(correct,answered,total,need)'));
 assert(html.includes('assessmentActive && !window.confirm'));
+assert(html.includes("const ASSESSMENT_STORE='greenlight-k53-assessment-v1'"));
+assert(html.includes('saveAssessment({version:1,type:\'mock\''));
+assert(html.includes('const resume=loadAssessment()'));
+assert(html.includes('clearAssessment();'));
+assert(html.includes('mockSeconds=remainingSeconds(Number(resume.deadline)||0)'));
 console.log('Assessment deadline, full-section pass gate and exit guard passed.');
 
 let storageBlocked=true,errors=0;
