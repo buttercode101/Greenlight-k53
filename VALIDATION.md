@@ -28,3 +28,17 @@ Tested the published assessment release at commit `44891309237da2ce6313f1bddc8bd
 These checks do not certify factual completeness or independent human review. They do not establish official-test pass rates. The offline script is a service-worker harness, not an airplane-mode test on a physical phone. No full Android/iOS/tablet viewport matrix, assistive-technology audit, translation review or real-learner outcome study has been completed in this run. The remote GitHub workflow query returned no runs for the tested commit; local command results must not be described as a successful GitHub Actions run.
 
 The new source disclosure, storage notice and review pipeline are included in the following release and require a live post-deployment spot check.
+
+## Assessment recovery follow-up — 5 October 2026
+
+Implementation commit: `2ce95e983ab97da1b07ded9b04fa71928e6b0f6a`.
+
+- Both simulation and learning mock persist exact paper order, option order, submitted choices, position, vehicle code and the original deadline.
+- Home offers resume or explicit discard. Starting another assessment asks before replacing an unfinished one.
+- Submitted answers stay locked after recovery and are not counted twice. Expired attempts finish without accepting late answers or resetting time.
+- Question text and choices are escaped; restored artwork is restricted to local sign asset paths.
+- `node scripts/verify-recovery.mjs` exercises real assessment functions in a minimal DOM harness: both modes after an answer, pre-answer refresh, full learning-mock section break, original deadline, duplicate-score protection, invalid checkpoint rejection and late-answer rejection.
+- All eight local verification commands passed. This is developer-harness evidence, not live-browser or physical-device evidence.
+- Vercel rejected deployment of this commit at 2026-10-05 05:59 UTC with `Deployment rate limited — retry in 24 hours.` No deployment/alias promotion or live recovery verification is claimed.
+
+Remaining release checks: after the provider permits deployment, verify recovery and bookmarked artwork visually in the deployed app; run Android/iOS/tablet layouts and assistive technology checks. Content completeness, 294 remaining item source checks, qualified independent review, translations and outcome studies remain open.

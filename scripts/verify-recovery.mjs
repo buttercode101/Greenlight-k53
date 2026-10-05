@@ -54,3 +54,22 @@ for(const mode of ['sim','mock']){
  for(const change of [{version:2},{code:'9'},{deadline:-1},{i:100},{answers:[]},{questions:[]},{answers:[99,...checkpoint.answers.slice(1)]}])assert.equal(h.ctx.validAssessment({...checkpoint,...change}),false);
  console.log(`${mode}: exact paper, locked answers, preserved deadline, no duplicate scoring, late-answer rejection and corrupt checkpoint checks passed.`);
 }
+// Reload before submitting the first answer: nothing is scored or locked.
+{
+ const h=setup();h.ctx.startSim();const r=setup();r.ctx.K.state=h.saved;r.ctx.reviewArt=()=>'';r.ctx.resumeAssessment();
+ assert.equal(r.saved.activeAssessment.i,0);assert.equal(r.attempts,0);assert(r.app.card.options.every(b=>!b.disabled));
+}
+// Full learning mock: the section break survives refresh; the next section gets its own checkpoint.
+{
+ const h=setup();h.ctx.startMock();
+ for(let i=0;i<28;i++){h.app.card.options[0].click();h.app.card.querySelector('.next').click();}
+ assert.equal(h.saved.activeAssessment.i,28);
+ const result=structuredClone(h.saved.mockResults.rules);
+ const r=setup();r.ctx.K.state=h.saved;r.ctx.reviewArt=()=>'';r.ctx.resumeAssessment();
+ assert.deepEqual(r.saved.mockResults.rules,result);
+ assert.equal(r.attempts,0);
+ r.app.querySelector('#nextSecBtn').click();
+ assert.equal(r.saved.activeAssessment.sec,'signs');assert.equal(r.saved.activeAssessment.i,0);
+ assert.equal(r.saved.activeAssessment.answers.filter(a=>a!==null).length,0);
+}
+console.log('Pre-answer refresh and full learning-mock section-break recovery passed.');
