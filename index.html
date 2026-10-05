@@ -1826,7 +1826,8 @@ function bindGo(root){
       const t=el.getAttribute('data-go');
       const map={journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){
-        if(assessmentActive && !window.confirm('Leave this practice test? Your answers in this attempt will be lost.'))return;
+        if(assessmentActive && !window.confirm('Leave this practice test? This attempt will be discarded.'))return;
+        if(assessmentActive) clearAssessment();
         assessmentActive=false;
         if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}
         map[t]();window.scrollTo(0,0);
