@@ -44,6 +44,8 @@ assert.match(html, /<main class="wrap" id="app" tabindex="-1">/, 'Main landmark/
 assert(html.includes(':focus-visible'), 'Visible keyboard focus styling missing');
 assert(html.includes('prefers-reduced-motion'), 'Reduced-motion support missing');
 assert(html.includes('aria-live'), 'Dynamic learner feedback must expose a live region');
+assert(!html.includes("The computerised learner's licence test is commonly presented as 64 questions"), 'FAQ must not present 64 questions as an official fixed test fact');
+assert(html.includes("GreenLight's independent mock uses 64 questions"), 'FAQ must identify 64 questions as GreenLight mock design');
 assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), 'Image without alt text found');
 
 console.log('Syntax, routes, score keys, accessibility invariants and offline asset references passed.');
