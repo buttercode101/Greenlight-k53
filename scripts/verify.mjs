@@ -37,4 +37,13 @@ assert(html.includes('secCorrect[s]/secCount[s]'));
 assert(html.includes('if (b.disabled) return;'), 'Simulator must reject repeat answers');
 assert(html.includes('x.disabled=true'), 'Simulator choices must disable after answer');
 assert(!html.includes('secCorrect[SECTION_META[s].name]'));
-console.log('Syntax, routes, score keys and offline asset references passed.');
+
+// Accessibility and degraded-input release invariants.
+assert.match(html, /<a class="skip-link" href="#app">Skip to main content<\/a>/, 'Skip link missing');
+assert.match(html, /<main class="wrap" id="app" tabindex="-1">/, 'Main landmark/focus target missing');
+assert(html.includes(':focus-visible'), 'Visible keyboard focus styling missing');
+assert(html.includes('prefers-reduced-motion'), 'Reduced-motion support missing');
+assert(html.includes('aria-live'), 'Dynamic learner feedback must expose a live region');
+assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), 'Image without alt text found');
+
+console.log('Syntax, routes, score keys, accessibility invariants and offline asset references passed.');
