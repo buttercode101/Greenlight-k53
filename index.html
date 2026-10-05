@@ -1190,7 +1190,7 @@ function quizFlow(questions,sessNum,title){
         if(b.disabled)return;
         const ch=+b.getAttribute('data-i');
         card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
-        recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;saveAssessment({version:1,type:'mock',onlySec:onlySec||null,series,sections,sectionIndex:SECTION_ORDER.indexOf(sec),questionIndex:i,correct,answered,deadline,timed:timedMock,vehicleCode:K.state.vehicleCode});fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
+        recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
         else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
         renderAnswerTools(card,q);next.classList.remove('hidden');
       });
