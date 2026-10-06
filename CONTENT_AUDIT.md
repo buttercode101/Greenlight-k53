@@ -64,3 +64,17 @@ Fresh authoritative checks before the reconciled production release:
 - A September 2026 Western Cape Government notice describes proposed driving-licence regulation amendments and explicitly says the proposed amendments retain learner-licence validity at 24 months. Draft/proposed rules are not represented in GreenLight as enacted changes.
 
 This refresh does not convert the 294 outstanding item-level source checks or independent reviews into PASS. Those remain open until actual item-level evidence/review exists.
+
+## Authoritative source-check tranche — 6 October 2026
+
+This tranche begins the major remaining content-assurance task without misrepresenting agent verification as independent human review.
+
+Fresh primary-source checks establish the following release anchors:
+
+- South African Government and National Department of Transport guidance: learner licences remain valid for 24 months and cannot be extended; Code 1 covers motorcycles, Code 2 vehicles up to 3 500 kg GVM, and Code 3 vehicles above 3 500 kg, with the published learner-age boundaries.
+- Government learner guidance identifies road signs, motor-vehicle controls and rules of the road as the knowledge areas to study before the learner test.
+- The current NaTIS DLTC minimum-requirements document states section minima of 22/28 for rules of the road, 23/28 for road traffic signs and 6/8 for vehicle controls.
+- Western Cape Mobility's current CLLT guidance directs learners to NaTIS study guides for road signs, vehicle controls and rules of the road.
+- The August 2026 draft driving-licence amendments are proposals, not enacted changes; the Western Cape Government summary states the proposal retains learner-licence validity at 24 months.
+
+These checks strengthen the release-level truth boundary only. They do **not** mark the 295 teaching records independently reviewed. The independent-review fields remain null until a qualified external reviewer signs the exact fingerprinted records. Item-level source locators are still required before a record can move through that gate.
