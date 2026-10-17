@@ -1,0 +1,990 @@
+{
+  "version": 1,
+  "scope": "Selected light-vehicle decision practice; not a complete syllabus or independent instructor sign-off",
+  "items": [
+    {
+      "id": "S01",
+      "sha256": "4473670c74f1a4bdfca445794852c9b8060f7543b4fa419e50f8e027235f3e28",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1, R1 Stop / sheet 2 RTM1 stop line",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S02",
+      "sha256": "2a3367c2901d69c07271d48e20c70e9f89c913eb60e20725c11b3bd0e85dcecb",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R2 Give Way",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S03",
+      "sha256": "6daf7fb7010603e3193bcde7bb5925b0ffff9306b04d90eb33b752ec0872f130",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R3 No Entry",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S04",
+      "sha256": "d3af4c31894be472cf61ce2a4df5ccc54f3280e030d3c3394dff63ca4b289094",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R201 speed limit",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S05",
+      "sha256": "c07bf21a262af27303f704d8b1376ec8cd2736005db4a8b881b5c5ad9d43c4b7",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R201 speed limit",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S06",
+      "sha256": "38594b09210b10ae57f8fd00b7a716513c6fb7ee929c179009489e7168ca26dd",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R105 proceed left",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S07",
+      "sha256": "d3d35d7b2fda8a636a935705704b4f02a998c29ea383731d5e3518548ac48f95",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R106 proceed right",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S08",
+      "sha256": "0c1bb40ae6bc11d1bbba050bcbc3507b6efb63fe87fd13601ef8b7ffa6ff09a5",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R211 left turn prohibited",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S09",
+      "sha256": "f58dbb388319cadc1edd8edf052c853f603d77b4d45e2cdc59314219b25862de",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R212 right turn prohibited",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S10",
+      "sha256": "e734c3cc7fa21be851a13226b1ce7e8ff5fb7d4cebe517b5a118ccee8463655b",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 W308 children",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S11",
+      "sha256": "a7c3c8dcfb6962006a8ef9960d489aab0fded282bbe5f43031d897cc830371c6",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 5 temporary warnings",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S12",
+      "sha256": "387906cdf6d33d626008ca79c2ac58190b4196b376573a0a1d6c36af165dd11f",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 RM1 longitudinal marking",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S13",
+      "sha256": "4e85c447407944549a112a6acf3976029a1f4d6a65dad13ee9c207ef585a8b08",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 guidance/longitudinal markings",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S14",
+      "sha256": "1d899c8f7588fbcbe55618c8008ee2db1e617a7c75c727afc3c322caa24e8130",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R216 parking prohibited (P-legend depiction)",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S15",
+      "sha256": "ba19f0575065bee02290fc96e3bcd9ed00785dc6379825d1f50f473289bcee1b",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R217 stopping prohibited (S-legend depiction)",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S16",
+      "sha256": "0b5889d459d093f279e56f4e77f33c0a53175cc27df5dcfe124a3ee5ca36fce8",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R4.2 one-way right",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S17",
+      "sha256": "887c0ad45cff01a13a49be2859262fd4695812e07a1d742c67ac158706dcceb3",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R201 posted maximum speed",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S18",
+      "sha256": "fa0aa64cfb9527170f8202c36a6197102d1b71f1c677915e7634e9f3a9756fb4",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R101 minimum speed",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S19",
+      "sha256": "db41965cbb21bfefad5c649362d278006ee724ef9d997d034f706c617e7b7496",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 W307 pedestrians",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S20",
+      "sha256": "7fb76198f810b3beae8a4f67264e9fb2974356c4f25f3b564d4131fbb2d283cc",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 W201 circle ahead",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S21",
+      "sha256": "dd71f2546036687fd398c738260c45915d7de735ed360a2692a9bae4d047d42e",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 W333 slippery surface",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S22",
+      "sha256": "4098bd9e37419fe54f8123ea33e2cbeda688b359fb206ab080fb41d039aa8df9",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R213 U-turn prohibited",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S23",
+      "sha256": "cf7ba923b52708beda95a3065669e63b7bb63688b29759289b3c86b5e2afe5ff",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 R103 keep left",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S24",
+      "sha256": "df69d23f400e19ee246d1c2d03edcee0056d78614da12690ca8de08d6b16c61a",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 S1 red signal",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S25",
+      "sha256": "314288882c28048b0d3b4dcb93ba5314e10033fb0bb762171445e1d3b5165db2",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 RM13 parking restriction marking",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S26",
+      "sha256": "af53f8ab52e7f3df11ca61689a2a168f5bad6759fb66c0e9405349892910fa30",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 RTM4 pedestrian crossing",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S27",
+      "sha256": "e1c91ce30105f06754041d218907ce7427dbcb2fb730521c181adab1d1b220d7",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 2 W332 speed hump",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "S28",
+      "sha256": "177d447bde2181fe77be465bbf4c4848b3c4ad08461e907a05e0c7ef62308331",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 S1 flashing red",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R01",
+      "sha256": "34e64fdc41019eeb77be0db5fc2e0268ca838f374eeddec53957bb28b4ac0a58",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 38, yield-controlled intersection",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R02",
+      "sha256": "b8d1916a4092ac2c90c365c8d2b0acb2e6734998a62c4c890e013d4cfb1fd903",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 38, yield-controlled intersection",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R03",
+      "sha256": "207132efa0dd1bdf3d1f0c05e0e601fa284b4c30e210b8f4128de3bc48546ba9",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 37 Note A, four-way stop; earlier arrival",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R04",
+      "sha256": "5282699d9f9a19531ad769ca699b8ba692db38fa30ea8449307e05e9175d10bb",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 37 Note A, four-way stop; earlier arrival",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R05",
+      "sha256": "79e0ab5ba1e312b65ddfcc120bf4101369bb2ec734f7e7067953fda5af65c747",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 38, yield-controlled intersection",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R06",
+      "sha256": "d85cee5c842892ec6e3dfddd814abf526d6b8043faed57986082d9d753832eb7",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 45, roundabout priority",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R07",
+      "sha256": "fa0c8cbf251ef8150d2fe3c7f2aa5e4314d0bfd75d4b37af0135ec29b3999bb8",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 45, Note B mini-circle yield-line order",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R08",
+      "sha256": "3c8c63bb6c546ec2bcc93cf3a207c58b33f0d36272853071c7e206a9284160b6",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 45, Note A exit signals",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R09",
+      "sha256": "b5fb09f8e7032bdf41fb187ecbbac2a27c5908f946a629fb1d2600e66a70f388",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 45, Note B mini-circle signals",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R10",
+      "sha256": "4659b456586bcd3182d06d5f0ba1b48b85c6172e2023ace5731f642c43899f97",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 46, pedestrian crossing",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R11",
+      "sha256": "5825dbd130873601a53a2b6c3b462255af018be6ff4f2a7083debde407d0a1d1",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 46, pedestrian crossing",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R12",
+      "sha256": "e15b8a599c26d880f359f75c59ea22cdd464a110fe8c92ed1914571d46686e0e",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 37, scholar patrol",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R13",
+      "sha256": "3211c15e8002fa35419c0231971c40facee65ce3a699852e08c729847dc6c933",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 35, turning right",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R14",
+      "sha256": "7481f7a93c3bdbf2e3424e6d05f8135055091812a301f1b0193892e1fe8b893c",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 44, steady amber intersection",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R15",
+      "sha256": "93f3de02917292dcf1d6e0cad10599b71b384acf7a09ca7542567b35867b6979",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 41, steady red intersection",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R16",
+      "sha256": "f32e607256489eebdcc25931a0f8382eb60c8a113035dea91512338e3e3c1afb",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 42, green light and intersection clearance",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R17",
+      "sha256": "5d02c150544e90442460067cf1dc92a45bd5bd6b702f56bd2b3de0536909f563",
+      "source": {
+        "title": "Road signs and markings",
+        "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+        "description": "Department of Transport sign-code chart; simplified artwork is paired with its specific code.",
+        "section": "Chart sheet 1 S6 flashing amber",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R18",
+      "sha256": "998eef0913ea46bb4d03f79ac4467f16d8af93c51561e36ef69c5413290a3cb4",
+      "source": {
+        "title": "Road travel safety",
+        "url": "https://www.tourism.gov.za/Pages/Safety--Travel-Tips-Info.aspx",
+        "description": "Department of Tourism: malfunctioning traffic lights are treated as a four-way stop.",
+        "section": "Department of Tourism, traffic-light malfunction guidance",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R19",
+      "sha256": "c6d458e458b1345227e6ff5a4eabb5c42712879131428e00a5f5357fc48b51a7",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 38, yield control at the driveway exit",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R20",
+      "sha256": "539641ecef2917033945dee237f0ec318a19c67af6660da84181741762ecfae5",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 53, freeway entering",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R21",
+      "sha256": "e5245277f6a5d628051561db46034e9e977d9ff7e9a39d25df9571a47af6f754",
+      "source": {
+        "title": "Rules of the road",
+        "url": "https://www.southafrica.net/ug/en/travel/category/what-you-need-to-know/getting-around-south-africa-by-car",
+        "description": "South African Tourism road guidance gives the general 60/100/120 limits. Posted limits and vehicle-specific limits take precedence.",
+        "section": "General speed limits, light vehicle; rule 292(a)",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R22",
+      "sha256": "365154656b678abee4c0d9cff43958cfc5b94a02cc69a698abda4c6da5985c59",
+      "source": {
+        "title": "Rules of the road",
+        "url": "https://www.southafrica.net/ug/en/travel/category/what-you-need-to-know/getting-around-south-africa-by-car",
+        "description": "South African Tourism road guidance gives the general 60/100/120 limits. Posted limits and vehicle-specific limits take precedence.",
+        "section": "General speed limits, light vehicle; rule 292(b)",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R23",
+      "sha256": "8dbb2236bf84b873e1f91187c9394ca6579e1c17a105134458370e3d3d1ebc2f",
+      "source": {
+        "title": "Rules of the road",
+        "url": "https://www.southafrica.net/ug/en/travel/category/what-you-need-to-know/getting-around-south-africa-by-car",
+        "description": "South African Tourism road guidance gives the general 60/100/120 limits. Posted limits and vehicle-specific limits take precedence.",
+        "section": "General speed limits, light vehicle; rule 292(c)",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R24",
+      "sha256": "c422091563447ee76f338ebbcbc86248d4ee45cf787c195d368e9b654ab90d88",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 27, following distance",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R25",
+      "sha256": "57f06eead65bf375e582d678684c14f0206c1097a5efcd020a7d53765404689b",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 50, overtaking to the right of a hazard",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R26",
+      "sha256": "6a05a9e635f1f0e9a55c1bb03f1daed17a94f9acbbced5be463438c0fc30dbd1",
+      "source": {
+        "title": "Road safety guidance",
+        "url": "https://www.sanews.gov.za/node/84503",
+        "description": "RTMC road-safety advice published 23 September 2026: safe speed, seatbelts, vehicle checks, following gaps and sober driving.",
+        "section": "RTMC advice: never drive under the influence of alcohol or drugs",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R27",
+      "sha256": "79fdff3da09debdb832545145be08b1ea26bd3b17df9a5e8d2cfc1e689faf7a3",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 10, use of horn to warn of danger",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R28",
+      "sha256": "828770d6493818704b397cdda0ef1fc35fc6311cad62b673cb39526c8732c607",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 35, right turn waiting position",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R29",
+      "sha256": "773e738ddb9617516923a4b26805917f1bfee70c304cae9dd769d62655ac17b4",
+      "source": {
+        "title": "Road safety guidance",
+        "url": "https://www.sanews.gov.za/node/84503",
+        "description": "RTMC road-safety advice published 23 September 2026: safe speed, seatbelts, vehicle checks, following gaps and sober driving.",
+        "section": "RTMC advice: ensure all occupants wear seat belts",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R30",
+      "sha256": "b39b9d3402d225df47d9ebb5fa86aa7d3a4d38b2e267a432f9ae4d636d385c92",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 54, freeway exit preparation",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R31",
+      "sha256": "cdac83517ef387d81e81c40bb11d7332db1b4992e3e6b6c6041b6a37f21a7d1f",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 31, parking and checking before opening doors",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R32",
+      "sha256": "fc2e0e790878aecdb75918ff4e089591f56bca675e31ff0550a5020cb861fd9f",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 46, pedestrian crossing",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R33",
+      "sha256": "ee1bc8e853a57acb9f4db6ec3a39c272621d182d08bcdca90fff9e14d3fbb5e7",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 31, stopping for parking and securing the vehicle",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "R34",
+      "sha256": "6ac64a29977c18dc666f1a821db639bbd7c5e2633c91371d7c448e301390d662",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 45, lane and exit planning",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O01",
+      "sha256": "b660d52f6ebf59c1fdf8378b3a1478d5d7b53e26f2c7cb041ab780b9dd3ce5a5",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 12, observation before moving off; selected steps",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O02",
+      "sha256": "836d5d1b5af1959fd45f9fde7b9d0be2209afb83d5d0b02a1961f5ad2eec40b3",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 28, lane changing; mirrors/blind spot, signal, repeat blind spot, steer safely, cancel",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O03",
+      "sha256": "03cc3c61304ce292575b63f15bfed8f6d0114eb1d80c786a40ed40dcde9cc7d5",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 34, turning left; selected observation steps",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O04",
+      "sha256": "8f6c613e660bdb6994babfb7f94c9aaf04f0c44763c5b24a8e9cb5fdb99658d5",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 6 Note: rear-view check before brake-light signal",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O05",
+      "sha256": "1aaf5b3edda1838588032ca27b000b639377de652626b89a4af40a3767e35690",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 50, overtaking to the right of a hazard; selected observation steps",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O06",
+      "sha256": "8429a9eee27474be6878776f4f189cee4898e7568753fb577e66584aa7b21f3e",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 50, returning after overtaking",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O07",
+      "sha256": "7d3869a1bd0c3e0fbc2a94770465afe9661656b9e597779f99c848c1aaa5e691",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 12, intersection clearance before moving",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O08",
+      "sha256": "523549693e9895448f60a605f623346ea0add4150fddd8b5fb24b5937af1f996",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Modules 15/19, reversing observation and glossary blind-spot checks",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O09",
+      "sha256": "22e3a52bf21e69e1bcb93ea6e98f8459a9cdf4cf36189b4220abbb80c50467c7",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 28, left lane changing; selected steps",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "O10",
+      "sha256": "360ed817049a64ac1f2435c0e9a86db3ccb80bdee2e766e3fc893c0881c7d8b0",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 53, freeway entry observation",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C01",
+      "sha256": "7c2e433412b3afed75684fa9c55e6243bcd2f232a6711ffca21f2e7adac9dfe1",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Glossary: disengage clutch / Modules 12 and 23",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C02",
+      "sha256": "59763d38414c5fe792816e8e2fe22bd7717d57ec8382a4d5e4a782c55d7288e8",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Modules 29/31, service and parking brakes",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C03",
+      "sha256": "d6f3aa4ddfc64808c5addfe6c9e740293ebe933223f62ff5da9cba003a4d767c",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 1, pre-trip fluid checks",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C04",
+      "sha256": "27d47c97ad09a75562062f80a0d57d014c63bbacbbe57f0fa9927f5d6ccf3eef",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 5, continuous observation",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C05",
+      "sha256": "36426d327dd6604e17d67418f365df9c25d3cf5650de8b21848ec8958dc2535e",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 1, tyre tread, sidewalls and inflation checks",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C06",
+      "sha256": "6e6d31b4b255e643fce073012b9563c6b6b3be19310a81363d4ece6ac0eccd0e",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 2, seat and mirror setup",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C07",
+      "sha256": "b4ed74c62a8aa622b108903366fa2f790f0a0b557108feb235fa2461a933b918",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 1, dipped and main beam operation checks",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C08",
+      "sha256": "5901141dea7f9b4523a65717436e23b5417b06db3b9f8fd98b821d9f2330fb6a",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 1/2, interior light operation checks",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C09",
+      "sha256": "125f0ed832bdebc3de2d570a1eaba9bce489fc0e871286a8729344f02c25f06d",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 1/2, direction indicator checks",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    },
+    {
+      "id": "C10",
+      "sha256": "15d50c57418c17bbbe0de0eb23db5d16fc5b9a018ecd6950467fa0941a1195a8",
+      "source": {
+        "title": "Light-vehicle practical preparation",
+        "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+        "description": "Published Code B procedures. Observation exercises rehearse selected steps, not a full practical driving test.",
+        "section": "Module 2, cockpit setup before moving",
+        "checked": "18 October 2026",
+        "review": "source-checked; independent instructor review not claimed"
+      }
+    }
+  ]
+}

@@ -53,3 +53,5 @@ assert(html.includes("GreenLight's independent mock uses 64 questions"), '64-que
 assert(!html.includes("official 64-question"), 'Do not present 64 questions as a universal official format');
 assert(html.includes('24 months'), 'Learner-licence validity disclosure missing');
 console.log('Syntax, routes, claim boundaries, score keys, accessibility invariants and offline asset references passed.');
+
+await import('./verify-decision.mjs');

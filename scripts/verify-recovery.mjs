@@ -20,7 +20,8 @@ function setup(){
  const ctx=vm.createContext({window,console,Math,Date:class extends Date{static now(){return time;}},localStorage:{getItem:()=>null,setItem(){}},app,ce:()=>new Element(),$:s=>app.querySelector(s),document:{querySelector:s=>app.querySelector(s)},setInterval:()=>1,clearInterval(){},safeHTML:s=>String(s),backbar:()=>'',bookmarkButton:()=>'',evidence:()=>'',bindBookmark(){},bindGo(){},renderAnswerTools(){},recordAttempt(){attempts++;},addReview(){},confetti(){},setVehicleCode(c){ctx.K.state.vehicleCode=c;},renderHome(){},openReview(){}});
  vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1],ctx);
  ctx.K=window.__K53;ctx.K.save=()=>{saved=JSON.parse(JSON.stringify(ctx.K.state));return true;};
- vm.runInContext("const SECTION_ORDER=['rules','signs','controls'];const SECTION_META={rules:{name:'Rules',n:28,need:22},signs:{name:'Signs',n:28,need:23},controls:{name:'Controls',n:8,need:6}};",ctx);
+ const metadata=html.match(/const SECTION_META=(\{[\s\S]*?\n\});/)[1];
+ vm.runInContext("const SECTION_ORDER=['rules','signs','controls'];const SECTION_META="+metadata+";",ctx);
  vm.runInContext(between('let mockData=[];','function openMock(){'),ctx);
  vm.runInContext(between('function startMock(','/* ---------- SHARE CARD'),ctx);
  vm.runInContext(between('function startSim(','window.__views='),ctx);

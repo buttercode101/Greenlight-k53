@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v22';
+const CACHE = 'greenlight-k53-v23-decision';
 const CORE = [
   './',
   './index.html',
@@ -47,19 +47,82 @@ const CORE = [
   './assets/signs/toll.svg',
   './assets/signs/turnleft.svg',
   './assets/signs/wild.svg',
-  './assets/signs/yjunction.svg'
+  './assets/signs/yjunction.svg',
+  './assets/decision/art/O07.svg',
+  './assets/decision/art/O10.svg',
+  './assets/decision/art/R01.svg',
+  './assets/decision/art/R02.svg',
+  './assets/decision/art/R03.svg',
+  './assets/decision/art/R04.svg',
+  './assets/decision/art/R05.svg',
+  './assets/decision/art/R06.svg',
+  './assets/decision/art/R07.svg',
+  './assets/decision/art/R08.svg',
+  './assets/decision/art/R09.svg',
+  './assets/decision/art/R10.svg',
+  './assets/decision/art/R11.svg',
+  './assets/decision/art/R12.svg',
+  './assets/decision/art/R13.svg',
+  './assets/decision/art/R14.svg',
+  './assets/decision/art/R15.svg',
+  './assets/decision/art/R16.svg',
+  './assets/decision/art/R17.svg',
+  './assets/decision/art/R18.svg',
+  './assets/decision/art/R19.svg',
+  './assets/decision/art/R20.svg',
+  './assets/decision/art/R28.svg',
+  './assets/decision/art/R32.svg',
+  './assets/decision/art/R34.svg',
+  './assets/decision/art/S01.svg',
+  './assets/decision/art/S02.svg',
+  './assets/decision/art/S03.svg',
+  './assets/decision/art/S04.svg',
+  './assets/decision/art/S05.svg',
+  './assets/decision/art/S06.svg',
+  './assets/decision/art/S07.svg',
+  './assets/decision/art/S08.svg',
+  './assets/decision/art/S09.svg',
+  './assets/decision/art/S10.svg',
+  './assets/decision/art/S11.svg',
+  './assets/decision/art/S12.svg',
+  './assets/decision/art/S13.svg',
+  './assets/decision/art/S14.svg',
+  './assets/decision/art/S15.svg',
+  './assets/decision/art/S16.svg',
+  './assets/decision/art/S17.svg',
+  './assets/decision/art/S18.svg',
+  './assets/decision/art/S19.svg',
+  './assets/decision/art/S20.svg',
+  './assets/decision/art/S21.svg',
+  './assets/decision/art/S22.svg',
+  './assets/decision/art/S23.svg',
+  './assets/decision/art/S24.svg',
+  './assets/decision/art/S25.svg',
+  './assets/decision/art/S26.svg',
+  './assets/decision/art/S27.svg',
+  './assets/decision/art/S28.svg',
+  './assets/decision/bank.js',
+  './assets/decision/content-register.json',
+  './assets/decision/engine.js',
+  './assets/decision/model.js',
+  './assets/decision/practice.css',
+  './assets/decision/practice.js',
+  './assets/decision/session.js',
+  './assets/decision/sources.js',
+  './assets/decision/storage.js',
+  './assets/decision/types.js'
 ];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting())
+    caches.open(CACHE).then((c) => c.addAll(CORE))
   );
 });
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      Promise.all(keys.filter((k) => k.startsWith('greenlight-k53-') && k !== CACHE).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
 });

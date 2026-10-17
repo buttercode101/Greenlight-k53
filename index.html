@@ -52,6 +52,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/decision/practice.css">
 <style>
 /* ============================================================
    DESIGN.md COMPATIBLE TOKENS (Notion + Mintlify hybrid)
@@ -1101,7 +1102,7 @@ function renderHome(){
     <section class="block"><p class="kicker">Recent accuracy</p><h2>Topic evidence</h2><div class="status-grid">${statuses}</div></section>
   </div>
   <section class="block"><p class="kicker">Your route</p><h2>Learn, then prove it</h2><div class="library"><button class="btn btn-ghost" data-go="session1">Signs<span class="sub">Learn + short check</span></button><button class="btn btn-ghost" data-go="session2">Rules<span class="sub">Lesson + quiz</span></button><button class="btn btn-ghost" data-go="session3">Controls<span class="sub">Quick scenarios</span></button></div></section>
-  <section class="block"><p class="kicker">Build confidence</p><h2>Practise and check your understanding</h2><div class="library"><button class="btn" data-go="practice">Section drills<span class="sub">Work on one topic at a time</span></button><button class="btn" data-go="review">Review mistakes<span class="sub">${reviewDue().length} due today</span></button><button class="btn" data-go="mock">Learning mock<span class="sub">See explanations as you go</span></button><button class="btn" data-go="sim">Timed simulation<span class="sub">64 questions without hints</span></button></div></section>
+  <section class="block"><p class="kicker">Build confidence</p><h2>Practise and check your understanding</h2><div class="library"><button class="btn" data-go="practice">Section drills<span class="sub">Work on one topic at a time</span></button><button class="btn" data-go="decision">Decision practice<span class="sub">Short road decisions and observation sequences · Code 2</span></button><button class="btn" data-go="review">Review mistakes<span class="sub">${reviewDue().length} due today</span></button><button class="btn" data-go="mock">Learning mock<span class="sub">See explanations as you go</span></button><button class="btn" data-go="sim">Timed simulation<span class="sub">64 questions without hints</span></button></div></section>
   <details class="tool-disclosure"><summary>Explore more study tools</summary><div class="library"><button class="btn" data-go="signlibrary">Sign atlas<span class="sub">Search 39 illustrated examples</span></button><button class="btn" data-go="situations">Road situations<span class="sub">Choose the safe action</span></button><button class="btn" data-go="concepts">Concept focus<span class="sub">See repeated sign evidence</span></button><button class="btn" data-go="flash">Flashcards<span class="sub">Recall from memory</span></button><button class="btn" data-go="row">Right of way<span class="sub">Decide who goes first</span></button><button class="btn" data-go="memory">Memory tricks<span class="sub">Quick revision</span></button>${K.state.vehicleCode==='2'?'<button class="btn" data-go="rhd">RHD cockpit<span class="sub">Explore manual-car controls</span></button>':''}<button class="btn" data-go="journey">Code & test plan<span class="sub">Prepare for your date</span></button></div></details>
   <p class="footnote">Independent English study aid with selected practice, not the official question bank or complete syllabus. <a href="#sources" data-go="sources">Coverage and official references</a>.</p>
   <p class="footnote">Study progress stays on this device. <a href="study-guide.html">Printable study guide</a> · <a href="#sources" data-go="sources">Official reference library</a>.</p>`;
@@ -1223,7 +1224,7 @@ function finishQuiz(sessNum,title,correct,total){
 }
 
 function safeHTML(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function reviewArt(svg){const match=String(svg||'').match(/assets\/signs\/[a-z0-9-]+\.svg/);return match?signImg(match[0]):'';}
+function reviewArt(svg){const decision=String(svg||'').match(/^assets\/decision\/art\/[SRCO][0-9]{2}\.svg$/);if(decision)return `<img src="${decision[0]}" alt="Saved decision illustration" loading="lazy">`;const match=String(svg||'').match(/assets\/signs\/[a-z0-9-]+\.svg/);return match?signImg(match[0]):'';}
 function reviewKey(q){return (q.svg||'')+'|'+q.q+'|'+q.opts[q.ans];}
 const TOPIC_PATTERNS=[
  ['Signs and signals',/sign|signal|robot|warning|speed limit|pedestrian man/i],
@@ -1234,9 +1235,9 @@ const TOPIC_PATTERNS=[
  ['Vehicle controls',/pedal|clutch|gear|steer|throttle|horn|hooter|indicator|accelerator|control/i],
  ['Safety and legal duties',/learner|licence|alcohol|phone|seatbelt|fuel|trailer|tow/i]
 ];
-function questionCode(q){const title=typeof q==='string'?q:q.q;return K.CONTROLS.some(c=>c.q===title)?'2':K.MOTORCYCLE_CONTROLS.some(c=>c.q===title)?'1':K.HEAVY_CONTROLS.some(c=>c.q===title)?'3':null;}
+function questionCode(q){const title=typeof q==='string'?q:q.q;if((typeof q==='object'&&q.decisionId)||Object.values(K.state.attempts).some(a=>a.code==='2'&&a.q===title)||K.state.review.some(r=>r.decisionId&&r.q===title))return '2';return K.CONTROLS.some(c=>c.q===title)?'2':K.MOTORCYCLE_CONTROLS.some(c=>c.q===title)?'1':K.HEAVY_CONTROLS.some(c=>c.q===title)?'3':null;}
 function visibleForCode(q){const code=questionCode(q);return !code||code===K.state.vehicleCode;}
-function topicFor(q){if(q.svg||K.SIGN_VARIANTS.some(c=>c.q===q.q))return 'Signs and signals';if([...K.CONTROLS,...K.MOTORCYCLE_CONTROLS,...K.HEAVY_CONTROLS,...K.CONTROL_VARIANTS].some(c=>c.q===q.q))return 'Vehicle controls';return (TOPIC_PATTERNS.find(([,re])=>re.test(q.q))||['Rules of the road'])[0];}
+function topicFor(q){if(q.decisionId&&K.state.attempts['decision:'+q.decisionId])return K.state.attempts['decision:'+q.decisionId].topic;if(q.svg||K.SIGN_VARIANTS.some(c=>c.q===q.q))return 'Signs and signals';if([...K.CONTROLS,...K.MOTORCYCLE_CONTROLS,...K.HEAVY_CONTROLS,...K.CONTROL_VARIANTS].some(c=>c.q===q.q))return 'Vehicle controls';return (TOPIC_PATTERNS.find(([,re])=>re.test(q.q))||['Rules of the road'])[0];}
 function topicStats(){const out={};Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)).forEach(a=>{const t=a.topic||'Rules of the road';const row=out[t]||{topic:t,correct:0,wrong:0,items:0};row.correct+=a.correct;row.wrong+=a.wrong;row.items++;out[t]=row;});return Object.values(out).sort((a,b)=>(b.wrong/(b.wrong+b.correct+1))-(a.wrong/(a.wrong+a.correct+1)));}
 const VARIANT_LINKS=[
  ['When refuelling','When refuelling, the engine must be…'],
@@ -1307,7 +1308,7 @@ function addReview(q,answer){
   found.due=now;
   K.save();
 }
-function reviewDue(){return K.state.review.filter(r=>visibleForCode(r.q)&&Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)&&r.due<=Date.now());}
+function reviewDue(){return K.state.review.filter(r=>visibleForCode(r.q)&&(r.decisionId||(Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)))&&r.due<=Date.now());}
 function openReview(){
   const due=reviewDue();
   const visible=K.state.review.map((r,i)=>({r,i})).filter(({r})=>visibleForCode(r.q));
@@ -1336,6 +1337,7 @@ function startReview(keys){
     if(i>=total){app.innerHTML=backbar('Review complete')+`<div class="block center"><h2>Review complete</h2><p>${correct}/${total} correct. Missed questions remain ready to practise; correct ones return on a later day.</p><button class="btn btn-primary" id="reviewReturn">View weak spots</button><button class="btn btn-ghost" data-go="home">Home</button></div>`;$('#reviewReturn').addEventListener('click',openReview);bindGo();return;}
     const r=K.state.review.find(item=>item.key===keys[i]);
     if(!r){i++;render();return;}
+    if(r.decisionId){openDecision({ids:[r.decisionId],title:'Review decisions',onComplete:result=>{correct+=result.correct;i++;render();}});return;}
     app.innerHTML=backbar('Weak spots',`${i+1}/${total}`)+`<div class="block"><p class="kicker">Retry ${i+1} of ${total}</p>${r.svg?`<div class="question-art">${reviewArt(r.svg)}</div>`:''}<h2>${safeHTML(r.q)}</h2><div>${r.opts.map((o,n)=>`<button class="opt" type="button" data-i="${n}">${safeHTML(o)}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button></div>`;
     const buttons=app.querySelectorAll('.opt'),fb=app.querySelector('.feedback'),next=app.querySelector('.next');
     buttons.forEach(b=>b.addEventListener('click',()=>{
@@ -1540,6 +1542,7 @@ function openPractice(){
     <button class="btn btn-soft" id="drillRules" type="button">📜 Rules <span class="sub">${K.rulesForCode(K.state.vehicleCode).length+K.extraForCode(K.state.vehicleCode).length} questions for Code ${K.state.vehicleCode}</span></button>
     <button class="btn btn-soft" id="drillCtrl" type="button">🎛 Controls <span class="sub">${K.controlsForCode(K.state.vehicleCode).length+K.CONTROL_VARIANTS.length} questions for Code ${K.state.vehicleCode}</span></button>
     <button class="btn btn-soft" id="drillMixed" type="button">🔀 Mixed 20 <span class="sub">Random across all topics</span></button>
+    <button class="btn btn-soft" data-go="decision">Decision practice<span class="sub">Sign actions, road situations and observation sequences · Code 2</span></button>
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
   $('#drillSigns').addEventListener('click',()=>drill('signs'));
@@ -1760,7 +1763,7 @@ function daysUntilTest(){
  return Math.round((target-today)/86400000);
 }
 function openSources(){
- app.innerHTML=backbar('Coverage & sources')+`<div class="block"><p class="kicker">Learn here, verify there</p><h2>Your study map</h2><p class="lead">GreenLight offers original explanations, simplified illustrations and practice decisions. These are selected examples, not a complete or independently certified syllabus.</p><div class="journey-steps"><div class="journey-step"><span class="num">1</span><div><h3>Road signs & markings</h3><p>39 illustrated signs, 10 marking descriptions, ${K.SIGN_VARIANTS.length} concept checks and ${SITUATIONS.length} visual decisions.</p><button data-go="signlibrary">Search GreenLight signs →</button></div></div><div class="journey-step"><span class="num">2</span><div><h3>Road rules</h3><p>Selected rules and varied practice questions for your learner code.</p><button data-go="session2">Learn rules →</button></div></div><div class="journey-step"><span class="num">3</span><div><h3>Vehicle controls</h3><p>${K.controlsForCode(K.state.vehicleCode).length+K.CONTROL_VARIANTS.length} control checks for Code ${K.state.vehicleCode}.</p><button data-go="session3">Study controls →</button></div></div></div></div><div class="block"><p class="kicker">Official reference library</p><h2>Check the full material</h2><p class="lead">Open a manual when you need exact sign artwork, wording or topics outside this app. These sources do not replace your lessons here.</p><div class="mini"><div class="t">Rules of the road</div><div class="d"><a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">NaTIS rules manual ↗</a></div></div><div class="mini"><div class="t">Road traffic signs</div><div class="d"><a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">NaTIS signs manual ↗</a></div></div><div class="mini"><div class="t">Vehicle controls</div><div class="d"><a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">NaTIS controls manual ↗</a></div></div><p class="reference-note">Our <a href="content-register.json" target="_blank" rel="noopener noreferrer">content register</a> maps 295 entries to manual areas. It is not item-by-item legal sign-off. No qualified independent reviewer has signed off the entire set; teaching is English only. Check bookings and local requirements directly with your DLTC. Source pages checked 4 October 2026.</p></div>`;bindGo();
+ app.innerHTML=backbar('Coverage & sources')+`<div class="block"><p class="kicker">Learn here, verify there</p><h2>Your study map</h2><p class="lead">GreenLight offers original explanations, simplified illustrations and practice decisions. These are selected examples, not a complete or independently certified syllabus.</p><div class="journey-steps"><div class="journey-step"><span class="num">1</span><div><h3>Road signs & markings</h3><p>39 illustrated signs, 10 marking descriptions, ${K.SIGN_VARIANTS.length} concept checks and ${SITUATIONS.length} visual decisions.</p><button data-go="signlibrary">Search GreenLight signs →</button></div></div><div class="journey-step"><span class="num">2</span><div><h3>Road rules</h3><p>Selected rules and varied practice questions for your learner code.</p><button data-go="session2">Learn rules →</button></div></div><div class="journey-step"><span class="num">3</span><div><h3>Vehicle controls</h3><p>${K.controlsForCode(K.state.vehicleCode).length+K.CONTROL_VARIANTS.length} control checks for Code ${K.state.vehicleCode}.</p><button data-go="session3">Study controls →</button></div></div></div></div><div class="block"><p class="kicker">Official reference library</p><h2>Check the full material</h2><p class="lead">Open a manual when you need exact sign artwork, wording or topics outside this app. These sources do not replace your lessons here.</p><div class="mini"><div class="t">Rules of the road</div><div class="d"><a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">NaTIS rules manual ↗</a></div></div><div class="mini"><div class="t">Road traffic signs</div><div class="d"><a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">NaTIS signs manual ↗</a></div></div><div class="mini"><div class="t">Vehicle controls</div><div class="d"><a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">NaTIS controls manual ↗</a></div></div><p class="reference-note">Our <a href="content-register.json" target="_blank" rel="noopener noreferrer">content register</a> maps 295 original entries to manual areas. The <a href="assets/decision/content-register.json" target="_blank" rel="noopener noreferrer">Decision practice register</a> adds 82 light-vehicle cards with individual source locators. It is not item-by-item legal sign-off. No qualified independent reviewer has signed off the entire set; teaching is English only. Check bookings and local requirements directly with your DLTC. Source pages checked 4 October 2026.</p></div>`;bindGo();
 }
 const DLTC_CHECKLIST=[
     ['🪪','Identity document','Bring the identity document required by your DLTC; confirm acceptable documents when booking.'],
@@ -1811,11 +1814,11 @@ function bindTTS(scope){
   const r=scope.querySelector('#ttsRate');
   if(r)r.addEventListener('input',()=>{state.rate=parseFloat(r.value);K.save();});
 }
-function bindGo(root){
+function bindGo(root,options={}){
   showStorageStatus();
   const scope=root||app;
   const tb=scope.querySelector('#themeBtn');
-  if(tb)tb.addEventListener('click',(e)=>{e.stopPropagation();K.toggleTheme();renderHome();});
+  if(tb)tb.addEventListener('click',(e)=>{e.stopPropagation();K.toggleTheme();if(!options.decision)renderHome();});
   const ti=scope.querySelector('#topbarInstall');
   if(ti)ti.addEventListener('click',(e)=>{e.stopPropagation();maybeShowInstall();});
   const sb=scope.querySelector('[data-speak-top]');
@@ -1824,16 +1827,39 @@ function bindGo(root){
   scope.querySelectorAll('[data-go]').forEach(el=>{
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
-      const map={journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
+      const map={decision:openDecision,journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){
         if(assessmentActive && !window.confirm('Leave this practice test? You can resume from Home; a timed attempt keeps counting down.'))return;
         assessmentActive=false;
         if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}
-        map[t]();window.scrollTo(0,0);
+        const navigate=()=>{map[t]();window.scrollTo(0,0);};
+        if(decisionModule?.isActive()){decisionModule.requestLeave(navigate);return;}
+        navigate();
       }
     });
   });
 }
+
+/* Decision player shares the existing product shell and canonical state. */
+let decisionModule=null,decisionLoading=false;
+async function openDecision(args={}){
+  if(decisionLoading)return;
+  decisionLoading=true;
+  try{
+    decisionModule=decisionModule||await import('./assets/decision/practice.js');
+    decisionModule.mount({root:app,state:K.state,save:K.save,touch:K.touch,topbar,backbar,bind:()=>bindGo(app,{decision:true}),toggleTheme:K.toggleTheme,speak:speakText,stopSpeech,storageStatus:showStorageStatus},args);
+    window.scrollTo(0,0);
+  }catch(error){
+    console.error('Decision practice could not open',error);
+    app.innerHTML=backbar('Decision practice')+'<div class="block"><h2>Practice could not open</h2><p>Reconnect once to update the app, then try again. Your existing study history is unchanged.</p><button class="btn btn-primary" data-go="decision">Try again</button><button class="btn btn-ghost" data-go="practice">Section drills</button></div>';bindGo();
+  }finally{decisionLoading=false;}
+}
+window.addEventListener('k53-decision-storage',event=>{
+  let notice=document.getElementById('decisionStorageStatus');
+  if(!event.detail){notice?.remove();return;}
+  if(!notice){notice=ce('p');notice.id='decisionStorageStatus';notice.className='storage-status';notice.setAttribute('role','status');document.body.prepend(notice);}
+  notice.textContent='If this browser cannot save practice, keep the tab open to finish. Existing saved study history is unchanged.';
+});
 
 /* MOCK TEST + RESULT — 3 sections like the real K53 test */
 let mockData=[];
@@ -1843,7 +1869,7 @@ let assessmentActive=false;
 function validAssessment(c){
   if(!c||c.version!==1||!['sim','mock'].includes(c.mode)||!['1','2','3'].includes(c.code)||!Number.isFinite(c.deadline)||c.deadline<0||!Number.isInteger(c.i)||!Array.isArray(c.questions)||!c.questions.length||c.questions.length>64||c.i<0||c.i>c.questions.length||!Array.isArray(c.answers)||c.answers.length!==c.questions.length)return false;
   if(c.mode==='mock'&&(!Number.isInteger(c.series)||c.series<1||!SECTION_ORDER.includes(c.sec)||(c.onlySec!==null&&c.onlySec!==c.sec)||c.questions.length!==SECTION_META[c.sec].n))return false;
-  if(c.mode==='sim'&&(c.questions.length!==64||SECTION_ORDER.some(sec=>c.questions.filter(q=>q&&q.sec===SECTION_META[sec].name).length!==SECTION_META[sec].n)))return false;
+  if(c.mode==='sim'&&(c.questions.length!==64||SECTION_ORDER.some(sec=>c.questions.filter(q=>q&&typeof q.sec==='string'&&q.sec.toLowerCase()===sec).length!==SECTION_META[sec].n)))return false;
   return c.questions.every((q,n)=>q&&typeof q.q==='string'&&Array.isArray(q.opts)&&q.opts.length>=2&&q.opts.length<=6&&q.opts.every(o=>typeof o==='string')&&Number.isInteger(q.ans)&&q.ans>=0&&q.ans<q.opts.length&&(c.mode!=='sim'||['Rules','Signs','Controls'].includes(q.sec))&&(c.answers[n]===null||(Number.isInteger(c.answers[n])&&c.answers[n]>=0&&c.answers[n]<q.opts.length))&&(n<c.i?c.answers[n]!==null:n>c.i?c.answers[n]===null:true));
 }
 function saveAssessment(c){K.state.activeAssessment={...c,version:1,code:K.state.vehicleCode};K.save();}
@@ -2323,10 +2349,7 @@ function maybeShowInstall(){
 if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js', {updateViaCache:'none'}).then(()=>{
-      // If a new SW is already controlling (installed by a previous load), activate it now
-      if(navigator.serviceWorker.controller){
-        navigator.serviceWorker.ready.then((reg)=>{ if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'}); });
-      }
+      // Activate updates through the browser lifecycle; never reload an active attempt.
     }).catch(()=>{});
   });
   // On controllerchange (new SW activated), show a quiet reload toast so the user gets the fresh version
