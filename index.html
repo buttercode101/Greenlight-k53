@@ -54,6 +54,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/decision/practice.css?v=29">
 <style>
+/* GreenLight decisive UI refresh — progressive enhancement, no state migration */
+.product-nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;padding:8px 0;align-items:center}
+.product-nav button{flex:1 0 auto;min-height:44px;border-radius:10px;font-weight:650;white-space:nowrap}
+.product-nav button[aria-current="page"]{background:var(--accent-dark)!important;color:#fff!important;box-shadow:none}
+.dashboard{gap:18px}.dashboard .next-step{border:1px solid var(--line);box-shadow:none;border-radius:16px}.dashboard .next-step h2{font-weight:750;letter-spacing:-.025em}
+.btn-primary{background:var(--accent-dark)!important;color:#fff!important;font-weight:700!important;border-radius:10px!important;min-height:46px}
+.btn-soft,.btn-ghost{box-shadow:none!important}
+.status-item,.mini,.path-card{box-shadow:none!important}
+.feedback.ok{border-left:4px solid var(--ok);font-weight:650}
+.feedback.no{border-left:4px solid var(--err)}
+.reader-tools{position:relative}.lesson-grid{align-items:stretch}
+.app-update{position:static!important;inset:auto!important;box-shadow:none!important;margin:8px auto!important;max-width:960px!important;border-radius:10px!important}
+@media(max-width:480px){.product-nav{gap:2px}.product-nav button{padding:10px 8px;font-size:12px}.dashboard{gap:12px}}
 /* ============================================================
    DESIGN.md COMPATIBLE TOKENS (Notion + Mintlify hybrid)
    Warm neutrals, single accent, whisper borders, docs clarity
@@ -1035,7 +1048,7 @@ function topbar(){
     </div>`;
 }
 let currentArea='home';
-function productNav(){return `<nav class="product-nav no-print" aria-label="Main navigation">${[['home','Home'],['learn','Learn'],['practice','Practise'],['review','Review'],['tests','Tests']].map(([go,label])=>`<button type="button" data-go="${go}" ${currentArea===go?'aria-current="page"':''}>${label}</button>`).join('')}</nav>`;}
+function productNav(){return `<nav class="product-nav no-print" aria-label="Main navigation">${[['home','Home'],['learn','Learn'],['practice','Practise'],['tests','Mock'],['checklist','Test Day']].map(([go,label])=>`<button type="button" data-go="${go}" ${(currentArea===go||(go==='checklist'&&currentArea==='testday'))?'aria-current="page"':''}>${label}</button>`).join('')}</nav>`;}
 function backbar(title,score){
   const back=currentArea==='learn'&&title!=='Learn'?'learn':currentArea==='tests'&&title!=='Check readiness'?'tests':'home';
   return topbar()+productNav()+`<div class="backbar no-print"><button data-go="${back}" type="button" aria-label="Back to ${back==='home'?'home':back==='learn'?'Learn':'Tests'}">‹</button><div class="ttl">${title}</div>${score?`<div class="sc">${score}</div>`:''}</div>`;
@@ -1110,10 +1123,10 @@ function renderHome(){
   const statuses=[[1,'Signs'],[2,'Rules'],[3,'Controls']].map(([n,label])=>`<div class="status-item"><b>${K.state.mastery?.[n]!==undefined?ringFor(n)+'%':'—'}</b><span>${label}<br>${topicLabel(n)}</span></div>`).join('');
   currentArea='home';
   app.innerHTML=topbar()+productNav()+`
-  <header class="plan-intro"><div><p class="kicker">South African K53 preparation</p><h1>Your study plan</h1><p>Learn the material, practise weak areas and check your readiness.</p></div><button class="plan-settings" data-go="journey">Code ${K.state.vehicleCode} · Your test plan ${icon('car')}</button></header>
+  <header class="plan-intro"><div><p class="kicker">South African K53 preparation</p><h1>Build your test readiness</h1><p>Learn the material, practise weak areas and check your readiness.</p></div><button class="plan-settings" data-go="journey">Code ${K.state.vehicleCode} · Your test plan ${icon('car')}</button></header>
   <div id="practiceResumeSlot"></div>
   <div class="dashboard">
-    <section class="next-step" aria-labelledby="next-title"><div class="next-meta"><span>${reviewDue().length} reviews due</span><span>${Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)&&a.wrong>a.correct).length} questions to revisit</span></div><p>${topicStats()[0]?.wrong?'Today’s focus: '+safeHTML(topicStats()[0].topic):'A short session is enough to get started.'}</p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" ${next.mode?`data-practice-mode="${next.mode}"`:`data-go="${next.go}"`}>${next.cta} →</button><p class="trust-note">Your progress combines lesson checks, practice results and mock section scores.</p></section>
+    <section class="next-step" aria-labelledby="next-title"><div class="next-meta"><span>${reviewDue().length} reviews due</span><span>${Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)&&a.wrong>a.correct).length} questions to revisit</span></div><p>${topicStats()[0]?.wrong?'Today’s focus: '+safeHTML(topicStats()[0].topic):'Complete a focused check to build your readiness.'}</p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" ${next.mode?`data-practice-mode="${next.mode}"`:`data-go="${next.go}"`}>${next.cta} →</button><p class="trust-note">Your progress combines lesson checks, practice results and mock section scores.</p></section>
     <section class="block"><p class="kicker">Readiness</p><h2>${r.verdict}</h2><p class="lead">${r.msg}</p><div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div><p class="footnote" style="text-align:left;margin-top:10px">${r.score}% practice readiness · based on checks, mocks and selected decisions</p>${decisionEvidenceHTML()}<details class="topic-breakdown"><summary>Your topic progress</summary><div class="status-grid">${statuses}</div></details></section>
   </div>
   <section class="block study-path" aria-labelledby="path-title"><p class="kicker">Your preparation path</p><h2 id="path-title">Build knowledge. Check it. Improve.</h2><div class="path-grid">
