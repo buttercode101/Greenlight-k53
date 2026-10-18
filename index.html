@@ -2248,13 +2248,13 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, scope=
   const ctx=cvs.getContext('2d');
   // Background
   const grad=ctx.createLinearGradient(0,0,0,600);
-  grad.addColorStop(0,'#0075de'); grad.addColorStop(1,'#005bab');
+  grad.addColorStop(0,'#164c34'); grad.addColorStop(1,'#0b3020');
   ctx.fillStyle=grad; ctx.fillRect(0,0,800,600);
   // Accent stripe
   ctx.fillStyle='#fff'; ctx.fillRect(0,0,800,6);
   // Title
-  ctx.font='bold 48px Inter, Arial'; ctx.fillStyle='#fff'; ctx.textAlign='center';
-  ctx.fillText(T('share.title') || 'My K53 Mock Result', 400, 80);
+  ctx.font='bold 34px Inter, Arial'; ctx.fillStyle='#fff'; ctx.textAlign='center';
+  ctx.fillText('GreenLight K53 · Practice result', 400, 80);
   // Overall
   ctx.font='bold 72px Inter, Arial';
   ctx.fillStyle=passed?'#7bf0a2':'#ffb08a';
@@ -2278,10 +2278,15 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, scope=
   // Footer
   ctx.font='18px Inter, Arial'; ctx.fillStyle='#cfefff'; ctx.textAlign='center';
   const msg = scope==='section' ? (passed?'Section practice passed':'Keep practising this section') : (passed?'All sections passed in practice':'Working on my weak sections');
-  ctx.fillText(msg, 400, 560);
+  ctx.fillText(msg, 400, 530);
+  ctx.font='15px Inter, Arial';ctx.fillStyle='#deecdf';ctx.fillText('greenlight-k53-review.vercel.app · Practice, not a pass guarantee',400,570);
   return cvs.toDataURL('image/png');
 }
 
+function saveResultImage(dataUrl,filename){
+ const bytes=Uint8Array.from(atob(dataUrl.split(',')[1]),c=>c.charCodeAt(0));downloadData(filename,bytes,'image/png');
+ let status=document.getElementById('shareStatus');if(!status){status=ce('p');status.id='shareStatus';status.setAttribute('role','status');$('#shareBtn').after(status);}status.textContent='Result image download requested.';
+}
 function mockDecisionFollowup(results){if(K.state.vehicleCode!=='2')return '';const entries=Object.entries(results).filter(([topic,r])=>['signs','rules','controls'].includes(topic)&&r&&r.total>0).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total);if(!entries.length)return '';const topic=entries[0][0],label={signs:'sign',rules:'road-rule',controls:'control'}[topic];return `<button class="btn btn-soft" data-practice-mode="${topic}">Practise ${label} decisions from your weakest section</button>`;}
 
 function finishMock(onlySec){
@@ -2333,7 +2338,7 @@ function finishMock(onlySec){
     const totalCorrect = sections.reduce((sum,s)=>sum+(r[s]?.correct||0), 0);
     const totalQ = sections.reduce((sum,s)=>sum+(r[s]?.total||0), 0);
     const dataUrl=makeShareCard(secCorrect, secCount, totalCorrect, totalQ, overallPass, onlySec?'section':'full');
-    const a=document.createElement('a'); a.href=dataUrl; a.download='k53-result.png'; a.click();
+    saveResultImage(dataUrl,'k53-result.png');
   });
   if(overallPass)confetti();
   bindGo();
@@ -2462,7 +2467,7 @@ function startSim(resume=null){
     const d=K.state.shareData;
     if(!d)return;
     const dataUrl=makeShareCard(d.secCorrect, d.secCount, d.correct, d.total, d.passed);
-    const a=document.createElement('a'); a.href=dataUrl; a.download='k53-sim-result.png'; a.click();
+    saveResultImage(dataUrl,'k53-sim-result.png');
   });
   if(allPass)confetti();
   bindGo();
