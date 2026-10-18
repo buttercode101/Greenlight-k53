@@ -1,0 +1,126 @@
+{
+  "kind": "TinyFish rendered-content spot check",
+  "testedSourceCommit": "606fea5049edd550bed743f599c3ed45db7dd143",
+  "browserAgent": {
+    "status": "not_started",
+    "reason": "negative_wallet_balance"
+  },
+  "results": [
+    {
+      "url": "https://greenlight-k53-review.vercel.app/",
+      "final_url": "https://greenlight-k53-review.vercel.app/",
+      "title": "GreenLight K53 — Learner's Licence Practice",
+      "description": "Free independent South African learner's licence practice for road signs, rules and vehicle controls. Study offline after loading the app.",
+      "language": "en",
+      "text": "HomeLearnPractiseReviewTests\n\n# Your study plan",
+      "author": null,
+      "published_date": null,
+      "latency_ms": 2693.384204991162,
+      "format": "markdown",
+      "unmatched_selectors": [
+        ".reader-count",
+        ".lesson-actions"
+      ],
+      "page_metadata": {
+        "canonical": "https://greenlight-k53-review.vercel.app/",
+        "favicon": "https://greenlight-k53-review.vercel.app/icon.svg",
+        "viewport": "width=device-width, initial-scale=1.0",
+        "theme_color": "#0e8f3e",
+        "keywords": "free k53 test, k53 test south africa, learners licence test, k53 practice test, k53 road signs, k53 questions and answers, code 8 learners licence, code 10 learners licence, k53 mock test, k53 study guide",
+        "og": {
+          "type": "website",
+          "title": "GreenLight K53 — Learner's Licence Practice",
+          "description": "Free independent South African learner's licence practice for road signs, rules and vehicle controls. Study offline after loading the app.",
+          "url": "https://greenlight-k53-review.vercel.app/",
+          "site_name": "GreenLight K53"
+        },
+        "twitter": {
+          "card": "summary_large_image",
+          "title": "GreenLight K53 — Learner's Licence Practice",
+          "description": "GreenLight K53 — free independent South African learner's licence practice for signs, rules and controls."
+        },
+        "other": {
+          "apple-mobile-web-app-capable": "yes",
+          "mobile-web-app-capable": "yes",
+          "apple-mobile-web-app-status-bar-style": "black-translucent",
+          "apple-mobile-web-app-title": "GreenLight K53"
+        }
+      }
+    },
+    {
+      "url": "https://greenlight-k53-review.vercel.app/?go=session1",
+      "final_url": "https://greenlight-k53-review.vercel.app/?go=session1",
+      "title": "GreenLight K53 — Learner's Licence Practice",
+      "description": "Free independent South African learner's licence practice for road signs, rules and vehicle controls. Study offline after loading the app.",
+      "language": "en",
+      "text": "HomeLearnPractiseReviewTests\n\n# Road signs & markings\n\nTake the 10-question checkPractise sign decisions\n\n1–6 of 39 signs",
+      "author": null,
+      "published_date": null,
+      "latency_ms": 2724.123285996029,
+      "format": "markdown",
+      "page_metadata": {
+        "canonical": "https://greenlight-k53-review.vercel.app/",
+        "favicon": "https://greenlight-k53-review.vercel.app/icon.svg",
+        "viewport": "width=device-width, initial-scale=1.0",
+        "theme_color": "#0e8f3e",
+        "keywords": "free k53 test, k53 test south africa, learners licence test, k53 practice test, k53 road signs, k53 questions and answers, code 8 learners licence, code 10 learners licence, k53 mock test, k53 study guide",
+        "og": {
+          "type": "website",
+          "title": "GreenLight K53 — Learner's Licence Practice",
+          "description": "Free independent South African learner's licence practice for road signs, rules and vehicle controls. Study offline after loading the app.",
+          "url": "https://greenlight-k53-review.vercel.app/",
+          "site_name": "GreenLight K53"
+        },
+        "twitter": {
+          "card": "summary_large_image",
+          "title": "GreenLight K53 — Learner's Licence Practice",
+          "description": "GreenLight K53 — free independent South African learner's licence practice for signs, rules and controls."
+        },
+        "other": {
+          "apple-mobile-web-app-capable": "yes",
+          "mobile-web-app-capable": "yes",
+          "apple-mobile-web-app-status-bar-style": "black-translucent",
+          "apple-mobile-web-app-title": "GreenLight K53"
+        }
+      }
+    },
+    {
+      "url": "https://greenlight-k53-review.vercel.app/?go=session2",
+      "final_url": "https://greenlight-k53-review.vercel.app/?go=session2",
+      "title": "GreenLight K53 — Learner's Licence Practice",
+      "description": "Free independent South African learner's licence practice for road signs, rules and vehicle controls. Study offline after loading the app.",
+      "language": "en",
+      "text": "HomeLearnPractiseReviewTests\n\n# Rules of the road\n\nTake the 10-question checkPractise road decisions\n\n1–8 of 44 rules",
+      "author": null,
+      "published_date": null,
+      "latency_ms": 2517.3587760073133,
+      "format": "markdown",
+      "page_metadata": {
+        "canonical": "https://greenlight-k53-review.vercel.app/",
+        "favicon": "https://greenlight-k53-review.vercel.app/icon.svg",
+        "viewport": "width=device-width, initial-scale=1.0",
+        "theme_color": "#0e8f3e",
+        "keywords": "free k53 test, k53 test south africa, learners licence test, k53 practice test, k53 road signs, k53 questions and answers, code 8 learners licence, code 10 learners licence, k53 mock test, k53 study guide",
+        "og": {
+          "type": "website",
+          "title": "GreenLight K53 — Learner's Licence Practice",
+          "description": "Free independent South African learner's licence practice for road signs, rules and vehicle controls. Study offline after loading the app.",
+          "url": "https://greenlight-k53-review.vercel.app/",
+          "site_name": "GreenLight K53"
+        },
+        "twitter": {
+          "card": "summary_large_image",
+          "title": "GreenLight K53 — Learner's Licence Practice",
+          "description": "GreenLight K53 — free independent South African learner's licence practice for signs, rules and controls."
+        },
+        "other": {
+          "apple-mobile-web-app-capable": "yes",
+          "mobile-web-app-capable": "yes",
+          "apple-mobile-web-app-status-bar-style": "black-translucent",
+          "apple-mobile-web-app-title": "GreenLight K53"
+        }
+      }
+    }
+  ],
+  "errors": []
+}

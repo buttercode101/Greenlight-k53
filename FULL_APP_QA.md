@@ -44,6 +44,11 @@ Browser scripts use isolated test profiles and known answer data where exact sof
 
 ## Limits and blocked checks
 
-TinyFish was explicitly invoked but did not start: its wallet was negative (approximately −$0.72). No TinyFish results or independent TinyFish pass are claimed. No physical Android/iOS hardware or audible-device speech acceptance was available; screen/device checks are real Chromium interaction at emulated viewport sizes. The speech counter verifies event binding, not audible pronunciation quality.
+TinyFish’s interactive browser agent was explicitly invoked but did not start: its wallet was negative (approximately −$0.72). Its free rendered-content service subsequently confirmed the public Home, Signs and Rules headings, navigation, and first-page counts (1–6 of 39 signs; 1–8 of 44 rules). This is a content spot check, not an interactive TinyFish audit pass. No physical Android/iOS hardware or audible-device speech acceptance was available; screen/device checks are real Chromium interaction at emulated viewport sizes. The speech counter verifies event binding, not audible pronunciation quality.
 
 External reference requests were sampled separately. Government/RTMC references responded successfully; NaTIS returned 403 to automated requests, and its online portal returned a gateway error. These are recorded as blocked/unverified external availability, not proof that those sites fail for every learner. The application does not require those links for its core exercises. Instructor certification, full-syllabus completeness and real learner pass-rate improvement are not established by software QA.
+
+
+## Published release checks
+
+The same 21 complete learner journeys passed against the public production app, including the Share Result download. A separate public run verified 112 view/theme/viewport states, parent navigation, shared readiness changing from 0 to 5 after 12 decisions, and offline Home/Learn/Tests/Practise with preserved progress. Root HTML matched the tested source. These results are recorded in `artifacts/decision-verification/browser-learner-live.json`, `browser-live-ui.json` and `tinyfish-live-content.json`.
