@@ -1,6 +1,6 @@
 /** Canonical K53 state adapter: no second progress store or mistake queue. */
-import { BANK } from "./bank.js";
-import { localToday } from "./engine.js";
+import { BANK } from "./bank.js?v=24";
+import { localToday } from "./engine.js?v=24";
 export const BY_ID = Object.freeze(
   Object.setPrototypeOf(Object.fromEntries(BANK.map((q) => [q.id, q])), null),
 );
@@ -84,6 +84,14 @@ export function record(state, q, answer, eventId, now = Date.now()) {
     q: item.q,
     topic: topicLabel[q.topic],
     code: "2",
+    decisionId: q.id,
+    decisionTopic: q.topic,
+    recent: [
+      ...(Array.isArray(previous?.recent)
+        ? previous.recent.filter((x) => typeof x === "boolean")
+        : []),
+      answer.full,
+    ].slice(-5),
     correct: number(previous?.correct) + (answer.full ? 1 : 0),
     wrong: number(previous?.wrong) + (answer.full ? 0 : 1),
     last: now,
@@ -113,7 +121,7 @@ export function record(state, q, answer, eventId, now = Date.now()) {
         ? 3
         : 0;
   d.xp += gained;
-  const event = { answer: structuredClone(answer), gained };
+  const event = { answer: structuredClone(answer), gained, at: now };
   d.events[eventId] = event;
   const keys = Object.keys(d.events);
   if (keys.length > 2000)

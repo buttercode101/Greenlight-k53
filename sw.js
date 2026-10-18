@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v23-decision';
+const CACHE = 'greenlight-k53-v24-practice';
 const CORE = [
   './',
   './index.html',
@@ -102,14 +102,22 @@ const CORE = [
   './assets/decision/art/S27.svg',
   './assets/decision/art/S28.svg',
   './assets/decision/bank.js',
+  './assets/decision/bank.js?v=24',
   './assets/decision/content-register.json',
   './assets/decision/engine.js',
+  './assets/decision/engine.js?v=24',
   './assets/decision/model.js',
+  './assets/decision/model.js?v=24',
   './assets/decision/practice.css',
+  './assets/decision/practice.css?v=24',
   './assets/decision/practice.js',
+  './assets/decision/practice.js?v=24',
   './assets/decision/session.js',
+  './assets/decision/session.js?v=24',
   './assets/decision/sources.js',
+  './assets/decision/sources.js?v=24',
   './assets/decision/storage.js',
+  './assets/decision/storage.js?v=24',
   './assets/decision/types.js'
 ];
 
@@ -157,3 +165,5 @@ self.addEventListener('fetch', (e) => {
     })
   );
 });
+
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});

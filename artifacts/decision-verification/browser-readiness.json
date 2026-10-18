@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "name": "host entry and single shell",
+      "topbars": 1,
+      "headings": [
+        "Focused practice",
+        "Road decisions and observation"
+      ]
+    },
+    {
+      "name": "missed decision changes main readiness and next-best action",
+      "before": 80,
+      "after": 78
+    },
+    {
+      "name": "correcting shared weakness raises actual main readiness",
+      "before": 78,
+      "after": 80
+    },
+    {
+      "name": "original Signs drill completes all 112 questions with canonical decision scoring",
+      "count": 112
+    },
+    {
+      "name": "existing drill results offer one-tap targeted decision practice"
+    },
+    {
+      "name": "actual mock result offers one-tap practice of its weakest section"
+    },
+    {
+      "name": "no readiness or shared-bank browser errors",
+      "count": 0
+    }
+  ],
+  "errors": []
+}

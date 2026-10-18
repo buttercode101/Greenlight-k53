@@ -1,0 +1,48 @@
+{
+  "checks": [
+    {
+      "name": "one catalogue at #practice"
+    },
+    {
+      "name": "one catalogue at #decision"
+    },
+    {
+      "name": "one catalogue at ?go=practice"
+    },
+    {
+      "name": "one catalogue at ?go=decision"
+    },
+    {
+      "name": "lesson to exercise to Practise session1"
+    },
+    {
+      "name": "lesson to exercise to Practise session2"
+    },
+    {
+      "name": "lesson to exercise to Practise session3"
+    },
+    {
+      "name": "lesson to exercise to Practise practical"
+    },
+    {
+      "name": "direct exercise link opens the actual player"
+    },
+    {
+      "name": "existing cached app sees new Home recovery and pending update"
+    },
+    {
+      "name": "update blocked during active practice; exact old checkpoint preserved"
+    },
+    {
+      "name": "safe update preserves old study progress and unrelated caches"
+    },
+    {
+      "name": "upgraded app opens unified Practise and exact saved attempt offline"
+    },
+    {
+      "name": "no uncaught integration errors",
+      "count": 0
+    }
+  ],
+  "errors": []
+}

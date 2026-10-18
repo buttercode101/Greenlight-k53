@@ -1,6 +1,6 @@
-import { BANK } from "./bank.js";
-import { shuffle } from "./engine.js";
-import { storageProblem } from "./storage.js";
+import { BANK } from "./bank.js?v=24";
+import { shuffle } from "./engine.js?v=24";
+import { storageProblem } from "./storage.js?v=24";
 export const SAVE_KEY = "k53-decision-active-v2";
 export const CONTENT_VERSION = "2026-10-18.1";
 let memory = null;

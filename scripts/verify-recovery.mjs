@@ -24,6 +24,7 @@ function setup(){
  vm.runInContext("const SECTION_ORDER=['rules','signs','controls'];const SECTION_META="+metadata+";",ctx);
  vm.runInContext(between('let mockData=[];','function openMock(){'),ctx);
  vm.runInContext(between('function startMock(','/* ---------- SHARE CARD'),ctx);
+ vm.runInContext(between('function mockDecisionFollowup(','function finishMock('),ctx);
  vm.runInContext(between('function startSim(','window.__views='),ctx);
  ctx.finishMock=()=>{ctx.clearAssessment();};
  return {ctx,app,setTime:t=>time=t,get saved(){return saved;},get attempts(){return attempts;}};

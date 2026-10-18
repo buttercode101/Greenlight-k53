@@ -4,7 +4,8 @@
       "name": "host entry and single shell",
       "topbars": 1,
       "headings": [
-        "Decision practice"
+        "Focused practice",
+        "Road decisions and observation"
       ]
     },
     {
@@ -12,8 +13,8 @@
     },
     {
       "name": "first-answer recovery, exact choices, timer and modal isolation",
-      "id": "S11",
-      "remainingMs": 10488
+      "id": "S14",
+      "remainingMs": 10487
     },
     {
       "name": "leave confirmation freezes time and navigation stops player"

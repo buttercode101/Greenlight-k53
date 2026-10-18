@@ -152,10 +152,10 @@ const broken = {
 assert.equal(progress(broken).xp, 0);
 assert.deepEqual(progress(broken).sessions, []);
 const html = fs.readFileSync("index.html", "utf8");
-assert(html.includes("decision:openDecision"));
+assert(html.includes("decision:openPractice"));
 assert(!html.includes("<iframe"));
 assert(html.includes("r.decisionId"));
-assert(html.includes("import('./assets/decision/practice.js')"));
+assert(html.includes("import('./assets/decision/practice.js?v=24')"));
 console.log(
   "Decision integration: all 82 content hashes/art, shared progress/review, duplicate scoring, daily retry, migration, recovery, timer and exact routes passed.",
 );
@@ -177,3 +177,5 @@ assert.equal(
   }).count,
   0,
 );
+
+assert(html.includes('decisionPracticePanel'));assert(html.includes('practiceResumeSlot'));assert(html.includes('data-practice-mode="observe"'));assert(html.includes('waitingWorker.postMessage'));

@@ -28,7 +28,7 @@ const local = new Set([
   ...[...sw.matchAll(/'\.\/([^']+)'/g)].map(m => m[1]),
   ...manifest.icons.map(i => i.src.replace(/^\.\//, '')),
 ]);
-for (const path of local) assert(existsSync(path), `Missing local asset: ${path}`);
+for (const path of local) if(!path.includes('${')) assert(existsSync(path.split(/[?#]/)[0]), `Missing local asset: ${path}`);
 assert(!html.includes('assets/ctrl/'), 'Cockpit must not rely on missing external art');
 assert(html.includes('RIGHT-HAND-DRIVE LAYOUT') && html.includes('ACCELERATOR'), 'Cockpit illustration absent');
 assert(html.includes('secCount[q.sec.toLowerCase()]++'));
@@ -55,3 +55,7 @@ assert(html.includes('24 months'), 'Learner-licence validity disclosure missing'
 console.log('Syntax, routes, claim boundaries, score keys, accessibility invariants and offline asset references passed.');
 
 await import('./verify-decision.mjs');
+
+await import("./verify-readiness.mjs");
+
+await import("./verify-shared-bank.mjs");

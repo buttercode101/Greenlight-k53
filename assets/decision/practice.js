@@ -1,5 +1,5 @@
-import { BANK, ROUTES } from "./bank.js";
-import { makeRun, runFromSave } from "./engine.js";
+import { BANK, ROUTES } from "./bank.js?v=24";
+import { makeRun, runFromSave, shuffle } from "./engine.js?v=24";
 import {
   newSave,
   nextCard,
@@ -9,9 +9,9 @@ import {
   pauseSave,
   resumeSave,
   validateSave,
-} from "./session.js";
-import { storageWarning } from "./storage.js";
-import { questionSource } from "./sources.js";
+} from "./session.js?v=24";
+import { storageWarning } from "./storage.js?v=24";
+import { questionSource } from "./sources.js?v=24";
 import {
   BY_ID,
   progress,
@@ -19,7 +19,7 @@ import {
   finish,
   weakIds,
   importLegacy,
-} from "./model.js";
+} from "./model.js?v=24";
 const esc = (v) =>
   String(v ?? "").replace(
     /[&<>"']/g,
@@ -54,10 +54,9 @@ function focusHeading() {
     .querySelector("[data-decision-heading]")
     ?.focus({ preventScroll: true });
 }
-function wrap(body, title = "Decision practice") {
+function wrap(body, title = "Practise") {
   root().innerHTML =
-    host.topbar() +
-    host.backbar(title) +
+    host.header(title) +
     `<section class="decision-screen">${storageWarning() ? '<p class="decision-notice" role="status">This browser could not save the practice checkpoint. Keep this tab open to finish.</p>' : ""}${body}</section>`;
   host.bind();
   root()
@@ -119,6 +118,7 @@ function pause() {
 }
 function resume() {
   if (saved) {
+    history.replaceState(null, "", "#practice/resume");
     update(resumeSave(saved));
     render();
   }
@@ -140,7 +140,7 @@ function leaveAction(action) {
   pause();
   modal(
     "Leave this practice?",
-    "Your exact place is saved on this device. You can resume from Decision practice.",
+    "Your exact place is saved on this device. You can resume from Practise or Home.",
     "Leave",
     () => {
       stop();
@@ -184,37 +184,47 @@ export function mount(bridge, args = {}) {
     });
     return;
   }
+  if (args.resume && saved && (!args.mode || args.mode === saved.mode)) {
+    activate(saved);
+    return;
+  }
+  if (args.mode) {
+    start(args);
+    return;
+  }
   home();
 }
 function home(message = "") {
+  stop();
+  host.openPractice(message);
+}
+export function renderPracticePanel(bridge, container, message = "") {
+  if (!container?.isConnected || bridge.state.vehicleCode !== "2") return;
+  host = bridge;
+  completeCallback = null;
   stop();
   saved = readSave();
   const d = progress(host.state),
     weak = weakIds(host.state),
     last = d.sessions.at(-1);
-  wrap(
-    `<div class="block"><p class="kicker">Code 2 · Focused practice</p><h2 data-decision-heading tabindex="-1">Decision practice</h2><p class="lead">Read the road, choose a safe action and rehearse selected observation steps. These 82 cards are an independent study aid, not official DLTC questions.</p>${message ? `<p role="status" class="decision-notice">${esc(message)}</p>` : ""}${saved ? `<div class="mini"><b>Continue ${esc(saved.title)}</b><p>Question ${saved.index + 1} of ${saved.ids.length} · exact choices and timer saved.</p>${button("decisionResume", "Resume practice")}${button("decisionDiscard", "Discard saved practice", "btn-ghost")}</div>` : ""}<div class="decision-toolbar"><span>${d.xp} practice XP · activity, not test readiness</span>${button("decisionTimed", d.timed ? "Timed mode: on" : "Timed mode: off", "btn-soft")}</div><div class="decision-grid">${[
-      ["signs", "Sign snap", "12 sign decisions"],
-      ["rules", "Right of way", "10 road decisions"],
-      ["observe", "Observation", "8 sequences"],
-      ["controls", "Controls", "8 light-vehicle checks"],
-      ["mixed", "Mixed drill", "12 mixed decisions"],
-      ["daily", "Today's drive", "8 decisions · 75% earns a daily bonus"],
-      ["paper", "Short study check", "20 questions · internal section targets"],
-      [
-        "weak",
-        "Weak areas",
-        `${weak.length} due decisions from your shared review queue`,
-      ],
-    ]
-      .map(
-        ([mode, name, copy]) =>
-          `<button class="btn btn-soft" data-decision-mode="${mode}" ${mode === "weak" && !weak.length ? "disabled" : ""}>${name}<span class="sub">${copy}</span></button>`,
-      )
-      .join(
-        "",
-      )}</div><h3>Scenario routes</h3><p>Selected road decisions, not a driving-test simulation.</p>${ROUTES.map((r) => `<button class="btn btn-ghost" data-decision-route="${r.id}">${esc(r.name)}<span class="sub">${esc(r.blurb)} · ${r.ids.length} decisions</span></button>`).join("")}${last ? `<p class="reference-note">Last practice: ${esc(last.title)} · ${last.correct}/${last.total} full marks.</p>` : ""}<button class="btn btn-ghost" data-go="review">Open shared review</button><details class="decision-source"><summary>Content scope and sources</summary><p>28 signs, 34 road rules, 10 observation and 10 controls cards. Source locators are shown with each question. Independent instructor review is pending. Use the official manuals for complete preparation.</p><a href="assets/decision/content-register.json" target="_blank" rel="noopener">View item-level content register</a></details>${legacyAvailable() ? button("decisionImport", "Import previous Drive mistakes", "btn-ghost") : ""}</div>`,
-  );
+  container.innerHTML = `<div class="block"><p class="kicker">Apply what you learned · Code 2</p><h2 id="roadPracticeTitle">Road decisions and observation</h2><p class="lead">Read the road, choose a safe action and rehearse selected observation steps. These 82 cards are an independent study aid, not official DLTC questions.</p>${message ? `<p role="status" class="decision-notice">${esc(message)}</p>` : ""}${saved ? `<div class="mini"><b>Continue ${esc(saved.title)}</b><p>Question ${saved.index + 1} of ${saved.ids.length} · exact choices and timer saved.</p>${button("decisionResume", "Resume practice")}${button("decisionDiscard", "Discard saved practice", "btn-ghost")}</div>` : ""}<div class="decision-toolbar"><span>Choose an untimed exercise or turn the question timer on</span>${button("decisionTimed", d.timed ? "Timed mode: on" : "Timed mode: off", "btn-soft")}</div><div class="decision-grid">${[
+    ["signs", "Sign snap", "12 sign decisions"],
+    ["rules", "Right of way", "10 road decisions"],
+    ["observe", "Observation", "8 sequences"],
+    ["controls", "Controls", "8 light-vehicle checks"],
+    ["mixed", "Mixed drill", "12 mixed decisions"],
+    ["daily", "Today's drive", "8 decisions · a fresh set each day"],
+    ["paper", "Short study check", "20 questions · internal section targets"],
+    ["weak", "Weak areas", `${weak.length} road decisions due for review`],
+  ]
+    .map(
+      ([mode, name, copy]) =>
+        `<button class="btn btn-soft" data-decision-mode="${mode}" ${mode === "weak" && !weak.length ? "disabled" : ""}>${name}<span class="sub">${copy}</span></button>`,
+    )
+    .join(
+      "",
+    )}</div><h3>Scenario routes</h3><p>Selected road decisions, not a driving-test simulation.</p>${ROUTES.map((r) => `<button class="btn btn-ghost" data-decision-route="${r.id}">${esc(r.name)}<span class="sub">${esc(r.blurb)} · ${r.ids.length} decisions</span></button>`).join("")}${last ? `<p class="reference-note">Last practice: ${esc(last.title)} · ${last.correct}/${last.total} full marks.</p>` : ""}<button class="btn btn-ghost" data-go="review">Review mistakes</button><details class="decision-source"><summary>Content scope and sources</summary><p>28 signs, 34 road rules, 10 observation and 10 controls cards. Source locators are shown with each question. Independent instructor review is pending. Use the official manuals for complete preparation.</p><a href="assets/decision/content-register.json" target="_blank" rel="noopener">View item-level content register</a></details>${legacyAvailable() ? button("decisionImport", "Restore earlier practice history", "btn-ghost") : ""}</div>`;
+  host.bind(container);
   bind("decisionResume", () => activate(saved));
   bind("decisionDiscard", () =>
     modal(
@@ -224,7 +234,7 @@ function home(message = "") {
       () => {
         clearSave();
         saved = null;
-        home();
+        host.openPractice();
       },
       "Keep",
       () => {},
@@ -256,7 +266,7 @@ function home(message = "") {
       commitSave();
       home(
         result.imported
-          ? `${result.count} previous mistakes imported into your shared review. Old XP is retained as legacy activity only.`
+          ? `${result.count} earlier mistakes restored to Review. Your current study history is preserved.`
           : "No valid previous progress was found.",
       );
     } catch {
@@ -265,7 +275,18 @@ function home(message = "") {
       );
     }
   });
-  focusHeading();
+}
+export function renderResumeNotice(bridge, container) {
+  if (!container?.isConnected || bridge.state.vehicleCode !== "2") return;
+  const checkpoint = readSave();
+  if (!checkpoint) {
+    container.replaceChildren();
+    return;
+  }
+  container.innerHTML = `<section class="block"><p class="kicker">Continue practising</p><h2>Resume ${esc(checkpoint.title)}</h2><p>Question ${checkpoint.index + 1} of ${checkpoint.ids.length}. Your exact choices and place are saved.</p><button class="btn btn-primary" id="resumeRoadPractice">Resume practice</button><button class="btn btn-ghost" data-go="practice">View practice options</button></section>`;
+  bridge.bind(container);
+  container.querySelector("#resumeRoadPractice").onclick = () =>
+    bridge.openDecision({ resume: true });
 }
 function legacyAvailable() {
   try {
@@ -325,6 +346,7 @@ function activate(value) {
   }
   run = runFromSave(saved);
   active = true;
+  history.replaceState(null, "", "#practice/resume");
   if (timer) clearInterval(timer);
   timer = setInterval(tick, 200);
   render();
@@ -472,6 +494,7 @@ function next() {
   render();
 }
 function results() {
+  history.replaceState(null, "", "#practice");
   const s = saved,
     result = finish(host.state, s);
   commitSave();
@@ -485,7 +508,7 @@ function results() {
     return;
   }
   wrap(
-    `<div class="block"><p class="kicker">Practice complete</p><h2 data-decision-heading tabindex="-1">${result.correct}/${result.total} full marks</h2><p class="lead">${Math.round((result.correct / result.total) * 100)}% practice accuracy · ${result.xp + result.bonus} XP earned${result.bonus ? " including the daily bonus" : ""}.</p>${s.sections ? s.sections.map((sec) => `<div class="decision-section-score"><span>${esc(sec.title)}</span><span>${s.answers.slice(sec.from, sec.to).filter((a) => a.full).length}/${sec.to - sec.from} · target ${sec.need}</span></div>`).join("") : ""}<p>Activity and selected-topic practice, not a prediction of passing. Missed decisions are in your existing review queue.</p>${button("decisionRetry", "Retry same set")}${button("decisionHome", "More decision practice", "btn-soft")}<button class="btn btn-ghost" data-go="review">Review mistakes</button><button class="btn btn-ghost" data-go="practice">Section drills</button></div>`,
+    `<div class="block"><p class="kicker">Practice complete</p><h2 data-decision-heading tabindex="-1">${result.correct}/${result.total} full marks</h2><p class="lead">${Math.round((result.correct / result.total) * 100)}% practice accuracy${result.bonus ? " · Daily goal complete" : ""}.</p>${s.sections ? s.sections.map((sec) => `<div class="decision-section-score"><span>${esc(sec.title)}</span><span>${s.answers.slice(sec.from, sec.to).filter((a) => a.full).length}/${sec.to - sec.from} · target ${sec.need}</span></div>`).join("") : ""}<p>Activity and selected-topic practice, not a prediction of passing. Missed questions are saved in Review.</p>${button("decisionRetry", "Retry same set")}${button("decisionHome", "Back to Practise", "btn-soft")}<button class="btn btn-ghost" data-go="review">Review mistakes</button></div>`,
   );
   bind("decisionHome", () => home());
   bind("decisionRetry", () => {
@@ -504,4 +527,49 @@ if (typeof window !== "undefined") {
       pause();
     } else if (live() && saved.paused && !dialog) showPause();
   });
+}
+
+/** The same source-linked cards also feed the existing drills, atlas and mock pools. */
+export function getPracticeQuestions(topic, code = "2") {
+  if (code !== "2") return [];
+  return BANK.filter(
+    (q) =>
+      q.options.length >= 2 &&
+      !q.order &&
+      (topic === "mixed" || q.topic === topic),
+  ).map((q) => {
+    const order = shuffle(q.options.map((_, i) => i));
+    const path = q.sign || q.scene ? `assets/decision/art/${q.id}.svg` : "";
+    return {
+      q: q.situation + " — " + q.ask,
+      opts: order.map((i) => q.options[i]),
+      ans: order.indexOf(q.correct),
+      ex: q.why,
+      svg: path
+        ? `<img class="decision-art${q.sign ? " sign" : ""}" src="${path}" alt="${esc(q.situation)}">`
+        : "",
+      decisionId: q.id,
+      decisionEventId: crypto.randomUUID(),
+      source: questionSource(q),
+    };
+  });
+}
+export function recordChoiceAttempt(state, question, full) {
+  const q = BY_ID[question.decisionId];
+  if (!q || q.order) return;
+  record(
+    state,
+    q,
+    {
+      id: q.id,
+      full,
+      partial: false,
+      helped: false,
+      choiceOk: full,
+      orderOk: null,
+      timedOut: false,
+      choice: full ? q.correct : null,
+    },
+    question.decisionEventId || crypto.randomUUID(),
+  );
 }

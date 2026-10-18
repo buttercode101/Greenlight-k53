@@ -79,7 +79,7 @@ const server = http.createServer((req, res) => {
       sessionStorage.clear();
     });
     await p.reload({ waitUntil: "domcontentloaded" });
-    await p.locator('[data-go="decision"]').first().click();
+    await p.locator('[data-go="practice"]').first().click();
     await p.locator("#decisionTimed").waitFor();
   }
   async function seed(ids) {
@@ -95,7 +95,7 @@ const server = http.createServer((req, res) => {
       window.__K53.save();
     }, ids);
     await p.reload({ waitUntil: "domcontentloaded" });
-    await p.locator('[data-go="decision"]').first().click();
+    await p.locator("#decisionTimed").waitFor();
   }
   async function pickCorrect() {
     const id = await p
@@ -117,8 +117,7 @@ const server = http.createServer((req, res) => {
     JSON.parse(sessionStorage.getItem("k53-decision-active-v2")),
   );
   await p.reload({ waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
-  await p.locator("#decisionResume").click();
+  await p.locator("[data-question-id]").waitFor();
   const recovered = await p.evaluate(() =>
     JSON.parse(sessionStorage.getItem("k53-decision-active-v2")),
   );
@@ -145,7 +144,7 @@ const server = http.createServer((req, res) => {
     id: initial.ids[0],
     remainingMs: recovered.remainingMs,
   });
-  await p.locator('[data-go="home"]').first().click();
+  await p.locator('.practice-back [data-go="practice"]').click();
   const savedWhileLeaving = await p.evaluate(() =>
     JSON.parse(sessionStorage.getItem("k53-decision-active-v2")),
   );
@@ -162,7 +161,7 @@ const server = http.createServer((req, res) => {
     JSON.parse(sessionStorage.getItem("k53-decision-active-v2")),
   );
   assert.equal(resumed.remainingMs, savedWhileLeaving.remainingMs);
-  await p.locator('[data-go="home"]').first().click();
+  await p.locator('.practice-back [data-go="practice"]').click();
   await p.locator("#decisionConfirm").click();
   assert.equal(await p.locator("[data-question-id]").count(), 0);
   rec("leave confirmation freezes time and navigation stops player");
@@ -179,8 +178,7 @@ const server = http.createServer((req, res) => {
     JSON.parse(sessionStorage.getItem("k53-decision-active-v2")),
   );
   await p.reload({ waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
-  await p.locator("#decisionResume").click();
+  await p.locator("[data-question-id]").waitFor();
   await p.locator("#decisionConfirm").click();
   const after = await p.evaluate(() =>
     JSON.parse(sessionStorage.getItem("k53-decision-active-v2")),
@@ -202,8 +200,7 @@ const server = http.createServer((req, res) => {
     structuredClone(window.__K53.state.attempts),
   );
   await p.reload({ waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
-  await p.locator("#decisionResume").click();
+  await p.locator("[data-question-id]").waitFor();
   assert.deepEqual(await p.evaluate(() => window.__K53.state.attempts), stats);
   rec("hint feedback and reveal reload do not duplicate scoring");
   await fresh();
@@ -258,7 +255,8 @@ const server = http.createServer((req, res) => {
   });
   await p.locator('[data-go="decision"]').first().click();
   assert.equal(await p.locator("[data-decision-mode]").count(), 0);
-  assert.match(await p.locator("#app").innerText(), /Code 1 study material/);
+  await p.locator("#drillSigns").waitFor();
+  assert.match(await p.locator("#app").innerText(), /Focused practice/);
   rec("vehicle-code scope protects motorcycle users");
   await fresh();
   await p.evaluate(() => {
@@ -273,7 +271,7 @@ const server = http.createServer((req, res) => {
     window.__K53.save();
   });
   await p.reload({ waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
+  await p.locator("#decisionTimed").waitFor();
   await p.locator("#decisionImport").click();
   assert.equal(await p.locator("#decisionImport").count(), 0);
   const migrated = await p.evaluate(() => ({
@@ -294,7 +292,7 @@ const server = http.createServer((req, res) => {
     window.__K53.save();
   });
   await p.reload({ waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
+  await p.locator("#decisionTimed").waitFor();
   await p.locator('[data-decision-mode="signs"]').click();
   const timedId = await p
     .locator("[data-question-id]")

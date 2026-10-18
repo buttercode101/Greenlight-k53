@@ -145,7 +145,7 @@ const server = http.createServer((req, res) => {
     K.save();
   });
   await p.reload({ waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
+  await p.locator("#decisionTimed").waitFor();
   await p.locator('[data-decision-mode="weak"]').click();
   const all = await solve();
   assert.equal(all.count, 82);
@@ -185,10 +185,10 @@ const server = http.createServer((req, res) => {
     await navigator.serviceWorker.ready;
   });
   await p.reload({ waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
+  await p.locator("#decisionTimed").waitFor();
   await ctx.setOffline(true);
   await p.reload({ waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
+  await p.locator("#decisionTimed").waitFor();
   await p.locator('[data-decision-mode="mixed"]').click();
   const offline = await solve();
   assert.equal(offline.count, 12);
@@ -235,16 +235,22 @@ const server = http.createServer((req, res) => {
         );
         await p.reload({ waitUntil: "domcontentloaded" });
         await p.locator("#resumeAssessment").click();
+        const normalize = (c) => ({
+          ...c,
+          questions: c.questions.map((q) => ({
+            ...q,
+            svg:
+              (q.svg || "").match(
+                /assets\/(?:decision\/art|signs)\/[A-Za-z0-9-]+\.svg/,
+              )?.[0] || "",
+            ex: q.ex || "",
+          })),
+        });
         assert.deepEqual(
-          await p.evaluate(() => window.__K53.state.activeAssessment),
-          {
-            ...snapshot,
-            questions: snapshot.questions.map((q) => ({
-              ...q,
-              svg: q.svg || "",
-              ex: q.ex || "",
-            })),
-          },
+          normalize(
+            await p.evaluate(() => window.__K53.state.activeAssessment),
+          ),
+          normalize(snapshot),
         );
         assert.equal(await p.locator(".opt:enabled").count(), 0);
       }
