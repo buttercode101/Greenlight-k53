@@ -1,0 +1,49 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import {getPracticeQuestions} from '../assets/decision/practice.js';
+import {record} from '../assets/decision/model.js';
+import {BANK} from '../assets/decision/bank.js';
+const html=fs.readFileSync('index.html','utf8');
+let now=1800000000000;
+const window={},ctx=vm.createContext({window,console,Math,Date:class extends Date{static now(){return now;}},localStorage:{getItem:()=>null,setItem(){}},syncPracticeProgress(){}});
+vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1],ctx);
+const K=window.__K53;ctx.K=K;ctx.topicFor=()=> 'Rules of the road';ctx.SITUATIONS=[];
+function load(a,b){const start=html.indexOf(a);assert(start>=0);const end=html.indexOf(b,start);assert(end>start);vm.runInContext(html.slice(start,end),ctx);}
+load('function reviewKey(','const TOPIC_PATTERNS');
+load('function buildDrill(','function drill(');
+load('function recordAttempt(','function bookmarkButton(');
+load('const PORTABLE_FIELDS=','function downloadData(');
+load('function learningEvidence(){','function openDiagnostic(){');
+const empty=ctx.learningEvidence();assert.equal(empty.assessed,false);
+K.decisionQuestions=topic=>getPracticeQuestions(topic,K.state.vehicleCode);
+assert.equal(ctx.learningEvidence().total,empty.total,'Coverage denominator must not depend on lazy module loading');
+for(const code of ['1','2','3']){
+ K.state.vehicleCode=code;
+ for(const topic of ['signs','rules','controls']){assert.equal(ctx.buildDrill(topic,10).length,10);assert.equal(ctx.buildDrill(topic,20).length,20);assert(ctx.buildDrill(topic,'all').length>=20);}
+}
+K.state.vehicleCode='2';
+const q=ctx.buildDrill('rules',1)[0];assert(!q.decisionId);
+ctx.recordAttempt(q,true);const key=ctx.reviewKey(q);
+assert.equal(K.state.attempts[key].firstOk,true);assert.equal(ctx.learningEvidence().firstAccuracy,100);
+now+=1000;ctx.recordAttempt(q,true);assert.equal(ctx.learningEvidence().retained,0,'Immediate repetition must not count as retention');
+now+=86400001;ctx.recordAttempt(q,true);assert.equal(ctx.learningEvidence().retained,1);
+ctx.recordAttempt(q,false);assert.equal(ctx.learningEvidence().retained,0);assert.equal(K.state.attempts[key].firstOk,true,'First answer must not be rewritten');
+const fresh={q:'Unseen item',opts:['a','b'],ans:0},old={q:'Old item',opts:['a','b'],ans:0};
+K.state.attempts[ctx.reviewKey(old)]={q:old.q,correct:10,wrong:0,last:now,lastOk:true};
+assert.equal(ctx.selectPractice([old,fresh,fresh],1)[0].q,fresh.q);
+assert.equal(ctx.selectPractice([fresh,fresh],10).length,1,'Question selection must deduplicate');
+const legacy={q:'Legacy item',opts:['a','b'],ans:0};K.state.attempts[ctx.reviewKey(legacy)]={q:legacy.q,correct:8,wrong:1};ctx.recordAttempt(legacy,true);assert.equal(K.state.attempts[ctx.reviewKey(legacy)].firstOk,undefined,'Do not invent historical first answers');
+const d=BANK.find(q=>q.id==='S01');const answer={id:d.id,full:true,partial:false,helped:false,choiceOk:true,orderOk:null,timedOut:false,choice:d.correct};
+record(K.state,d,answer,'evidence-1',now);assert.equal(K.state.attempts['decision:S01'].firstOk,true);
+record(K.state,d,answer,'evidence-2',now+86400001);assert(K.state.attempts['decision:S01'].retainedAt,'Drive shares spaced evidence');
+const backup=()=>JSON.stringify({product:'GreenLight K53',schema:1,progress:ctx.portableSnapshot()});
+assert.equal(ctx.validateBackup(backup()).vehicleCode,'2');
+assert.throws(()=>ctx.validateBackup('{broken'));
+assert.throws(()=>ctx.validateBackup('{"product":"GreenLight K53","schema":1,"progress":{"vehicleCode":"2","__proto__":{}}}'),/Unsafe/);
+assert.throws(()=>ctx.validateBackup(JSON.stringify({product:'GreenLight K53',schema:1,progress:{vehicleCode:'2',mastery:{1:'<img src=x>'}}})),/accuracy/);
+assert.throws(()=>ctx.validateBackup(JSON.stringify({product:'GreenLight K53',schema:1,progress:{vehicleCode:'2',codeProgress:{1:{controlsMastery:'bad'}}}})),/vehicle/);
+assert.throws(()=>ctx.validateBackup('x'.repeat(2500001)),/2.5 MB/);
+const bad=JSON.parse(backup());bad.progress.activeAssessment={questions:['untrusted']};assert.equal(ctx.validateBackup(JSON.stringify(bad)).activeAssessment,undefined);
+assert(html.includes('keys=keys.slice(0,10)'),'All review entry points must bound rounds');
+console.log('Product evidence: all-code practice lengths, stable coverage, novel selection, deduplication, first answers, spaced retention, legacy boundaries, shared Drive evidence and hostile backup rejection passed.');

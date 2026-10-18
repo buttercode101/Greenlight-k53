@@ -18,6 +18,7 @@ jobs:
       - run: node scripts/verify-recovery.mjs
       - run: node scripts/build-content-register.mjs --check
       - run: node scripts/verify-review.mjs
+      - run: node scripts/verify-product-evidence.mjs
   signs:
     runs-on: ubuntu-latest
     steps:

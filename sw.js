@@ -1,10 +1,14 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v31-polish';
+const CACHE = 'greenlight-k53-v32-evidence';
 const CORE = [
   './',
   './index.html',
-  './assets/product.css?v=31',
+  './assets/product.css?v=32',
   './study-guide.html',
+  './privacy.html',
+  './corrections.html',
+  './icon-192.png',
+  './icon-512.png',
   './assets/print.js',
   './content-register.json',
   './robots.txt',
@@ -104,22 +108,22 @@ const CORE = [
   './assets/decision/art/S27.svg',
   './assets/decision/art/S28.svg',
   './assets/decision/bank.js',
-  './assets/decision/bank.js?v=31',
+  './assets/decision/bank.js?v=32',
   './assets/decision/content-register.json',
   './assets/decision/engine.js',
-  './assets/decision/engine.js?v=31',
+  './assets/decision/engine.js?v=32',
   './assets/decision/model.js',
-  './assets/decision/model.js?v=31',
+  './assets/decision/model.js?v=32',
   './assets/decision/practice.css',
-  './assets/decision/practice.css?v=31',
+  './assets/decision/practice.css?v=32',
   './assets/decision/practice.js',
-  './assets/decision/practice.js?v=31',
+  './assets/decision/practice.js?v=32',
   './assets/decision/session.js',
-  './assets/decision/session.js?v=31',
+  './assets/decision/session.js?v=32',
   './assets/decision/sources.js',
-  './assets/decision/sources.js?v=31',
+  './assets/decision/sources.js?v=32',
   './assets/decision/storage.js',
-  './assets/decision/storage.js?v=31',
+  './assets/decision/storage.js?v=32',
   './assets/decision/types.js'
 ];
 

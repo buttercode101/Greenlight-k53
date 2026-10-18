@@ -19,6 +19,7 @@ function setup(){
  const window={addEventListener(){},confirm:()=>true,scrollTo(){}};
  const ctx=vm.createContext({window,console,Math,Date:class extends Date{static now(){return time;}},localStorage:{getItem:()=>null,setItem(){}},app,ce:()=>new Element(),$:s=>app.querySelector(s),document:{querySelector:s=>app.querySelector(s),getElementById:()=>null},setInterval:()=>1,clearInterval(){},safeHTML:s=>String(s),backbar:()=>'',bookmarkButton:()=>'',evidence:()=>'',bindBookmark(){},bindGo(){},focusPracticeContent(){},renderAnswerTools(){},recordAttempt(){attempts++;},addReview(){},confetti(){},setVehicleCode(c){ctx.K.state.vehicleCode=c;},renderHome(){},openReview(){}});
  vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1],ctx);
+ vm.runInContext(between('let practiceStartedAt=', '/* Portable progress'),ctx);
  ctx.K=window.__K53;ctx.K.save=()=>{saved=JSON.parse(JSON.stringify(ctx.K.state));return true;};
  const metadata=html.match(/const SECTION_META=(\{[\s\S]*?\n\});/)[1];
  vm.runInContext("const SECTION_ORDER=['rules','signs','controls'];const SECTION_META="+metadata+";",ctx);
