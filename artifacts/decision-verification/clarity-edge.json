@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "name": "host entry and single shell",
+      "topbars": 1,
+      "headings": [
+        "Drive",
+        "More ways to practise"
+      ]
+    },
+    {
+      "name": "successful saves never show a storage warning"
+    },
+    {
+      "name": "first-answer recovery, exact choices, timer and modal isolation",
+      "id": "S02",
+      "remainingMs": 10490
+    },
+    {
+      "name": "leave confirmation freezes time and navigation stops player"
+    },
+    {
+      "name": "partial observation checkpoint survives reload",
+      "picked": [
+        "Rear-view mirror"
+      ]
+    },
+    {
+      "name": "hint feedback and reveal reload do not duplicate scoring"
+    },
+    {
+      "name": "partial observation earns partial credit and stays due"
+    },
+    {
+      "name": "denied storage keeps answering and canonical in-memory progress"
+    },
+    {
+      "name": "shared review retries the full observation task and schedules next review"
+    },
+    {
+      "name": "vehicle-code scope protects motorcycle users"
+    },
+    {
+      "name": "idempotent same-origin import preserves existing study history"
+    },
+    {
+      "name": "timed-out answer records once and gives no XP"
+    },
+    {
+      "name": "uncaught regression page errors",
+      "count": 0
+    }
+  ],
+  "errors": []
+}
