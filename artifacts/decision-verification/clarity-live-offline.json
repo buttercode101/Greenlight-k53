@@ -1,0 +1,12 @@
+{
+  "commit": "a92983c39bdb54b3543bdd88c5e38716bb16c59d",
+  "url": "https://greenlight-k53-review.vercel.app/",
+  "cache": "greenlight-k53-v30-clarity",
+  "offlineSignsAndPaging": true,
+  "offlineQuestion": true,
+  "offlineDrive": true,
+  "dailyProgress": "0 \u2192 1 \u2192 2",
+  "exactRevealedReload": true,
+  "stickyHeader": true,
+  "errors": []
+}

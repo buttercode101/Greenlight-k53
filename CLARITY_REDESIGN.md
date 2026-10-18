@@ -32,3 +32,7 @@ The daily activity and readiness distinction is deliberate. It fixes a lesson-on
 Responsive and touch behaviour is tested in Chromium. Physical Android/iOS hardware, Safari and assistive-technology devices are not certified by these checks. Independent K53 subject review is still pending. This redesign does not turn selected practice material into the official question bank or a complete syllabus.
 
 The release reconciles the overlapping navigation changes in `05410b4` and `99a529e`. Their Test Day route handling is retained; their inline visual overrides are superseded by the shared, verified design system.
+
+## Published verification
+
+Source release `a92983c` is deployed READY on https://greenlight-k53-review.vercel.app/. The public app passed all seven design checks, all thirteen added learner/recovery checks (with 48 populated layouts) and the complete 21-check learner suite. All fifteen runtime files matched their tested SHA-256 hashes. Offline checks completed sign paging, a lesson answer, a Drive answer and an exact revealed-card reload with the daily activity count preserved. GitHub [CI run 39109827486](https://github.com/buttercode101/Greenlight-k53/actions/runs/39109827486) succeeded. Public evidence is saved as `clarity-live-*.json` and `clarity-release.json`. The following evidence-only commit changes reports and evidence, not application source.

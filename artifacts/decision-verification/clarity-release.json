@@ -1,0 +1,12 @@
+{
+  "sourceCommit": "a92983c39bdb54b3543bdd88c5e38716bb16c59d",
+  "deployment": "dpl_5ukrP84vhRWPaVsc48dGPZ1Po8Gm",
+  "state": "READY",
+  "alias": "https://greenlight-k53-review.vercel.app/",
+  "ciRun": "https://github.com/buttercode101/Greenlight-k53/actions/runs/39109827486",
+  "ciConclusion": "success",
+  "publicBrowserChecks": 41,
+  "populatedLayouts": 48,
+  "matchingRuntimeFiles": 15,
+  "offlineSignsQuestionsDriveAndProgress": true
+}
