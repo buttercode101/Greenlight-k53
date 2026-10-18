@@ -91,7 +91,7 @@ const server = http.createServer((req, res) => {
   });
   const initial = await p.evaluate(() => readiness().score);
   assert.equal(initial, 80);
-  assert.match(await p.locator("#app").innerText(), /80% practice readiness/);
+  assert.equal(await p.locator('[aria-label="Readiness score"]').getAttribute("aria-valuenow"), "80");
   await p.locator('[data-go="learn"]').first().click();
   await p.locator('[data-go="signlibrary"]').click();
   await p.locator("#signCategory").selectOption("concepts");
@@ -112,7 +112,7 @@ const server = http.createServer((req, res) => {
     before: initial,
     after: afterMiss,
   });
-  await p.locator('.product-nav [data-go="review"]').click();
+  await p.locator('.path-card[data-go="review"]').click();
   await p.locator("#reviewStart").click();
   assert.equal(
     await p.locator("[data-question-id]").getAttribute("data-question-id"),
@@ -125,10 +125,7 @@ const server = http.createServer((req, res) => {
   assert.equal(improved.decision.unresolved, 0);
   assert(improved.score > afterMiss);
   assert.equal(improved.decision.topics.signs.seen, 1);
-  assert.match(
-    await p.locator("#app").innerText(),
-    new RegExp(improved.score + "% practice readiness"),
-  );
+  assert.equal(Number(await p.locator('[aria-label="Readiness score"]').getAttribute('aria-valuenow')), improved.score);
   rec("correcting shared weakness raises actual main readiness", {
     before: afterMiss,
     after: improved.score,

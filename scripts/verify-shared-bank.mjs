@@ -13,6 +13,7 @@ const ctx = vm.createContext({
   Math,
   Date,
   crypto,
+  syncPracticeProgress(){},
   localStorage: { getItem: () => null, setItem() {} },
 });
 vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1], ctx);

@@ -175,7 +175,7 @@ const server = http.createServer((req, res) => {
   await q.locator("#resumeRoadPractice").click();
   await q.locator("#decisionConfirm").click();
   await q.waitForTimeout(1200);
-  assert.equal(await q.locator("#swReload").isDisabled(), true);
+  assert.equal(await q.locator("#swReload").isVisible(), false);
   const after = await q.evaluate(() =>
     JSON.parse(sessionStorage.getItem("k53-decision-active-v2")),
   );
@@ -183,11 +183,11 @@ const server = http.createServer((req, res) => {
   assert.deepEqual(after.options, checkpoint.options);
   assert.deepEqual(after.answers, checkpoint.answers);
   assert.equal(after.index, checkpoint.index);
-  rec("update blocked during active practice; exact old checkpoint preserved");
+  rec("update hidden during active practice; exact old checkpoint preserved");
   await q.locator('.practice-back [data-go="practice"]').click();
   await q.locator("#decisionConfirm").click();
   await q.locator("#decisionTimed").waitFor();
-  await q.waitForFunction(() => !document.getElementById("swReload").disabled);
+  await q.waitForFunction(() => {const b=document.getElementById("swReload");return b&&!b.disabled&&!b.closest("[hidden]");});
   await Promise.all([
     q.waitForEvent("domcontentloaded"),
     q.locator("#swReload").click(),
@@ -203,7 +203,7 @@ const server = http.createServer((req, res) => {
   assert.deepEqual(state.saved.answers, checkpoint.answers);
   const keys = await q.evaluate(() => caches.keys());
   assert(keys.includes("unrelated-cache"));
-  assert(keys.includes("greenlight-k53-v29-navigation"));
+  assert(keys.includes("greenlight-k53-v30-clarity"));
   assert(!keys.includes("greenlight-k53-v23-decision"));
   rec("safe update preserves old study progress and unrelated caches");
   await legacy.setOffline(true);

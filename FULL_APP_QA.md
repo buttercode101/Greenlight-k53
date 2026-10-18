@@ -56,3 +56,7 @@ The same 21 complete learner journeys passed against the public production app, 
 ### 18 October 2026 — fresh hands-on rerun without TinyFish
 
 See [RERUN_AUDIT.md](RERUN_AUDIT.md) for fresh browser journeys, populated responsive screens, reproduced defects and verification limits. This rerun fixes stale route refreshes, unguarded short-set deep links, lost question/feedback focus, inconsistent Review/situation exit protection, test-menu resume visibility and ambiguous repeated sign mistakes. The release updates the offline graph to v29. Previous TinyFish results above are historical and were not reused as evidence for this rerun.
+
+### 18 October 2026 — clarity redesign
+
+The current interface direction and validation are recorded in [CLARITY_REDESIGN.md](CLARITY_REDESIGN.md). It supersedes older navigation/layout descriptions: Home, Learn, Practise, Mock and Test Day now form the permanent navigation. Daily effort and readiness are separate, Road Signs has progressive six-sign steps, and updates stay inline and hidden during exercises. Fresh evidence uses the `clarity-` prefix.
