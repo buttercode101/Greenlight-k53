@@ -105,6 +105,7 @@ const server = http.createServer((req, res) => {
     if (page !== "practical") await p.locator('[data-go="learn"]').first().click();
     if (page === "practical") {
       await p.locator('[data-go="journey"]').first().click();
+      await p.locator(".plan-route").last().locator("summary").first().click();
     }
     await p.locator(`[data-go="${page}"]`).first().click();
     await p.locator(`[data-practice-mode="${mode}"]`).click();
@@ -202,7 +203,7 @@ const server = http.createServer((req, res) => {
   assert.deepEqual(state.saved.answers, checkpoint.answers);
   const keys = await q.evaluate(() => caches.keys());
   assert(keys.includes("unrelated-cache"));
-  assert(keys.includes("greenlight-k53-v27-navigation"));
+  assert(keys.includes("greenlight-k53-v28-readers"));
   assert(!keys.includes("greenlight-k53-v23-decision"));
   rec("safe update preserves old study progress and unrelated caches");
   await legacy.setOffline(true);

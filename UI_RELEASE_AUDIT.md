@@ -17,7 +17,7 @@
 
 `vercel.json` enforces a hash-based script Content Security Policy, disallows inline event handlers, framing, plugins and form submissions, and adds nosniff, referrer and permission headers. Fonts are restricted to the existing Google Fonts hosts. Static print functionality uses event listeners. Script hashes are checked in CI; after intentional inline script changes run `node scripts/security-headers.mjs` and commit the generated configuration.
 
-The root worker cache is `greenlight-k53-v27-navigation`. Changed module/style entry points are versioned to bypass older cache-first asset responses. The worker and document use revalidation headers. Updating an existing installation preserves study history, its exact unfinished checkpoint and unrelated caches; an exercise must be finished or left before the user applies an update.
+The root worker cache is `greenlight-k53-v28-readers`. Changed module/style entry points are versioned to bypass older cache-first asset responses. The worker and document use revalidation headers. Updating an existing installation preserves study history, its exact unfinished checkpoint and unrelated caches; an exercise must be finished or left before the user applies an update.
 
 ## Verification boundary
 
@@ -26,3 +26,6 @@ The optional Playwright product gate applies the actual security policy locally 
 The existing browser suites separately verify all 82 decision cards, seven presets, five routes, 53 illustrations, shared review/readiness, three full code-specific simulations, denied storage, timers, exact recovery and a real older-worker upgrade followed by offline resume. Browser checks use test profiles and known answers. They are software verification, not evidence of learner pass-rate improvement or instructor certification. No physical-device or vulnerability-free guarantee is made.
 
 Reproduce from the repository root with the existing `scripts/verify*.mjs` checks and the optional browser gates documented in `DECISION_PRACTICE.md`. `node scripts/verify-product-browser.cjs` starts its policy-enforcing server on port 8088; set `CHROMIUM_PATH` and optionally `K53_EVIDENCE_DIR` when needed. Screenshots are development artifacts and are not bundled into the application.
+
+
+The subsequent full-product reader, feedback and speech audit is recorded in `FULL_APP_QA.md`, including measured scroll reductions, expanded complete learner journeys, shared right-of-way review and the blocked TinyFish run.

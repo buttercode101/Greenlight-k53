@@ -13,8 +13,8 @@
     },
     {
       "name": "first-answer recovery, exact choices, timer and modal isolation",
-      "id": "S19",
-      "remainingMs": 10490
+      "id": "S15",
+      "remainingMs": 10489
     },
     {
       "name": "leave confirmation freezes time and navigation stops player"

@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://online.natis.gov.za/#/",
+    "error": "HTTP Error 502: Bad Gateway"
+  },
+  {
+    "url": "https://www.gov.za/services/driving-licence/apply-driving-licence",
+    "status": 206,
+    "final": "https://www.gov.za/services/driving-licence/apply-driving-licence"
+  },
+  {
+    "url": "https://www.gov.za/services/driving-licence/apply-learners-licence",
+    "status": 206,
+    "final": "https://www.gov.za/services/driving-licence/apply-learners-licence"
+  },
+  {
+    "url": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf",
+    "status": 206,
+    "final": "https://www.gov.za/sites/default/files/gcis_document/201409/28446c.pdf"
+  },
+  {
+    "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=54%3Aminimum-requirements-for-registration-and-retention-of-grading-for-driving-licence-testing-centres",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=55%3Ak53-motor-cycles-part1",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=59%3Ak53-light-motor-vehicle-part1-code-b",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=61%3Ak53-heavy-motor-vehicle-part1-code-c1-c-ec1-and-ec",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf",
+    "status": 206,
+    "final": "https://www.rtmc.co.za/images/rtmc/docs/RoadSafetyEngineering/Road_Traffic_Signs_charts.pdf"
+  },
+  {
+    "url": "https://www.sanews.gov.za/node/84503",
+    "status": 200,
+    "final": "https://www.sanews.gov.za/node/84503"
+  },
+  {
+    "url": "https://www.southafrica.net/ug/en/travel/category/what-you-need-to-know/getting-around-south-africa-by-car",
+    "status": 200,
+    "final": "https://www.southafrica.net/ug/en/travel/category/what-you-need-to-know/getting-around-south-africa-by-car"
+  },
+  {
+    "url": "https://www.tourism.gov.za/Pages/Safety--Travel-Tips-Info.aspx",
+    "status": 200,
+    "final": "https://www.tourism.gov.za/Pages/Safety--Travel-Tips-Info.aspx"
+  },
+  {
+    "url": "https://www.westerncape.gov.za/service/learners-licence",
+    "status": 206,
+    "final": "https://www.westerncape.gov.za/service/learners-licence"
+  }
+]
