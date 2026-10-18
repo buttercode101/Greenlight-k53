@@ -52,7 +52,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/decision/practice.css?v=31">
+<link rel="stylesheet" href="./assets/decision/practice.css?v=32">
 <style>
 /* ============================================================
    DESIGN.md COMPATIBLE TOKENS (Notion + Mintlify hybrid)
@@ -440,7 +440,7 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 @media(max-width:480px){.storage-status{margin:8px 12px}.span-table th,.span-table td{padding:8px 5px;font-size:12px}.question-source{font-size:13px}}
 #drillSigns .ti,#drillRules .ti,#drillCtrl .ti,#drillMixed .ti{width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:8px}
 </style>
-<link rel="stylesheet" href="./assets/product.css?v=31">
+<link rel="stylesheet" href="./assets/product.css?v=32">
 </head>
 <body>
 <a class="skip-link" href="#app">Skip to main content</a>
@@ -1029,12 +1029,15 @@ function syncPracticeProgress(){
   meter.querySelector('.activity-count').textContent=f.count>=f.goal?f.count+' today · target met':'Today '+f.count+'/'+f.goal;
   const bar=meter.querySelector('.prog');bar.setAttribute('aria-valuenow',Math.min(f.count,f.goal));bar.setAttribute('aria-valuetext',f.count+' answers today; daily target '+f.goal);bar.querySelector('i').style.width=f.pct+'%';
 }
+function connectivityLabel(){return !navigator.onLine?'Offline · using saved app':window.__offlineReady?'Offline copy ready':'Online';}
+function syncConnectivity(){const label=document.getElementById('connectionLabel');if(label)label.textContent=connectivityLabel();}
+window.addEventListener('online',syncConnectivity);window.addEventListener('offline',syncConnectivity);
 function topbar(){
   const focus=focusProgress();
   const isStandaloneNow=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
   const installBtn = !isStandaloneNow ? `<button class="theme-toggle" type="button" id="topbarInstall" aria-label="Install app" title="Install GreenLight K53">${icon('download')}</button>` : '';
 
-  return `<div class="topbar no-print"><div class="brand">Green<span>Light</span> K53</div>
+  return `<div class="topbar no-print"><div class="brand">Green<span>Light</span> K53<small class="connection-label" id="connectionLabel" role="status">${connectivityLabel()}</small></div>
     <div class="activity-meter"><span class="activity-count">${focus.count>=focus.goal?focus.count+' today · target met':'Today '+focus.count+'/'+focus.goal}</span><div class="prog" role="progressbar" aria-label="Daily practice goal" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${Math.min(focus.count,focus.goal)}" aria-valuetext="${focus.count} answers today; daily target 10"><i style="width:${focus.pct}%"></i></div></div>
     <button class="speak" type="button" data-speak-top aria-label="Read this screen aloud" title="Read this screen aloud">${icon('speaker')}</button>
     ${installBtn}
@@ -1052,7 +1055,7 @@ function backbar(title,score){
 function streak(){ K.touch(); return K.state.streak||0; }
 function ringFor(n){ return Math.round((K.state.mastery&&K.state.mastery[n])||0); }
 function topicLabel(n){const value=ringFor(n);return K.state.mastery?.[n]!==undefined?value+'% recent accuracy':(K.state.sessions[n]?'Lesson complete — take the check':'Check not taken');}
-function nextStep(){if(reviewDue().length)return {go:'review',title:'Review what you missed',copy:reviewDue().length+' questions are due across your practice. Revisit them before starting another set.',cta:'Review due questions'};if(K.state.vehicleCode==='2'&&[1,2,3].every(n=>K.state.sessions[n]&&ringFor(n)>=70)){const e=decisionEvidence(K.state);const weakDecision=Object.values(e.topics).filter(t=>t.attempts&&t.accuracy<70).sort((a,b)=>a.score-b.score)[0];if(weakDecision)return {mode:weakDecision.mode,title:'Strengthen '+weakDecision.label.toLowerCase()+' decisions',copy:'Your recent decision accuracy is '+weakDecision.accuracy+'%. Work on one short set, then recheck.',cta:'Practise '+weakDecision.label.toLowerCase()};if([1,2,3].every(n=>K.state.sessions[n]&&ringFor(n)>=70)){const gap=Object.values(e.topics).filter(t=>t.seen<t.need).sort((a,b)=>a.coverage-b.coverage)[0];if(gap)return {mode:gap.mode,title:'Build '+gap.label.toLowerCase()+' decision evidence',copy:gap.seen+' of '+gap.need+' initial examples practised. Complete one short set to make the readiness signal more useful.',cta:'Practise '+gap.label.toLowerCase()};}}if(reviewDue().length)return {go:'review',title:'Review what you missed',copy:reviewDue().length+' questions are due. A short review is the best next step.',cta:'Review due questions'};const weak=[1,2,3].filter(n=>K.state.sessions[n]&&ringFor(n)<70);if(!K.state.sessions[1])return {go:'session1',title:'Start with road signs',copy:'Build recognition first. Finish a short check to unlock an evidence-based score.',cta:'Start signs · about 25 min'};if(weak.length){const n=weak[0], names={1:'Signs',2:'Rules',3:'Controls'};return {go:'session'+n,title:'Repair your '+names[n]+' score',copy:'Your recent accuracy is below 70%. A focused check is the fastest next step.',cta:'Practise '+names[n]};}if(!K.state.sessions[2])return {go:'session2',title:'Continue with road rules',copy:'Turn recognition into safe decisions with a short quiz.',cta:'Start rules · about 25 min'};if(!K.state.sessions[3])return {go:'session3',title:'Finish vehicle controls',copy:'Complete the final topic before a full mock.',cta:'Start controls · about 15 min'};return {go:'mock',title:'Take a realistic mock',copy:'Use the timed simulation only when you want exam pressure; this mock teaches as you go.',cta:'Start learning mock'};}
+function nextStep(){if(!K.state.diagnostic?.[K.state.vehicleCode]&&!Object.keys(K.state.attempts||{}).length)return {go:'diagnostic',title:'Find your starting point',copy:'Try six questions across signs, rules and your vehicle controls. Get a focused next step in about three minutes.',cta:'Take the quick check'};if(reviewDue().length)return {go:'review',title:'Review what you missed',copy:reviewDue().length+' question'+(reviewDue().length===1?' is':'s are')+' due across your practice. Revisit them before starting another set.',cta:'Review due questions'};if(K.state.vehicleCode==='2'&&[1,2,3].every(n=>K.state.sessions[n]&&ringFor(n)>=70)){const e=decisionEvidence(K.state);const weakDecision=Object.values(e.topics).filter(t=>t.attempts&&t.accuracy<70).sort((a,b)=>a.score-b.score)[0];if(weakDecision)return {mode:weakDecision.mode,title:'Strengthen '+weakDecision.label.toLowerCase()+' decisions',copy:'Your recent decision accuracy is '+weakDecision.accuracy+'%. Work on one short set, then recheck.',cta:'Practise '+weakDecision.label.toLowerCase()};if([1,2,3].every(n=>K.state.sessions[n]&&ringFor(n)>=70)){const gap=Object.values(e.topics).filter(t=>t.seen<t.need).sort((a,b)=>a.coverage-b.coverage)[0];if(gap)return {mode:gap.mode,title:'Build '+gap.label.toLowerCase()+' decision evidence',copy:gap.seen+' of '+gap.need+' initial examples practised. Complete one short set to make the readiness signal more useful.',cta:'Practise '+gap.label.toLowerCase()};}}if(reviewDue().length)return {go:'review',title:'Review what you missed',copy:reviewDue().length+' questions are due. A short review is the best next step.',cta:'Review due questions'};const weak=[1,2,3].filter(n=>K.state.sessions[n]&&ringFor(n)<70);if(!K.state.sessions[1])return {go:'session1',title:'Start with road signs',copy:'Build recognition first. Finish a short check to unlock an evidence-based score.',cta:'Start signs · about 25 min'};if(weak.length){const n=weak[0], names={1:'Signs',2:'Rules',3:'Controls'};return {go:'session'+n,title:'Repair your '+names[n]+' score',copy:'Your recent accuracy is below 70%. A focused check is the fastest next step.',cta:'Practise '+names[n]};}if(!K.state.sessions[2])return {go:'session2',title:'Continue with road rules',copy:'Turn recognition into safe decisions with a short quiz.',cta:'Start rules · about 25 min'};if(!K.state.sessions[3])return {go:'session3',title:'Finish vehicle controls',copy:'Complete the final topic before a full mock.',cta:'Start controls · about 15 min'};return {go:'mock',title:'Take a realistic mock',copy:'Use the timed simulation only when you want exam pressure; this mock teaches as you go.',cta:'Start learning mock'};}
 /* Speak a raw string via TTS (voice+rate from state) */
 function speakText(t){ if(t&&window.__TTS&&window.__TTS.ok)window.__TTS.speak(t); }
 function stopSpeech(){ if(window.__TTS&&window.__TTS.ok)window.__TTS.stop(); }
@@ -1114,7 +1117,7 @@ const ICONS={
 function icon(name, cls){ return `<svg class="ti ${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.doc}</svg>`; }
 function renderHome(){
   if(location.hash.startsWith('#practice')||location.hash==='#decision'||location.hash==='#drive')history.replaceState(null,'',location.pathname+location.search);
-  const r=readiness(), next=nextStep(), focus=focusProgress();
+  const r=readiness(), next=nextStep(), focus=focusProgress(), ev=learningEvidence();
   const statuses=[[1,'Signs'],[2,'Rules'],[3,'Controls']].map(([n,label])=>`<div class="status-item"><b>${K.state.mastery?.[n]!==undefined?ringFor(n)+'%':'—'}</b><span>${label}<br>${topicLabel(n)}</span></div>`).join('');
   currentArea='home';
   app.innerHTML=appHeader()+`
@@ -1122,17 +1125,17 @@ function renderHome(){
 
   <div class="dashboard">
     <section class="next-step" aria-labelledby="next-title"><div class="next-meta"><span>${focus.count} answers today</span><span>${reviewDue().length} due to review</span></div><p class="kicker">Next step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" ${next.mode?`data-practice-mode="${next.mode}"`:`data-go="${next.go}"`}>${next.cta} →</button><p class="trust-note">Daily target: 10 answers. Every recorded attempt counts.</p></section>
-    <section class="block readiness-panel"><div class="readiness-heading"><p class="kicker">Practice readiness</p><span class="readiness-number">${r.score}<small>/100</small></span></div><h2>${![1,2,3].some(n=>K.state.sessions[n])&&!Object.values(K.state.secPass||{}).some(Boolean)?'Baseline incomplete':r.verdict}</h2><p class="lead">${![1,2,3].some(n=>K.state.sessions[n])&&!Object.values(K.state.secPass||{}).some(Boolean)?'Your daily total counts effort. Complete a lesson check to establish readiness; drills and road decisions help you prepare for it.':r.msg}</p><div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div><div class="status-grid">${statuses}</div>${decisionEvidenceHTML()}<p class="footnote">Evidence from checks, mock sections and selected decisions. A practice index, not a pass probability.</p></section>
+    <section class="block readiness-panel"><div class="readiness-heading"><p class="kicker">Practice readiness</p><span class="readiness-number">${ev.assessed?r.score:'—'}${ev.assessed?'<small>/100</small>':''}</span></div><h2>${ev.assessed?r.verdict:'Not assessed yet'}</h2><p class="lead">${ev.assessed?r.msg:'Start with the quick check. Your practice evidence will appear here as you answer; there is no failing score before you begin.'}</p>${ev.assessed?`<div class="prog" role="progressbar" aria-label="Readiness practice index" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div>`:''}<div class="status-grid">${statuses}</div>${ev.assessed?learningEvidenceHTML(ev):''}${decisionEvidenceHTML()}<p class="footnote">A practice index, not a pass probability. Selected coverage and independent subject review remain incomplete.</p></section>
   </div><div class="resume-list" aria-label="Unfinished practice"><div id="assessmentResumeSlot"></div><div id="practiceResumeSlot"></div></div>
   <section class="block study-path" aria-labelledby="path-title"><p class="kicker">Your preparation</p><h2 id="path-title">Keep moving forward.</h2><div class="path-grid">
     <button class="path-card" data-go="learn"><span class="path-number">1</span><span><b>Learn</b><span>Signs, road rules and vehicle controls</span></span><span aria-hidden="true">→</span></button>
     <button class="path-card" data-go="practice"><span class="path-number">2</span><span><b>Practise</b><span>Topic drills and road decisions</span></span><span aria-hidden="true">→</span></button>
-    <button class="path-card" data-go="review"><span class="path-number">3</span><span><b>Review</b><span>${reviewDue().length?reviewDue().length+' questions due · revisit what you missed':'Your mistakes and saved questions'}</span></span><span aria-hidden="true">→</span></button>
+    <button class="path-card" data-go="review"><span class="path-number">3</span><span><b>Review</b><span>${reviewDue().length?reviewDue().length+' question'+(reviewDue().length===1?'':'s')+' due · revisit what you missed':'Your mistakes and saved questions'}</span></span><span aria-hidden="true">→</span></button>
     <button class="path-card" data-go="tests"><span class="path-number">4</span><span><b>Mock</b><span>Learning mock or timed simulation</span></span><span aria-hidden="true">→</span></button>
   </div></section>
   <div class="home-utilities"><button data-go="checklist">Test Day · Documents, travel and checklist →</button></div>
   <p class="footnote">Independent English study aid with selected practice, not the official question bank or complete syllabus. <a href="#sources" data-go="sources">Coverage and official references</a>.</p>
-  <p class="footnote">Study progress stays on this device. <a href="study-guide.html">Printable study guide</a> · <a href="#sources" data-go="sources">Official reference library</a>.</p>`;
+  <p class="footnote"><a href="privacy.html">Privacy</a> · <a href="corrections.html">Content corrections</a>. Study progress stays on this device. <a href="study-guide.html">Printable study guide</a> · <a href="#sources" data-go="sources">Official reference library</a> · <button class="text-button" data-go="progress">Back up progress</button>.</p>`;
   bindGo();recoveryNotice();showRoadPracticeRecovery();
 }
 function openLearn(){
@@ -1148,7 +1151,7 @@ function mountStudyReader(container,{items,render,key='study',noun='items',size=
   let page=0;
   container.innerHTML=`<div class="reader-tools"><label for="${key}Search">Search ${noun}<input type="search" id="${key}Search" placeholder="Find a word or topic" autocomplete="off"></label></div><p class="reader-count" role="status" aria-live="polite"></p><div class="${grid} reader-results" tabindex="-1"></div><nav class="reader-pages" aria-label="${noun} pages"><button type="button" class="reader-prev">← Previous</button><span class="reader-page"></span><button type="button" class="reader-next">${check?'Continue →':'Next →'}</button></nav>${check?'<button type="button" class="btn btn-primary reader-check hidden">Start the 10-question check →</button>':''}`;
   const search=container.querySelector('input'),results=container.querySelector('.reader-results'),prev=container.querySelector('.reader-prev'),next=container.querySelector('.reader-next');
-  function paint(focus=false){const q=search.value.trim().toLowerCase(),all=items.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),pages=Math.max(1,Math.ceil(all.length/size));page=Math.min(page,pages-1);results.innerHTML=all.slice(page*size,(page+1)*size).map(render).join('')||'<p class="empty-state">No matches. Try another word or clear your search.</p>';container.querySelector('.reader-count').textContent=all.length?`${page*size+1}–${Math.min((page+1)*size,all.length)} of ${all.length} ${noun}`:`No matching ${noun}`;container.querySelector('.reader-page').textContent=`Page ${page+1} of ${pages}`;prev.disabled=page===0;next.disabled=page>=pages-1;if(check){next.classList.toggle('hidden',page>=pages-1);container.querySelector('.reader-check').classList.toggle('hidden',page<pages-1||!all.length);}bindTTS(results);if(focus){results.focus({preventScroll:true});container.scrollIntoView({block:'start'});}}
+  function paint(focus=false){const q=search.value.trim().toLowerCase(),all=items.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),pages=Math.max(1,Math.ceil(all.length/size));page=Math.min(page,pages-1);results.innerHTML=all.slice(page*size,(page+1)*size).map(render).join('')||'<p class="empty-state">No matches. Try another word or clear your search.</p>';container.querySelector('.reader-count').textContent=all.length?`${page*size+1}–${Math.min((page+1)*size,all.length)} of ${all.length} ${noun}`:`No matching ${noun}`;container.querySelector('.reader-page').textContent=`Page ${page+1} of ${pages}`;prev.disabled=page===0;next.disabled=page>=pages-1;if(check){next.classList.toggle('hidden',page>=pages-1);container.querySelector('.reader-check').classList.toggle('hidden',page<pages-1||!all.length);}bindTTS(results);bindArtExpansion(results);if(focus){results.focus({preventScroll:true});container.scrollIntoView({block:'start'});}}
   if(check)container.querySelector('.reader-check').addEventListener('click',check);search.addEventListener('input',()=>{page=0;paint();});prev.addEventListener('click',()=>{page--;paint(true);});next.addEventListener('click',()=>{page++;paint(true);});paint();
 }
 function openSession1(){
@@ -1182,6 +1185,7 @@ let shortPracticeActive=false;
 function confirmShortLeave(){if(!shortPracticeActive)return true;if(!window.confirm('Leave this short practice? Recorded answers stay in your history, but this set will restart.'))return false;shortPracticeActive=false;return true;}
 window.addEventListener('beforeunload',e=>{if(shortPracticeActive){e.preventDefault();e.returnValue='';}});
 function quizFlow(questions,sessNum,title){
+  practiceStartedAt=Date.now();
   shortPracticeActive=true;
   const missed=[];let i=0,correct=0,total=questions.length;
   function render(){
@@ -1214,6 +1218,7 @@ function quizFlow(questions,sessNum,title){
   window.scrollTo(0,0);
 }
 function finishQuiz(sessNum,title,correct,total,missed=[]){
+  recordOutcome('topic-check-'+sessNum,correct,total);
   shortPracticeActive=false;
   K.state.sessions[sessNum]=true;K.state.mastery=K.state.mastery||{};K.state.mastery[sessNum]=Math.round(correct/total*100);K.save();
   const pct=Math.round(correct/total*100);
@@ -1274,6 +1279,8 @@ function optionRationale(q){
  return `<details class="d"><summary>Review the answer</summary><p>The answer here is <b>${safeHTML(q.opts[q.ans])}</b>. ${safeHTML(q.ex||'')} Check the linked manual topic for the exact rule and its conditions.</p></details>`;
 }
 function renderAnswerTools(card,q,back='review'){
+  if(!card.querySelector('[data-question-report]')){const report=ce('details');report.className='question-source';report.dataset.questionReport='true';report.innerHTML='<summary>Report a problem with this question</summary><p>Check the source first. You can open a report on GitHub, review the text, then submit it. No progress or personal details are sent automatically.</p>';const link=ce('a');link.textContent='Open question report ↗';link.target='_blank';link.rel='noopener noreferrer';link.href='https://github.com/buttercode101/Greenlight-k53/issues/new?title='+encodeURIComponent('Question review: '+q.q.slice(0,100))+'&body='+encodeURIComponent('Question: '+q.q+'\nSelected code: '+K.state.vehicleCode+'\nExpected answer shown: '+q.opts[q.ans]+'\nExplanation: '+(q.ex||'')+'\n\nWhat seems incorrect?\nSource supporting a correction:');report.appendChild(link);card.appendChild(report);}
+
  const fb=card.querySelector('.feedback');fb.insertAdjacentHTML('afterend',optionRationale(q));
  const v=variantFor(q);if(v&&!assessmentActive){const button=ce('button');button.className='btn btn-soft';button.type='button';button.textContent='Practise another version';button.addEventListener('click',()=>practiceVariant(v,back));fb.after(button);}
 }
@@ -1286,7 +1293,12 @@ function practiceVariant(q,back='review'){
 function recordAttempt(q,ok){
   if(q.decisionId&&K.recordDecisionQuestion){K.recordDecisionQuestion(q,ok);syncPracticeProgress();return;}
   const key=reviewKey(q), row=K.state.attempts[key]||{q:q.q,topic:topicFor(q),correct:0,wrong:0,last:0};
-  row.correct+=ok?1:0;row.wrong+=ok?0:1;row.last=Date.now();row.topic=topicFor(q);row.svg=q.svg||'';
+  const now=Date.now(),previous=row.last;
+  if(row.correct+row.wrong===0){row.firstOk=!!ok;row.firstAt=now;}
+  if(ok&&row.lastOk===true&&Number.isFinite(previous)&&now-previous>=86400000)row.retainedAt=now;
+  if(!ok)delete row.retainedAt;
+  row.recent=[...(Array.isArray(row.recent)?row.recent.filter(x=>typeof x==='boolean'):[]),!!ok].slice(-5);row.lastOk=!!ok;
+  row.correct+=ok?1:0;row.wrong+=ok?0:1;row.last=now;row.topic=topicFor(q);row.svg=q.svg||'';
   const sign=K.SIGNS.find(s=>q.svg&&q.svg.includes(s.svg));
   if(sign&&SITUATIONS.some(x=>x.sign===sign.id)){
     const history=K.state.conceptHistory=Array.isArray(K.state.conceptHistory)?K.state.conceptHistory:[];
@@ -1325,7 +1337,7 @@ function addReview(q,answer){
   K.save();
 }
 function mistakeKeys(questions){return [...new Set(questions.map(q=>q.decisionId?'decision:'+q.decisionId:reviewKey(q)))].filter(key=>K.state.review.some(r=>r.key===key));}
-function retryMissedButton(keys){return keys.length?`<button class="btn btn-primary" id="retryMissed" type="button">Review ${keys.length} missed question${keys.length===1?'':'s'} →</button>`:'';}
+function retryMissedButton(keys){return keys.length?`<button class="btn btn-primary" id="retryMissed" type="button">Review ${Math.min(10,keys.length)} missed question${keys.length===1?'':'s'}${keys.length>10?' · '+keys.length+' saved':''} →</button>`:'';}
 function bindMissed(keys){const b=document.getElementById('retryMissed');if(b)b.addEventListener('click',()=>{currentArea='review';startReview(keys);window.scrollTo(0,0);});}
 function reviewDue(){return K.state.review.filter(r=>visibleForCode(r.q)&&(r.decisionId||(Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)))&&r.due<=Date.now());}
 function openReview(){
@@ -1337,7 +1349,7 @@ function openReview(){
   app.innerHTML=backbar('Review')+`<div class="block">
     <p class="kicker">Practice your mistakes</p><h2>Weak spots</h2>
     <p class="lead">${due.length} ready now · ${visible.length} saved. Retry missed questions; correct answers come back tomorrow, then after three and seven days. Progress stays on this device.</p>
-    ${due.length?`<button class="btn btn-primary" id="reviewStart" type="button">Retry ${due.length} due question${due.length===1?'':'s'} →</button>`:''}
+    ${due.length?`<button class="btn btn-primary" id="reviewStart" type="button">Review ${Math.min(10,due.length)} question${due.length===1?'':'s'}${due.length>10?' · '+due.length+' due':''} →</button>`:''}
     <div id="reviewReader"></div>
     <details class="review-section"><summary>Saved questions · ${bookmarks.length}</summary><div id="bookmarkReader"></div></details>
     <details class="review-section"><summary>Topic weaknesses</summary><div class="lesson-grid">${topicStats().map(t=>`<div class="mini"><div class="t">${safeHTML(t.topic)}</div><p>${t.correct}/${t.correct+t.wrong} correct across ${t.items} concepts · ${t.wrong} misses</p></div>`).join('')||'<p>Finish a few practice questions to identify weak topics.</p>'}</div></details>
@@ -1351,6 +1363,7 @@ function openReview(){
   bindGo();
 }
 function startReview(keys){
+  keys=keys.slice(0,10);
   shortPracticeActive=true;
   let i=0,correct=0;
   const total=keys.length;
@@ -1567,24 +1580,24 @@ function openPractice(message=''){
   history.replaceState(null,'',location.hash==='#drive'?'#drive':'#practice');
   app.innerHTML=practiceHeader('Practise','home')+`<div class="block" id="sectionDrills">
     <p class="kicker">Step 2 · Strengthen understanding</p><h1>Choose your next practice</h1>
-    <p class="lead">Start with a short mixed set, repair mistakes, or work through one full topic.</p>
-    <div class="practice-goals"><button class="btn btn-primary" id="drillMixed" type="button">Quick practice<span class="sub">20 mixed questions · about 10 min</span></button><button class="btn btn-soft" data-go="review">Weak areas<span class="sub">${reviewDue().length?reviewDue().length+' questions ready to retry':'Your mistakes and saved questions'}</span></button></div><details class="full-topic" open><summary>Full topic practice</summary><div class="section-drill-grid"><button class="btn btn-soft" id="drillSigns" type="button">${icon('sign')} Signs <span class="sub">Recognition, markings and decisions · full set</span></button>
-    <button class="btn btn-soft" id="drillRules" type="button">${icon('rules')} Rules <span class="sub">Priority, safety and legal duties · full set</span></button>
-    <button class="btn btn-soft" id="drillCtrl" type="button">${icon('controls')} Controls <span class="sub">Vehicle checks for Code ${K.state.vehicleCode} · full set</span></button>
+    <p class="lead">Choose a short topic set, repair mistakes, or practise a mix. Unseen questions and recent mistakes come first.</p>
+    <div class="practice-goals"><button class="btn btn-primary" id="drillMixed" type="button">Quick practice<span class="sub">20 mixed questions · about 10 min</span></button><button class="btn btn-soft" data-go="review">Weak areas<span class="sub">${reviewDue().length?reviewDue().length+' questions ready to retry':'Your mistakes and saved questions'}</span></button></div><details class="full-topic" open><summary>Topic practice</summary><label class="practice-length" for="practiceLength">Questions per topic <select id="practiceLength"><option value="10">10 · about 5 min</option><option value="20">20 · about 10 min</option><option value="all">Full available topic</option></select></label><div class="section-drill-grid"><button class="btn btn-soft" id="drillSigns" type="button">${icon('sign')} Signs <span class="sub">Recognition, markings and decisions</span></button>
+    <button class="btn btn-soft" id="drillRules" type="button">${icon('rules')} Rules <span class="sub">Priority, safety and legal duties</span></button>
+    <button class="btn btn-soft" id="drillCtrl" type="button">${icon('controls')} Controls <span class="sub">Vehicle checks for Code ${K.state.vehicleCode}</span></button>
 </div></details>
   </div>`;
   const drillSection=document.getElementById('sectionDrills');
   drillSection.insertAdjacentHTML('afterend',K.state.vehicleCode==='2'?'<section class="decision-screen" id="decisionPracticePanel" aria-label="Drive"><div class="block"><p role="status">Loading Drive exercises…</p></div></section>':`<aside class="drive-scope reference-note">Your practice above is for Code ${K.state.vehicleCode}. Drive road scenarios currently cover Code 2 light vehicles.</aside>`);
   app.insertAdjacentHTML('beforeend','<section class="block"><h2>More ways to practise</h2><div class="library"><button class="btn" data-go="situations">Road situations<span class="sub">Apply signs to a road scene</span></button><button class="btn" data-go="row">Right of way<span class="sub">Work through priority decisions</span></button><button class="btn" data-go="review">Review mistakes<span class="sub">Retry questions you missed</span></button></div></section>');
-  $('#drillSigns').addEventListener('click',()=>drill('signs'));
-  $('#drillRules').addEventListener('click',()=>drill('rules'));
-  $('#drillCtrl').addEventListener('click',()=>drill('controls'));
-  $('#drillMixed').addEventListener('click',()=>drill('mixed'));
+  $('#drillSigns').addEventListener('click',()=>drill('signs',$('#practiceLength').value));
+  $('#drillRules').addEventListener('click',()=>drill('rules',$('#practiceLength').value));
+  $('#drillCtrl').addEventListener('click',()=>drill('controls',$('#practiceLength').value));
+  $('#drillMixed').addEventListener('click',()=>drill('mixed',20));
   bindGo(app,{decision:true});
   const panel=document.getElementById('decisionPracticePanel');
   if(panel)loadDecisionModule().then(module=>{if(panel.isConnected){module.renderPracticePanel(decisionBridge(),panel,message);}}).catch(()=>{if(panel.isConnected){panel.innerHTML='<div class="block"><p>Road exercises could not load. Reconnect once to finish updating the app.</p><button class="btn btn-ghost" data-go="practice">Try again</button></div>';bindGo(panel,{decision:true});}});
 }
-function buildDrill(cat){
+function buildDrill(cat,limit=null){
   const q=[];
   if(cat==='signs'||cat==='mixed'){
     K.SIGNS.forEach(s=>q.push(K.signQuestion(s)));
@@ -1595,22 +1608,24 @@ function buildDrill(cat){
   if(cat==='rules'||cat==='mixed')K.extraForCode(K.state.vehicleCode).forEach(c=>{const so=K.shufOpts(c.opts,c.ans);q.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex});});
   if(cat==='controls'||cat==='mixed')[...K.controlsForCode(K.state.vehicleCode),...K.CONTROL_VARIANTS].forEach(c=>{const so=K.shufOpts(c.opts,c.ans);q.push({q:c.q,opts:so.opts,ans:so.ans,ex:c.ex});});
   if(K.decisionQuestions)q.push(...K.decisionQuestions(cat));
-  if(cat==='mixed')return K.shuffle(q).slice(0,20);
-  if(cat==='signs')return q; // full section = 28+ questions in real test; we use all available
-  if(cat==='rules')return q;
-  if(cat==='controls')return q;
-  return K.shuffle(q);
+  const size=limit==='all'?q.length:Number(limit)||(cat==='mixed'?20:q.length);
+  return selectPractice(q,size);
 }
-function drill(cat){
+function selectPractice(pool,size){
+  const unique=[...new Map(pool.map(q=>[q.decisionId?'decision:'+q.decisionId:reviewKey(q),q])).values()];
+  const ranked=K.shuffle(unique).map(q=>{const a=K.state.attempts[q.decisionId?'decision:'+q.decisionId:reviewKey(q)];const priority=!a?0:(a.lastOk===false||(a.wrong>0&&!a.correct)?1:2);return {q,a,priority};}).sort((a,b)=>a.priority-b.priority||(a.a?.last||0)-(b.a?.last||0));
+  return ranked.slice(0,Math.max(1,Math.min(size,ranked.length))).map(x=>x.q);
+}
+function drill(cat,limit=10){
+  practiceStartedAt=Date.now();
   shortPracticeActive=true;
-  const qs=buildDrill(cat),missed=[];let i=0,correct=0,total=qs.length;
+  const qs=buildDrill(cat,limit),missed=[];let i=0,correct=0,total=qs.length;
   const names={signs:'Signs',rules:'Rules',controls:'Controls',mixed:'Mixed'};
-  // Official section pass marks: Rules 22/28, Signs 23/28, Controls 6/8
   const passMap={rules:Math.ceil(total*22/28),signs:Math.ceil(total*23/28),controls:Math.ceil(total*6/8),mixed:Math.ceil(total*0.8)};
   const passMark=passMap[cat]||Math.ceil(total*0.8);
   render();
   function render(){
-    if(i>=total){shortPracticeActive=false;const keys=mistakeKeys(missed),p=correct>=passMark;const topicMap={signs:1,rules:2,controls:3};if(topicMap[cat]){K.state.mastery=K.state.mastery||{};K.state.mastery[topicMap[cat]]=Math.round(correct/total*100);K.save();}app.innerHTML=backbar(names[cat])+`<div class="block center"><div class="badge-xl">${p?'🎉':'💪'}</div><div class="result-title">${p?'Practice target reached':'Focus your next practice'}</div><p class="result-sub">${correct}/${total} — needed ${passMark}</p><div class="stat-grid"><div class="stat"><div class="n">${correct}</div><div class="l">Correct</div></div><div class="stat"><div class="n">${total-correct}</div><div class="l">To review</div></div><div class="stat"><div class="n">${p?'PASS':'STUDY'}</div><div class="l">Verdict</div></div></div>${retryMissedButton(keys)}${K.state.vehicleCode==='2'?`<button class="btn btn-soft" data-practice-mode="${cat==='mixed'?'mixed':cat}">Practise these decisions</button>`:''}<button class="btn ${keys.length?'btn-soft':'btn-primary'}" id="drillAgain" type="button">Retry</button><button class="btn btn-ghost" data-go="practice">More drills</button></div>`;const b=$('#drillAgain');if(b)b.addEventListener('click',()=>drill(cat));bindMissed(keys);bindGo();return;}
+    if(i>=total){shortPracticeActive=false;recordOutcome('drill-'+cat,correct,total);const keys=mistakeKeys(missed),p=correct>=passMark;const topicMap={signs:1,rules:2,controls:3};if(topicMap[cat]){K.state.mastery=K.state.mastery||{};K.state.mastery[topicMap[cat]]=Math.round(correct/total*100);K.save();}app.innerHTML=backbar(names[cat])+`<div class="block center"><div class="badge-xl">${p?'🎉':'💪'}</div><div class="result-title">${p?'Practice target reached':'Focus your next practice'}</div><p class="result-sub">${correct}/${total} — needed ${passMark}</p><div class="stat-grid"><div class="stat"><div class="n">${correct}</div><div class="l">Correct</div></div><div class="stat"><div class="n">${total-correct}</div><div class="l">To review</div></div><div class="stat"><div class="n">${p?'ON TARGET':'REVIEW'}</div><div class="l">Practice result</div></div></div>${retryMissedButton(keys)}${K.state.vehicleCode==='2'?`<button class="btn btn-soft" data-practice-mode="${cat==='mixed'?'mixed':cat}">Practise these decisions</button>`:''}<button class="btn ${keys.length?'btn-soft':'btn-primary'}" id="drillAgain" type="button">Retry</button><button class="btn btn-ghost" data-go="practice">More drills</button></div>`;const b=$('#drillAgain');if(b)b.addEventListener('click',()=>drill(cat,limit));bindMissed(keys);bindGo();return;}
     const q=qs[i];const card=ce('div');card.className='block';
     card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2 class="question-title">${q.q}</h2><div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button>`;
     app.innerHTML=backbar(names[cat],`Q ${i+1}/${total}`);app.appendChild(card);
@@ -1636,6 +1651,92 @@ function openMemory(){
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
   bindGo();
+}
+
+let practiceStartedAt=Date.now();
+function recordOutcome(kind,correct,total){
+ const now=Date.now();K.state.outcomes=Array.isArray(K.state.outcomes)?K.state.outcomes:[];
+ K.state.outcomes.push({kind,code:K.state.vehicleCode,at:now,elapsedSeconds:Math.max(0,Math.round((now-practiceStartedAt)/1000)),correct,total});K.state.outcomes=K.state.outcomes.slice(-100);K.save();
+}
+/* Portable progress contains no unfinished exam or executable question markup. */
+const PORTABLE_FIELDS=['vehicleCode','sessions','mastery','secPass','mockPass','mockResults','acc','attempts','review','bookmarks','codeProgress','diagnostic','outcomes'];
+function cleanPortable(value,depth=0){
+ if(depth>12)throw Error('Backup nesting is invalid.');
+ if(value===null||typeof value==='boolean')return value;
+ if(typeof value==='number'){if(!Number.isFinite(value)||Math.abs(value)>1e15)throw Error('Invalid number in backup.');return value;}
+ if(typeof value==='string'){if(value.length>12000)throw Error('Backup text is too long.');return value;}
+ if(Array.isArray(value)){if(value.length>5000)throw Error('Backup has too many entries.');return value.map(x=>cleanPortable(x,depth+1));}
+ if(value&&typeof value==='object'){const pairs=Object.entries(value);if(pairs.length>5000)throw Error('Backup has too many entries.');const out=Object.create(null);for(const [key,v] of pairs){if(['__proto__','prototype','constructor'].includes(key))throw Error('Unsafe backup field.');if(v!==undefined)out[key]=cleanPortable(v,depth+1);}return out;}
+ throw Error('Unsupported backup value.');
+}
+function portableSnapshot(){return cleanPortable(Object.fromEntries(PORTABLE_FIELDS.filter(k=>K.state[k]!==undefined).map(k=>[k,K.state[k]])));}
+function validateBackup(text){
+ if(text.length>2500000)throw Error('Choose a GreenLight backup smaller than 2.5 MB.');
+ const data=cleanPortable(JSON.parse(text));
+ if(data.product!=='GreenLight K53'||data.schema!==1||!data.progress||!['1','2','3'].includes(data.progress.vehicleCode))throw Error('This is not a supported GreenLight backup.');
+ const out=Object.fromEntries(PORTABLE_FIELDS.filter(k=>data.progress[k]!==undefined).map(k=>[k,data.progress[k]]));
+ const map=x=>x&&typeof x==='object'&&!Array.isArray(x);
+ for(const field of ['sessions','mastery','secPass','mockResults','acc','attempts','bookmarks','codeProgress','diagnostic'])if(out[field]!==undefined&&!map(out[field]))throw Error('Invalid '+field+' in backup.');
+ if(out.review!==undefined&&(!Array.isArray(out.review)||out.review.some(r=>!r||typeof r.q!=='string'||typeof r.key!=='string'||!Array.isArray(r.opts)||r.opts.some(o=>typeof o!=='string')||(!r.decisionId&&(!Number.isInteger(r.ans)||r.ans<0||r.ans>=r.opts.length)))))throw Error('Invalid review questions in backup.');
+ for(const row of Object.values(out.attempts||{}))if(!map(row)||typeof row.q!=='string'||!Number.isFinite(row.correct)||row.correct<0||!Number.isFinite(row.wrong)||row.wrong<0)throw Error('Invalid attempt history in backup.');
+ const count=v=>Number.isFinite(v)&&v>=0&&v<=1e9;
+ const boolMap=(value,allowed)=>map(value)&&Object.entries(value).every(([k,v])=>allowed.includes(k)&&typeof v==='boolean');
+ const mastery=value=>map(value)&&Object.entries(value).every(([k,v])=>['1','2','3'].includes(k)&&count(v)&&v<=100);
+ if(out.sessions&&!boolMap(out.sessions,['1','2','3']))throw Error('Invalid topic checks.');
+ if(out.mastery&&!mastery(out.mastery))throw Error('Invalid topic accuracy.');
+ if(out.secPass&&!boolMap(out.secPass,['signs','rules','controls']))throw Error('Invalid section results.');
+ if(out.mockPass!==undefined&&typeof out.mockPass!=='boolean')throw Error('Invalid mock result.');
+ if(out.acc&&(!count(out.acc.correct)||!count(out.acc.total)||out.acc.correct>out.acc.total))throw Error('Invalid accuracy totals.');
+ for(const row of Object.values(out.bookmarks||{}))if(!map(row)||typeof row.q!=='string'||typeof row.a!=='string'||(row.ex!==undefined&&typeof row.ex!=='string'))throw Error('Invalid saved question.');
+ for(const row of Object.values(out.attempts||{}))if((row.recent!==undefined&&(!Array.isArray(row.recent)||row.recent.some(v=>typeof v!=='boolean')))||(row.firstOk!==undefined&&typeof row.firstOk!=='boolean')||(row.lastOk!==undefined&&typeof row.lastOk!=='boolean'))throw Error('Invalid attempt evidence.');
+ if(out.review)for(const row of out.review)if((row.decisionId&&!/^[SRCO][0-9]{2}$/.test(row.decisionId))||!count(row.level)||row.level>3||!Number.isFinite(row.due)||row.due<0||(row.a!==undefined&&typeof row.a!=='string')||(row.ex!==undefined&&typeof row.ex!=='string'))throw Error('Invalid review schedule.');
+ const accuracy=value=>map(value)&&count(value.correct)&&count(value.total)&&value.correct<=value.total;
+ const mockRows=value=>{if(!map(value))throw Error('Invalid mock sections.');return Object.fromEntries(Object.entries(value).filter(([section])=>['signs','rules','controls'].includes(section)).map(([section,r])=>{if(!map(r)||!count(r.correct)||!count(r.total)||r.total>28||r.correct>r.total||(r.answered!==undefined&&(!count(r.answered)||r.answered>r.total))||(r.pass!==undefined&&typeof r.pass!=='boolean')||(r.need!==undefined&&!count(r.need))||(r.missed!==undefined&&(!Array.isArray(r.missed)||r.missed.some(x=>typeof x!=='string'))))throw Error('Invalid mock section values.');return [section,{correct:r.correct,total:r.total,answered:r.answered??r.total,pass:r.pass===true,need:SECTION_META[section].need,missed:r.missed||[]}];}));};
+ if(out.mockResults)out.mockResults=mockRows(out.mockResults);
+ // Code snapshots contain numerical mock results only. Unknown nested fields are removed.
+ if(out.codeProgress)out.codeProgress=Object.fromEntries(Object.entries(out.codeProgress).filter(([code])=>['1','2','3'].includes(code)).map(([code,r])=>{if(!map(r)||(r.controlsMastery!==undefined&&(!count(r.controlsMastery)||r.controlsMastery>100))||(r.secPass&&!boolMap(r.secPass,['signs','rules','controls'])))throw Error('Invalid vehicle progress.');return [code,{controlsDone:r.controlsDone===true,...(r.controlsMastery===undefined?{}:{controlsMastery:r.controlsMastery}),secPass:r.secPass||{},mockPass:r.mockPass===true,mockResults:mockRows(r.mockResults||{}),acc:accuracy(r.acc)?r.acc:{correct:0,total:0}}];}));
+ if(out.diagnostic)out.diagnostic=Object.fromEntries(Object.entries(out.diagnostic).filter(([code,r])=>['1','2','3'].includes(code)&&map(r)&&Number.isFinite(r.at)&&map(r.results)&&['signs','rules','controls'].every(k=>count(r.results[k])&&r.results[k]<=2)).map(([code,r])=>[code,{at:r.at,results:Object.fromEntries(['signs','rules','controls'].map(k=>[k,r.results[k]]))}]));
+ if(out.outcomes)out.outcomes=Array.isArray(out.outcomes)?out.outcomes.filter(r=>map(r)&&typeof r.kind==='string'&&count(r.correct)&&count(r.total)&&r.correct<=r.total&&Number.isFinite(r.at)&&count(r.elapsedSeconds)).slice(-100).map(r=>({kind:r.kind.slice(0,40),code:['1','2','3'].includes(r.code)?r.code:'2',correct:r.correct,total:r.total,at:r.at,elapsedSeconds:r.elapsedSeconds})):[];
+ for(const field of ['review','bookmarks'])for(const row of Array.isArray(out[field])?out[field]:Object.values(out[field]||{}))if(row.svg){const path=String(row.svg).match(/assets\/(?:signs\/[a-z0-9-]+|decision\/art\/[SRCO][0-9]{2})\.svg/);row.svg=path?path[0]:'';}
+ return out;
+}
+function downloadData(filename,data,type='application/json'){
+ const url=URL.createObjectURL(new Blob([data],{type})),a=ce('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function openProgress(){
+ currentArea='home';rememberView('progress');const e=learningEvidence();
+ app.innerHTML=backbar('Your progress')+`<section class="block"><p class="kicker">Saved on this device</p><h1>Keep your progress</h1><p class="lead">Save a backup before changing phones or clearing browser data. No account is required and nothing is uploaded.</p>${learningEvidenceHTML(e)}<button class="btn btn-primary" id="exportProgress">Download progress backup</button><details class="lesson-reference"><summary>Restore from another backup</summary><p>Preview the backup before restoring. Restoring replaces saved study results, mistakes and bookmarks on this device. Download your current backup first. Unfinished assessments and Drive session XP are not transferred. Restoring closes unfinished attempts on this device.</p><label for="progressFile">GreenLight backup (.json)</label><input type="file" accept="application/json,.json" id="progressFile"><div id="restorePreview" role="status"></div></details><p id="backupStatus" role="status"></p></section><section class="block"><h2>Your learning evidence</h2><p>First-attempt accuracy and recall across separate days help distinguish recognition from retention. They are not pass-rate evidence.</p><button class="btn btn-soft" id="exportEvidence">Download learning evidence</button><p class="reference-note">The file includes question-level practice history. Share it only if you choose. No analytics service receives it automatically.</p><button class="btn btn-ghost" data-go="home">Back to your plan</button></section>`;
+ $('#exportProgress').addEventListener('click',()=>{downloadData('greenlight-progress-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify({product:'GreenLight K53',schema:1,exportedAt:new Date().toISOString(),progress:portableSnapshot()},null,2));$('#backupStatus').textContent='Backup download requested. Keep the file somewhere safe.';});
+ $('#exportEvidence').addEventListener('click',()=>downloadData('greenlight-learning-evidence.json',JSON.stringify({schema:1,exportedAt:new Date().toISOString(),vehicleCode:K.state.vehicleCode,evidence:learningEvidence(),attempts:K.state.attempts,outcomes:K.state.outcomes||[],limitations:'Selected question coverage, not full syllabus coverage or evidence of licensing outcomes. Historical first-attempt evidence may be unavailable.'},null,2)));
+ $('#progressFile').addEventListener('change',async event=>{const slot=$('#restorePreview');slot.replaceChildren();try{const file=event.target.files[0];if(!file)return;if(file.size>2500000)throw Error('Choose a backup smaller than 2.5 MB.');const progress=validateBackup(await file.text());const text=ce('p');text.textContent='Code '+progress.vehicleCode+' · '+Object.keys(progress.attempts||{}).length+' question records · '+(progress.review||[]).length+' review entries. Download your current backup before replacing it.';const button=ce('button');button.className='btn btn-soft';button.textContent='Restore this backup';button.addEventListener('click',()=>{if(!window.confirm('Replace study results and close unfinished attempts on this device? Download your current backup first.'))return;const before=portableSnapshot(),unfinished={activeAssessment:K.state.activeAssessment,decision:K.state.decision,roadPractice:K.state.roadPractice,focusBaseline:K.state.focusBaseline};for(const k of PORTABLE_FIELDS)delete K.state[k];Object.assign(K.state,progress);delete K.state.activeAssessment;delete K.state.decision;delete K.state.roadPractice;delete K.state.focusBaseline;delete K.state.shareData;if(K.save()){try{localStorage.removeItem('k53-decision-active-v2');}catch{}location.href=location.pathname;}else{for(const k of PORTABLE_FIELDS)delete K.state[k];Object.assign(K.state,before,unfinished);slot.textContent='Restore could not be saved. Your current progress remains in this tab.';}});slot.append(text,button);}catch(error){slot.textContent='Backup not restored: '+(error instanceof SyntaxError?'The file is not valid JSON.':error.message);}});bindGo();
+}
+
+/* Progress is evidence, not a promise of passing. Counts are selected-bank coverage. */
+function learningEvidence(){
+ const pool=['signs','rules','controls'].flatMap(cat=>buildDrill(cat,'all'));
+ const ids=new Set(pool.map(q=>q.decisionId?'decision:'+q.decisionId:reviewKey(q)));
+ if(K.state.vehicleCode==='2')for(const [prefix,n] of [['S',28],['R',34],['C',10],['O',10]])for(let i=1;i<=n;i++)ids.add('decision:'+prefix+String(i).padStart(2,'0'));
+ const rows=Object.entries(K.state.attempts||{}).filter(([key,a])=>ids.has(key)&&a.correct+a.wrong>0).map(([,a])=>a);
+ const first=rows.filter(a=>typeof a.firstOk==='boolean'),recent=rows.flatMap(a=>Array.isArray(a.recent)?a.recent:[]),retained=rows.filter(a=>a.retainedAt&&a.lastOk===true);
+ return {assessed:rows.length>0||[1,2,3].some(n=>K.state.sessions[n]),seen:rows.length,total:ids.size,firstCount:first.length,firstAccuracy:first.length?Math.round(first.filter(a=>a.firstOk).length/first.length*100):null,recentCount:recent.length,recentAccuracy:recent.length?Math.round(recent.filter(Boolean).length/recent.length*100):null,retained:retained.length};
+}
+function learningEvidenceHTML(e){return `<div class="evidence-strip"><p><strong>${e.seen}/${e.total}</strong> available practice questions tried</p><p><strong>${e.firstAccuracy===null?'Not measured':e.firstAccuracy+'%'}</strong> first-attempt accuracy${e.firstCount?' · '+e.firstCount+' recorded':''}</p><p><strong>${e.retained}</strong> questions recalled correctly on separate days</p></div><p class="reference-note">Question coverage is not syllabus coverage. First-attempt and recall evidence starts when recorded; older history is not reconstructed.</p>`;}
+function openDiagnostic(){
+ currentArea='home';rememberView('diagnostic');
+ app.innerHTML=backbar('Quick starting check')+`<section class="block"><p class="kicker">Six questions · about three minutes</p><h1>Find your starting point</h1><p class="lead">Two questions per topic. This is a starting sample, not a readiness verdict. Mistakes become your next practice.</p><label for="diagnosticCode">Your learner code</label><select id="diagnosticCode" class="journey-select"><option value="1">Code 1 · motorcycle</option><option value="2">Code 2 · light vehicle</option><option value="3">Code 3 · heavier vehicle</option></select><button class="btn btn-primary" id="diagnosticStart">Start six questions</button><button class="btn btn-ghost" data-go="learn">Study first</button></section>`;
+ $('#diagnosticCode').value=K.state.vehicleCode;
+ $('#diagnosticStart').addEventListener('click',async()=>{const code=$('#diagnosticCode').value;if(code!==K.state.vehicleCode)setVehicleCode(code);await loadDecisionModule().catch(()=>{});runDiagnostic();});bindGo();
+}
+function runDiagnostic(){
+  practiceStartedAt=Date.now();
+ shortPracticeActive=true;
+ const questions=['signs','rules','controls'].flatMap(section=>buildDrill(section,2).map(q=>({...q,section}))),results={signs:0,rules:0,controls:0};let i=0,locked=false;
+ function render(){
+  if(i===questions.length){shortPracticeActive=false;recordOutcome('diagnostic',results.signs+results.rules+results.controls,6);K.state.diagnostic=K.state.diagnostic||{};K.state.diagnostic[K.state.vehicleCode]={at:Date.now(),results};K.save();const weak=Object.entries(results).sort((a,b)=>a[1]-b[1])[0][0],names={signs:'Signs',rules:'Rules',controls:'Controls'};app.innerHTML=backbar('Your starting point')+`<section class="block"><p class="kicker">Quick check complete</p><h1>Start with ${names[weak].toLowerCase()}</h1><p class="lead">${results.signs+results.rules+results.controls}/6 correct. Six questions cannot establish readiness; use this sample to choose your next lesson.</p><div class="status-grid">${Object.entries(results).map(([topic,n])=>`<div class="status-item"><b>${n}/2</b><span>${names[topic]}</span></div>`).join('')}</div><button class="btn btn-primary" data-go="session${{signs:1,rules:2,controls:3}[weak]}">Study ${names[weak].toLowerCase()}</button><button class="btn btn-soft" data-go="review">Review mistakes</button><button class="btn btn-ghost" data-go="home">See your plan</button></section>`;bindGo();return;}
+  locked=false;const q=questions[i];app.innerHTML=backbar('Quick starting check',`${i+1}/6`)+`<section class="block"><p class="kicker">${q.section} · Question ${i+1} of 6</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h1 class="question-title">${safeHTML(q.q)}</h1>${q.opts.map((o,n)=>`<button class="opt" data-i="${n}">${safeHTML(o)}</button>`).join('')}<div class="feedback hidden" role="status"></div><button class="btn btn-primary next hidden">${i===5?'See my next step':'Next question →'}</button></section>`;
+  const card=app.querySelector('.block');card.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{if(locked)return;locked=true;const ok=Number(b.dataset.i)===q.ans;if(ok)results[q.section]++;recordAttempt(q,ok);if(!ok)addReview(q);card.querySelectorAll('.opt').forEach((x,n)=>{x.disabled=true;if(n===q.ans)x.classList.add('correct');});if(!ok)b.classList.add('wrong');const feedback=card.querySelector('.feedback');feedback.className='feedback '+(ok?'ok':'no');feedback.textContent=(ok?'Correct. ':'Review this. ')+q.ex;renderAnswerTools(card,q,'home');card.querySelector('.next').classList.remove('hidden');focusPracticeContent();}));card.querySelector('.next').addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});bindGo();
+ }
+ render();
 }
 
 /* ---------- PRACTICE PROGRESS ---------- */
@@ -1691,6 +1792,8 @@ function readiness(){
   if(s.vehicleCode!=='2'){score=Math.min(score,79);msg+=' Complete your selected code’s official controls manual too.';}
   const decision=s.vehicleCode==='2'?decisionEvidence(s):null;
   if(decision){score=Math.max(0,Math.round(score*.8+decision.score*.2)-Math.min(15,decision.unresolved*2));if(decision.unresolved)score=Math.min(score,84);if(!decision.sufficient)msg+=' Build evidence across signs, rules, controls and observation decisions.';if(decision.unresolved){verdict='Resolve your decision weaknesses';msg+=' '+decision.unresolved+' unresolved decision'+(decision.unresolved===1?' remains':'s remain')+' in Review.';}else if(decision.completed)msg+=' '+decision.completed+' selected road decisions now contribute to this signal.';}
+  const observed=Object.values(s.attempts||{}).filter(a=>visibleForCode(a.q)&&a.correct+a.wrong>0);
+  if(!sessionsDone&&!allSec&&observed.length){const count=observed.reduce((n,a)=>n+a.correct+a.wrong,0),right=observed.reduce((n,a)=>n+a.correct,0);score=Math.max(score,Math.min(39,Math.round(right/count*100*Math.min(1,observed.length/30))));if(!decision?.unresolved)verdict='Building practice evidence';msg='You have tried '+observed.length+' different questions. Continue the topic checks and pass each mock section to strengthen this signal.';}
   return {verdict,emoji,msg,score,sessionsDone,acc,mockPass:!!s.mockPass,secRules,secSigns,secCtrl,allSec,decision};
 }
 async function openSignLibrary(){
@@ -1791,12 +1894,12 @@ function openPractical(){
 }
 function setVehicleCode(code){
  const s=K.state,old=s.vehicleCode;
- s.codeProgress[old]={controlsDone:!!s.sessions[3],controlsMastery:s.mastery?.[3],mockResults:s.mockResults||{},secPass:s.secPass||{},mockPass:!!s.mockPass};
+ s.codeProgress[old]={controlsDone:!!s.sessions[3],controlsMastery:s.mastery?.[3],mockResults:s.mockResults||{},secPass:s.secPass||{},mockPass:!!s.mockPass,acc:s.acc||{correct:0,total:0}};
  s.vehicleCode=code;
  const next=s.codeProgress[code]||{};
  s.sessions[3]=!!next.controlsDone;
  if(Number.isFinite(next.controlsMastery))s.mastery[3]=next.controlsMastery;else delete s.mastery[3];
- s.mockResults=next.mockResults||{};s.secPass=next.secPass||{};s.mockPass=!!next.mockPass;
+ s.mockResults=next.mockResults||{};s.secPass=next.secPass||{};s.mockPass=!!next.mockPass;s.acc=next.acc||{correct:0,total:0};
  K.save();
 }
 
@@ -1819,8 +1922,9 @@ function daysUntilTest(){
  if(target.getFullYear()!==parts[0]||target.getMonth()!==parts[1]-1||target.getDate()!==parts[2])return null;
  return Math.round((target-today)/86400000);
 }
+function coverageMatrix(){return `<section class="block"><p class="kicker">Coverage audit · 18 October 2026</p><h2>What this practice covers</h2><p>Coverage below describes the available selection, not completeness. No section has full independent subject sign-off.</p><table class="coverage-table"><thead><tr><th scope="col">Manual area</th><th scope="col">In GreenLight</th><th scope="col">Still needed</th></tr></thead><tbody><tr><th scope="row">Signs, signals & markings</th><td>${K.SIGNS.length} illustrated signs, ${K.MARKINGS.length} marking entries and ${K.SIGN_VARIANTS.length} concept questions</td><td>Broader sign families, more temporary and combination signs, and exact item-level review</td></tr><tr><th scope="row">Rules of the road</th><td>${K.rulesForCode(K.state.vehicleCode).length+K.extraForCode(K.state.vehicleCode).length} selected Code ${K.state.vehicleCode} rule questions</td><td>Complete manual-topic mapping, conditions and exceptions reviewed item by item</td></tr><tr><th scope="row">Vehicle controls</th><td>${K.controlsForCode(K.state.vehicleCode).length} Code ${K.state.vehicleCode} controls plus ${K.CONTROL_VARIANTS.length} shared checks</td><td>Vehicle-specific instructor review and broader controls examples</td></tr><tr><th scope="row">Decision application</th><td>82 Code 2 scenarios in Practise; mistakes share Review</td><td>Code 1 and 3 decision scenarios and independent instructor review</td></tr></tbody></table><p class="reference-note">Readiness reflects this selected bank. It cannot establish that you have covered the entire official syllabus.</p></section>`;}
 function openSources(){
- app.innerHTML=backbar('Coverage & sources')+`<div class="block"><p class="kicker">Learn here, verify there</p><h2>Your study map</h2><p class="lead">GreenLight offers original explanations, simplified illustrations and practice decisions. These are selected examples, not a complete or independently certified syllabus.</p><div class="journey-steps"><div class="journey-step"><span class="num">1</span><div><h3>Road signs & markings</h3><p>39 illustrated signs, 10 marking descriptions, ${K.SIGN_VARIANTS.length} concept checks and ${SITUATIONS.length} visual decisions.</p><button data-go="signlibrary">Search GreenLight signs →</button></div></div><div class="journey-step"><span class="num">2</span><div><h3>Road rules</h3><p>Selected rules and varied practice questions for your learner code.</p><button data-go="session2">Learn rules →</button></div></div><div class="journey-step"><span class="num">3</span><div><h3>Vehicle controls</h3><p>${K.controlsForCode(K.state.vehicleCode).length+K.CONTROL_VARIANTS.length} control checks for Code ${K.state.vehicleCode}.</p><button data-go="session3">Study controls →</button></div></div></div></div><div class="block"><p class="kicker">Official reference library</p><h2>Check the full material</h2><p class="lead">Open a manual when you need exact sign artwork, wording or topics outside this app. These sources do not replace your lessons here.</p><div class="mini"><div class="t">Rules of the road</div><div class="d"><a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">NaTIS rules manual ↗</a></div></div><div class="mini"><div class="t">Road traffic signs</div><div class="d"><a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">NaTIS signs manual ↗</a></div></div><div class="mini"><div class="t">Vehicle controls</div><div class="d"><a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">NaTIS controls manual ↗</a></div></div><details class="lesson-reference"><summary>Detailed content registers and review status</summary><p class="reference-note">Our <a href="content-register.json" target="_blank" rel="noopener noreferrer">content register</a> maps 295 original entries to manual areas. The <a href="assets/decision/content-register.json" target="_blank" rel="noopener noreferrer">Decision practice register</a> adds 82 light-vehicle cards with individual source locators. It is not item-by-item legal sign-off. No qualified independent reviewer has signed off the entire set; teaching is English only. Check bookings and local requirements directly with your DLTC. Source pages checked 4 October 2026.</p></details></div>`;bindGo();
+ app.innerHTML=backbar('Coverage & sources')+coverageMatrix()+`<div class="block"><p class="kicker">Learn here, verify there</p><h2>Your study map</h2><p class="lead">GreenLight offers original explanations, simplified illustrations and practice decisions. These are selected examples, not a complete or independently certified syllabus.</p><div class="journey-steps"><div class="journey-step"><span class="num">1</span><div><h3>Road signs & markings</h3><p>39 illustrated signs, 10 marking descriptions, ${K.SIGN_VARIANTS.length} concept checks and ${SITUATIONS.length} visual decisions.</p><button data-go="signlibrary">Search GreenLight signs →</button></div></div><div class="journey-step"><span class="num">2</span><div><h3>Road rules</h3><p>Selected rules and varied practice questions for your learner code.</p><button data-go="session2">Learn rules →</button></div></div><div class="journey-step"><span class="num">3</span><div><h3>Vehicle controls</h3><p>${K.controlsForCode(K.state.vehicleCode).length+K.CONTROL_VARIANTS.length} control checks for Code ${K.state.vehicleCode}.</p><button data-go="session3">Study controls →</button></div></div></div></div><div class="block"><p class="kicker">Official reference library</p><h2>Check the full material</h2><p class="lead">Open a manual when you need exact sign artwork, wording or topics outside this app. These sources do not replace your lessons here.</p><div class="mini"><div class="t">Rules of the road</div><div class="d"><a href="${MANUALS.rules}" target="_blank" rel="noopener noreferrer">NaTIS rules manual ↗</a></div></div><div class="mini"><div class="t">Road traffic signs</div><div class="d"><a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">NaTIS signs manual ↗</a></div></div><div class="mini"><div class="t">Vehicle controls</div><div class="d"><a href="${MANUALS.controls}" target="_blank" rel="noopener noreferrer">NaTIS controls manual ↗</a></div></div><details class="lesson-reference"><summary>Detailed content registers and review status</summary><p class="reference-note">Our <a href="content-register.json" target="_blank" rel="noopener noreferrer">content register</a> maps the original teaching entries to manual areas. The <a href="assets/decision/content-register.json" target="_blank" rel="noopener noreferrer">Decision practice register</a> adds 82 light-vehicle cards with individual source locators. It is not item-by-item legal sign-off. No qualified independent reviewer has signed off the entire set; teaching is English only. Check bookings and local requirements directly with your DLTC. Source pages checked 4 October 2026.</p></details></div>`;bindGo();
 }
 const DLTC_CHECKLIST=[
     ['🪪','Identity document','Bring the identity document required by your DLTC; confirm acceptable documents when booking.'],
@@ -1894,8 +1998,12 @@ function navigateFromPractice(navigate,onCancel=()=>{}){
   if(decisionModule?.isActive()){decisionModule.requestLeave(navigate);return;}
   navigate();
 }
+function bindArtExpansion(scope){
+ scope.querySelectorAll('.question-art,.review-art,.signcard,.controls-figure').forEach(figure=>{const art=figure.querySelector('img,svg');if(!art||figure.dataset.artBound)return;figure.dataset.artBound='true';const button=ce('button');button.type='button';button.className='art-expand';button.textContent='Enlarge illustration';button.addEventListener('click',()=>{const dialog=ce('dialog');dialog.className='art-viewer';dialog.setAttribute('aria-label','Enlarged study illustration');const close=ce('button');close.type='button';close.className='btn btn-soft';close.textContent='Close illustration';dialog.append(art.cloneNode(true),close);document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{dialog.remove();button.focus();});dialog.showModal();close.focus();});if(figure.matches('.question-art,.review-art'))figure.after(button);else figure.append(button);});
+}
 function bindGo(root,options={}){
   showStorageStatus();
+  bindArtExpansion(root||app);
   const scope=root||app;
   const tb=scope.querySelector('#themeBtn');
   if(tb)tb.addEventListener('click',(e)=>{e.stopPropagation();K.toggleTheme();});
@@ -1911,7 +2019,7 @@ function bindGo(root,options={}){
   scope.querySelectorAll('[data-go]').forEach(el=>{
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
-      const map={learn:openLearn,tests:openTests,drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
+      const map={diagnostic:openDiagnostic,progress:openProgress,learn:openLearn,tests:openTests,drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){
         navigateFromPractice(()=>{map[t]();rememberView(t);window.scrollTo(0,0);if(app.querySelector('.opt'))focusPracticeContent();else{const h=app.querySelector('h1')||app.querySelector('.backbar .ttl');if(h){h.tabIndex=-1;h.focus({preventScroll:true});}}});
       }
@@ -1924,7 +2032,7 @@ function bindGo(root,options={}){
 let decisionModule=null,decisionLoading=false;
 function practiceHeader(title,back='practice'){currentArea='practice';let bar=backbar(title).replace('class="backbar no-print"','class="backbar practice-back no-print"');if(back==='practice')bar=bar.replace('<button data-go="home"','<button data-go="practice"').replace('Back to home','Back to Practise');return bar;}
 function decisionBridge(){return {root:app,state:K.state,save:K.save,touch:K.touch,header:practiceHeader,bind:(scope=app)=>bindGo(scope,{decision:true}),toggleTheme:K.toggleTheme,speak:speakText,stopSpeech,storageStatus:showStorageStatus,openPractice,openDecision};}
-async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=31');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
+async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=32');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
 function showRoadPracticeRecovery(){const slot=document.getElementById('practiceResumeSlot');if(slot&&K.state.vehicleCode==='2')loadDecisionModule().then(module=>{if(slot.isConnected)module.renderResumeNotice(decisionBridge(),slot);}).catch(()=>{});}
 async function openDecision(args={}){
   if(decisionLoading)return;
@@ -2029,9 +2137,9 @@ function openMock(){
       <button class="btn btn-soft" id="sCtrl" type="button">🎛 Controls — ${SECTION_META.controls.need}/${SECTION_META.controls.n}</button>
       <button class="btn btn-ghost" data-go="mock">Back</button>
     </div>`;
-    $('#sRules').addEventListener('click',()=>{mockSeconds=0;startMock('rules');});
-    $('#sSigns').addEventListener('click',()=>{mockSeconds=0;startMock('signs');});
-    $('#sCtrl').addEventListener('click',()=>{mockSeconds=0;startMock('controls');});
+    $('#sRules').addEventListener('click',async()=>{await loadDecisionModule().catch(()=>{});mockSeconds=0;startMock('rules');});
+    $('#sSigns').addEventListener('click',async()=>{await loadDecisionModule().catch(()=>{});mockSeconds=0;startMock('signs');});
+    $('#sCtrl').addEventListener('click',async()=>{await loadDecisionModule().catch(()=>{});mockSeconds=0;startMock('controls');});
     bindGo();
   });
   bindGo();recoveryNotice();
@@ -2039,6 +2147,7 @@ function openMock(){
 
 /* Start a full test (sequential sections) or a single section */
 function startMock(onlySec,resume=null){
+  practiceStartedAt=Date.now();
   if(!resume&&validAssessment(K.state.activeAssessment)&&!window.confirm('Start a new attempt and replace the unfinished one?'))return;
   assessmentActive=true;
   if(!resume){K.state.paperSeries=(K.state.paperSeries||0)+1;K.save();}
@@ -2142,13 +2251,13 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, scope=
   const ctx=cvs.getContext('2d');
   // Background
   const grad=ctx.createLinearGradient(0,0,0,600);
-  grad.addColorStop(0,'#0075de'); grad.addColorStop(1,'#005bab');
+  grad.addColorStop(0,'#164c34'); grad.addColorStop(1,'#0b3020');
   ctx.fillStyle=grad; ctx.fillRect(0,0,800,600);
   // Accent stripe
   ctx.fillStyle='#fff'; ctx.fillRect(0,0,800,6);
   // Title
-  ctx.font='bold 48px Inter, Arial'; ctx.fillStyle='#fff'; ctx.textAlign='center';
-  ctx.fillText(T('share.title') || 'My K53 Mock Result', 400, 80);
+  ctx.font='bold 34px Inter, Arial'; ctx.fillStyle='#fff'; ctx.textAlign='center';
+  ctx.fillText('GreenLight K53 · Practice result', 400, 80);
   // Overall
   ctx.font='bold 72px Inter, Arial';
   ctx.fillStyle=passed?'#7bf0a2':'#ffb08a';
@@ -2172,10 +2281,15 @@ function makeShareCard(secCorrect, secCount, totalCorrect, total, passed, scope=
   // Footer
   ctx.font='18px Inter, Arial'; ctx.fillStyle='#cfefff'; ctx.textAlign='center';
   const msg = scope==='section' ? (passed?'Section practice passed':'Keep practising this section') : (passed?'All sections passed in practice':'Working on my weak sections');
-  ctx.fillText(msg, 400, 560);
+  ctx.fillText(msg, 400, 530);
+  ctx.font='15px Inter, Arial';ctx.fillStyle='#deecdf';ctx.fillText('greenlight-k53-review.vercel.app · Practice, not a pass guarantee',400,570);
   return cvs.toDataURL('image/png');
 }
 
+function saveResultImage(dataUrl,filename){
+ const bytes=Uint8Array.from(atob(dataUrl.split(',')[1]),c=>c.charCodeAt(0));downloadData(filename,bytes,'image/png');
+ let status=document.getElementById('shareStatus');if(!status){status=ce('p');status.id='shareStatus';status.setAttribute('role','status');$('#shareBtn').after(status);}status.textContent='Result image download requested.';
+}
 function mockDecisionFollowup(results){if(K.state.vehicleCode!=='2')return '';const entries=Object.entries(results).filter(([topic,r])=>['signs','rules','controls'].includes(topic)&&r&&r.total>0).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total);if(!entries.length)return '';const topic=entries[0][0],label={signs:'sign',rules:'road-rule',controls:'control'}[topic];return `<button class="btn btn-soft" data-practice-mode="${topic}">Practise ${label} decisions from your weakest section</button>`;}
 
 function finishMock(onlySec){
@@ -2194,6 +2308,7 @@ function finishMock(onlySec){
   const attempted=sections.map(s=>K.state.mockResults?.[s]).filter(Boolean);
   const attemptedCorrect=attempted.reduce((sum,r)=>sum+r.correct,0);
   const attemptedTotal=attempted.reduce((sum,r)=>sum+r.total,0);
+  recordOutcome('learning-mock'+(onlySec?'-'+onlySec:''),attemptedCorrect,attemptedTotal);
   if(!onlySec)K.state.mockPass=overallPass;
   K.state.mastery=K.state.mastery||{};
   const resultMap={rules:2,signs:1,controls:3};
@@ -2226,7 +2341,7 @@ function finishMock(onlySec){
     const totalCorrect = sections.reduce((sum,s)=>sum+(r[s]?.correct||0), 0);
     const totalQ = sections.reduce((sum,s)=>sum+(r[s]?.total||0), 0);
     const dataUrl=makeShareCard(secCorrect, secCount, totalCorrect, totalQ, overallPass, onlySec?'section':'full');
-    const a=document.createElement('a'); a.href=dataUrl; a.download='k53-result.png'; a.click();
+    saveResultImage(dataUrl,'k53-result.png');
   });
   if(overallPass)confetti();
   bindGo();
@@ -2250,6 +2365,7 @@ function openSim(){
   bindGo();recoveryNotice();
 }
 function startSim(resume=null){
+  practiceStartedAt=Date.now();
   if(!resume&&validAssessment(K.state.activeAssessment)&&!window.confirm('Start a new attempt and replace the unfinished one?'))return;
   assessmentActive=true;
   const deadline = resume?resume.deadline:(mockSeconds ? Date.now() + mockSeconds * 1000 : 0);
@@ -2327,6 +2443,7 @@ function startSim(resume=null){
     const missed=mistakeKeys(mockData.filter((q,n)=>answers[n]!==null&&answers[n]!==q.ans));
     const rows=SECTION_ORDER.map(s=>{const m=SECTION_META[s];const c=secCorrect[s],t=secCount[s];const need=m.need;const passed=t===m.n&&c>=need;return `<tr><td>${m.name}</td><td>${c+'/'+m.n} (${t} answered)</td><td>${passed?'<span style="color:var(--ok);font-weight:700">PASSED</span>':'<span style="color:var(--err);font-weight:700">NOT PASSED</span>'}</td><td>${need}</td></tr>`;}).join('');
     const allPass=SECTION_ORDER.every(s=>secCount[s]===SECTION_META[s].n&&secCorrect[s]>=SECTION_META[s].need);
+    recordOutcome('timed-simulation',correct,total);
     K.state.shareData={secCorrect,secCount,correct,total,passed:allPass};
     K.state.mockPass=allPass;
     K.state.secPass=K.state.secPass||{};
@@ -2353,7 +2470,7 @@ function startSim(resume=null){
     const d=K.state.shareData;
     if(!d)return;
     const dataUrl=makeShareCard(d.secCorrect, d.secCount, d.correct, d.total, d.passed);
-    const a=document.createElement('a'); a.href=dataUrl; a.download='k53-sim-result.png'; a.click();
+    saveResultImage(dataUrl,'k53-sim-result.png');
   });
   if(allPass)confetti();
   bindGo();
@@ -2379,7 +2496,7 @@ window.addEventListener('hashchange',event=>followPracticeRoute(location.hash,ev
 try{
   const gp=new URLSearchParams(location.search).get('go');
   if(gp&&!/^#(?:practice(?:\/|$)|decision$|drive$)/.test(initialPracticeRoute)){
-    const routes={learn:openLearn,tests:openTests,drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,session1:openSession1,session2:openSession2,session3:openSession3,mock:openMock,sim:openSim,flash:openFlash,practice:openPractice,row:openRow,situations:openSituations,concepts:openConceptFocus,practical:openPractical,signlibrary:openSignLibrary,memory:openMemory,sources:openSources,cheat:openCheat,checklist:openChecklist,review:openReview,rhd:openRHD,revision:openRevision};
+    const routes={diagnostic:openDiagnostic,progress:openProgress,learn:openLearn,tests:openTests,drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,session1:openSession1,session2:openSession2,session3:openSession3,mock:openMock,sim:openSim,flash:openFlash,practice:openPractice,row:openRow,situations:openSituations,concepts:openConceptFocus,practical:openPractical,signlibrary:openSignLibrary,memory:openMemory,sources:openSources,cheat:openCheat,checklist:openChecklist,review:openReview,rhd:openRHD,revision:openRevision};
     if(routes[gp])routes[gp]();
   }
 }catch(e){}
@@ -2449,6 +2566,7 @@ function maybeShowInstall(){
 // Installation guidance is available on demand through the top bar.
 /* PWA: one install/update flow for every study tool. */
 if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) {
+  navigator.serviceWorker.ready.then(()=>{window.__offlineReady=true;syncConnectivity();});
   let waitingWorker=null,applyRequested=false,dismissed=false;
   const busy=()=>assessmentActive||decisionModule?.isActive()||!!app.querySelector('.opt');
   function showAppUpdate(){

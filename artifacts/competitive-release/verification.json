@@ -1,0 +1,124 @@
+{
+  "date": "2026-10-18",
+  "testedRuntimeCommit": "8ebf09f9c8e8ffbcc023babe2317ea1eaac22d0b",
+  "preview": "https://greenlight-k53-review-dk1plb0yc-butters-projects-ad226a08.vercel.app/",
+  "ci": {
+    "run": 39134132812,
+    "conclusion": "success"
+  },
+  "developerChecks": [
+    "security-headers --check",
+    "verify",
+    "verify-product-evidence",
+    "verify-content",
+    "verify-assessment",
+    "verify-recovery",
+    "build-content-register --check",
+    "verify-review",
+    "verify-signs",
+    "verify-offline"
+  ],
+  "browser": {
+    "environment": "Remote desktop Chromium; 1348x926 screenshots. No physical-device claim.",
+    "completedDiagnostic": {
+      "questions": 6,
+      "correct": 5,
+      "firstAttemptEvidencePreservedAfterReload": true
+    },
+    "completedTopicDrill": {
+      "selectedLength": 20,
+      "answered": 20,
+      "correct": 4,
+      "missed": 16,
+      "reviewRoundSize": 10
+    },
+    "sharedDecisionReview": {
+      "answered": 1,
+      "correct": 1,
+      "dailyCountBefore": 6,
+      "dailyCountAfter": 7,
+      "reviewReturnedToSameProduct": true
+    },
+    "backup": {
+      "exportDownloaded": true,
+      "restorePreview": true,
+      "restoredQuestionRecords": 26,
+      "restoredReviewEntries": 17,
+      "preservedFirstAttemptAccuracy": 35
+    },
+    "learningMockSectionCode2": {
+      "answered": 8,
+      "correct": 2,
+      "reloadPreservedLockedAnswer": true,
+      "reloadDidNotRescore": true
+    },
+    "timedSimulationCode2": {
+      "answered": 64,
+      "correct": 17,
+      "rules": [
+        8,
+        28
+      ],
+      "signs": [
+        8,
+        28
+      ],
+      "controls": [
+        1,
+        8
+      ],
+      "resumeAtQuestion": 17,
+      "originalTimerPreserved": true
+    },
+    "learningMockSectionCode1": {
+      "answered": 8,
+      "correct": 1
+    },
+    "resultDownload": {
+      "format": "PNG",
+      "width": 800,
+      "height": 600,
+      "actualFileInspected": true,
+      "visibleStatus": true
+    },
+    "illustrationModal": {
+      "opens": true,
+      "escapeCloses": true,
+      "focusReturns": true,
+      "questionHeadingOverlap": false,
+      "headingGapPixels": 20,
+      "controlsAfterSignPagination": 6
+    },
+    "limitations": [
+      "Arbitrary choices exercised scoring; these are test-run scores, not learner outcomes.",
+      "No physical Android/iOS or Safari certification.",
+      "Browser extension metadata errors excluded by chrome-extension URL; no application error seen in checked flows."
+    ]
+  },
+  "fixedDuringVerification": [
+    "Enlarge control overlapped fixed-height question art.",
+    "Enlarge controls were not rebound after reader pagination.",
+    "Detached data-URL result export did not produce a confirmed download; attached Blob path produced a verified PNG."
+  ],
+  "openGates": [
+    "Full official syllabus mapping and content expansion",
+    "Qualified independent item-level content review",
+    "Human language review before translations",
+    "Physical-device and assistive-technology audit",
+    "Signed Android build and Play publication",
+    "Real-learner pilot and outcome evidence"
+  ],
+  "playConsole": "Automatic browser approval review blocked the google.play redirect; no account state read and no publication claimed.",
+  "runtimeSha256": {
+    "index.html": "a5f1d22e3bb874ec8a31ba2bcf48404324903a55f47a3b83d7236867969f4086",
+    "assets/product.css": "0e0a2387f87eb23fed2308429b5a1baf65fafcc111fa9613bbf9f9b9e804c647",
+    "assets/decision/model.js": "b7fec713c0a90d1753444b70cfc453ef13f9c858ab5e6e6362e944e1fa320493",
+    "assets/decision/practice.js": "a895b21904a82604cb08f62286594149cc448f17c3ba43dd436e7cc4c47235ca",
+    "assets/decision/session.js": "2b7320630ca513a1825bcd9afff511d4b0f8b95ef610ad0ab79ffb079084c265",
+    "sw.js": "4f0e40c2b6653515fc9526c0be31711e020b7475697e2cd55d8cdbb14a2e37f6",
+    "manifest.webmanifest": "371203d8f5e6cebf0542579f53ffcd21c2f9a458219a93118cf831df38b949cd",
+    "vercel.json": "85e05b0afc146ac084e64ca241f83f92b2925be13d0861965e221455238ff160",
+    "privacy.html": "5cab825140020ebc487a7cb93e56b50ac69bde9de3498f05fb1aef81810130c2",
+    "corrections.html": "a5179aa0ad04a109bca1ce684166fe170a66d67bb705a0d87963a210e2ac869e"
+  }
+}

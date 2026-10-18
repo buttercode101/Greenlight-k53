@@ -1,5 +1,5 @@
-import { BANK, ROUTES } from "./bank.js?v=31";
-import { makeRun, runFromSave, shuffle } from "./engine.js?v=31";
+import { BANK, ROUTES } from "./bank.js?v=32";
+import { makeRun, runFromSave, shuffle } from "./engine.js?v=32";
 import {
   newSave,
   nextCard,
@@ -9,9 +9,9 @@ import {
   pauseSave,
   resumeSave,
   validateSave,
-} from "./session.js?v=31";
-import { storageWarning } from "./storage.js?v=31";
-import { questionSource } from "./sources.js?v=31";
+} from "./session.js?v=32";
+import { storageWarning } from "./storage.js?v=32";
+import { questionSource } from "./sources.js?v=32";
 import {
   BY_ID,
   progress,
@@ -19,7 +19,7 @@ import {
   finish,
   weakIds,
   importLegacy,
-} from "./model.js?v=31";
+} from "./model.js?v=32";
 const esc = (v) =>
   String(v ?? "").replace(
     /[&<>"']/g,

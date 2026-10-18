@@ -1,15 +1,31 @@
 {
   "name": "GreenLight K53 Learner Practice",
   "short_name": "GreenLight K53",
-  "description": "Practise South African K53 road signs, rules and vehicle controls with study sessions, drills and a mock test. Works offline.",
+  "description": "South African K53 learner practice: illustrated signs, road rules, code-specific controls, short drills, review and mock tests. Offline after download.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#f6f5f4",
   "theme_color": "#0e8f3e",
   "lang": "en-ZA",
   "icons": [
-    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }

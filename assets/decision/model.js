@@ -1,6 +1,6 @@
 /** Canonical K53 state adapter: no second progress store or mistake queue. */
-import { BANK } from "./bank.js?v=31";
-import { localToday } from "./engine.js?v=31";
+import { BANK } from "./bank.js?v=32";
+import { localToday } from "./engine.js?v=32";
 export const BY_ID = Object.freeze(
   Object.setPrototypeOf(Object.fromEntries(BANK.map((q) => [q.id, q])), null),
 );
@@ -94,6 +94,10 @@ export function record(state, q, answer, eventId, now = Date.now()) {
     ].slice(-5),
     correct: number(previous?.correct) + (answer.full ? 1 : 0),
     wrong: number(previous?.wrong) + (answer.full ? 0 : 1),
+    firstOk: typeof previous?.firstOk === "boolean" ? previous.firstOk : previous ? undefined : answer.full,
+    firstAt: previous?.firstAt || (previous ? undefined : now),
+    lastOk: answer.full,
+    retainedAt: answer.full && previous?.lastOk === true && now-previous.last >= 86400000 ? now : answer.full ? previous?.retainedAt : undefined,
     last: now,
   };
   state.attempts[key] = row;

@@ -19,6 +19,7 @@ const ctx = vm.createContext({
 vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1], ctx);
 const K = window.__K53;
 ctx.K = K;
+ctx.reviewKey=q=>(q.svg||'')+'|'+q.q+'|'+q.opts[q.ans];
 K.decisionQuestions = (topic) =>
   getPracticeQuestions(topic, K.state.vehicleCode);
 K.recordDecisionQuestion = (q, ok) => recordChoiceAttempt(K.state, q, ok);
