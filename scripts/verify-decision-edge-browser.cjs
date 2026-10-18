@@ -64,7 +64,7 @@ const server = http.createServer((req, res) => {
   const p = await ctx.newPage();
   p.on("pageerror", (e) => out.errors.push(e.message));
   await p.goto("http://localhost:8085/", { waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="drive"]').first().click();
+  await p.locator('[data-go="practice"]').first().click();
   await p.locator("#decisionTimed").waitFor();
   rec("host entry and single shell", {
     topbars: await p.locator(".topbar").count(),
@@ -106,11 +106,13 @@ const server = http.createServer((req, res) => {
     return q;
   }
   assert.equal(await p.locator("#decisionStorageStatus").count(), 0);
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="signs"]').click();
   assert.equal(await p.locator("#decisionStorageStatus").count(), 0);
   rec("successful saves never show a storage warning");
   await fresh();
   await p.locator("#decisionTimed").click();
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="signs"]').click();
   await p.waitForTimeout(1500);
   const initial = await p.evaluate(() =>
@@ -167,6 +169,7 @@ const server = http.createServer((req, res) => {
   rec("leave confirmation freezes time and navigation stops player");
   await fresh();
   await seed(["O02"]);
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="weak"]').click();
   await p
     .getByRole("button", {
@@ -190,6 +193,7 @@ const server = http.createServer((req, res) => {
     picked: after.picked,
   });
   await fresh();
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="signs"]').click();
   await p.locator("#decisionHint").click();
   await pickCorrect();
@@ -205,6 +209,7 @@ const server = http.createServer((req, res) => {
   rec("hint feedback and reveal reload do not duplicate scoring");
   await fresh();
   await seed(["O01"]);
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="weak"]').click();
   await p.getByRole("button", { name: "Signal right", exact: true }).click();
   await pickCorrect();
@@ -215,6 +220,7 @@ const server = http.createServer((req, res) => {
   assert.equal(await p.evaluate(() => window.__K53.state.decision.xp), 5);
   rec("partial observation earns partial credit and stays due");
   await fresh();
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="signs"]').click();
   await p.evaluate(() => {
     Storage.prototype.setItem = function () {
@@ -253,10 +259,10 @@ const server = http.createServer((req, res) => {
     setVehicleCode("1");
     renderHome();
   });
-  await p.locator('[data-go="drive"]').first().click();
+  await p.locator('[data-go="practice"]').first().click();
   assert.equal(await p.locator("[data-decision-mode]").count(), 0);
   await p.locator("#drillSigns").waitFor();
-  assert.match(await p.locator("#app").innerText(), /Focused practice/);
+  assert.match(await p.locator("#app").innerText(), /Practise a topic/);
   rec("vehicle-code scope protects motorcycle users");
   await fresh();
   await p.evaluate(() => {
@@ -293,6 +299,7 @@ const server = http.createServer((req, res) => {
   });
   await p.reload({ waitUntil: "domcontentloaded" });
   await p.locator("#decisionTimed").waitFor();
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="signs"]').click();
   const timedId = await p
     .locator("[data-question-id]")

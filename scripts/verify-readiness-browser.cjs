@@ -64,7 +64,7 @@ const server = http.createServer((req, res) => {
   const p = await ctx.newPage();
   p.on("pageerror", (e) => out.errors.push(e.message));
   await p.goto("http://localhost:8085/", { waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="drive"]').first().click();
+  await p.locator('[data-go="practice"]').first().click();
   await p.locator("#decisionTimed").waitFor();
   rec("host entry and single shell", {
     topbars: await p.locator(".topbar").count(),
@@ -92,7 +92,7 @@ const server = http.createServer((req, res) => {
   const initial = await p.evaluate(() => readiness().score);
   assert.equal(initial, 80);
   assert.match(await p.locator("#app").innerText(), /80% practice readiness/);
-  await p.locator(".tool-disclosure summary").click();
+  await p.locator('[data-go="learn"]').first().click();
   await p.locator('[data-go="signlibrary"]').click();
   await p.locator("#signCategory").selectOption("concepts");
   await p.locator("#signSearch").fill("Red octagonal");
@@ -104,7 +104,7 @@ const server = http.createServer((req, res) => {
   assert.equal(await p.evaluate(() => readiness().decision.unresolved), 1);
   assert.match(
     await p.locator("#next-title").innerText(),
-    /Repair your road decisions/,
+    /Review what you missed/,
   );
   const afterMiss = await p.evaluate(() => readiness().score);
   assert(afterMiss < initial);
@@ -112,15 +112,15 @@ const server = http.createServer((req, res) => {
     before: initial,
     after: afterMiss,
   });
-  await p.locator('[data-practice-mode="weak"]').click();
+  await p.locator('.product-nav [data-go="review"]').click();
+  await p.locator("#reviewStart").click();
   assert.equal(
     await p.locator("[data-question-id]").getAttribute("data-question-id"),
     "S01",
   );
   await p.locator('[data-choice="0"]').click();
   await p.locator("#decisionNext").click();
-  await p.locator("#decisionHome").click();
-  await p.locator('.practice-back [data-go="home"]').click();
+  await p.locator('.product-nav [data-go="home"]').click();
   const improved = await p.evaluate(() => readiness());
   assert.equal(improved.decision.unresolved, 0);
   assert(improved.score > afterMiss);

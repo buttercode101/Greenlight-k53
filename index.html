@@ -52,7 +52,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/decision/practice.css?v=26">
+<link rel="stylesheet" href="./assets/decision/practice.css?v=27">
 <style>
 /* ============================================================
    DESIGN.md COMPATIBLE TOKENS (Notion + Mintlify hybrid)
@@ -440,7 +440,7 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 @media(max-width:480px){.storage-status{margin:8px 12px}.span-table th,.span-table td{padding:8px 5px;font-size:12px}.question-source{font-size:13px}}
 #drillSigns .ti,#drillRules .ti,#drillCtrl .ti,#drillMixed .ti{width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:8px}
 </style>
-<link rel="stylesheet" href="./assets/product.css?v=26">
+<link rel="stylesheet" href="./assets/product.css?v=27">
 </head>
 <body>
 <a class="skip-link" href="#app">Skip to main content</a>
@@ -1034,14 +1034,17 @@ function topbar(){
     <button class="theme-toggle" type="button" id="themeBtn" aria-label="Toggle dark mode">${icon(isDark()?'sun':'moon')}</button>
     </div>`;
 }
+let currentArea='home';
+function productNav(){return `<nav class="product-nav no-print" aria-label="Main navigation">${[['home','Home'],['learn','Learn'],['practice','Practise'],['review','Review'],['tests','Tests']].map(([go,label])=>`<button type="button" data-go="${go}" ${currentArea===go?'aria-current="page"':''}>${label}</button>`).join('')}</nav>`;}
 function backbar(title,score){
-  return `<div class="backbar no-print"><button data-go="home" type="button" aria-label="Back to home">‹</button><div class="ttl">${title}</div>${score?`<div class="sc">${score}</div>`:''}</div>`;
+  const back=currentArea==='learn'&&title!=='Learn'?'learn':currentArea==='tests'&&title!=='Check readiness'?'tests':'home';
+  return topbar()+productNav()+`<div class="backbar no-print"><button data-go="${back}" type="button" aria-label="Back to ${back==='home'?'home':back==='learn'?'Learn':'Tests'}">‹</button><div class="ttl">${title}</div>${score?`<div class="sc">${score}</div>`:''}</div>`;
 }
 
 function streak(){ K.touch(); return K.state.streak||0; }
 function ringFor(n){ return Math.round((K.state.mastery&&K.state.mastery[n])||0); }
 function topicLabel(n){const value=ringFor(n);return K.state.mastery?.[n]!==undefined?value+'% recent accuracy':(K.state.sessions[n]?'Lesson complete — take the check':'Not assessed');}
-function nextStep(){if(K.state.vehicleCode==='2'){const e=decisionEvidence(K.state);if(e.unresolved)return {mode:'weak',title:'Repair your road decisions',copy:e.unresolved+' unresolved decision'+(e.unresolved===1?' is':'s are')+' holding back your practice readiness.',cta:'Practise due decisions'};const weakDecision=Object.values(e.topics).filter(t=>t.attempts&&t.accuracy<70).sort((a,b)=>a.score-b.score)[0];if(weakDecision)return {mode:weakDecision.mode,title:'Strengthen '+weakDecision.label.toLowerCase()+' decisions',copy:'Your recent decision accuracy is '+weakDecision.accuracy+'%. Work on one short set, then recheck.',cta:'Practise '+weakDecision.label.toLowerCase()};if([1,2,3].every(n=>K.state.sessions[n]&&ringFor(n)>=70)){const gap=Object.values(e.topics).filter(t=>t.seen<t.need).sort((a,b)=>a.coverage-b.coverage)[0];if(gap)return {mode:gap.mode,title:'Build '+gap.label.toLowerCase()+' decision evidence',copy:gap.seen+' of '+gap.need+' initial examples practised. Complete one short set to make the readiness signal more useful.',cta:'Practise '+gap.label.toLowerCase()};}}if(reviewDue().length)return {go:'review',title:'Review what you missed',copy:reviewDue().length+' questions are due. A short review is the best next step.',cta:'Review due questions'};const weak=[1,2,3].filter(n=>K.state.sessions[n]&&ringFor(n)<70);if(!K.state.sessions[1])return {go:'session1',title:'Start with road signs',copy:'Build recognition first. Finish a short check to unlock an evidence-based score.',cta:'Start signs · about 25 min'};if(weak.length){const n=weak[0], names={1:'Signs',2:'Rules',3:'Controls'};return {go:'session'+n,title:'Repair your '+names[n]+' score',copy:'Your recent accuracy is below 70%. A focused check is the fastest next step.',cta:'Practise '+names[n]};}if(!K.state.sessions[2])return {go:'session2',title:'Continue with road rules',copy:'Turn recognition into safe decisions with a short quiz.',cta:'Start rules · about 25 min'};if(!K.state.sessions[3])return {go:'session3',title:'Finish vehicle controls',copy:'Complete the final topic before a full mock.',cta:'Start controls · about 15 min'};return {go:'mock',title:'Take a realistic mock',copy:'Use the timed simulation only when you want exam pressure; this mock teaches as you go.',cta:'Start learning mock'};}
+function nextStep(){if(reviewDue().length)return {go:'review',title:'Review what you missed',copy:reviewDue().length+' questions are due across your practice. Revisit them before starting another set.',cta:'Review due questions'};if(K.state.vehicleCode==='2'&&[1,2,3].every(n=>K.state.sessions[n]&&ringFor(n)>=70)){const e=decisionEvidence(K.state);const weakDecision=Object.values(e.topics).filter(t=>t.attempts&&t.accuracy<70).sort((a,b)=>a.score-b.score)[0];if(weakDecision)return {mode:weakDecision.mode,title:'Strengthen '+weakDecision.label.toLowerCase()+' decisions',copy:'Your recent decision accuracy is '+weakDecision.accuracy+'%. Work on one short set, then recheck.',cta:'Practise '+weakDecision.label.toLowerCase()};if([1,2,3].every(n=>K.state.sessions[n]&&ringFor(n)>=70)){const gap=Object.values(e.topics).filter(t=>t.seen<t.need).sort((a,b)=>a.coverage-b.coverage)[0];if(gap)return {mode:gap.mode,title:'Build '+gap.label.toLowerCase()+' decision evidence',copy:gap.seen+' of '+gap.need+' initial examples practised. Complete one short set to make the readiness signal more useful.',cta:'Practise '+gap.label.toLowerCase()};}}if(reviewDue().length)return {go:'review',title:'Review what you missed',copy:reviewDue().length+' questions are due. A short review is the best next step.',cta:'Review due questions'};const weak=[1,2,3].filter(n=>K.state.sessions[n]&&ringFor(n)<70);if(!K.state.sessions[1])return {go:'session1',title:'Start with road signs',copy:'Build recognition first. Finish a short check to unlock an evidence-based score.',cta:'Start signs · about 25 min'};if(weak.length){const n=weak[0], names={1:'Signs',2:'Rules',3:'Controls'};return {go:'session'+n,title:'Repair your '+names[n]+' score',copy:'Your recent accuracy is below 70%. A focused check is the fastest next step.',cta:'Practise '+names[n]};}if(!K.state.sessions[2])return {go:'session2',title:'Continue with road rules',copy:'Turn recognition into safe decisions with a short quiz.',cta:'Start rules · about 25 min'};if(!K.state.sessions[3])return {go:'session3',title:'Finish vehicle controls',copy:'Complete the final topic before a full mock.',cta:'Start controls · about 15 min'};return {go:'mock',title:'Take a realistic mock',copy:'Use the timed simulation only when you want exam pressure; this mock teaches as you go.',cta:'Start learning mock'};}
 /* Speak a raw string via TTS (voice+rate from state) */
 function speakText(t){ if(t&&window.__TTS&&window.__TTS.ok)window.__TTS.speak(t); }
 function stopSpeech(){ if(window.__TTS&&window.__TTS.ok)window.__TTS.stop(); }
@@ -1105,24 +1108,35 @@ function renderHome(){
   if(location.hash.startsWith('#practice')||location.hash==='#decision'||location.hash==='#drive')history.replaceState(null,'',location.pathname+location.search);
   const r=readiness(), next=nextStep();
   const statuses=[[1,'Signs'],[2,'Rules'],[3,'Controls']].map(([n,label])=>`<div class="status-item"><b>${K.state.mastery?.[n]!==undefined?ringFor(n)+'%':'—'}</b><span>${label}<br>${topicLabel(n)}</span></div>`).join('');
-  app.innerHTML=topbar()+`
-  <div class="hero"><div class="hero-copy"><p class="kicker">South African learner’s licence practice</p><h1>${T('tagline')}</h1><p>Learn the reason behind each answer, practise it, then revisit what you missed.</p><p class="hero-note">Free study aid · no account required · works offline after install</p></div></div>
-  <nav class="home-nav no-print" aria-label="Study areas"><button data-go="home">Plan</button><button data-go="session1">Learn</button><button data-go="practice">Practise</button><button data-go="drive">Drive</button><button data-go="mock">Mock</button><button data-go="checklist">Test day</button></nav>
-  <section class="drive-entry" aria-labelledby="driveTitle"><div class="drive-entry-copy"><span class="drive-symbol" aria-hidden="true">${icon('car')}</span><div><p class="kicker">Learn it. Put it into practice.</p><h2 id="driveTitle">Drive</h2><p>${K.state.vehicleCode==='2'?'Road decisions and observation, connected to your readiness and review.':'Light-vehicle decisions for Code 2. Your Code '+K.state.vehicleCode+' study plan stays selected.'}</p></div></div><button class="btn btn-primary" data-go="drive">Explore Drive <span aria-hidden="true">→</span></button></section>
+  currentArea='home';
+  app.innerHTML=topbar()+productNav()+`
+  <header class="plan-intro"><div><p class="kicker">South African K53 preparation</p><h1>Your study plan</h1><p>Learn the material, practise weak areas and check your readiness.</p></div><button class="plan-settings" data-go="journey">Code ${K.state.vehicleCode} · Your test plan ${icon('car')}</button></header>
   <div id="practiceResumeSlot"></div>
   <div class="dashboard">
-    <section class="next-step" aria-labelledby="next-title"><p class="footnote">Code ${K.state.vehicleCode} · <a href="#journey" data-go="journey">Change code</a></p><div class="next-meta"><span>${reviewDue().length} reviews due</span><span>${Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)&&a.wrong>a.correct).length} questions to revisit</span></div><p>${topicStats()[0]?.wrong?'Today’s focus: '+safeHTML(topicStats()[0].topic):'A short session is enough to get started.'}</p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" ${next.mode?`data-practice-mode="${next.mode}"`:`data-go="${next.go}"`}>${next.cta} →</button><p class="trust-note">Readiness is based on study checks, mock sections and decision performance—not simply on pages viewed.</p></section>
-    <section class="block"><p class="kicker">Readiness</p><h2>${r.verdict}</h2><p class="lead">${r.msg}</p><div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div><p class="footnote" style="text-align:left;margin-top:10px">${r.score}% practice readiness · based on checks, mocks and selected decisions</p>${decisionEvidenceHTML()}</section>
-    <section class="block"><p class="kicker">Recent accuracy</p><h2>Topic evidence</h2><div class="status-grid">${statuses}</div></section>
+    <section class="next-step" aria-labelledby="next-title"><div class="next-meta"><span>${reviewDue().length} reviews due</span><span>${Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)&&a.wrong>a.correct).length} questions to revisit</span></div><p>${topicStats()[0]?.wrong?'Today’s focus: '+safeHTML(topicStats()[0].topic):'A short session is enough to get started.'}</p><p class="kicker">Your next best step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" ${next.mode?`data-practice-mode="${next.mode}"`:`data-go="${next.go}"`}>${next.cta} →</button><p class="trust-note">Your progress combines lesson checks, practice results and mock section scores.</p></section>
+    <section class="block"><p class="kicker">Readiness</p><h2>${r.verdict}</h2><p class="lead">${r.msg}</p><div class="prog" role="progressbar" aria-label="Readiness score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div><p class="footnote" style="text-align:left;margin-top:10px">${r.score}% practice readiness · based on checks, mocks and selected decisions</p>${decisionEvidenceHTML()}<details class="topic-breakdown"><summary>Your topic progress</summary><div class="status-grid">${statuses}</div></details></section>
   </div>
-  <section class="block"><p class="kicker">Your route</p><h2>Learn, then prove it</h2><div class="library"><button class="btn btn-ghost" data-go="session1">Signs<span class="sub">Learn + short check</span></button><button class="btn btn-ghost" data-go="session2">Rules<span class="sub">Lesson + quiz</span></button><button class="btn btn-ghost" data-go="session3">Controls<span class="sub">Quick scenarios</span></button></div></section>
-  <section class="block"><p class="kicker">Build confidence</p><h2>Practise and check your understanding</h2><div class="library"><button class="btn" data-go="practice">Section drills<span class="sub">Work on one topic at a time</span></button><button class="btn" data-go="drive">Drive · road decisions<span class="sub">Apply your learning in short exercises · Code 2</span></button><button class="btn" data-go="review">Review mistakes<span class="sub">${reviewDue().length} due today</span></button><button class="btn" data-go="mock">Learning mock<span class="sub">See explanations as you go</span></button><button class="btn" data-go="sim">Timed simulation<span class="sub">64 questions without hints</span></button></div></section>
-  <details class="tool-disclosure"><summary>Explore more study tools</summary><div class="library"><button class="btn" data-go="signlibrary">Sign atlas<span class="sub">Search 39 illustrated examples</span></button><button class="btn" data-go="situations">Road situations<span class="sub">Choose the safe action</span></button><button class="btn" data-go="concepts">Concept focus<span class="sub">See repeated sign evidence</span></button><button class="btn" data-go="flash">Flashcards<span class="sub">Recall from memory</span></button><button class="btn" data-go="row">Right of way<span class="sub">Decide who goes first</span></button><button class="btn" data-go="memory">Memory tricks<span class="sub">Quick revision</span></button>${K.state.vehicleCode==='2'?'<button class="btn" data-go="rhd">RHD cockpit<span class="sub">Explore manual-car controls</span></button>':''}<button class="btn" data-go="journey">Code & test plan<span class="sub">Prepare for your date</span></button></div></details>
+  <section class="block study-path" aria-labelledby="path-title"><p class="kicker">Your preparation path</p><h2 id="path-title">Build knowledge. Check it. Improve.</h2><div class="path-grid">
+    <button class="path-card" data-go="learn"><span class="path-number">1</span><span><b>Learn</b><span>Signs, road rules and vehicle controls</span></span><span aria-hidden="true">→</span></button>
+    <button class="path-card" data-go="practice"><span class="path-number">2</span><span><b>Practise</b><span>Topic drills and road decisions</span></span><span aria-hidden="true">→</span></button>
+    <button class="path-card" data-go="review"><span class="path-number">3</span><span><b>Review</b><span>${reviewDue().length?reviewDue().length+' questions due · revisit what you missed':'Your mistakes and saved questions'}</span></span><span aria-hidden="true">→</span></button>
+    <button class="path-card" data-go="tests"><span class="path-number">4</span><span><b>Check readiness</b><span>Learning mock or timed simulation</span></span><span aria-hidden="true">→</span></button>
+  </div></section>
+  <div class="home-utilities"><button data-go="checklist">Preparing for test day? Open your checklist →</button></div>
   <p class="footnote">Independent English study aid with selected practice, not the official question bank or complete syllabus. <a href="#sources" data-go="sources">Coverage and official references</a>.</p>
   <p class="footnote">Study progress stays on this device. <a href="study-guide.html">Printable study guide</a> · <a href="#sources" data-go="sources">Official reference library</a>.</p>`;
   bindGo();recoveryNotice();showRoadPracticeRecovery();
 }
+function openLearn(){
+  currentArea='learn';
+  app.innerHTML=backbar('Learn')+`<section class="block"><p class="kicker">Step 1 · Build your knowledge</p><h1>Learn the test topics</h1><p class="lead">Work through signs, rules and controls for Code ${K.state.vehicleCode}. Each lesson ends with a short check.</p><div class="hub-list"><button class="btn btn-ghost" data-go="session1">Road signs & markings<span class="sub">Recognise what the road is telling you · ${topicLabel(1)}</span></button><button class="btn btn-ghost" data-go="session2">Rules of the road<span class="sub">Understand priority, safety and legal duties · ${topicLabel(2)}</span></button><button class="btn btn-ghost" data-go="session3">Vehicle controls<span class="sub">Study controls for Code ${K.state.vehicleCode} · ${topicLabel(3)}</span></button></div></section><section class="block"><h2>Study references & recall</h2><p class="lead">Use these alongside your lessons when you need another explanation or a quick recap.</p><div class="library"><button class="btn" data-go="signlibrary">Sign atlas<span class="sub">Find a sign and its meaning</span></button><button class="btn" data-go="flash">Flashcards<span class="sub">Recall what you have learned</span></button><button class="btn" data-go="memory">Memory aids<span class="sub">Review the key ideas</span></button>${K.state.vehicleCode==='2'?'<button class="btn" data-go="rhd">RHD cockpit<span class="sub">Locate manual-car controls</span></button>':''}<button class="btn" data-go="concepts">Sign concepts<span class="sub">Check recognition and application</span></button><button class="btn" data-go="cheat">Quick reference<span class="sub">A printable lesson recap</span></button></div></section>`;bindGo();
+}
+function openTests(){
+  currentArea='tests';
+  app.innerHTML=backbar('Check readiness')+`<section class="block"><p class="kicker">Step 4 · Check your preparation</p><h1>Choose a practice test</h1><p class="lead">Both use three sections: signs, rules and controls for Code ${K.state.vehicleCode}. These are independent practice tests, not official DLTC papers.</p><div class="assessment-choices"><article class="mini"><h2>Learning mock</h2><p>See explanations after each answer. Use a full paper or focus on a weak section.</p><button class="btn btn-primary" data-go="mock">Open learning mock</button></article><article class="mini"><h2>Timed simulation</h2><p>Answer 64 questions without hints, then review your section results.</p><button class="btn btn-soft" data-go="sim">Open timed simulation</button></article></div><p class="reference-note">Aim for strong results in every section. Your Home readiness signal also considers study checks and road-decision performance.</p></section><section class="block"><h2>Before test day</h2><p class="lead">Confirm your documents, journey and local requirements separately from practice scores.</p><button class="btn btn-ghost" data-go="checklist">Open test-day checklist</button></section>`;bindGo();
+}
 function openSession1(){
+  currentArea='learn';
   const cards=K.SIGNS.map(s=>`
     <div class="signcard">
       <div class="art">${signImg(s.svg)}</div>
@@ -1159,6 +1173,7 @@ function openSession1(){
 }
 
 function openSession2(){
+  currentArea='learn';
   const stories=K.rulesForCode(K.state.vehicleCode).map(r=>`<div class="story"><p class="q">${r.q}</p><p class="a">${r.a}</p></div>`).join('');
   app.innerHTML=backbar('Session 2 · Rules')+`
   <div class="block">
@@ -1176,6 +1191,7 @@ function openSession2(){
 }
 
 function openSession3(){
+  currentArea='learn';
   app.innerHTML=backbar('Session 3 · Controls')+`
   <div class="block">
     <p class="kicker">Learn · Code ${K.state.vehicleCode}</p><h2>Know your vehicle controls</h2>
@@ -1329,6 +1345,7 @@ function addReview(q,answer){
 }
 function reviewDue(){return K.state.review.filter(r=>visibleForCode(r.q)&&(r.decisionId||(Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)))&&r.due<=Date.now());}
 function openReview(){
+  currentArea='review';
   const due=reviewDue();
   const visible=K.state.review.map((r,i)=>({r,i})).filter(({r})=>visibleForCode(r.q));
   const items=visible.map(({r,i})=>`<div class="mini">
@@ -1381,6 +1398,7 @@ const RHD_TIPS=[
     ['Keep left', 'Keep left where required and safe. Overtaking rules have conditions and exceptions; learn them in the road-rules section.'],
   ];
 function openRHD(){
+  currentArea='learn';
   const rows=RHD_TIPS.map((t,i)=>`<div class="mini"><div class="t">${i+1}. ${t[0]}</div><div class="d">${t[1]}</div></div>`).join('');
   app.innerHTML=backbar('RHD Cockpit')+`<div class="block">
     <p class="kicker">South Africa · Right-Hand Drive</p>
@@ -1424,6 +1442,7 @@ function openRHD(){
 
 /* REVISION POSTER — six panels consolidated in one study view */
 function openRevision(){
+  currentArea='learn';
   const panels=REVISION.map(p=>`
     <div class="block revpanel">
       <div class="rev-badge">${p.em}</div>
@@ -1440,6 +1459,7 @@ function openRevision(){
 }
 
 function openCheat(){
+  currentArea='learn';
   app.innerHTML=backbar('Cheat Sheet')+`<div class="block cheat">
     <h2 style="margin-top:0">📝 K53 Cheat Sheet</h2>
     <p class="lead">Read this the morning of your test.</p>
@@ -1485,6 +1505,7 @@ function flashPool(){
   return d;
 }
 function openFlash(cat){
+  currentArea='learn';
   flashDeck=K.shuffle(cat?cat.slice():flashPool()).map(x=>({...x,pass:false}));
   if(!flashDeck.length)flashDeck=K.shuffle(flashPool());
   flashTotal=flashDeck.length;
@@ -1523,6 +1544,7 @@ function renderFlash(){
 /* ---------- RIGHT-OF-WAY GAME ---------- */
 let rowDeck=[];
 function openRow(){
+  currentArea='practice';
   rowDeck=K.shuffle(K.ROW.map(s=>{const so=K.shufOpts(s.opts,s.ans);return {scene:s.scene,opts:so.opts,ans:so.ans,ex:s.ex};}));
   let i=0,correct=0,total=rowDeck.length,revealed=false;
   render();
@@ -1554,18 +1576,19 @@ function openRow(){
 
 /* ---------- CATEGORY DRILLS ---------- */
 function openPractice(message=''){
+  currentArea='practice';
   history.replaceState(null,'',location.hash==='#drive'?'#drive':'#practice');
   app.innerHTML=practiceHeader('Practise','home')+`<div class="block" id="sectionDrills">
-    <p class="kicker">Train your weak section</p><h2>Focused practice</h2>
-    <p class="lead">Focused drills use every available question. Pass targets are scaled to the drill length; the 64-question mock uses the test-section counts.</p>
+    <p class="kicker">Step 2 · Strengthen understanding</p><h1>Practise a topic</h1>
+    <p class="lead">Choose a topic or a short mixed set. Missed questions go to Review; the full drills cover the available practice bank.</p>
     <div class="section-drill-grid"><button class="btn btn-soft" id="drillSigns" type="button">${icon('sign')} Signs <span class="sub">${K.SIGNS.length} illustrations + ${K.MARKINGS.length} markings + ${K.SIGN_VARIANTS.length} concept checks</span></button>
     <button class="btn btn-soft" id="drillRules" type="button">${icon('rules')} Rules <span class="sub">${K.rulesForCode(K.state.vehicleCode).length+K.extraForCode(K.state.vehicleCode).length} questions for Code ${K.state.vehicleCode}</span></button>
     <button class="btn btn-soft" id="drillCtrl" type="button">${icon('controls')} Controls <span class="sub">${K.controlsForCode(K.state.vehicleCode).length+K.CONTROL_VARIANTS.length} questions for Code ${K.state.vehicleCode}</span></button>
     <button class="btn btn-soft" id="drillMixed" type="button">${icon('target')} Mixed 20 <span class="sub">Random across all topics</span></button></div>
   </div>`;
   const drillSection=document.getElementById('sectionDrills');
-  drillSection.insertAdjacentHTML('beforebegin',K.state.vehicleCode==='2'?'<section class="decision-screen" id="decisionPracticePanel" aria-label="Drive"><div class="block"><p role="status">Loading Drive exercises…</p></div></section>':`<section class="block drive-scope"><p class="kicker">Drive · Code 2</p><h2>Light-vehicle road decisions</h2><p class="lead">Drive currently covers light vehicles. Your Code ${K.state.vehicleCode} plan and progress stay selected; use the section drills below for your test code.</p><button class="btn btn-soft" data-go="journey">View or change learner code</button></section>`);
-  app.insertAdjacentHTML('beforeend','<div class="block"><button class="btn btn-ghost" data-go="home">Back to plan</button></div>');
+  drillSection.insertAdjacentHTML('afterend',K.state.vehicleCode==='2'?'<section class="decision-screen" id="decisionPracticePanel" aria-label="Drive"><div class="block"><p role="status">Loading Drive exercises…</p></div></section>':`<section class="block drive-scope"><p class="kicker">Drive · Code 2</p><h2>Light-vehicle road decisions</h2><p class="lead">Drive currently covers light vehicles. Your Code ${K.state.vehicleCode} plan and progress stay selected; use the section drills below for your test code.</p><button class="btn btn-soft" data-go="journey">View or change learner code</button></section>`);
+  app.insertAdjacentHTML('beforeend','<section class="block"><h2>More ways to practise</h2><div class="library"><button class="btn" data-go="situations">Road situations<span class="sub">Apply signs to a road scene</span></button><button class="btn" data-go="row">Right of way<span class="sub">Work through priority decisions</span></button><button class="btn" data-go="review">Review mistakes<span class="sub">Retry questions you missed</span></button></div></section>');
   $('#drillSigns').addEventListener('click',()=>drill('signs'));
   $('#drillRules').addEventListener('click',()=>drill('rules'));
   $('#drillCtrl').addEventListener('click',()=>drill('controls'));
@@ -1612,6 +1635,7 @@ function drill(cat){
 
 /* ---------- MEMORY TRICKS ---------- */
 function openMemory(){
+  currentArea='learn';
   const mems=K.MEMORY.map((m,i)=>`<div class="mem"><div class="t2">${['🔑','💡','➡️','🔻','⚡','🦓','⏱️','🪞'][i]||'💡'}</div><div><div class="tt">${m.trick}</div><div class="tn">${m.note}</div></div></div>`).join('');
   const rows=K.STOPPING.map(s=>`<tr><td>${s.speed}</td><td>${s.thinking}</td><td>${s.braking}</td><td><b>${s.total}</b></td></tr>`).join('');
   app.innerHTML=backbar('Memory Tricks')+`
@@ -1644,7 +1668,7 @@ function decisionEvidence(state){
  return {topics,completed,attempts,unresolved:unresolved.size,score:Math.round(Object.values(topics).reduce((n,t)=>n+t.score,0)/4),sufficient:Object.values(topics).every(t=>t.seen>=t.need)};
 }
 function decisionEvidenceHTML(){
- if(K.state.vehicleCode!=='2')return '';const e=decisionEvidence(K.state);return `<details class="readiness-evidence"><summary>How road decisions affect your readiness</summary><p>${e.completed}/82 selected decisions practised · ${e.attempts} attempts · ${e.unresolved} unresolved. Study checks and mocks supply 80% of this practice signal; selected decision performance supplies 20%. Unresolved decisions subtract two points each, up to 15, until corrected. This is a practice index, not an official pass probability.</p>${Object.values(e.topics).map(t=>`<div class="mini"><div class="t">${t.label}: ${t.accuracy===null?'Not yet practised':t.accuracy+'% recent accuracy'}</div><p>${t.seen} different decisions tried · ${t.need} needed for this topic's initial evidence · ${t.unresolved} unresolved</p><button class="btn btn-soft" data-practice-mode="${t.mode}">Practise ${t.label.toLowerCase()} decisions</button></div>`).join('')}</details>`;
+ if(K.state.vehicleCode!=='2')return '';const e=decisionEvidence(K.state);return `<details class="readiness-evidence"><summary>How your readiness score is calculated</summary><p>${e.completed}/82 selected decisions practised · ${e.attempts} attempts · ${e.unresolved} unresolved. Study checks and mocks supply 80% of this practice signal; selected decision performance supplies 20%. Unresolved decisions subtract two points each, up to 15, until corrected. This is a practice index, not an official pass probability.</p>${Object.values(e.topics).map(t=>`<div class="mini"><div class="t">${t.label}: ${t.accuracy===null?'Not yet practised':t.accuracy+'% recent accuracy'}</div><p>${t.seen} different decisions tried · ${t.need} needed for this topic's initial evidence · ${t.unresolved} unresolved</p><button class="btn btn-soft" data-practice-mode="${t.mode}">Practise ${t.label.toLowerCase()} decisions</button></div>`).join('')}</details>`;
 }
 
 function readiness(){
@@ -1686,6 +1710,7 @@ function readiness(){
   return {verdict,emoji,msg,score,sessionsDone,acc,mockPass:!!s.mockPass,secRules,secSigns,secCtrl,allSec,decision};
 }
 async function openSignLibrary(){
+  currentArea='learn';
  try{await loadDecisionModule();}catch{}
  app.innerHTML=backbar('Sign atlas')+`<div class="block"><p class="kicker">Recognise · understand · act</p><h2>Sign atlas</h2><p class="lead">39 simplified sign and signal illustrations, ${K.MARKINGS.length} marking descriptions and ${K.SIGN_VARIANTS.length} decision checks. This is a selected study set, with additional source-linked sign-action scenarios for Code 2; consult the official catalogue for complete coverage and exact artwork.</p><label for="signSearch">Find a sign, code, action or meaning</label><input id="signSearch" type="search" style="width:100%;padding:12px;margin:12px 0" placeholder="Try: R1, pedestrian, lane"><div class="atlas-toolbar"><div><label for="signCategory">Material</label><select id="signCategory"><option value="illustrations">Illustrated signs (39)</option><option value="markings">Road markings (${K.MARKINGS.length})</option><option value="concepts">Decision checks (${K.SIGN_VARIANTS.length})</option><option value="all">All entries</option></select></div><div><label for="signFamily">Sign family</label><select id="signFamily"><option value="all">All families</option><option value="red">Restrictions & signals</option><option value="blue">Commands & reservations</option><option value="tri">Warnings</option><option value="info">Information & signals</option></select></div></div><p id="signCount" class="reference-note" role="status"></p><div id="signResults"></div><button class="btn btn-soft hidden" id="signMore" type="button">Show more</button><button class="btn btn-primary" data-go="situations" type="button">Try road situations →</button><p class="footnote">Sign codes refer to the illustrated study register. Individual teaching claims await independent subject review.</p><a class="btn btn-ghost" href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">Open the official sign manual ↗</a></div>`;
  const input=$('#signSearch'),category=$('#signCategory'),family=$('#signFamily'),results=$('#signResults'),more=$('#signMore');let limit=12;
@@ -1711,6 +1736,7 @@ const SITUATIONS=[
  {sign:'buslane',note:'You are driving a car beside the reserved lane.',q:'How should you treat this signed lane?',opts:['Use it whenever the ordinary lane is congested','Check the displayed conditions; do not use it when reserved for buses','Use it if no bus is visible'],ans:1,ex:'A bus reservation applies under the sign conditions; congestion or an empty lane alone is not permission.',why:['Congestion does not override a reservation.','Correct: read the conditions and respect the reservation.','A temporarily empty lane can still be reserved.']}
 ];
 function openSituations(onlySign){
+  currentArea='practice';
  const deck=K.shuffle(onlySign?SITUATIONS.filter(s=>s.sign===onlySign):SITUATIONS),total=deck.length;let pos=0,correct=0,answered=false;
  function render(){
   if(pos>=total){app.innerHTML=backbar('Road situations')+`<div class="block center"><p class="kicker">Practice finished</p><h2>${correct} of ${total} correct</h2><p class="lead">Review missed ideas in your mistake history, then try the signs in another order.</p><button class="btn btn-primary" id="situationsAgain" type="button">Try again</button><button class="btn btn-soft" data-go="${onlySign?'concepts':'signlibrary'}">${onlySign?'Back to concept focus':'Explore sign atlas'}</button></div>`;$('#situationsAgain').addEventListener('click',()=>openSituations(onlySign));bindGo();return;}
@@ -1730,6 +1756,7 @@ function conceptEvidence(id){
  return {attempts:rows.length,recent:recent.length,correct,variants,status};
 }
 function openConceptFocus(){
+  currentArea='learn';
  const list=SITUATIONS.map(s=>{const sign=K.SIGNS.find(x=>x.id===s.sign),e=conceptEvidence(s.sign);return `<article class="mini"><div class="review-art">${signImg(sign.svg)}</div><div class="t">${safeHTML(sign.name)} · ${safeHTML(e.status)}</div><div class="d">${e.recent?`${e.correct}/${e.recent} correct in the most recent ${e.recent} attempts · ${e.variants} wording${e.variants===1?'':'s'}`:'No practice evidence yet'}. Based on at least three attempts across two wordings before calling this consistent.</div><button class="btn btn-soft concept-recognise" data-sign="${sign.id}" type="button">Recognise sign</button><button class="btn btn-ghost concept-action" data-sign="${sign.id}" type="button">Choose action</button></article>`}).join('');
  app.innerHTML=backbar('Concept focus')+`<div class="block"><p class="kicker">What you can prove</p><h2>Six sign concepts</h2><p class="lead">For each sign, try recognition and the road decision. The status uses your five most recent attempts on this device. It does not claim mastery of the full syllabus.</p>${list}<p class="footnote">Practice history stays on this device; clearing browser storage removes it. Explanations and sign codes have not received independent subject review.</p></div>`;
  app.querySelectorAll('.concept-recognise').forEach(b=>b.addEventListener('click',()=>{const sign=K.SIGNS.find(x=>x.id===b.dataset.sign);practiceVariant(K.signQuestion(sign),'concepts');}));
@@ -1873,7 +1900,7 @@ function bindGo(root,options={}){
   scope.querySelectorAll('[data-go]').forEach(el=>{
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
-      const map={drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
+      const map={learn:openLearn,tests:openTests,drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){
         if(assessmentActive && !window.confirm('Leave this practice test? You can resume from Home; a timed attempt keeps counting down.'))return;
         assessmentActive=false;
@@ -1888,9 +1915,9 @@ function bindGo(root,options={}){
 
 /* Decision player shares the existing product shell and canonical state. */
 let decisionModule=null,decisionLoading=false;
-function practiceHeader(title,back='practice'){let bar=backbar(title).replace('class="backbar no-print"','class="backbar practice-back no-print"');if(back==='practice')bar=bar.replace('data-go="home"','data-go="practice"').replace('Back to home','Back to Practise');return topbar()+bar;}
+function practiceHeader(title,back='practice'){currentArea='practice';let bar=backbar(title).replace('class="backbar no-print"','class="backbar practice-back no-print"');if(back==='practice')bar=bar.replace('<button data-go="home"','<button data-go="practice"').replace('Back to home','Back to Practise');return bar;}
 function decisionBridge(){return {root:app,state:K.state,save:K.save,touch:K.touch,header:practiceHeader,bind:(scope=app)=>bindGo(scope,{decision:true}),toggleTheme:K.toggleTheme,speak:speakText,stopSpeech,storageStatus:showStorageStatus,openPractice,openDecision};}
-async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=26');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
+async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=27');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
 function showRoadPracticeRecovery(){const slot=document.getElementById('practiceResumeSlot');if(slot&&K.state.vehicleCode==='2')loadDecisionModule().then(module=>{if(slot.isConnected)module.renderResumeNotice(decisionBridge(),slot);}).catch(()=>{});}
 async function openDecision(args={}){
   if(decisionLoading)return;
@@ -1965,6 +1992,7 @@ function buildSection(sec,series){
 }
 
 function openMock(){
+  currentArea='tests';
   if(mockTimer){clearInterval(mockTimer);mockTimer=null;}
   const passed = SECTION_ORDER.filter(s=>K.state.secPass && K.state.secPass[s]);
   app.innerHTML=backbar('Mock Test')+`<div class="block center">
@@ -2198,6 +2226,7 @@ function finishMock(onlySec){
 
 /* TEST-DAY SIMULATION — full 64q, no section breaks, timed like the real thing */
 function openSim(){
+  currentArea='tests';
   if(mockTimer){clearInterval(mockTimer);mockTimer=null;}
   app.innerHTML=backbar('Test-Day Sim')+`<div class="block center">
     <div class="badge-xl">⚡</div>
@@ -2323,7 +2352,7 @@ function startSim(resume=null){
   render();
 }
 
-window.__views={renderHome,openSession1,openSession2,openSession3,openReview,openCheat,openMock,openSim,openFlash,openRow,openPractice,openMemory,openChecklist,quizFlow,confetti,bindGo,bindTTS,topbar,backbar,speakText,stopSpeech,toggleTopSpeech,speakBtn,ttsSettingsBar};
+window.__views={renderHome,openLearn,openTests,openSession1,openSession2,openSession3,openReview,openCheat,openMock,openSim,openFlash,openRow,openPractice,openMemory,openChecklist,quizFlow,confetti,bindGo,bindTTS,topbar,backbar,speakText,stopSpeech,toggleTopSpeech,speakBtn,ttsSettingsBar};
 window.startApp=initTheme;window.startApp();
 const initialPracticeRoute=location.hash;
 renderHome();
@@ -2342,7 +2371,7 @@ window.addEventListener('hashchange',()=>followPracticeRoute(location.hash));
 try{
   const gp=new URLSearchParams(location.search).get('go');
   if(gp){
-    const routes={drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,session1:openSession1,session2:openSession2,session3:openSession3,mock:openMock,sim:openSim,flash:openFlash,practice:openPractice,row:openRow,situations:openSituations,concepts:openConceptFocus,practical:openPractical,signlibrary:openSignLibrary,memory:openMemory,sources:openSources,cheat:openCheat,checklist:openChecklist,review:openReview,rhd:openRHD,revision:openRevision};
+    const routes={learn:openLearn,tests:openTests,drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,session1:openSession1,session2:openSession2,session3:openSession3,mock:openMock,sim:openSim,flash:openFlash,practice:openPractice,row:openRow,situations:openSituations,concepts:openConceptFocus,practical:openPractical,signlibrary:openSignLibrary,memory:openMemory,sources:openSources,cheat:openCheat,checklist:openChecklist,review:openReview,rhd:openRHD,revision:openRevision};
     if(routes[gp])routes[gp]();
   }
 }catch(e){}

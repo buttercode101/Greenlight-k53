@@ -18,7 +18,7 @@ Decision practice is part of the existing GreenLight K53 static application. The
 
 The main Code 2 practice-readiness index now combines the existing study/mock signal (80%) and selected decision evidence (20%). Topic accuracy uses the five most recent answers per decision where available, requires distinct examples (6 signs, 8 rules, 4 controls, 4 observation decisions for initial evidence), and exposes practised/attempted/unresolved counts. Unresolved decisions subtract two points each up to 15 and prevent the highest readiness band. A correction clears that penalty through the same Review schedule. These are transparent product rules, not calibrated estimates of official pass probability.
 
-Home prioritises unresolved road decisions, then weak decision topics, then other due review. Signs/Rules/Controls lessons, their check results, section-drill results and mock/simulation results provide one-tap decision practice. Readiness and next-step calculations are tested from actual canonical state.
+Home prioritises the shared due-review queue. After adequate study foundations, weak decision topics and missing decision evidence can inform the next action. Signs/Rules/Controls lessons, their check results, section-drill results and mock/simulation results provide one-tap decision practice. Readiness and next-step calculations are tested from actual canonical state.
 
 ## Content
 
@@ -40,7 +40,7 @@ All existing repository checks pass, together with `scripts/verify-decision.mjs`
 Successful merged-browser evidence is under `artifacts/decision-verification/`:
 
 - 28 full-flow checks: all 82 cards, all seven presets and five routes; both themes at 320/390/480/768/834/1024/1440/1920 px; all 53 images decoded; disconnected host reload, module import and full drill; full 64-question simulations with locked-answer recovery for Codes 1, 2 and 3; zero uncaught page errors.
-- 14 product-unification checks: one catalogue from all shortcuts, lesson-to-exercise-to-Practise flows, direct links, Home resume, and a real v23 → v26 cached-PWA upgrade with an unfinished attempt, preserved study history, blocked in-exercise updating and offline resumption.
+- 14 product-unification checks: one catalogue from all shortcuts, lesson-to-exercise-to-Practise flows, direct links, Home resume, and a real v23 → v27 cached-PWA upgrade with an unfinished attempt, preserved study history, blocked in-exercise updating and offline resumption.
 - 13 regression checks: single shell, honest storage warnings, exact first-question recovery, focus/modal isolation, paused navigation, partial sequence recovery, assisted feedback, duplicate protection, denied storage, full observation review, code scope, idempotent legacy import, timeout behavior and no uncaught errors. Some result rows cover multiple related assertions.
 
 Reproduce the dependency-free checks from the repository root:
@@ -61,6 +61,8 @@ The optional browser checks require Playwright and Chromium in the development e
 
 ## Unified product UI
 
-Drive is a named part of Home and the shared Practise catalogue, with the same state, shell, review, readiness, speech and install flow. Codes 1 and 3 see its explicit Code 2 scope without silently changing their learner code. The complete responsive, recovery and security audit is in `UI_RELEASE_AUDIT.md`.
+Drive is a secondary feature within the shared Practise catalogue, with the same state, shell, review, readiness, speech and install flow. Codes 1 and 3 see its explicit Code 2 scope without silently changing their learner code. The complete responsive, recovery and security audit is in `UI_RELEASE_AUDIT.md`.
 
-Run `node scripts/security-headers.mjs --check` in addition to the core checks. The optional `node scripts/verify-product-browser.cjs` verifies the actual CSP, all 21 major views at 11 viewport sizes in both themes, keyboard interaction, malformed storage, flashcard fit, printing and 200% zoom.
+Run `node scripts/security-headers.mjs --check` in addition to the core checks. The optional `node scripts/verify-product-browser.cjs` verifies the actual CSP, all 23 major views at 11 viewport sizes in both themes, keyboard interaction, malformed storage, flashcard fit, printing and 200% zoom.
+
+The primary information architecture is Home → Learn / Practise / Review / Tests, with persistent navigation across child views. Home contains the next action and readiness rather than a Drive promotion. Learn and Tests are dedicated task hubs; lesson Back returns to Learn and assessment Back returns to Tests. Drive follows the topic drills, with specialist exercises and routes shown on request.

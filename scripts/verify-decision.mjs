@@ -155,7 +155,7 @@ const html = fs.readFileSync("index.html", "utf8");
 assert(html.includes("decision:openPractice"));
 assert(!html.includes("<iframe"));
 assert(html.includes("r.decisionId"));
-assert(html.includes("import('./assets/decision/practice.js?v=26')"));
+assert(html.includes("import('./assets/decision/practice.js?v=27')"));
 console.log(
   "Decision integration: all 82 content hashes/art, shared progress/review, duplicate scoring, daily retry, migration, recovery, timer and exact routes passed.",
 );

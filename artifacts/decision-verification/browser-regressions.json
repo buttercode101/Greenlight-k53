@@ -5,7 +5,7 @@
       "topbars": 1,
       "headings": [
         "Drive",
-        "Focused practice"
+        "More ways to practise"
       ]
     },
     {
@@ -13,8 +13,8 @@
     },
     {
       "name": "first-answer recovery, exact choices, timer and modal isolation",
-      "id": "S04",
-      "remainingMs": 8481
+      "id": "S19",
+      "remainingMs": 10490
     },
     {
       "name": "leave confirmation freezes time and navigation stops player"

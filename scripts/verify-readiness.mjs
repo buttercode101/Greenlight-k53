@@ -102,4 +102,4 @@ console.log(
   "Readiness integration: decision accuracy, unique coverage, persistent mistakes, recent performance, correction recovery, vehicle scope and targeted mock follow-ups passed.",
 );
 
-ctx.ringFor=n=>state.mastery[n]||0;ctx.reviewDue=()=>[];vm.runInContext(html.match(/^function nextStep\(\)[^\n]+/m)[0],ctx);state.review=[];for(const key of Object.keys(state.attempts))if(key.startsWith('decision:O'))delete state.attempts[key];assert.equal(ctx.nextStep().mode,'observe');answer('R01',false);assert.equal(ctx.nextStep().mode,'weak');
+ctx.ringFor=n=>state.mastery[n]||0;ctx.reviewDue=()=>state.review.filter(r=>!(r.level>0)||r.due<=Date.now());vm.runInContext(html.match(/^function nextStep\(\)[^\n]+/m)[0],ctx);state.review=[];for(const key of Object.keys(state.attempts))if(key.startsWith('decision:O'))delete state.attempts[key];assert.equal(ctx.nextStep().mode,'observe');answer('R01',false);assert.equal(ctx.nextStep().go,'review');

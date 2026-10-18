@@ -64,7 +64,7 @@ const server = http.createServer((req, res) => {
   const p = await ctx.newPage();
   p.on("pageerror", (e) => out.errors.push(e.message));
   await p.goto("http://localhost:8085/", { waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="drive"]').first().click();
+  await p.locator('[data-go="practice"]').first().click();
   await p.locator("#decisionTimed").waitFor();
   rec("host entry and single shell", {
     topbars: await p.locator(".topbar").count(),
@@ -119,6 +119,7 @@ const server = http.createServer((req, res) => {
     "daily",
     "paper",
   ]) {
+    await p.locator(".drive-more").evaluate(e=>e.open=true);
     await p.locator(`[data-decision-mode="${mode}"]`).click();
     const r = await solve();
     assert.match(r.text, /100% practice accuracy/);
@@ -126,6 +127,7 @@ const server = http.createServer((req, res) => {
     await p.locator("#decisionHome").click();
   }
   for (const route of ROUTES) {
+    await p.locator(".drive-more").evaluate(e=>e.open=true);
     await p.locator(`[data-decision-route="${route.id}"]`).click();
     const r = await solve();
     assert.equal(r.count, route.ids.length);
@@ -146,6 +148,7 @@ const server = http.createServer((req, res) => {
   });
   await p.reload({ waitUntil: "domcontentloaded" });
   await p.locator("#decisionTimed").waitFor();
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="weak"]').click();
   const all = await solve();
   assert.equal(all.count, 82);
@@ -189,6 +192,7 @@ const server = http.createServer((req, res) => {
   await ctx.setOffline(true);
   await p.reload({ waitUntil: "domcontentloaded" });
   await p.locator("#decisionTimed").waitFor();
+  await p.locator(".drive-more").evaluate(e=>e.open=true);
   await p.locator('[data-decision-mode="mixed"]').click();
   const offline = await solve();
   assert.equal(offline.count, 12);
@@ -222,6 +226,7 @@ const server = http.createServer((req, res) => {
       setVehicleCode(code);
       renderHome();
     }, code);
+    await p.locator('[data-go="tests"]').first().click();
     await p.locator('[data-go="sim"]').first().click();
     await p.locator("#simNoTime").click();
     for (let i = 0; i < 64; i++) {

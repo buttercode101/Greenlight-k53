@@ -1,5 +1,5 @@
 {
-  "screens": 462,
+  "screens": 506,
   "viewportPairs": [
     "320x568",
     "360x800",
@@ -19,6 +19,8 @@
   ],
   "views": [
     "home",
+    "learn",
+    "tests",
     "session1",
     "session2",
     "session3",
@@ -42,16 +44,16 @@
   ],
   "checks": [
     {
-      "name": "462 screens: no horizontal overflow, broken images, tiny controls, page errors or CSP violations"
+      "name": "506 screens: no horizontal overflow, broken images, tiny controls, page errors or CSP violations"
     },
     {
-      "name": "Drive is directly reachable from Home, above section drills in the same app"
+      "name": "Task navigation, dedicated Learn/Tests hubs and secondary Drive placement preserve learner hierarchy"
     },
     {
       "name": "Theme switch keeps the active decision and uses reliable SVG controls"
     },
     {
-      "name": "Drive remains visible for Codes 1 and 3 with honest scope and unchanged learner code"
+      "name": "Practice preserves Codes 1 and 3 and explains the Drive feature scope"
     },
     {
       "name": "Keyboard navigation and flashcard reveal work"
