@@ -36,4 +36,4 @@ node scripts/verify-signs.mjs
 node scripts/verify-offline.mjs
 ```
 
-Fresh browser observations and final source/deployment identities will be recorded in the release evidence after verification. Historical UI audit numbers are not automatically attributed to this release.
+Fresh browser observations, tested source identity and runtime hashes are in `artifacts/competitive-release/verification.json`. Historical UI audit numbers are not attributed to this release. The result-image download was repaired after its initial browser check failed; a real 800×600 PNG was downloaded and visually inspected.
