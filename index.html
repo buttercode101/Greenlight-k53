@@ -1151,7 +1151,7 @@ function mountStudyReader(container,{items,render,key='study',noun='items',size=
   let page=0;
   container.innerHTML=`<div class="reader-tools"><label for="${key}Search">Search ${noun}<input type="search" id="${key}Search" placeholder="Find a word or topic" autocomplete="off"></label></div><p class="reader-count" role="status" aria-live="polite"></p><div class="${grid} reader-results" tabindex="-1"></div><nav class="reader-pages" aria-label="${noun} pages"><button type="button" class="reader-prev">← Previous</button><span class="reader-page"></span><button type="button" class="reader-next">${check?'Continue →':'Next →'}</button></nav>${check?'<button type="button" class="btn btn-primary reader-check hidden">Start the 10-question check →</button>':''}`;
   const search=container.querySelector('input'),results=container.querySelector('.reader-results'),prev=container.querySelector('.reader-prev'),next=container.querySelector('.reader-next');
-  function paint(focus=false){const q=search.value.trim().toLowerCase(),all=items.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),pages=Math.max(1,Math.ceil(all.length/size));page=Math.min(page,pages-1);results.innerHTML=all.slice(page*size,(page+1)*size).map(render).join('')||'<p class="empty-state">No matches. Try another word or clear your search.</p>';container.querySelector('.reader-count').textContent=all.length?`${page*size+1}–${Math.min((page+1)*size,all.length)} of ${all.length} ${noun}`:`No matching ${noun}`;container.querySelector('.reader-page').textContent=`Page ${page+1} of ${pages}`;prev.disabled=page===0;next.disabled=page>=pages-1;if(check){next.classList.toggle('hidden',page>=pages-1);container.querySelector('.reader-check').classList.toggle('hidden',page<pages-1||!all.length);}bindTTS(results);if(focus){results.focus({preventScroll:true});container.scrollIntoView({block:'start'});}}
+  function paint(focus=false){const q=search.value.trim().toLowerCase(),all=items.filter(x=>JSON.stringify(x).toLowerCase().includes(q)),pages=Math.max(1,Math.ceil(all.length/size));page=Math.min(page,pages-1);results.innerHTML=all.slice(page*size,(page+1)*size).map(render).join('')||'<p class="empty-state">No matches. Try another word or clear your search.</p>';container.querySelector('.reader-count').textContent=all.length?`${page*size+1}–${Math.min((page+1)*size,all.length)} of ${all.length} ${noun}`:`No matching ${noun}`;container.querySelector('.reader-page').textContent=`Page ${page+1} of ${pages}`;prev.disabled=page===0;next.disabled=page>=pages-1;if(check){next.classList.toggle('hidden',page>=pages-1);container.querySelector('.reader-check').classList.toggle('hidden',page<pages-1||!all.length);}bindTTS(results);bindArtExpansion(results);if(focus){results.focus({preventScroll:true});container.scrollIntoView({block:'start'});}}
   if(check)container.querySelector('.reader-check').addEventListener('click',check);search.addEventListener('input',()=>{page=0;paint();});prev.addEventListener('click',()=>{page--;paint(true);});next.addEventListener('click',()=>{page++;paint(true);});paint();
 }
 function openSession1(){
@@ -2134,9 +2134,9 @@ function openMock(){
       <button class="btn btn-soft" id="sCtrl" type="button">🎛 Controls — ${SECTION_META.controls.need}/${SECTION_META.controls.n}</button>
       <button class="btn btn-ghost" data-go="mock">Back</button>
     </div>`;
-    $('#sRules').addEventListener('click',()=>{mockSeconds=0;startMock('rules');});
-    $('#sSigns').addEventListener('click',()=>{mockSeconds=0;startMock('signs');});
-    $('#sCtrl').addEventListener('click',()=>{mockSeconds=0;startMock('controls');});
+    $('#sRules').addEventListener('click',async()=>{await loadDecisionModule().catch(()=>{});mockSeconds=0;startMock('rules');});
+    $('#sSigns').addEventListener('click',async()=>{await loadDecisionModule().catch(()=>{});mockSeconds=0;startMock('signs');});
+    $('#sCtrl').addEventListener('click',async()=>{await loadDecisionModule().catch(()=>{});mockSeconds=0;startMock('controls');});
     bindGo();
   });
   bindGo();recoveryNotice();
