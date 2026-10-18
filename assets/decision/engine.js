@@ -1,5 +1,5 @@
-import { validateSave } from "./session.js?v=24";
-import { BANK, ROUTES } from "./bank.js?v=24";
+import { validateSave } from "./session.js?v=26";
+import { BANK, ROUTES } from "./bank.js?v=26";
 export function localToday(d = new Date()) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");

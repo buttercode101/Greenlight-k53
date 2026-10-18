@@ -64,7 +64,7 @@ const server = http.createServer((req, res) => {
   const p = await ctx.newPage();
   p.on("pageerror", (e) => out.errors.push(e.message));
   await p.goto("http://localhost:8085/", { waitUntil: "domcontentloaded" });
-  await p.locator('[data-go="decision"]').first().click();
+  await p.locator('[data-go="drive"]').first().click();
   await p.locator("#decisionTimed").waitFor();
   rec("host entry and single shell", {
     topbars: await p.locator(".topbar").count(),

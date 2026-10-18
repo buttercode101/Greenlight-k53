@@ -1,5 +1,5 @@
-import { BANK, ROUTES } from "./bank.js?v=24";
-import { makeRun, runFromSave, shuffle } from "./engine.js?v=24";
+import { BANK, ROUTES } from "./bank.js?v=26";
+import { makeRun, runFromSave, shuffle } from "./engine.js?v=26";
 import {
   newSave,
   nextCard,
@@ -9,9 +9,9 @@ import {
   pauseSave,
   resumeSave,
   validateSave,
-} from "./session.js?v=24";
-import { storageWarning } from "./storage.js?v=24";
-import { questionSource } from "./sources.js?v=24";
+} from "./session.js?v=26";
+import { storageWarning } from "./storage.js?v=26";
+import { questionSource } from "./sources.js?v=26";
 import {
   BY_ID,
   progress,
@@ -19,7 +19,7 @@ import {
   finish,
   weakIds,
   importLegacy,
-} from "./model.js?v=24";
+} from "./model.js?v=26";
 const esc = (v) =>
   String(v ?? "").replace(
     /[&<>"']/g,
@@ -207,7 +207,7 @@ export function renderPracticePanel(bridge, container, message = "") {
   const d = progress(host.state),
     weak = weakIds(host.state),
     last = d.sessions.at(-1);
-  container.innerHTML = `<div class="block"><p class="kicker">Apply what you learned · Code 2</p><h2 id="roadPracticeTitle">Road decisions and observation</h2><p class="lead">Read the road, choose a safe action and rehearse selected observation steps. These 82 cards are an independent study aid, not official DLTC questions.</p>${message ? `<p role="status" class="decision-notice">${esc(message)}</p>` : ""}${saved ? `<div class="mini"><b>Continue ${esc(saved.title)}</b><p>Question ${saved.index + 1} of ${saved.ids.length} · exact choices and timer saved.</p>${button("decisionResume", "Resume practice")}${button("decisionDiscard", "Discard saved practice", "btn-ghost")}</div>` : ""}<div class="decision-toolbar"><span>Choose an untimed exercise or turn the question timer on</span>${button("decisionTimed", d.timed ? "Timed mode: on" : "Timed mode: off", "btn-soft")}</div><div class="decision-grid">${[
+  container.innerHTML = `<div class="block"><p class="kicker">Apply what you learned · Code 2</p><h2 id="roadPracticeTitle">Drive</h2><p class="lead">Road decisions and observation. Read the road, choose a safe action and rehearse the checks. Your answers feed the same readiness score and mistake review as your study checks. These 82 cards are an independent study aid, not official DLTC questions.</p>${message ? `<p role="status" class="decision-notice">${esc(message)}</p>` : ""}${saved ? `<div class="mini"><b>Continue ${esc(saved.title)}</b><p>Question ${saved.index + 1} of ${saved.ids.length} · exact choices and timer saved.</p>${button("decisionResume", "Resume practice")}${button("decisionDiscard", "Discard saved practice", "btn-ghost")}</div>` : ""}<div class="decision-toolbar"><span>Choose an untimed exercise or turn the question timer on</span>${button("decisionTimed", d.timed ? "Timed mode: on" : "Timed mode: off", "btn-soft")}</div><div class="decision-grid">${[
     ["signs", "Sign snap", "12 sign decisions"],
     ["rules", "Right of way", "10 road decisions"],
     ["observe", "Observation", "8 sequences"],
@@ -223,7 +223,7 @@ export function renderPracticePanel(bridge, container, message = "") {
     )
     .join(
       "",
-    )}</div><h3>Scenario routes</h3><p>Selected road decisions, not a driving-test simulation.</p>${ROUTES.map((r) => `<button class="btn btn-ghost" data-decision-route="${r.id}">${esc(r.name)}<span class="sub">${esc(r.blurb)} · ${r.ids.length} decisions</span></button>`).join("")}${last ? `<p class="reference-note">Last practice: ${esc(last.title)} · ${last.correct}/${last.total} full marks.</p>` : ""}<button class="btn btn-ghost" data-go="review">Review mistakes</button><details class="decision-source"><summary>Content scope and sources</summary><p>28 signs, 34 road rules, 10 observation and 10 controls cards. Source locators are shown with each question. Independent instructor review is pending. Use the official manuals for complete preparation.</p><a href="assets/decision/content-register.json" target="_blank" rel="noopener">View item-level content register</a></details>${legacyAvailable() ? button("decisionImport", "Restore earlier practice history", "btn-ghost") : ""}</div>`;
+    )}</div><h3>Scenario routes</h3><p>Selected road decisions, not a driving-test simulation.</p><div class="decision-routes">${ROUTES.map((r) => `<button class="btn btn-ghost" data-decision-route="${r.id}">${esc(r.name)}<span class="sub">${esc(r.blurb)} · ${r.ids.length} decisions</span></button>`).join("")}</div>${last ? `<p class="reference-note">Last practice: ${esc(last.title)} · ${last.correct}/${last.total} full marks.</p>` : ""}<button class="btn btn-ghost" data-go="review">Review mistakes</button><details class="decision-source"><summary>Content scope and sources</summary><p>28 signs, 34 road rules, 10 observation and 10 controls cards. Source locators are shown with each question. Independent instructor review is pending. Use the official manuals for complete preparation.</p><a href="assets/decision/content-register.json" target="_blank" rel="noopener">View item-level content register</a></details>${legacyAvailable() ? button("decisionImport", "Restore earlier practice history", "btn-ghost") : ""}</div>`;
   host.bind(container);
   bind("decisionResume", () => activate(saved));
   bind("decisionDiscard", () =>

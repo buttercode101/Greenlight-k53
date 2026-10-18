@@ -1,6 +1,6 @@
 /** Canonical K53 state adapter: no second progress store or mistake queue. */
-import { BANK } from "./bank.js?v=24";
-import { localToday } from "./engine.js?v=24";
+import { BANK } from "./bank.js?v=26";
+import { localToday } from "./engine.js?v=26";
 export const BY_ID = Object.freeze(
   Object.setPrototypeOf(Object.fromEntries(BANK.map((q) => [q.id, q])), null),
 );

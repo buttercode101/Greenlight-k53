@@ -1,0 +1,8 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+const hashes=new Set();
+for(const file of ['index.html','study-guide.html'])for(const m of fs.readFileSync(file,'utf8').matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g))if(!/\bsrc=/.test(m[1]))hashes.add("'sha256-"+crypto.createHash('sha256').update(m[2]).digest('base64')+"'");
+const csp=["default-src 'self'", "script-src 'self' "+[...hashes].join(' '),"script-src-attr 'none'","style-src 'self' 'unsafe-inline' https://fonts.googleapis.com","font-src 'self' https://fonts.gstatic.com","img-src 'self' data: blob:","connect-src 'self'","worker-src 'self'","manifest-src 'self'","object-src 'none'","base-uri 'self'","form-action 'none'","frame-ancestors 'none'"].join('; ');
+const config={headers:[{source:'/(.*)',headers:[{key:'Content-Security-Policy',value:csp},{key:'X-Content-Type-Options',value:'nosniff'},{key:'X-Frame-Options',value:'DENY'},{key:'Referrer-Policy',value:'strict-origin-when-cross-origin'},{key:'Permissions-Policy',value:'camera=(), microphone=(), geolocation=()'}]},{source:'/sw.js',headers:[{key:'Cache-Control',value:'no-cache, no-store, must-revalidate'}]},{source:'/',headers:[{key:'Cache-Control',value:'public, max-age=0, must-revalidate'}]},{source:'/index.html',headers:[{key:'Cache-Control',value:'public, max-age=0, must-revalidate'}]}]};
+const content=JSON.stringify(config,null,2)+'\n';
+if(process.argv.includes('--check')){if(fs.readFileSync('vercel.json','utf8')!==content)throw Error('Security headers are stale. Run node scripts/security-headers.mjs');console.log('Security policy hashes match all inline scripts.');}else fs.writeFileSync('vercel.json',content);

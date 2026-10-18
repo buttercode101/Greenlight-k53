@@ -1,0 +1,80 @@
+{
+  "screens": 462,
+  "viewportPairs": [
+    "320x568",
+    "360x800",
+    "390x844",
+    "480x900",
+    "640x900",
+    "768x1024",
+    "834x1194",
+    "1024x768",
+    "1366x900",
+    "1920x1080",
+    "844x390"
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "views": [
+    "home",
+    "session1",
+    "session2",
+    "session3",
+    "practice",
+    "mock",
+    "sim",
+    "flash",
+    "row",
+    "memory",
+    "journey",
+    "sources",
+    "checklist",
+    "signlibrary",
+    "situations",
+    "concepts",
+    "practical",
+    "rhd",
+    "revision",
+    "review",
+    "cheat"
+  ],
+  "checks": [
+    {
+      "name": "462 screens: no horizontal overflow, broken images, tiny controls, page errors or CSP violations"
+    },
+    {
+      "name": "Drive is directly reachable from Home, above section drills in the same app"
+    },
+    {
+      "name": "Theme switch keeps the active decision and uses reliable SVG controls"
+    },
+    {
+      "name": "Drive remains visible for Codes 1 and 3 with honest scope and unchanged learner code"
+    },
+    {
+      "name": "Keyboard navigation and flashcard reveal work"
+    },
+    {
+      "name": "Longest flashcard explanation fits at 320px without overlapping controls"
+    },
+    {
+      "name": "Learner date and province survive reload"
+    },
+    {
+      "name": "Desktop 200% zoom reflows Home, Drive, planning, memory and mock screens"
+    },
+    {
+      "name": "Malformed saved progress recovers; stored markup stays inert"
+    },
+    {
+      "name": "CSP blocks injected executable inline scripts"
+    },
+    {
+      "name": "Printable guide works under the enforced security policy"
+    }
+  ],
+  "errors": [],
+  "violations": []
+}

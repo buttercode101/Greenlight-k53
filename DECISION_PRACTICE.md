@@ -40,7 +40,7 @@ All existing repository checks pass, together with `scripts/verify-decision.mjs`
 Successful merged-browser evidence is under `artifacts/decision-verification/`:
 
 - 28 full-flow checks: all 82 cards, all seven presets and five routes; both themes at 320/390/480/768/834/1024/1440/1920 px; all 53 images decoded; disconnected host reload, module import and full drill; full 64-question simulations with locked-answer recovery for Codes 1, 2 and 3; zero uncaught page errors.
-- 14 product-unification checks: one catalogue from all shortcuts, lesson-to-exercise-to-Practise flows, direct links, Home resume, and a real v23 → v25 cached-PWA upgrade with an unfinished attempt, preserved study history, blocked in-exercise updating and offline resumption.
+- 14 product-unification checks: one catalogue from all shortcuts, lesson-to-exercise-to-Practise flows, direct links, Home resume, and a real v23 → v26 cached-PWA upgrade with an unfinished attempt, preserved study history, blocked in-exercise updating and offline resumption.
 - 13 regression checks: single shell, honest storage warnings, exact first-question recovery, focus/modal isolation, paused navigation, partial sequence recovery, assisted feedback, duplicate protection, denied storage, full observation review, code scope, idempotent legacy import, timeout behavior and no uncaught errors. Some result rows cover multiple related assertions.
 
 Reproduce the dependency-free checks from the repository root:
@@ -57,3 +57,10 @@ node scripts/verify-signs.mjs
 ```
 
 The optional browser checks require Playwright and Chromium in the development environment. Run `node scripts/verify-decision-browser.cjs`, `node scripts/verify-decision-edge-browser.cjs`, `node scripts/verify-unified-browser.cjs` and `node scripts/verify-readiness-browser.cjs` sequentially. The unified-browser script extracts baseline commit `f470ece` to a temporary directory to emulate an existing installation; that Git object must be available, or `K53_BASELINE_ROOT` can provide an extracted baseline. `CHROMIUM_PATH` selects an existing browser; `K53_EVIDENCE_DIR` selects an output directory. They start a local server on port 8085 and generate local evidence/screenshots. No test screenshots are committed. Browser checks use the encoded answer keys to verify software behavior; they do not replace the separate content review.
+
+
+## Unified product UI
+
+Drive is a named part of Home and the shared Practise catalogue, with the same state, shell, review, readiness, speech and install flow. Codes 1 and 3 see its explicit Code 2 scope without silently changing their learner code. The complete responsive, recovery and security audit is in `UI_RELEASE_AUDIT.md`.
+
+Run `node scripts/security-headers.mjs --check` in addition to the core checks. The optional `node scripts/verify-product-browser.cjs` verifies the actual CSP, all 21 major views at 11 viewport sizes in both themes, keyboard interaction, malformed storage, flashcard fit, printing and 200% zoom.
