@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v24-practice';
+const CACHE = 'greenlight-k53-v25-practice';
 const CORE = [
   './',
   './index.html',

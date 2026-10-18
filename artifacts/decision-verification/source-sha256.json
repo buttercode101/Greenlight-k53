@@ -1,5 +1,5 @@
 {
-  "DECISION_PRACTICE.md": "e585bed89c4912ef74cdc68f907b2c83422227217a7917b674cca1e01e704864",
+  "DECISION_PRACTICE.md": "b08a7b132e5b7aae7248e5d2b39707fc7936b2cfe4d98ee96a1d359d5c01fa58",
   "assets/decision/art/O07.svg": "4ba37a8c9267a3e5e942c114c3831862e4d3490ee30db267e2e373b9bce2b2ec",
   "assets/decision/art/O10.svg": "54a8a1c725072e763a0909040787e0b49d4538754bafab61f3d2a1a3d1d382a2",
   "assets/decision/art/R01.svg": "aa2f0d23affb0c6718d83ee88d6669ee34a2ff42371762ba121e7090032e23d0",
@@ -64,7 +64,7 @@
   "assets/decision/storage.js": "67cbb4c4cf56ac5d4f13061b61206ee180d0c9c320809978595de8d4751c93fa",
   "assets/decision/types.js": "020ba1f922f9e7c24286b05b3977dd99465dff1611a3ecdb4c9d2d1cfb51f675",
   "content-register.json": "946f89e58db793be7b234da430047e568b66b4c18a793a0c39d74d9ecfdf3aa5",
-  "index.html": "14e13a3a33e495302a6e6fd20dc193c7eb402a6cd87082a78b098baf92e11b77",
+  "index.html": "691c4d8633c064a2fb5b1f6c0cbff297368b3f721280e42b0d2daf59acfa1998",
   "scripts/build-content-register.mjs": "db091eb830f5413760816724434f02d3bcddd510b3b22f5b4128154185529ece",
   "scripts/verify-decision-browser.cjs": "5424df65e4c37c618c4560b686dcf1b8899f420799e6200a333c1f20a2e840b0",
   "scripts/verify-decision-edge-browser.cjs": "fde0ddebccce35e8d0f731ced70e971535800687c4111f1a2c47c7c7e87c913d",
@@ -73,7 +73,7 @@
   "scripts/verify-readiness.mjs": "83f5890306945303b0d6583f6ed561f0c076ae04fadf987834fb802744001557",
   "scripts/verify-recovery.mjs": "9aecb27906dd6ed6578303755cbc1a5430ba2a7049ef2d6629e48b41852c36c5",
   "scripts/verify-shared-bank.mjs": "bd8b8cf426c72fe9fbd01786527e661f082f8725dd1fb17dd75306bc7d5fa164",
-  "scripts/verify-unified-browser.cjs": "6e908a22e31983672161a11811435c57665bde04780cf418c389c4d5f5b9c992",
+  "scripts/verify-unified-browser.cjs": "68b5144d2147b6be89432a36a5e2d65470f23d83b006ee56c7d72d14d705f162",
   "scripts/verify.mjs": "db43e9fecceb60a49735a4e4d8e55b41367453fb57aa23eef70e03f7805836c4",
-  "sw.js": "2be280b5450587aa1d53080d132572fbeb64648189f43ab25865167c13d033de"
+  "sw.js": "c0dca5075d8b612c39a6881ad0981f71d3824b2dd8c9b02f8dacf911a6b62b77"
 }

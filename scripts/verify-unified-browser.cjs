@@ -84,6 +84,7 @@ const server = http.createServer((req, res) => {
     });
     await p.locator("#decisionTimed").waitFor();
     assert.equal(await p.locator("#drillSigns").count(), 1);
+    const sizes=await p.locator("#drillSigns .ti,#drillRules .ti,#drillCtrl .ti,#drillMixed .ti").evaluateAll(nodes=>nodes.map(n=>({w:n.getBoundingClientRect().width,h:n.getBoundingClientRect().height})));assert.equal(sizes.length,4);assert(sizes.every(s=>s.w<=24&&s.h<=24));
     assert.equal(await p.locator(".topbar").count(), 1);
     assert.doesNotMatch(
       await p.locator("#app").innerText(),
@@ -200,7 +201,7 @@ const server = http.createServer((req, res) => {
   assert.deepEqual(state.saved.answers, checkpoint.answers);
   const keys = await q.evaluate(() => caches.keys());
   assert(keys.includes("unrelated-cache"));
-  assert(keys.includes("greenlight-k53-v24-practice"));
+  assert(keys.includes("greenlight-k53-v25-practice"));
   assert(!keys.includes("greenlight-k53-v23-decision"));
   rec("safe update preserves old study progress and unrelated caches");
   await legacy.setOffline(true);

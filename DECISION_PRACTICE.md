@@ -40,7 +40,7 @@ All existing repository checks pass, together with `scripts/verify-decision.mjs`
 Successful merged-browser evidence is under `artifacts/decision-verification/`:
 
 - 28 full-flow checks: all 82 cards, all seven presets and five routes; both themes at 320/390/480/768/834/1024/1440/1920 px; all 53 images decoded; disconnected host reload, module import and full drill; full 64-question simulations with locked-answer recovery for Codes 1, 2 and 3; zero uncaught page errors.
-- 14 product-unification checks: one catalogue from all shortcuts, lesson-to-exercise-to-Practise flows, direct links, Home resume, and a real v23 → v24 cached-PWA upgrade with an unfinished attempt, preserved study history, blocked in-exercise updating and offline resumption.
+- 14 product-unification checks: one catalogue from all shortcuts, lesson-to-exercise-to-Practise flows, direct links, Home resume, and a real v23 → v25 cached-PWA upgrade with an unfinished attempt, preserved study history, blocked in-exercise updating and offline resumption.
 - 13 regression checks: single shell, honest storage warnings, exact first-question recovery, focus/modal isolation, paused navigation, partial sequence recovery, assisted feedback, duplicate protection, denied storage, full observation review, code scope, idempotent legacy import, timeout behavior and no uncaught errors. Some result rows cover multiple related assertions.
 
 Reproduce the dependency-free checks from the repository root:
