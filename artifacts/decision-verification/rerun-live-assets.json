@@ -1,0 +1,96 @@
+{
+  "url": "https://greenlight-k53-review.vercel.app/",
+  "commit": "14f18d76d6b1fa10ea49a0f59e6b97d3b0271cc6",
+  "checks": [
+    {
+      "file": "index.html",
+      "sha256": "d7f18a5b347d8faffa4ac50e98052fc2ca9797868c40379b8eb770ff42ff41fa",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "sw.js",
+      "sha256": "958ac1b99ce80dbd7fcff1ee825995f1a2771ce3e5acf3550aae0327017e5ef4",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/product.css",
+      "sha256": "5fdb0f61f353db0eb8efd9bbd864953ac1f9c00bb57c0255c81c708d24d51769",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/practice.css",
+      "sha256": "873b6721b5dadc569040658da38b836f42c79a63bb1b3d0a5d473c8cb909b309",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "manifest.webmanifest",
+      "sha256": "c4057a0c637cfd3d5b3d99181accee631dfbbcf9bd24cded5be0d33ca3cad9c6",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "study-guide.html",
+      "sha256": "a133c3a23b6dba87d981fe2ac681dc39e1551035403a2f8dbd6911ab6f73d45e",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/print.js",
+      "sha256": "cc5d05b33b58cf9f1473931eca3393bef1416d96a51a7954085b41fe6295d587",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/bank.js",
+      "sha256": "dc5244f3abd2eb89450b59d72d6580cd39f28b24c4fde92db79cea151c2cc51e",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/engine.js",
+      "sha256": "3dc31d2fd5dca93468dc7d617a6fc97ffc4d9ade20298db0f392d0d1b21a2dc7",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/model.js",
+      "sha256": "dbcbea18a4eedb0fe7c1e0715f400ce14ba0d614b9d08b33c87c5e03097580fc",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/practice.js",
+      "sha256": "07552768d0995788985dce9c316bdee7891964a77e46e9ddd7cd4c7b423a6e48",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/session.js",
+      "sha256": "9d75db4912b7bebc1e359801dd1a5eb3cadb427804418fbc5f74957cf8da3156",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/sources.js",
+      "sha256": "5f502b5376de0493462cf544fe240ffe4e90224f2826a20070bba473632d6ab8",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/storage.js",
+      "sha256": "67cbb4c4cf56ac5d4f13061b61206ee180d0c9c320809978595de8d4751c93fa",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/decision/types.js",
+      "sha256": "020ba1f922f9e7c24286b05b3977dd99465dff1611a3ecdb4c9d2d1cfb51f675",
+      "status": 200,
+      "match": true
+    }
+  ]
+}

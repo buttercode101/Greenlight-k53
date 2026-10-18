@@ -33,7 +33,9 @@ Evidence lives in `artifacts/decision-verification/`. Core syntax, content, read
 
 ## Production verification
 
-The source commit, public asset hashes, live learner journeys and offline checks are recorded in `rerun-live-release.json`, `rerun-live-learner.json` and `rerun-live-navigation.json` after publication. These evidence files distinguish deployed checks from local checks.
+Production source commit: `14f18d76d6b1fa10ea49a0f59e6b97d3b0271cc6`, deployed READY on the main public alias. GitHub workflow run [39097808323](https://github.com/buttercode101/Greenlight-k53/actions/runs/39097808323) completed successfully.
+
+The public site passed all 21 learner checks and all 13 added navigation/recovery checks, including 48 populated layouts. A separate live pass verified 112 responsive states, shared readiness increasing from 0 to 5 after 12 decision answers, offline hubs, and no page or CSP errors. Fifteen public runtime files matched the tested local SHA-256 hashes; CSP, nosniff and frame-denial headers were present. See `rerun-live-release.json`, `rerun-live-learner.json`, `rerun-live-navigation.json`, `rerun-live-assets.json` and `rerun-release-status.json`. The subsequent evidence commit changes only reports and evidence; application bytes remain those tested in the source commit.
 
 ## Limits and remaining product work
 

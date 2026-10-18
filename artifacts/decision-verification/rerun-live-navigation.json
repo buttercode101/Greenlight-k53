@@ -1,0 +1,533 @@
+{
+  "screens": [
+    {
+      "view": "home",
+      "width": 320,
+      "height": 568,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 320,
+      "height": 568,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 320,
+      "height": 568,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 320,
+      "height": 568,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 320,
+      "height": 568,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 320,
+      "height": 568,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 768,
+      "height": 1024,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 768,
+      "height": 1024,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 768,
+      "height": 1024,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 768,
+      "height": 1024,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 768,
+      "height": 1024,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 768,
+      "height": 1024,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 834,
+      "height": 1194,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 834,
+      "height": 1194,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 834,
+      "height": 1194,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 834,
+      "height": 1194,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 834,
+      "height": 1194,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 834,
+      "height": 1194,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 1024,
+      "height": 768,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 1024,
+      "height": 768,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 1024,
+      "height": 768,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 1024,
+      "height": 768,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 1024,
+      "height": 768,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 1024,
+      "height": 768,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 1920,
+      "height": 1080,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 1920,
+      "height": 1080,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 1920,
+      "height": 1080,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 1920,
+      "height": 1080,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 1920,
+      "height": 1080,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 1920,
+      "height": 1080,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 844,
+      "height": 390,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 844,
+      "height": 390,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 844,
+      "height": 390,
+      "theme": "light",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "home",
+      "width": 844,
+      "height": 390,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "review",
+      "width": 844,
+      "height": 390,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "view": "practice",
+      "width": 844,
+      "height": 390,
+      "theme": "dark",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "Practise \u2192 Learn \u2192 refresh preserves the selected area"
+    },
+    {
+      "name": "Lesson URL survives refresh instead of returning to the earlier hub"
+    },
+    {
+      "name": "Cancel a Drive deep link: question, progress and original URL stay intact"
+    },
+    {
+      "name": "Accept a Drive deep link and reload: stale lesson query cannot override it"
+    },
+    {
+      "name": "Drive leave modal: Stay keeps the card and Leave returns to the shared Home"
+    },
+    {
+      "name": "A real completed lesson saves mistakes and makes Review the next Home action",
+      "due": 8
+    },
+    {
+      "name": "Leaving a shared Review set can be cancelled without losing the current question"
+    },
+    {
+      "name": "All actual lesson misses corrected, scheduled for tomorrow, and reload does not rescore",
+      "reviewed": 8
+    },
+    {
+      "name": "Road situations has the same leave protection and feedback focus as lesson checks"
+    },
+    {
+      "name": "Drive plays inside the shared product and writes completed decisions into readiness",
+      "score": 17,
+      "completed": 12
+    },
+    {
+      "name": "48 populated layouts with all disclosures expanded: phone, tablet, desktop and landscape"
+    },
+    {
+      "name": "Code 1: complete 64-question learning mock, locked-answer reload and pass result",
+      "questions": 64
+    },
+    {
+      "name": "Code 3: complete 64-question learning mock, locked-answer reload and failure result",
+      "questions": 64
+    }
+  ],
+  "errors": [],
+  "violations": []
+}
