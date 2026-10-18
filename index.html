@@ -54,19 +54,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/decision/practice.css?v=29">
 <style>
-/* GreenLight decisive UI refresh — progressive enhancement, no state migration */
-.product-nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;padding:8px 0;align-items:center}
-.product-nav button{flex:1 0 auto;min-height:44px;border-radius:10px;font-weight:650;white-space:nowrap}
-.product-nav button[aria-current="page"]{background:var(--accent-dark)!important;color:#fff!important;box-shadow:none}
-.dashboard{gap:18px}.dashboard .next-step{border:1px solid var(--line);box-shadow:none;border-radius:16px}.dashboard .next-step h2{font-weight:750;letter-spacing:-.025em}
-.btn-primary{background:var(--accent-dark)!important;color:#fff!important;font-weight:700!important;border-radius:10px!important;min-height:46px}
-.btn-soft,.btn-ghost{box-shadow:none!important}
-.status-item,.mini,.path-card{box-shadow:none!important}
-.feedback.ok{border-left:4px solid var(--ok);font-weight:650}
-.feedback.no{border-left:4px solid var(--err)}
-.reader-tools{position:relative}.lesson-grid{align-items:stretch}
-.app-update{position:static!important;inset:auto!important;box-shadow:none!important;margin:8px auto!important;max-width:960px!important;border-radius:10px!important}
-@media(max-width:480px){.product-nav{gap:2px}.product-nav button{padding:10px 8px;font-size:12px}.dashboard{gap:12px}}
 /* ============================================================
    DESIGN.md COMPATIBLE TOKENS (Notion + Mintlify hybrid)
    Warm neutrals, single accent, whisper borders, docs clarity
@@ -452,6 +439,20 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 .storage-status{max-width:1100px;margin:12px auto;padding:12px 16px;border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:10px;font-size:14px}
 @media(max-width:480px){.storage-status{margin:8px 12px}.span-table th,.span-table td{padding:8px 5px;font-size:12px}.question-source{font-size:13px}}
 #drillSigns .ti,#drillRules .ti,#drillCtrl .ti,#drillMixed .ti{width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:8px}
+/* GreenLight decisive UI refresh — progressive enhancement, no state migration */
+.product-nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;padding:8px 0;align-items:center}
+.product-nav button{flex:1 0 auto;min-height:44px;border-radius:10px;font-weight:650;white-space:nowrap}
+.product-nav button[aria-current="page"]{background:var(--accent-dark)!important;color:#fff!important;box-shadow:none}
+.dashboard{gap:18px}.dashboard .next-step{border:1px solid var(--line);box-shadow:none;border-radius:16px}.dashboard .next-step h2{font-weight:750;letter-spacing:-.025em}
+.btn-primary{background:var(--accent-dark)!important;color:#fff!important;font-weight:700!important;border-radius:10px!important;min-height:46px}
+.btn-soft,.btn-ghost{box-shadow:none!important}
+.status-item,.mini,.path-card{box-shadow:none!important}
+.feedback.ok{border-left:4px solid var(--ok);font-weight:650}
+.feedback.no{border-left:4px solid var(--err)}
+.reader-tools{position:relative}.lesson-grid{align-items:stretch}
+.app-update{position:static!important;inset:auto!important;box-shadow:none!important;margin:8px auto!important;max-width:960px!important;border-radius:10px!important}
+@media(max-width:480px){.product-nav{gap:2px}.product-nav button{padding:10px 8px;font-size:12px}.dashboard{gap:12px}}
+
 </style>
 <link rel="stylesheet" href="./assets/product.css?v=29">
 </head>
@@ -1833,6 +1834,7 @@ const DLTC_CHECKLIST=[
     ['📄','LL1 application form','Completed at the DLTC. If you\'re 65+ you\'ll also need an MC medical form.']
   ];
 function openChecklist(){
+  currentArea='testday';rememberView('checklist');
   const items=DLTC_CHECKLIST.map(([e,t,d])=>`<div class="mini"><div class="t">${e} ${t}</div><div class="d">${d}</div></div>`).join('');
   const days=daysUntilTest(),tasks=[
    ['centre','Confirm my appointment, format, fee and exact DLTC location with the centre'],
