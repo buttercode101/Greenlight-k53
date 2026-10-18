@@ -290,3 +290,90 @@ html[data-theme="dark"] .dashboard .next-step { background: transparent; color: 
 @media(max-height:500px) and (orientation:landscape) { .app-header .topbar { padding: 4px 0; } .app-header .topbar button { height: 36px; min-height: 36px; width: 36px; } .app-header .product-nav button { min-height: 40px; padding: 6px 2px; } }
 html { scroll-padding-top: 144px; }
 @media(max-height:500px) and (orientation:landscape) { html { scroll-padding-top: 100px; } }
+
+/* One product shell; comparison grids expand without stretching reading lines. */
+.wrap, .wrap:has(.dashboard), .wrap:has(#decisionPracticePanel), .wrap:has(.lesson-reader) { max-width: 1184px; padding-inline: clamp(16px,3vw,32px); }
+.app-header { padding-top: env(safe-area-inset-top,0px); }
+.block { border-radius: 12px; }
+.wrap > .block { margin: 20px 0; }
+.block > .lead { max-width: 76ch; }
+.block.center { text-align: left; }
+.block.center .result-title { font-size: clamp(24px,3vw,32px); line-height: 1.2; margin-block: 12px; }
+.block.center .result-sub { max-width: 75ch; margin-inline: 0; }
+.badge-xl { display: none; }
+.stat-grid { max-width: 720px; }
+.stat-grid .stat { background: transparent; border: 1px solid var(--line); border-radius: 8px; }
+.stat-grid .n { font-size: 28px; }
+.library { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.library .btn { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; padding: 16px 8px; }
+.library .btn:hover { background: var(--warm); }
+.hub-list { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.hub-list .btn { display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; padding: 22px; }
+.hub-list .sub { margin-top: 12px; }
+.resume-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin: 20px 0; }
+.resume-list:has(> :only-child), .resume-list:not(:has(.recovery-row)) { margin: 0; }
+.resume-list > * { min-width: 0; }
+.recovery-row.block { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 16px 0; margin: 0; }
+.recovery-row h2 { font-size: 17px; margin: 0 0 6px; }
+.recovery-row p { font-size: 13px; margin: 0 0 10px; color: var(--ink-soft); }
+.recovery-row .btn { font-size: 14px; margin: 4px 8px 0 0; padding: 10px 12px; width: auto; }
+.practice-goals { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin: 20px 0; }
+.practice-goals .btn { margin: 0; text-align: left; }
+.full-topic summary { font-size: 14px; font-weight: 600; cursor: pointer; padding: 12px 0; }
+.drive-scope { border-top: 1px solid var(--line); padding: 16px 0; }
+/* Keep the lesson itself within reach. Search and a concise legend precede six signs. */
+.lesson-reader { padding-top: 20px; }
+.lesson-reader .kicker { margin: 0 0 4px; }
+.lesson-reader .lead { margin: 6px 0 12px; font-size: 14px; }
+.lesson-reader .lesson-tabs { margin-bottom: 8px; padding-bottom: 0; }
+.sign-key { font-size: 13px; margin: 4px 0 8px; }
+.sign-key > summary { cursor: pointer; min-height: 32px; padding: 4px 0; color: var(--ink-soft); }
+.sign-key .sign-legend { margin: 6px 0; }
+.reader-tools input { padding: 8px 12px; }
+.reader-count { margin: 8px 0 0; }
+.lesson-reader .lesson-actions { margin: 16px 0 0; padding: 16px 0 0; border-top: 1px solid var(--line); border-bottom: 0; }
+/* Questions use one reading width and a predictable progression control. */
+.wrap:has(.opt) > .block, .wrap:has(.opt) > .timer { max-width: 780px; margin-inline: auto; }
+.question-title, .block:has(.opt) > h2 { font-size: clamp(21px,2.3vw,26px); line-height: 1.4; letter-spacing: -.4px; }
+.block:has(.opt) .next { display: block; width: 100%; text-align: center; margin-top: 20px; }
+.block:has(.opt) .next.hidden { display: none; }
+.block:has(.opt) .feedback { margin-top: 16px; }
+.block:has(.opt) .btn-soft:not(.next) { font-size: 14px; min-height: 44px; padding: 10px 14px; }
+.backbar .sc { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+/* Saved mistakes are rows with one retry action. Details stay secondary. */
+.review-grid { grid-template-columns: 1fr; gap: 0; }
+.review-card.mini { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; column-gap: 24px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 20px 0; min-height: 0; }
+.review-card .t { font-size: 16px; line-height: 1.5; }
+.review-card .review-art { grid-column: 1; }
+.review-card .d { grid-column: 1; font-size: 14px; margin-top: 8px; }
+.review-card .review-retry { grid-column: 2; grid-row: 1 / span 3; margin: 0; width: auto; font-size: 14px; padding: 10px 14px; }
+.review-card .footnote { grid-column: 1; margin: 8px 0 0; text-align: left; font-size: 12px; }
+.review-remove { background: transparent; border: 1px solid var(--line); color: var(--ink-soft); border-radius: 6px; margin: 8px 0; padding: 8px 12px; min-height: 44px; }
+.controls-figure { float: right; width: min(45%,440px); margin: 0 0 24px 32px; }
+.controls-figure figcaption { font-size: 12px; color: var(--ink-soft); margin-top: 8px; }
+.controls-figure .cockpit-diagram { width: 100%; }
+.block:has(.controls-figure)::after { content: ''; display: block; clear: both; }
+.block:has(.controls-figure) .lesson-grid { grid-template-columns: 1fr; }
+.block:has(.controls-figure) #quiz3 { clear: both; }
+.flash-stage { max-width: 760px; margin-inline: auto; }
+.flash-ctl { max-width: 760px; margin-inline: auto; }
+.flash-ctl button:disabled { opacity: .5; cursor: default; }
+.stopping-steps { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; padding-left: 24px; }
+.stopping-steps li { padding-left: 4px; }
+.stopping-steps strong { display: block; }
+.tool-disclosure > summary, .question-source summary, .d > summary { cursor: pointer; min-height: 44px; padding-block: 10px; }
+#installStudyApp { font-size: 13px; }
+/* Long text and increased text size must reflow; fixed dimensions are only for art. */
+input,select,textarea { color: var(--ink); background: var(--paper); }
+select { padding: 10px; border: 1px solid var(--line); border-radius: 8px; }
+.journey-fields { margin-block: 16px 20px; }
+.journey-fields label { font-size: 13px; font-weight: 600; }
+.opt:focus-visible { outline-offset: 3px; }
+@media(max-width:800px) { .library { grid-template-columns: repeat(2,minmax(0,1fr)); } .hub-list { grid-template-columns: 1fr; } .hub-list .btn { padding: 16px; } .hub-list .sub { margin-top: 6px; } .controls-figure { float: none; width: min(100%,440px); margin: 16px auto; } }
+@media(max-width:600px) { .resume-list,.practice-goals { grid-template-columns: 1fr; } .resume-list { gap: 0; } .review-card.mini { display: block; } .review-card .review-retry { margin-top: 12px; width: 100%; } .stopping-steps { grid-template-columns: 1fr; gap: 14px; } .block.center .result-title { font-size: 25px; } .wrap > .block { margin-block: 16px; } .block { padding: 20px 16px; } .library { gap: 0 12px; } .library .btn { font-size: 14px; padding-inline: 0; } .lesson-reader h1 { font-size: 25px; } }
+@media(max-height:500px) and (orientation:landscape) { .app-header { position: static; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+.section-drill-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+@media(max-width:600px) { .section-drill-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .section-drill-grid .btn { padding: 14px 12px; font-size: 14px; } .section-drill-grid .sub { font-size: 12px; } }
+@media(max-width:360px) { .section-drill-grid { grid-template-columns: 1fr; } }
+@media(max-width:600px) { .question-art { width: 128px; height: 128px; } .question-art img { width: 128px; height: 128px; } }

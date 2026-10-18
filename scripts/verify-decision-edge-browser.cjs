@@ -262,7 +262,7 @@ const server = http.createServer((req, res) => {
   await p.locator('[data-go="practice"]').first().click();
   assert.equal(await p.locator("[data-decision-mode]").count(), 0);
   await p.locator("#drillSigns").waitFor();
-  assert.match(await p.locator("#app").innerText(), /Practise a topic/);
+  assert.match(await p.locator("#app").innerText(), /Choose your next practice/);
   rec("vehicle-code scope protects motorcycle users");
   await fresh();
   await p.evaluate(() => {

@@ -132,7 +132,7 @@ const server = http.createServer((req, res) => {
   });
   await p.locator('[data-go="practice"]').first().click();
   await p.locator("#decisionTimed").waitFor();
-  assert.match(await p.locator("#drillSigns").innerText(), /28 source-linked/);
+  assert.match(await p.locator("#drillSigns").innerText(), /Recognition, markings and decisions · full set/);
   await p.locator("#drillSigns").click();
   let count = 0;
   while (!(await p.locator("#drillAgain").count())) {

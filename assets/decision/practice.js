@@ -1,5 +1,5 @@
-import { BANK, ROUTES } from "./bank.js?v=30";
-import { makeRun, runFromSave, shuffle } from "./engine.js?v=30";
+import { BANK, ROUTES } from "./bank.js?v=31";
+import { makeRun, runFromSave, shuffle } from "./engine.js?v=31";
 import {
   newSave,
   nextCard,
@@ -9,9 +9,9 @@ import {
   pauseSave,
   resumeSave,
   validateSave,
-} from "./session.js?v=30";
-import { storageWarning } from "./storage.js?v=30";
-import { questionSource } from "./sources.js?v=30";
+} from "./session.js?v=31";
+import { storageWarning } from "./storage.js?v=31";
+import { questionSource } from "./sources.js?v=31";
 import {
   BY_ID,
   progress,
@@ -19,7 +19,7 @@ import {
   finish,
   weakIds,
   importLegacy,
-} from "./model.js?v=30";
+} from "./model.js?v=31";
 const esc = (v) =>
   String(v ?? "").replace(
     /[&<>"']/g,
@@ -207,7 +207,7 @@ export function renderPracticePanel(bridge, container, message = "") {
   const d = progress(host.state),
     weak = weakIds(host.state),
     last = d.sessions.at(-1);
-  container.innerHTML = `<div class="block"><p class="kicker">Road decisions · Code 2</p><h2 id="roadPracticeTitle">Drive</h2><p class="lead">Practise road decisions and observation. Drive results contribute to your shared readiness and review. Selected light-vehicle practice; not an official test.</p>${message ? `<p role="status" class="decision-notice">${esc(message)}</p>` : ""}${saved ? `<div class="mini"><b>Continue ${esc(saved.title)}</b><p>Question ${saved.index + 1} of ${saved.ids.length} · exact choices and timer saved.</p>${button("decisionResume", "Resume practice")}${button("decisionDiscard", "Discard saved practice", "btn-ghost")}</div>` : ""}<div class="decision-toolbar"><span>Choose an untimed exercise or turn the question timer on</span>${button("decisionTimed", d.timed ? "Timed mode: on" : "Timed mode: off", "btn-soft")}</div><div class="decision-grid drive-quick">${[["mixed","Mixed road decisions","12 decisions across topics"],["observe","Observation sequences","8 step-by-step checks"],["weak","Review missed decisions",`${weak.length} decisions due`]].map(([mode,name,copy])=>`<button class="btn btn-soft" data-decision-mode="${mode}" ${mode==="weak"&&!weak.length?"disabled":""}>${name}<span class="sub">${copy}</span></button>`).join("")}</div><details class="drive-more"><summary>More Drive exercises &amp; routes</summary><div class="decision-grid">${[
+  container.innerHTML = `<div class="block"><p class="kicker">Road decisions · Code 2</p><h2 id="roadPracticeTitle">Drive</h2><p class="lead">Apply what you have learned to road decisions and observation. Your results join the same progress and review queue.</p>${message ? `<p role="status" class="decision-notice">${esc(message)}</p>` : ""}${saved ? `<div class="mini"><b>Continue ${esc(saved.title)}</b><p>Question ${saved.index + 1} of ${saved.ids.length} · exact choices and timer saved.</p>${button("decisionResume", "Resume practice")}${button("decisionDiscard", "Discard saved practice", "btn-ghost")}</div>` : ""}<div class="decision-toolbar"><span>Optional timer for each decision</span>${button("decisionTimed", d.timed ? "Timed mode: on" : "Timed mode: off", "btn-soft")}</div><div class="decision-grid drive-quick">${[["mixed","Mixed road decisions","12 decisions across topics"],["observe","Observation sequences","8 step-by-step checks"],["weak","Review missed decisions",`${weak.length} decisions due`]].map(([mode,name,copy])=>`<button class="btn btn-soft" data-decision-mode="${mode}" ${mode==="weak"&&!weak.length?"disabled":""}>${name}<span class="sub">${copy}</span></button>`).join("")}</div><details class="drive-more"><summary>More Drive exercises &amp; routes</summary><div class="decision-grid">${[
     ["signs", "Sign snap", "12 sign decisions"],
     ["rules", "Right of way", "10 road decisions"],
 
@@ -283,7 +283,7 @@ export function renderResumeNotice(bridge, container) {
     container.replaceChildren();
     return;
   }
-  container.innerHTML = `<section class="block"><p class="kicker">Continue practising</p><h2>Resume ${esc(checkpoint.title)}</h2><p>Question ${checkpoint.index + 1} of ${checkpoint.ids.length}. Your exact choices and place are saved.</p><button class="btn btn-primary" id="resumeRoadPractice">Resume practice</button><button class="btn btn-ghost" data-go="practice">View practice options</button></section>`;
+  container.innerHTML = `<section class="block recovery-row"><h2>Resume ${esc(checkpoint.title)}</h2><p>Question ${checkpoint.index + 1} of ${checkpoint.ids.length}. Your exact choices and place are saved.</p><button class="btn btn-soft" id="resumeRoadPractice">Resume practice</button><button class="btn btn-ghost" data-go="practice">View practice options</button></section>`;
   bridge.bind(container);
   container.querySelector("#resumeRoadPractice").onclick = () =>
     bridge.openDecision({ resume: true });

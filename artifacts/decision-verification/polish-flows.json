@@ -1,0 +1,363 @@
+{
+  "screens": [
+    {
+      "width": 320,
+      "height": 568,
+      "view": "home",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "view": "session1",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "view": "session3",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "view": "review",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "view": "practice",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "view": "checklist",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "view": "flash",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "view": "home",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "view": "session1",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "view": "session3",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "view": "review",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "view": "practice",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "view": "checklist",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "view": "flash",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "view": "home",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "view": "session1",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "view": "session3",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "view": "review",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "view": "practice",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "view": "checklist",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "view": "flash",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 1366,
+      "height": 900,
+      "view": "home",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 1366,
+      "height": 900,
+      "view": "session1",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 1366,
+      "height": 900,
+      "view": "session3",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 1366,
+      "height": 900,
+      "view": "review",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 1366,
+      "height": 900,
+      "view": "practice",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 1366,
+      "height": 900,
+      "view": "checklist",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 1366,
+      "height": 900,
+      "view": "flash",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "view": "home",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "view": "session1",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "view": "session3",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "view": "review",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "view": "practice",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "view": "checklist",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "view": "flash",
+      "overflow": false,
+      "wide": [],
+      "small": [],
+      "broken": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "Six signs begin within the desktop viewport",
+      "firstArtTop": 581.953125
+    },
+    {
+      "name": "Lesson result has one primary action that retries only this check’s misses"
+    },
+    {
+      "name": "Mixed drill result targets its own missed items, despite unrelated review history",
+      "misses": 16
+    },
+    {
+      "name": "Failed and reloaded mock section preserves exactly eight misses; review precedes sharing"
+    },
+    {
+      "name": "Full failed simulation reviews its exact missed concepts before sharing",
+      "questions": 64,
+      "uniqueMisses": 64
+    },
+    {
+      "name": "situations offers direct review of its actual missed questions"
+    },
+    {
+      "name": "row offers direct review of its actual missed questions"
+    },
+    {
+      "name": "Flashcard ratings require reveal; ten-card rounds finish; Again cards and remaining bank stay reachable"
+    },
+    {
+      "name": "Test Day directly edits the shared persisted date/province; changed booking resets old confirmations"
+    },
+    {
+      "name": "Controls integrates the real labelled diagram; stopping aid teaches useful steps without invented distance figures"
+    },
+    {
+      "name": "Home with both unfinished assessment and Drive keeps one primary recommendation and secondary resume rows"
+    },
+    {
+      "name": "35 populated responsive states: Home recovery, signs, controls, Review, practice, Test Day and flashcards"
+    }
+  ],
+  "errors": [],
+  "violations": []
+}
