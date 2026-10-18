@@ -1,0 +1,107 @@
+[
+  {
+    "path": "index.html",
+    "status": 200,
+    "sha256": "685b930d83c5a364d4257afa067b5539c23dcc6080f55ab0028647fcb1960e80",
+    "matches": true,
+    "csp": "default-src 'self'; script-src 'self' 'sha256-O7BbF+M4FMwyCY0/fHlc1C23DkDLkAPv5SC3lq2Pxgg=' 'sha256-LhFWWp6AddQa6vedWnqazjYAPKC9BnIckHNQ2QVHHT0=' 'sha256-T2c4wDQu4/ShkOGGsEluclmS9tmJ5gtAxxe5xuuwMHw=' 'sha256-yEDW/zIij/YaC9AC3FaPR+lXQiN1MK+6sc/CFBOFTfg='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"
+  },
+  {
+    "path": "sw.js",
+    "status": 200,
+    "sha256": "39ba700a85c5f42cf43792200101a8a0c9f1c2baad99fda83ece4e76604db20d",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/product.css",
+    "status": 200,
+    "sha256": "7f6654683b73a6ab9bb752d2a3c5ce8abe3599909f2496347c2464888832bf5b",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/practice.css",
+    "status": 200,
+    "sha256": "873b6721b5dadc569040658da38b836f42c79a63bb1b3d0a5d473c8cb909b309",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "manifest.webmanifest",
+    "status": 200,
+    "sha256": "c4057a0c637cfd3d5b3d99181accee631dfbbcf9bd24cded5be0d33ca3cad9c6",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "study-guide.html",
+    "status": 200,
+    "sha256": "78fe968a94b8e91b21403bb50e8fc0183fcf7d18010f0f080abe33e241124e3d",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/print.js",
+    "status": 200,
+    "sha256": "cc5d05b33b58cf9f1473931eca3393bef1416d96a51a7954085b41fe6295d587",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/bank.js",
+    "status": 200,
+    "sha256": "dc5244f3abd2eb89450b59d72d6580cd39f28b24c4fde92db79cea151c2cc51e",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/sources.js",
+    "status": 200,
+    "sha256": "5f502b5376de0493462cf544fe240ffe4e90224f2826a20070bba473632d6ab8",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/types.js",
+    "status": 200,
+    "sha256": "020ba1f922f9e7c24286b05b3977dd99465dff1611a3ecdb4c9d2d1cfb51f675",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/session.js",
+    "status": 200,
+    "sha256": "77d4331ede4c99dc02f292dd3ab19c15f5ccf219d9b3a5f7f3fa7b809b01076e",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/model.js",
+    "status": 200,
+    "sha256": "843d24407b7d42e99e8f73afa0b67ed73b6650a5e870a04b835ee76a88d61e75",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/engine.js",
+    "status": 200,
+    "sha256": "981c65be5c893dc0edf713129b288f0d99ffc0b586e7e088a5c83e819847e4b8",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/practice.js",
+    "status": 200,
+    "sha256": "0a52e586ee041881c6b9e0d6147976e18913e02bd25e49c2ee1fd033b8a96b21",
+    "matches": true,
+    "csp": null
+  },
+  {
+    "path": "assets/decision/storage.js",
+    "status": 200,
+    "sha256": "67cbb4c4cf56ac5d4f13061b61206ee180d0c9c320809978595de8d4751c93fa",
+    "matches": true,
+    "csp": null
+  }
+]

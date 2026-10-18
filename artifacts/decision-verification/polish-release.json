@@ -1,0 +1,48 @@
+{
+  "sourceCommit": "d262a4fd91a702b9410ef8e3c86975fe20a31e36",
+  "deployment": "dpl_5dgJKSu9P52pHNjNShbFn5N7BydQ",
+  "status": "READY",
+  "target": "production",
+  "alias": "https://greenlight-k53-review.vercel.app/",
+  "ci": {
+    "url": "https://github.com/buttercode101/Greenlight-k53/actions/runs/39115202959",
+    "conclusion": "success"
+  },
+  "localBehaviourChecks": 126,
+  "screenMatrixStates": 506,
+  "additionalPopulatedLayouts": 83,
+  "publicBehaviourChecks": 41,
+  "publicPopulatedLayouts": 48,
+  "matchingPublicRuntimeFiles": 15,
+  "offlineCache": "greenlight-k53-v31-polish",
+  "manualProductionWalk": {
+    "updateAppliedThroughUI": true,
+    "priorDailyAnswersPreserved": 41,
+    "priorDriveAnswerStillLockedAfterUpdate": true,
+    "nextDriveAnswerUpdatedDailyCountTo": 42,
+    "sharedReviewDueChangedFrom": 27,
+    "sharedReviewDueChangedTo": 26,
+    "flashcardRound": {
+      "cards": 10,
+      "gotIt": 8,
+      "again": 2,
+      "recapReached": true,
+      "targetedRetryShows": "Card 1 of 2"
+    },
+    "navigation": [
+      "Home",
+      "Learn",
+      "Practise",
+      "Mock",
+      "Test Day"
+    ],
+    "homePrimaryActionCount": 1,
+    "driveInsidePractise": true
+  },
+  "consoleNote": "Automated suites recorded no application page errors. Manual Chrome logs contained browser-extension metadata errors with chrome-extension URLs, excluded from app findings.",
+  "limits": [
+    "Chromium screen emulation, not physical Android/iOS hardware",
+    "No independent penetration-test or subject-content certification",
+    "No TinyFish used"
+  ]
+}

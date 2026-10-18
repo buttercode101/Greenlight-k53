@@ -41,3 +41,9 @@ No TinyFish was used. No new runtime dependency or external service was introduc
 Responsive checks use Chromium viewports and rendered screenshots, not a physical fleet of Android/iOS devices. They do not certify Safari/VoiceOver/TalkBack or every device/browser. Speech-engine invocation was checked, not audible pronunciation on each operating system. This is a static, device-local app; there is no API/database/account boundary to invent. Tests exercise browser → canonical state → storage → reload/offline rendering. These UI and security regression checks do not constitute an independent penetration test or professional validation of the K53 teaching content. No universal “zero bugs” claim is made.
 
 Release commit, deployment and live verification are recorded in `artifacts/decision-verification/polish-release.json` after publication.
+
+## Production verification
+
+Source commit `d262a4f` is live on the primary alias. GitHub CI run 39115202959 succeeded. Production replay passed 41 behaviour checks and 48 populated layouts; all 15 fetched runtime files matched the tested source byte-for-byte. Hands-on Chrome testing also confirmed the explicit waiting update preserved 41 prior answers, resumed the exact revealed Drive card without rescoring, advanced the shared count to 42 on a new answer, and completed a 10-card flashcard round with its two-card Again recap. The release JSON links the tested deployment and describes limits.
+
+![Verified live Home with existing audit progress](artifacts/decision-verification/polish-live-home.jpg)

@@ -1,0 +1,28 @@
+{
+  "screens": [],
+  "checks": [
+    {
+      "name": "Permanent navigation and empty baseline: purposeful status, separate daily effort and readiness"
+    },
+    {
+      "name": "39 signs in seven bounded steps, search/empty state, Continue and final Start check"
+    },
+    {
+      "name": "Ten real answers advance the daily goal immediately, resist duplicates, persist on reload and earn readiness after a completed check"
+    },
+    {
+      "name": "Daily focus resets on the next local date without clearing topic evidence"
+    },
+    {
+      "name": "Mock and Test Day have clear active states; mobile install remains discoverable in Test Day"
+    },
+    {
+      "name": "Waiting update stays inline below navigation and disappears during a question without applying automatically"
+    },
+    {
+      "name": "Answer feedback honours reduced-motion preference"
+    }
+  ],
+  "errors": [],
+  "violations": []
+}
