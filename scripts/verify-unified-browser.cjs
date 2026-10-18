@@ -203,7 +203,7 @@ const server = http.createServer((req, res) => {
   assert.deepEqual(state.saved.answers, checkpoint.answers);
   const keys = await q.evaluate(() => caches.keys());
   assert(keys.includes("unrelated-cache"));
-  assert(keys.includes("greenlight-k53-v28-readers"));
+  assert(keys.includes("greenlight-k53-v29-navigation"));
   assert(!keys.includes("greenlight-k53-v23-decision"));
   rec("safe update preserves old study progress and unrelated caches");
   await legacy.setOffline(true);

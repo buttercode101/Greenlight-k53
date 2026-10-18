@@ -1,0 +1,84 @@
+{
+  "screens": [],
+  "checks": [
+    {
+      "name": "One read-aloud press invokes the speech engine exactly once"
+    },
+    {
+      "name": "All 39 signs and 10 markings reachable through pagination, search and empty states"
+    },
+    {
+      "name": "Complete lesson check session1",
+      "questions": 10,
+      "correct": 4
+    },
+    {
+      "name": "Complete lesson check session2",
+      "questions": 10,
+      "correct": 0
+    },
+    {
+      "name": "Complete lesson check session3",
+      "questions": 12,
+      "correct": 4
+    },
+    {
+      "name": "All 44 Code 2 rules remain accessible, with working search"
+    },
+    {
+      "name": "Leaving a short practice requires confirmation; cancelling keeps the current set"
+    },
+    {
+      "name": "Complete topic drill drillSigns",
+      "questions": 112
+    },
+    {
+      "name": "Complete topic drill drillRules",
+      "questions": 131
+    },
+    {
+      "name": "Complete topic drill drillCtrl",
+      "questions": 37
+    },
+    {
+      "name": "Complete topic drill drillMixed",
+      "questions": 20
+    },
+    {
+      "name": "Full 64-question learning mock, section transitions, explanations and final pass"
+    },
+    {
+      "name": "Mock result share image renders as a PNG",
+      "size": 120742,
+      "type": "image/png"
+    },
+    {
+      "name": "Share Result control downloads the PNG"
+    },
+    {
+      "name": "All vehicle codes: controls checks, separate progress and persistent date/province"
+    },
+    {
+      "name": "Large shared review: paged cards, correct-index removal, search, bookmarks and full retry count"
+    },
+    {
+      "name": "Flashcard keyboard/again/known flow and accessible answer visibility"
+    },
+    {
+      "name": "Complete right-of-way exercise with visible explanations and shared progress",
+      "questions": 6
+    },
+    {
+      "name": "Complete illustrated road-situation exercise",
+      "questions": 6
+    },
+    {
+      "name": "Test-day checklist persists after reload"
+    },
+    {
+      "name": "Atlas filtering/empty state and RHD cockpit render"
+    }
+  ],
+  "errors": [],
+  "violations": []
+}

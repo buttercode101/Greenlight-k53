@@ -52,7 +52,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/decision/practice.css?v=28">
+<link rel="stylesheet" href="./assets/decision/practice.css?v=29">
 <style>
 /* ============================================================
    DESIGN.md COMPATIBLE TOKENS (Notion + Mintlify hybrid)
@@ -440,7 +440,7 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 @media(max-width:480px){.storage-status{margin:8px 12px}.span-table th,.span-table td{padding:8px 5px;font-size:12px}.question-source{font-size:13px}}
 #drillSigns .ti,#drillRules .ti,#drillCtrl .ti,#drillMixed .ti{width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:8px}
 </style>
-<link rel="stylesheet" href="./assets/product.css?v=28">
+<link rel="stylesheet" href="./assets/product.css?v=29">
 </head>
 <body>
 <a class="skip-link" href="#app">Skip to main content</a>
@@ -1195,7 +1195,7 @@ function quizFlow(questions,sessNum,title){
         card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});
         recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
         else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
-        renderAnswerTools(card,q);next.classList.remove('hidden');
+        renderAnswerTools(card,q);next.classList.remove('hidden');focusPracticeContent();
       });
     });
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
@@ -1272,12 +1272,12 @@ function practiceVariant(q,back='review'){
  if(!confirmShortLeave())return;
  const signPractice=back==='signlibrary'||back==='concepts';
  app.innerHTML=backbar(signPractice?'Sign practice':'Another version')+`<div class="block"><p class="kicker">${signPractice?'Recognise the sign':'Same idea, different wording'}</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2>${safeHTML(q.q)}</h2>${q.opts.map((o,i)=>`<button class="opt" type="button" data-i="${i}">${safeHTML(o)}</button>`).join('')}<div class="feedback hidden" role="status"></div>${evidence(q)}<button class="btn btn-ghost" data-go="${back}">${back==='signlibrary'?'Back to sign atlas':back==='concepts'?'Back to concept focus':'Back to review'}</button></div>`;
- const card=app.querySelector('.block');card.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;const ok=Number(b.dataset.i)===q.ans;card.querySelectorAll('.opt').forEach(x=>x.disabled=true);b.classList.add(ok?'correct':'wrong');if(!ok){card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q);}recordAttempt(q,ok);const fb=card.querySelector('.feedback');fb.className='feedback '+(ok?'ok':'no');fb.textContent=q.ex;renderAnswerTools(card,q,back);}));bindGo();
+ const card=app.querySelector('.block');card.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;const ok=Number(b.dataset.i)===q.ans;card.querySelectorAll('.opt').forEach(x=>x.disabled=true);b.classList.add(ok?'correct':'wrong');if(!ok){card.querySelectorAll('.opt')[q.ans].classList.add('correct');addReview(q);}recordAttempt(q,ok);const fb=card.querySelector('.feedback');fb.className='feedback '+(ok?'ok':'no');fb.textContent=q.ex;renderAnswerTools(card,q,back);focusPracticeContent();}));bindGo();
 }
 function recordAttempt(q,ok){
   if(q.decisionId&&K.recordDecisionQuestion){K.recordDecisionQuestion(q,ok);return;}
   const key=reviewKey(q), row=K.state.attempts[key]||{q:q.q,topic:topicFor(q),correct:0,wrong:0,last:0};
-  row.correct+=ok?1:0;row.wrong+=ok?0:1;row.last=Date.now();row.topic=topicFor(q);
+  row.correct+=ok?1:0;row.wrong+=ok?0:1;row.last=Date.now();row.topic=topicFor(q);row.svg=q.svg||'';
   const sign=K.SIGNS.find(s=>q.svg&&q.svg.includes(s.svg));
   if(sign&&SITUATIONS.some(x=>x.sign===sign.id)){
     const history=K.state.conceptHistory=Array.isArray(K.state.conceptHistory)?K.state.conceptHistory:[];
@@ -1317,7 +1317,7 @@ function addReview(q,answer){
 }
 function reviewDue(){return K.state.review.filter(r=>visibleForCode(r.q)&&(r.decisionId||(Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)))&&r.due<=Date.now());}
 function openReview(){
-  currentArea='review';
+  currentArea='review';rememberView('review');
   const due=reviewDue();
   const visible=K.state.review.map((r,i)=>({r,i})).filter(({r})=>visibleForCode(r.q));
   const reviewMarkup=({r,i})=>`<article class="mini review-card"><div class="t"><span>${safeHTML(r.q)}</span><button class="review-remove" data-remove="${i}" type="button" aria-label="Remove saved question">Remove</button></div>${r.svg?`<div class="review-art">${reviewArt(r.svg)}</div>`:''}<details class="d"><summary>Reveal answer</summary><p>Answer: ${safeHTML(r.a)}</p></details><p class="footnote">${r.due<=Date.now()?'Ready to retry':`Next review ${new Date(r.due).toLocaleDateString('en-ZA')}`}</p></article>`;
@@ -1329,7 +1329,7 @@ function openReview(){
     <div id="reviewReader"></div>
     <details class="review-section"><summary>Saved questions · ${bookmarks.length}</summary><div id="bookmarkReader"></div></details>
     <details class="review-section"><summary>Topic weaknesses</summary><div class="lesson-grid">${topicStats().map(t=>`<div class="mini"><div class="t">${safeHTML(t.topic)}</div><p>${t.correct}/${t.correct+t.wrong} correct across ${t.items} concepts · ${t.wrong} misses</p></div>`).join('')||'<p>Finish a few practice questions to identify weak topics.</p>'}</div></details>
-    <details class="review-section"><summary>Repeated mistakes</summary><div class="lesson-grid">${Object.values(K.state.attempts).filter(a=>visibleForCode(a.q)&&a.wrong).sort((a,b)=>b.wrong-a.wrong).slice(0,8).map(a=>`<div class="mini"><div class="t">${safeHTML(a.q)}</div><p>${a.wrong} missed · ${a.correct} correct attempts</p></div>`).join('')||'<p>Your practice history will appear here.</p>'}</div></details>
+    <details class="review-section"><summary>Repeated mistakes</summary><div class="lesson-grid">${Object.entries(K.state.attempts).filter(([,a])=>visibleForCode(a.q)&&a.wrong).sort(([,a],[,b])=>b.wrong-a.wrong).slice(0,8).map(([key,a])=>`<div class="mini"><div class="t">${safeHTML(a.q)}</div>${reviewArt(a.svg||key)?`<div class="review-art">${reviewArt(a.svg||key)}</div>`:''}<p>${a.wrong} missed · ${a.correct} correct attempts</p></div>`).join('')||'<p>Your practice history will appear here.</p>'}</div></details>
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
   if($('#reviewStart'))$('#reviewStart').addEventListener('click',()=>startReview(due.map(r=>r.key)));
@@ -1339,14 +1339,15 @@ function openReview(){
   bindGo();
 }
 function startReview(keys){
+  shortPracticeActive=true;
   let i=0,correct=0;
   const total=keys.length;
   function render(){
-    if(i>=total){app.innerHTML=backbar('Review complete')+`<div class="block center"><h2>Review complete</h2><p>${correct}/${total} correct. Missed questions remain ready to practise; correct ones return on a later day.</p><button class="btn btn-primary" id="reviewReturn">View weak spots</button><button class="btn btn-ghost" data-go="home">Home</button></div>`;$('#reviewReturn').addEventListener('click',openReview);bindGo();return;}
+    if(i>=total){shortPracticeActive=false;rememberView('review');app.innerHTML=backbar('Review complete')+`<div class="block center"><h2>Review complete</h2><p>${correct}/${total} correct. Missed questions remain ready to practise; correct ones return on a later day.</p><button class="btn btn-primary" id="reviewReturn">View weak spots</button><button class="btn btn-ghost" data-go="home">Home</button></div>`;$('#reviewReturn').addEventListener('click',openReview);bindGo();return;}
     const r=K.state.review.find(item=>item.key===keys[i]);
     if(!r){i++;render();return;}
-    if(r.decisionId){openDecision({ids:[r.decisionId],title:'Review decisions',onComplete:result=>{correct+=result.correct;i++;render();}});return;}
-    app.innerHTML=backbar('Weak spots',`${i+1}/${total}`)+`<div class="block"><p class="kicker">Retry ${i+1} of ${total}</p>${r.svg?`<div class="question-art">${reviewArt(r.svg)}</div>`:''}<h2>${safeHTML(r.q)}</h2><div>${r.opts.map((o,n)=>`<button class="opt" type="button" data-i="${n}">${safeHTML(o)}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button></div>`;
+    if(r.decisionId){shortPracticeActive=false;openDecision({ids:[r.decisionId],title:'Review decisions',onComplete:result=>{shortPracticeActive=true;correct+=result.correct;i++;render();}});return;}
+    rememberView('review');app.innerHTML=backbar('Weak spots',`${i+1}/${total}`)+`<div class="block"><p class="kicker">Retry ${i+1} of ${total}</p>${r.svg?`<div class="question-art">${reviewArt(r.svg)}</div>`:''}<h2>${safeHTML(r.q)}</h2><div>${r.opts.map((o,n)=>`<button class="opt" type="button" data-i="${n}">${safeHTML(o)}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button></div>`;
     const buttons=app.querySelectorAll('.opt'),fb=app.querySelector('.feedback'),next=app.querySelector('.next');
     buttons.forEach(b=>b.addEventListener('click',()=>{
       if(b.disabled)return;
@@ -1354,7 +1355,7 @@ function startReview(keys){
       buttons.forEach(x=>x.disabled=true);buttons[r.ans].classList.add('correct');
       recordAttempt({q:r.q,opts:r.opts,ans:r.ans,svg:r.svg},ok);if(!ok){b.classList.add('wrong');r.level=0;r.due=Date.now();r.misses=(r.misses||0)+1;}
       else{correct++;r.level=Math.min((r.level||0)+1,3);r.due=Date.now()+[0,1,3,7][r.level]*86400000;}
-      K.save();fb.className='feedback '+(ok?'ok':'no');fb.textContent=(ok?'Correct. ':'Not yet. ')+(r.ex||'Answer: '+r.a);next.classList.remove('hidden');
+      K.save();fb.className='feedback '+(ok?'ok':'no');fb.textContent=(ok?'Correct. ':'Not yet. ')+(r.ex||'Answer: '+r.a);next.classList.remove('hidden');focusPracticeContent();
     }));
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});bindGo();
   }
@@ -1539,7 +1540,7 @@ function openRow(){
         if(ch===s.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}
         else{b.classList.add('wrong');document.querySelectorAll('.opt')[s.ans].classList.add('correct');fb.className='feedback no';addReview({q:s.scene,opts:s.opts,ans:s.ans,ex:s.ex});}
         recordAttempt({q:s.scene,opts:s.opts,ans:s.ans,ex:s.ex},ch===s.ans);
-        fb.textContent='💡 '+s.ex; next.classList.remove('hidden');
+        fb.textContent='💡 '+s.ex; next.classList.remove('hidden');focusPracticeContent();
       });
     });
     next.addEventListener('click',()=>{i++;revealed=false;render();window.scrollTo(0,0);});
@@ -1601,7 +1602,7 @@ function drill(cat){
     card.innerHTML=`<p class="kicker">Question ${i+1} of ${total}</p>${q.svg?`<div class="question-art">${q.svg}</div>`:''}<h2 style="font-size:18px;letter-spacing:-0.3px;margin:0 0 14px">${q.q}</h2><div>${q.opts.map((o,idx)=>`<button class="opt" type="button" data-i="${idx}">${o}</button>`).join('')}</div><div class="feedback hidden" role="status" aria-live="polite"></div><button class="btn btn-primary next hidden" type="button">Next →</button>`;
     app.innerHTML=backbar(names[cat],`${correct}/${total}`);app.appendChild(card);
     const fb=card.querySelector('.feedback'),next=card.querySelector('.next');
-    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';addReview(q);}fb.textContent='💡 '+q.ex;renderAnswerTools(card,q);next.classList.remove('hidden');});});
+    card.querySelectorAll('.opt').forEach(b=>{b.addEventListener('click',()=>{if(b.disabled)return;const ch=+b.getAttribute('data-i');card.querySelectorAll('.opt').forEach(x=>{x.disabled=true;x.classList.add('disabled');});recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';}else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';addReview(q);}fb.textContent='💡 '+q.ex;renderAnswerTools(card,q);next.classList.remove('hidden');focusPracticeContent();});});
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});
     bindBookmark(card,q);bindGo();
   }
@@ -1710,14 +1711,14 @@ const SITUATIONS=[
  {sign:'buslane',note:'You are driving a car beside the reserved lane.',q:'How should you treat this signed lane?',opts:['Use it whenever the ordinary lane is congested','Check the displayed conditions; do not use it when reserved for buses','Use it if no bus is visible'],ans:1,ex:'A bus reservation applies under the sign conditions; congestion or an empty lane alone is not permission.',why:['Congestion does not override a reservation.','Correct: read the conditions and respect the reservation.','A temporarily empty lane can still be reserved.']}
 ];
 function openSituations(onlySign){
-  currentArea='practice';
+  currentArea='practice';shortPracticeActive=true;
  const deck=K.shuffle(onlySign?SITUATIONS.filter(s=>s.sign===onlySign):SITUATIONS),total=deck.length;let pos=0,correct=0,answered=false;
  function render(){
-  if(pos>=total){app.innerHTML=backbar('Road situations')+`<div class="block center"><p class="kicker">Practice finished</p><h2>${correct} of ${total} correct</h2><p class="lead">Review missed ideas in your mistake history, then try the signs in another order.</p><button class="btn btn-primary" id="situationsAgain" type="button">Try again</button><button class="btn btn-soft" data-go="${onlySign?'concepts':'signlibrary'}">${onlySign?'Back to concept focus':'Explore sign atlas'}</button></div>`;$('#situationsAgain').addEventListener('click',()=>openSituations(onlySign));bindGo();return;}
+  if(pos>=total){shortPracticeActive=false;app.innerHTML=backbar('Road situations')+`<div class="block center"><p class="kicker">Practice finished</p><h2>${correct} of ${total} correct</h2><p class="lead">Review missed ideas in your mistake history, then try the signs in another order.</p><button class="btn btn-primary" id="situationsAgain" type="button">Try again</button><button class="btn btn-soft" data-go="${onlySign?'concepts':'signlibrary'}">${onlySign?'Back to concept focus':'Explore sign atlas'}</button></div>`;$('#situationsAgain').addEventListener('click',()=>openSituations(onlySign));bindGo();return;}
   const s=deck[pos],sign=K.SIGNS.find(x=>x.id===s.sign),q={q:s.q,opts:s.opts,ans:s.ans,ex:s.ex,svg:sign.svg,sec:'Signs'};
   const junction=s.sign==='stop'||s.sign==='giveway';
   app.innerHTML=backbar('Road situations',`${pos+1}/${total}`)+`<div class="block"><p class="kicker">Look · decide · learn</p><p class="scene-progress">Situation ${pos+1} of ${total} · sign ${safeHTML(SIGN_CODES[s.sign])}</p><div class="scene-road${junction?' junction':''}" role="img" aria-label="Schematic roadway with ${safeHTML(sign.name)} sign. ${safeHTML(s.note)}">${junction?'<div class="scene-cross"><span>CROSSING TRAFFIC →</span></div>':''}<div class="scene-sign">${signImg(sign.svg)}</div><div class="scene-car">YOUR VEHICLE ↑</div><div class="scene-note">${safeHTML(s.note)}</div></div><h2>${safeHTML(s.q)}</h2>${s.opts.map((o,i)=>`<button class="opt" type="button" data-i="${i}">${safeHTML(o)}</button>`).join('')}<div class="feedback hidden" role="status" aria-live="polite"></div><div id="situationWhy"></div><button class="btn btn-primary next hidden" type="button">${pos+1===total?'See result':'Next situation'} →</button><p class="footnote">Source area: <a href="${MANUALS.signs}" target="_blank" rel="noopener noreferrer">NaTIS road traffic signs manual ↗</a> · independent subject review pending.</p></div>`;
-  app.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{if(answered)return;answered=true;const choice=Number(b.dataset.i),ok=choice===s.ans;if(ok)correct++;else addReview(q);recordAttempt(q,ok);app.querySelectorAll('.opt').forEach((x,i)=>{x.disabled=true;if(i===s.ans)x.classList.add('correct');else if(i===choice)x.classList.add('wrong');});const fb=app.querySelector('.feedback');fb.className='feedback '+(ok?'ok':'no');fb.textContent=(ok?'Correct. ':'Review this: ')+s.ex;$('#situationWhy').innerHTML=`<details class="d"><summary>Why each choice works or fails</summary><ul>${s.why.map((w,i)=>`<li><b>${safeHTML(s.opts[i])}:</b> ${safeHTML(w)}</li>`).join('')}</ul></details>`;app.querySelector('.next').classList.remove('hidden');}));
+  app.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{if(answered)return;answered=true;const choice=Number(b.dataset.i),ok=choice===s.ans;if(ok)correct++;else addReview(q);recordAttempt(q,ok);app.querySelectorAll('.opt').forEach((x,i)=>{x.disabled=true;if(i===s.ans)x.classList.add('correct');else if(i===choice)x.classList.add('wrong');});const fb=app.querySelector('.feedback');fb.className='feedback '+(ok?'ok':'no');fb.textContent=(ok?'Correct. ':'Review this: ')+s.ex;$('#situationWhy').innerHTML=`<details class="d"><summary>Why each choice works or fails</summary><ul>${s.why.map((w,i)=>`<li><b>${safeHTML(s.opts[i])}:</b> ${safeHTML(w)}</li>`).join('')}</ul></details>`;app.querySelector('.next').classList.remove('hidden');focusPracticeContent();}));
   app.querySelector('.next').addEventListener('click',()=>{pos++;answered=false;render();window.scrollTo(0,0);});bindGo();
  }
  render();
@@ -1862,6 +1863,23 @@ function bindTTS(scope){
   const r=scope.querySelector('#ttsRate');
   if(r&&!boundSpeechControls.has(r)){boundSpeechControls.add(r);r.addEventListener('input',()=>{state.rate=parseFloat(r.value);K.save();});}
 }
+function rememberView(view){
+  const url=new URL(location.href);url.hash='';if(view==='home')url.searchParams.delete('go');else url.searchParams.set('go',view);history.replaceState(null,'',url);
+}
+function focusPracticeContent(){
+  if(!app.querySelector('.opt'))return;
+  const feedback=app.querySelector('.feedback:not(.hidden)');
+  const target=feedback||app.querySelector('.block h2');
+  if(target){target.tabIndex=-1;target.focus({preventScroll:true});}
+}
+function navigateFromPractice(navigate,onCancel=()=>{}){
+  if(!confirmShortLeave()){onCancel();return;}
+  if(assessmentActive && !window.confirm('Leave this practice test? You can resume from Home; a timed attempt keeps counting down.')){onCancel();return;}
+  assessmentActive=false;
+  if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}
+  if(decisionModule?.isActive()){decisionModule.requestLeave(navigate);return;}
+  navigate();
+}
 function bindGo(root,options={}){
   showStorageStatus();
   const scope=root||app;
@@ -1873,30 +1891,25 @@ function bindGo(root,options={}){
   if(sb)sb.addEventListener('click',(e)=>{e.stopPropagation();toggleTopSpeech();});
   bindTTS(scope);
   scope.querySelector('#printStudyPage')?.addEventListener('click',()=>window.print());
-  scope.querySelectorAll('[data-practice-id]').forEach(button=>button.addEventListener('click',()=>openDecision({ids:[button.dataset.practiceId],title:'Sign decision'})));
-  scope.querySelectorAll('[data-practice-mode]').forEach(button=>button.addEventListener('click',()=>openDecision({mode:button.dataset.practiceMode})));
+  scope.querySelectorAll('[data-practice-id]').forEach(button=>button.addEventListener('click',()=>navigateFromPractice(()=>openDecision({ids:[button.dataset.practiceId],title:'Sign decision'}))));
+  scope.querySelectorAll('[data-practice-mode]').forEach(button=>button.addEventListener('click',()=>navigateFromPractice(()=>openDecision({mode:button.dataset.practiceMode}))));
   scope.querySelectorAll('[data-go]').forEach(el=>{
     el.addEventListener('click',()=>{
       const t=el.getAttribute('data-go');
       const map={learn:openLearn,tests:openTests,drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,signlibrary:openSignLibrary,situations:openSituations,concepts:openConceptFocus,practical:openPractical,home:renderHome,session1:openSession1,session2:openSession2,session3:openSession3,cheat:openCheat,review:openReview,flash:openFlash,row:openRow,practice:openPractice,memory:openMemory,sources:openSources,checklist:openChecklist,sim:openSim,mock:openMock,rhd:openRHD,revision:openRevision};
       if(map[t]){
-        if(!confirmShortLeave())return;
-        if(assessmentActive && !window.confirm('Leave this practice test? You can resume from Home; a timed attempt keeps counting down.'))return;
-        assessmentActive=false;
-        if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}
-        const navigate=()=>{map[t]();window.scrollTo(0,0);const h=app.querySelector('h1')||app.querySelector('.backbar .ttl');if(h){h.tabIndex=-1;h.focus({preventScroll:true});}};
-        if(decisionModule?.isActive()){decisionModule.requestLeave(navigate);return;}
-        navigate();
+        navigateFromPractice(()=>{map[t]();rememberView(t);window.scrollTo(0,0);if(app.querySelector('.opt'))focusPracticeContent();else{const h=app.querySelector('h1')||app.querySelector('.backbar .ttl');if(h){h.tabIndex=-1;h.focus({preventScroll:true});}}});
       }
     });
   });
+  focusPracticeContent();
 }
 
 /* Decision player shares the existing product shell and canonical state. */
 let decisionModule=null,decisionLoading=false;
 function practiceHeader(title,back='practice'){currentArea='practice';let bar=backbar(title).replace('class="backbar no-print"','class="backbar practice-back no-print"');if(back==='practice')bar=bar.replace('<button data-go="home"','<button data-go="practice"').replace('Back to home','Back to Practise');return bar;}
 function decisionBridge(){return {root:app,state:K.state,save:K.save,touch:K.touch,header:practiceHeader,bind:(scope=app)=>bindGo(scope,{decision:true}),toggleTheme:K.toggleTheme,speak:speakText,stopSpeech,storageStatus:showStorageStatus,openPractice,openDecision};}
-async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=28');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
+async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=29');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
 function showRoadPracticeRecovery(){const slot=document.getElementById('practiceResumeSlot');if(slot&&K.state.vehicleCode==='2')loadDecisionModule().then(module=>{if(slot.isConnected)module.renderResumeNotice(decisionBridge(),slot);}).catch(()=>{});}
 async function openDecision(args={}){
   if(decisionLoading)return;
@@ -1943,7 +1956,7 @@ function recoveryNotice(){
   if(!validAssessment(c)||document.getElementById('resumeAssessment'))return;
   const box=ce('section');box.className='block';box.id='assessmentRecovery';
   box.innerHTML=`<h2>Continue your unfinished ${c.mode==='sim'?'simulation':'learning mock'}</h2><p>Code ${c.code} · ${c.answers.filter(a=>a!==null).length}/${c.questions.length} answers saved in this ${c.mode==='sim'?'paper':'section'}. ${c.deadline?'The original timer keeps running while you are away.':'Untimed practice.'}</p><button class="btn btn-primary" id="resumeAssessment">${c.deadline&&remainingSeconds(c.deadline)===0?'View expired attempt':'Resume attempt'}</button><button class="btn btn-ghost" id="discardAssessment">Discard unfinished attempt</button>`;
-  app.prepend(box);
+  const anchor=app.querySelector('.backbar')||app.querySelector('.product-nav');if(anchor)anchor.after(box);else app.prepend(box);
   $('#resumeAssessment').addEventListener('click',resumeAssessment);
   $('#discardAssessment').addEventListener('click',()=>{if(window.confirm('Discard this unfinished attempt? Completed practice history will remain.')){clearAssessment();box.remove();}});
 }
@@ -2006,7 +2019,7 @@ function openMock(){
     $('#sCtrl').addEventListener('click',()=>{mockSeconds=0;startMock('controls');});
     bindGo();
   });
-  bindGo();
+  bindGo();recoveryNotice();
 }
 
 /* Start a full test (sequential sections) or a single section */
@@ -2064,10 +2077,10 @@ function startMock(onlySec,resume=null){
           answers[i]=ch;answered++;
           recordAttempt(q,ch===q.ans);if(ch===q.ans){b.classList.add('correct');correct++;fb.className='feedback ok';fb.textContent='✅ '+q.ex;}
           else{b.classList.add('wrong');card.querySelectorAll('.opt')[q.ans].classList.add('correct');fb.className='feedback no';fb.textContent='❌ '+q.ex;addReview(q);}
-          checkpoint();renderAnswerTools(card,q);next.classList.remove('hidden');
+          checkpoint();renderAnswerTools(card,q);next.classList.remove('hidden');focusPracticeContent();
         });
       });
-      if(answers[i]!==null){const ch=answers[i],ok=ch===q.ans;card.querySelectorAll('.opt').forEach((b,n)=>{b.disabled=true;if(n===q.ans)b.classList.add('correct');else if(n===ch)b.classList.add('wrong');});fb.className='feedback '+(ok?'ok':'no');fb.textContent=q.ex;next.classList.remove('hidden');renderAnswerTools(card,q);}
+      if(answers[i]!==null){const ch=answers[i],ok=ch===q.ans;card.querySelectorAll('.opt').forEach((b,n)=>{b.disabled=true;if(n===q.ans)b.classList.add('correct');else if(n===ch)b.classList.add('wrong');});fb.className='feedback '+(ok?'ok':'no');fb.textContent=q.ex;next.classList.remove('hidden');focusPracticeContent();renderAnswerTools(card,q);}
       next.addEventListener('click',()=>{i++;checkpoint();render();window.scrollTo(0,0);});
       bindBookmark(card,q);bindGo();
     }
@@ -2218,7 +2231,7 @@ function openSim(){
   const go=async(t)=>{try{await loadDecisionModule();}catch{}if(mockTimer){clearInterval(mockTimer);mockTimer=null;}mockSeconds=t;startSim();};
   $('#simGo').addEventListener('click',()=>go(60*60));
   $('#simNoTime').addEventListener('click',()=>go(0));
-  bindGo();
+  bindGo();recoveryNotice();
 }
 function startSim(resume=null){
   if(!resume&&validAssessment(K.state.activeAssessment)&&!window.confirm('Start a new attempt and replace the unfinished one?'))return;
@@ -2286,10 +2299,10 @@ function startSim(resume=null){
         recordAttempt(q,ch===q.ans);if(ch===q.ans){correct++;secCorrect[q.sec.toLowerCase()]++;}
         else{addReview(q);}
         fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';
-        checkpoint();next.classList.remove('hidden');
+        checkpoint();next.classList.remove('hidden');focusPracticeContent();
       });
     });
-    if(answers[i]!==null){card.querySelectorAll('.opt').forEach(b=>b.disabled=true);fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';next.classList.remove('hidden');}
+    if(answers[i]!==null){card.querySelectorAll('.opt').forEach(b=>b.disabled=true);fb.className='feedback';fb.textContent='Answer recorded. Your results appear at the end of the simulation.';next.classList.remove('hidden');focusPracticeContent();}
     next.addEventListener('click',()=>{i++;checkpoint();render();window.scrollTo(0,0);});
     bindBookmark(card,q);bindGo();
   }
@@ -2335,21 +2348,20 @@ window.__views={renderHome,openLearn,openTests,openSession1,openSession2,openSes
 window.startApp=initTheme;window.startApp();
 const initialPracticeRoute=location.hash;
 renderHome();
-function followPracticeRoute(hash){
+function followPracticeRoute(hash,oldURL){
   let navigate;
   if(hash==='#practice'||hash==='#decision'||hash==='#drive')navigate=()=>openPractice();
   else if(hash==='#practice/resume'){if(decisionModule?.isActive())return;navigate=()=>openDecision({resume:true});}
   else if(/^#practice\/(signs|rules|observe|controls|mixed|daily|paper)$/.test(hash))navigate=()=>openDecision({mode:hash.split('/')[1],resume:true});
   if(!navigate)return;
-  if(assessmentActive){if(!window.confirm('Leave this practice test? Your saved attempt can be resumed from Home.'))return;assessmentActive=false;if(mockTimer){clearInterval(mockTimer);mockTimer=null;mockSeconds=0;}}
-  if(decisionModule?.isActive())decisionModule.requestLeave(navigate);else navigate();
+  navigateFromPractice(()=>{const url=new URL(location.href);url.searchParams.delete('go');history.replaceState(null,'',url);navigate();},()=>{if(oldURL)history.replaceState(null,'',oldURL);});
 }
 followPracticeRoute(initialPracticeRoute);
-window.addEventListener('hashchange',()=>followPracticeRoute(location.hash));
+window.addEventListener('hashchange',event=>followPracticeRoute(location.hash,event.oldURL));
 /* Deep-link routing for install shortcuts (?go=session1|mock|sim|…) — maps to a nav button */
 try{
   const gp=new URLSearchParams(location.search).get('go');
-  if(gp){
+  if(gp&&!/^#(?:practice(?:\/|$)|decision$|drive$)/.test(initialPracticeRoute)){
     const routes={learn:openLearn,tests:openTests,drive:()=>{history.replaceState(null,'','#drive');openPractice();},decision:openPractice,journey:openJourney,session1:openSession1,session2:openSession2,session3:openSession3,mock:openMock,sim:openSim,flash:openFlash,practice:openPractice,row:openRow,situations:openSituations,concepts:openConceptFocus,practical:openPractical,signlibrary:openSignLibrary,memory:openMemory,sources:openSources,cheat:openCheat,checklist:openChecklist,review:openReview,rhd:openRHD,revision:openRevision};
     if(routes[gp])routes[gp]();
   }

@@ -52,3 +52,7 @@ External reference requests were sampled separately. Government/RTMC references 
 ## Published release checks
 
 The same 21 complete learner journeys passed against the public production app, including the Share Result download. A separate public run verified 112 view/theme/viewport states, parent navigation, shared readiness changing from 0 to 5 after 12 decisions, and offline Home/Learn/Tests/Practise with preserved progress. Root HTML matched the tested source. These results are recorded in `artifacts/decision-verification/browser-learner-live.json`, `browser-live-ui.json` and `tinyfish-live-content.json`.
+
+### 18 October 2026 — fresh hands-on rerun without TinyFish
+
+See [RERUN_AUDIT.md](RERUN_AUDIT.md) for fresh browser journeys, populated responsive screens, reproduced defects and verification limits. This rerun fixes stale route refreshes, unguarded short-set deep links, lost question/feedback focus, inconsistent Review/situation exit protection, test-menu resume visibility and ambiguous repeated sign mistakes. The release updates the offline graph to v29. Previous TinyFish results above are historical and were not reused as evidence for this rerun.
