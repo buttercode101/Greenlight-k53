@@ -8,7 +8,7 @@ const html=fs.readFileSync('index.html','utf8');
 let now=1800000000000;
 const window={},ctx=vm.createContext({window,console,Math,Date:class extends Date{static now(){return now;}},localStorage:{getItem:()=>null,setItem(){}},syncPracticeProgress(){}});
 vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1],ctx);
-const K=window.__K53;ctx.K=K;ctx.topicFor=()=> 'Rules of the road';ctx.SITUATIONS=[];
+const K=window.__K53;ctx.K=K;ctx.SECTION_META={signs:{need:23},rules:{need:22},controls:{need:6}};ctx.topicFor=()=> 'Rules of the road';ctx.SITUATIONS=[];
 function load(a,b){const start=html.indexOf(a);assert(start>=0);const end=html.indexOf(b,start);assert(end>start);vm.runInContext(html.slice(start,end),ctx);}
 load('function reviewKey(','const TOPIC_PATTERNS');
 load('function buildDrill(','function drill(');
@@ -38,7 +38,12 @@ const d=BANK.find(q=>q.id==='S01');const answer={id:d.id,full:true,partial:false
 record(K.state,d,answer,'evidence-1',now);assert.equal(K.state.attempts['decision:S01'].firstOk,true);
 record(K.state,d,answer,'evidence-2',now+86400001);assert(K.state.attempts['decision:S01'].retainedAt,'Drive shares spaced evidence');
 const backup=()=>JSON.stringify({product:'GreenLight K53',schema:1,progress:ctx.portableSnapshot()});
+K.state.mockResults={controls:{correct:6,total:8,answered:8,pass:true,need:6,missed:[]}};K.state.codeProgress={'1':{controlsDone:true,controlsMastery:75,secPass:{controls:true},mockPass:false,acc:{correct:6,total:8},mockResults:{controls:{correct:6,total:8,answered:8,pass:true,need:6}}}};
 assert.equal(ctx.validateBackup(backup()).vehicleCode,'2');
+assert.equal(ctx.validateBackup(backup()).mockResults.controls.correct,6);
+assert.equal(ctx.validateBackup(backup()).codeProgress['1'].acc.correct,6);
+assert.equal(ctx.validateBackup(backup()).codeProgress['1'].mockResults.controls.total,8);
+const hostileMock=JSON.parse(backup());hostileMock.progress.mockResults.controls.correct='<img src=x>';assert.throws(()=>ctx.validateBackup(JSON.stringify(hostileMock)),/mock section values/);
 assert.throws(()=>ctx.validateBackup('{broken'));
 assert.throws(()=>ctx.validateBackup('{"product":"GreenLight K53","schema":1,"progress":{"vehicleCode":"2","__proto__":{}}}'),/Unsafe/);
 assert.throws(()=>ctx.validateBackup(JSON.stringify({product:'GreenLight K53',schema:1,progress:{vehicleCode:'2',mastery:{1:'<img src=x>'}}})),/accuracy/);
