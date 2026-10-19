@@ -78,3 +78,15 @@ Fresh primary-source checks establish the following release anchors:
 - The August 2026 draft driving-licence amendments are proposals, not enacted changes; the Western Cape Government summary states the proposal retains learner-licence validity at 24 months.
 
 These checks strengthen the release-level truth boundary only. They do **not** mark the 295 teaching records independently reviewed. The independent-review fields remain null until a qualified external reviewer signs the exact fingerprinted records. Item-level source locators are still required before a record can move through that gate.
+
+## Teaching consistency correction — 19 October 2026
+
+Production interaction reproduced stale uncontrolled-junction priority claims in the legacy rules lesson and printable quick reference. They contradicted the newer yield-controlled decision questions, whose explanation already avoids a blanket uncontrolled-junction rule. The official NaTIS Module 39 indexed passage requires looking right, left and ahead, slowing/stopping as needed, and proceeding only when safe. Updated the legacy rule, variant, game, mnemonic and standalone study guide to teach that procedure. Four fingerprint-bound agent source checks were added; they do not confer qualified independent review. Direct source retrieval returned 403; that limitation remains recorded.
+
+General 60/100/120 limits are now explicitly described as general limits with signed, vehicle-class and conditions qualifications. No new numerical vehicle-class cap is introduced. The printable reference now draws indicator guidance and selected Code 1/2/3 controls from the existing teaching data rather than a stale manual-car-only list. It distinguishes named road-marking types and remains a selected recap, not a complete syllabus.
+
+Known outdated review, bookmark and unfinished-paper teaching snapshots are refreshed. Saved review timing/miss counts, submitted option indices, original deadlines and historical practice totals are retained; old results are not retrospectively regraded. Corrected snapshots carry an update marker. Targeted regressions and physical browser checks verify those boundaries.
+
+Full syllabus mapping, the remaining item-level checks and independent instructor sign-off remain open. Browser emulation is not physical-device verification.
+
+The standalone study guide also failed a rendered axe contrast check: small green text #0e8f3e on #fffdf8 measured 4.11:1. Its green token is now #0b7132. Exact-width browser/axe verification is required before release; no other product palette was changed.

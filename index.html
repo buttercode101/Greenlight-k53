@@ -551,10 +551,10 @@ const MARKINGS=[
 /* ---------- RULES (story cards) ---------- */
 const RULES=[
 {q:'Which side of the road do we drive on in South Africa?',a:'The LEFT. Pass other cars on their right. "Keep left, pass right."',w:['The RIGHT. Pass other cars on their left.', 'Stick to the middle unless overtaking.', 'Whichever lane is fastest.']},
-{q:'No signs or robots (traffic lights) at a crossing — who goes first?',a:'The car coming from your RIGHT. Simple: "right goes first."',w:['The car coming from your LEFT goes first.', 'The larger vehicle goes first.', 'Traffic on the main road always goes first.']},
-{q:'Town/city speed limit?',a:'60 km/h — unless a sign says otherwise.',w:['80 km/h — unless a sign says otherwise.', '100 km/h — unless a sign says otherwise.', '40 km/h — unless a sign says otherwise.']},
-{q:'Rural road speed limit (outside town, not a freeway)?',a:'100 km/h — unless a sign shows lower.',w:['120 km/h — unless a sign shows lower.', '80 km/h — unless a sign shows lower.', '60 km/h on all country roads.']},
-{q:'National highway (freeway) speed limit?',a:'120 km/h — unless a sign shows lower.',w:['100 km/h — unless a sign shows lower.', '140 km/h — unless a sign shows lower.', '80 km/h on all freeways.']},
+{q:'How should you approach a crossing with no signs or traffic lights?',a:'Slow down, look right, left and ahead, and proceed only when safe. Stop if necessary.',w:['Assume the vehicle on the right always has priority.', 'The larger vehicle must always go first.', 'Traffic on your road always has priority.']},
+{q:'Town/city speed limit?',a:'The general urban limit is 60 km/h. Obey applicable signs and vehicle-class limits, and drive slower when conditions require it.',w:['80 km/h — unless a sign says otherwise.', '100 km/h — unless a sign says otherwise.', '40 km/h — unless a sign says otherwise.']},
+{q:'Rural road speed limit (outside town, not a freeway)?',a:'The general rural limit is 100 km/h. Obey lower signed or vehicle-class limits and reduce speed for conditions.',w:['120 km/h — unless a sign shows lower.', '80 km/h — unless a sign shows lower.', '60 km/h on all country roads.']},
+{q:'National highway (freeway) speed limit?',a:'The general freeway limit is 120 km/h. Lower signed or vehicle-class limits still apply; reduce speed for conditions.',w:['100 km/h — unless a sign shows lower.', '140 km/h — unless a sign shows lower.', '80 km/h on all freeways.']},
 {q:'Robot turns yellow. What do you do?',a:'Stop if you can do so safely. Too close to stop? Continue carefully.',w:['Always stop sharply before the line.', 'Speed up to beat the red light.', 'Ignore it — yellow is just a warning.']},
 {q:'How far behind the car ahead?',a:'Allow at least two seconds in good conditions; increase the gap substantially in rain or poor visibility.',w:['A one-second gap is enough.', 'A fixed one-car-length gap at all speeds.', 'Half a car length at town speed.']},
 {q:'Who must wear a seatbelt?',a:'Driver AND all passengers, front and back. Every trip.',w:['Only the driver and front passenger.', 'Only the driver when on a freeway.', 'Adults only, not children in the back.']},
@@ -707,7 +707,7 @@ const RULE_VARIANTS=[
  {q:'A STOP line is marked but the accompanying sign is obscured. What action is required?',opts:['Stop behind the line and proceed when safe','Treat it as a yield line','Stop on top of the line','Continue unless there is a police officer'],ans:0,ex:'The stop line itself requires a complete stop behind it.'},
  {q:'A pedestrian has entered a crossing while your signal changes to green. What should you do?',opts:['Drive around them immediately','Allow the pedestrian to finish crossing safely','Hoot until they leave','Accelerate before they reach your lane'],ans:1,ex:'A green signal does not remove your duty to avoid endangering a person already crossing.'},
  {q:'What is the first response when you cannot see sufficiently ahead in mist?',opts:['Reduce speed, increase the gap and use appropriate lights','Maintain speed and use the horn constantly','Follow the vehicle ahead closely','Switch all lights off'],ans:0,ex:'Drive at a speed that lets you respond within the visible road; keep a larger gap and use the correct lights.'},
- {q:'At an uncontrolled intersection, a vehicle approaches from your right. What do you do?',opts:['Give way to it','Assume your lane has priority','Accelerate across','Stop only if it is a truck'],ans:0,ex:'At an uncontrolled crossing, give way to a vehicle approaching from your right.'},
+ {q:'At an uncontrolled junction, cross-traffic approaches from your right. What should you do?',opts:['Slow down, check all directions and proceed only when safe; stop if needed','Assume your lane has priority','Accelerate across','Stop only if it is a truck'],ans:0,ex:'The K53 uncontrolled-intersection procedure requires observation, slowing or stopping as necessary, and proceeding only when safe. Do not assume priority from a blanket right-hand rule.'},
  {q:'Can a learner in a light motor vehicle drive alone after passing the theory test?',opts:['Yes, until the licence expires','No, a suitably licensed driver must accompany the learner','Yes, only in daylight','Yes, on roads below 60 km/h'],ans:1,ex:'A learner driving a car on a public road must be accompanied by a driver licensed for that class.'},
  {q:'You miss your freeway exit. What should you do?',opts:['Reverse on the shoulder','Continue to the next lawful exit','Make a U-turn through the median','Stop in the lane to inspect a map'],ans:1,ex:'Continue to a suitable lawful exit; do not reverse or turn around on the freeway.'},
  {q:'Your vehicle breaks down in moving traffic. Which action helps warn other drivers?',opts:['Activate hazard warning lights and secure the vehicle where safe','Switch off all lights immediately','Stand in the live lane to direct traffic','Leave it unmarked'],ans:0,ex:'Warn traffic and move to a safe position if possible; use a warning triangle where required and safe.'},
@@ -801,9 +801,9 @@ const ROW=[
  {scene:'Roundabout — you are entering, a car is already on the circle to your right.',
   opts:['Enter fast — you have right of way','Yield and let the car on the circle go first','Stop and reverse','Edge in slowly'],ans:1,
   ex:'Yield to traffic already ON the roundabout (approaching from your right).'},
- {scene:'Uncontrolled crossing (no signs, no robots) — a car comes from your RIGHT.',
-  opts:['Go first — you were moving','Give way to the car on your right','Swipe left first','Speed up'],ans:1,
-  ex:'No signs? Yield to the vehicle on your RIGHT. "Right goes first."'},
+ {scene:'Uncontrolled crossing (no signs or traffic lights) — cross-traffic is approaching.',
+  opts:['Go first — you were moving','Slow down, look right, left and ahead; stop if necessary and proceed only when safe','Assume a vehicle on your right always goes first','Speed up'],ans:1,
+  ex:'Use the uncontrolled-intersection observation procedure. Check cross-traffic and pedestrians; do not enter until it is safe.'},
  {scene:'You are turning RIGHT across oncoming traffic. A car is coming straight from the opposite direction.',
   opts:['Turn now — you indicated early','Wait — the oncoming car going straight has priority','Edge out slowly','Honk and go'],ans:1,
   ex:'Turning right = give way to oncoming traffic going straight. They have priority.'},
@@ -820,7 +820,7 @@ const ROW_NAME='Right of Way';
 const MEMORY=[
  {trick:'Shapes tell you the rule',note:'Red OCTAGON = stop · inverted TRIANGLE = give way · red-ringed CIRCLE = prohibition · red-bordered TRIANGLE = warning · blue CIRCLE = command. Check the symbol and context too.'},
  {trick:'"Keep left, pass right"',note:'SA drives on the left. You overtake on the right. Two sides, one phrase.'},
- {trick:'At an uncontrolled crossing',note:'When there are no signs or signals, give way to traffic approaching from your right. At a four-way stop, stop fully and check arrival order and other road users.'},
+ {trick:'At an uncontrolled crossing',note:'Slow down and look right, left and ahead for traffic and pedestrians. Stop if necessary and proceed only when safe. A four-way stop has its own stop-and-arrival-order rule.'},
  {trick:'Signal your intention',note:'Find the indicator in the actual vehicle and check which direction activates each side. Do not assume all stalk layouts match.'},
  {trick:'Speed raises stopping distance',note:'Higher speed sharply increases braking distance. The figures depend on reaction time, grip and conditions; slow down and leave more room.'},
  {trick:'Zebra = people first',note:'Zebra-stripe crossings mean pedestrians first, always. Stop for them.'},
@@ -932,6 +932,34 @@ state.lang='en';
 state.mastery=Object.fromEntries(Object.entries(stateObject(state.mastery)).filter(([k,v])=>['1','2','3'].includes(k)&&Number.isFinite(v)&&v>=0&&v<=100));
 for(const field of ['secPass','mockResults','practicalDone','testTasks'])state[field]=stateObject(state[field]);
 state.installNudged=state.installNudged||false;
+
+// Content corrections update retained teaching, without rewriting historical attempt totals.
+function refreshCorrectedStudyContent(){
+  const changes=new Map([
+    ['No signs or robots (traffic lights) at a crossing — who goes first?',{q:RULES[1].q,a:RULES[1].a,ex:RULES[1].a}],
+    ['At an uncontrolled intersection, a vehicle approaches from your right. What do you do?',{q:RULE_VARIANTS.find(x=>x.q.startsWith('At an uncontrolled junction,')).q,a:RULE_VARIANTS.find(x=>x.q.startsWith('At an uncontrolled junction,')).opts[0],ex:RULE_VARIANTS.find(x=>x.q.startsWith('At an uncontrolled junction,')).ex}],
+    ['Uncontrolled crossing (no signs, no robots) — a car comes from your RIGHT.',{q:ROW[2].scene,a:ROW[2].opts[ROW[2].ans],ex:ROW[2].ex}],
+    ...RULES.slice(2,5).map(r=>[r.q,{q:r.q,a:r.a,ex:r.a}])
+  ]);
+  let changed=false;
+  const refresh=item=>{
+    if(!item||typeof item.q!=='string')return item;
+    const next=changes.get(item.q);if(!next||item.q===next.q&&item.a===next.a&&item.ex===next.ex)return item;
+    // Keep submitted option indices stable in unfinished papers; replace the teaching text.
+    const opts=Array.isArray(item.opts)&&Number.isInteger(item.ans)&&item.ans>=0&&item.ans<item.opts.length?item.opts.map((o,i)=>i===item.ans?next.a:o):item.opts;
+    changed=true;return {...item,...next,...(opts?{opts}:{}),contentUpdated:true};
+  };
+  const keyFor=item=>(item.svg||'')+'|'+item.q+'|'+item.a;
+  const reviewed=new Map();
+  for(const original of state.review){const item=refresh(original),key=item!==original?keyFor(item):item.key;const prior=reviewed.get(key);reviewed.set(key,prior?{...item,key,misses:prior.misses+item.misses,due:Math.min(prior.due,item.due),level:Math.min(prior.level,item.level)}:{...item,key});}
+  state.review=[...reviewed.values()];
+  state.bookmarks=Object.fromEntries(Object.entries(state.bookmarks).map(([key,original])=>{const item=refresh(original);return [item!==original?keyFor(item):key,item];}));
+  if(Array.isArray(state.activeAssessment?.questions))state.activeAssessment.questions=state.activeAssessment.questions.map(refresh);
+  if(Array.isArray(state.roadPractice?.questions))state.roadPractice.questions=state.roadPractice.questions.map(refresh);
+  if(changed){state.contentCorrection='2026-10-19';save();}
+}
+refreshCorrectedStudyContent();
+
 function isDark(){return document.documentElement.getAttribute('data-theme')==='dark';}
 function applyTheme(dark){
   const on=dark!==undefined?!!dark:(state.theme==='dark'||(!state.theme&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches));
@@ -1459,9 +1487,10 @@ function openRevision(){
 
 function openCheat(){
   currentArea='learn';
-  app.innerHTML=backbar('Cheat Sheet')+`<div class="block cheat">
-    <h2 style="margin-top:0">Quick reference</h2>
-    <p class="lead">Read this the morning of your test.</p>
+  app.innerHTML=backbar('Quick reference')+`<div class="block cheat">
+    ${K.state.contentCorrection?'<p class="reference-note">Teaching updated 19 October: junction guidance and speed-limit qualifications were corrected. Saved review and unfinished papers use the updated wording; previous progress counts are retained.</p>':''}
+    <h1 style="margin-top:0">Quick reference</h1>
+    <p class="lead">Selected recap for Code ${K.state.vehicleCode}. Use the official manuals for full coverage.</p>
     <h3><span class="tag tag-r">RED</span> Circle = DON'T / STOP</h3>
     <ul><li>STOP octagon — full stop, then go when safe</li><li>Give Way (red triangle down) — let others go first</li><li>No Entry red circle + white bar — wrong way</li><li>Speed limit red circle number — never go faster</li></ul>
     <h3><span class="tag tag-t">RED-BORDERED TRIANGLE</span> = WARNING</h3>
@@ -1471,11 +1500,12 @@ function openCheat(){
     <h3><span class="tag tag-g">GREEN/BLUE BOX</span> = INFO</h3>
     <ul><li>Hospital, parking, directions — helpful, not a command</li></ul>
     <h3>Road markings</h3>
-    <ul><li>Solid white line = stay in your lane</li><li>Dashed white line = may cross if safe</li><li>Yellow line = no parking · Red line = no stopping</li><li>Zebra stripes = stop for people</li></ul>
-    <h3>Key golden rules (the tested core)</h3>
-    <ul><li>Drive on the LEFT, pass on the right</li><li>No signs? Car on your right goes first</li><li>Town 60 · Rural 100 · Highway 120</li><li>Yellow robot = stop if safe</li><li>At least two seconds behind in good conditions; more in rain</li><li>Everyone wears a seatbelt</li><li>Roundabout = clockwise, yield right</li><li>Never drink and drive</li><li>Pedestrians at crossings = always stop</li><li>Check mirrors + blind spot before moving</li></ul>
-    <h3>Vehicle controls</h3>
-    <ul><li>Clutch = left foot only</li><li>Brake &amp; accelerator = right foot</li><li>Hands at 10 &amp; 2 (9 &amp; 3 also accepted)</li><li>Indicator: down = left, up = right</li><li>Handbrake = keep car still when parked</li></ul>
+    <ul><li>No-overtaking line (RM1): do not cross to pass moving traffic; check the manual for narrow exceptions.</li><li>A broken lane line may be crossed only where permitted and safe.</li><li>No-parking (RM13) and no-stopping (RM12) markings differ. Read any accompanying restrictions and times.</li><li>Approach pedestrian crossings carefully and yield as required.</li></ul>
+    <h3>Selected road rules</h3>
+    <ul><li>Drive on the LEFT, pass on the right</li><li>${safeHTML(K.MEMORY[2].note)}</li><li>General limits: urban 60 · rural 100 · freeway 120 km/h. Lower signed or vehicle-class limits and safe conditions also apply.</li><li>Yellow robot = stop if safe</li><li>At least two seconds behind in good conditions; more in rain</li><li>Everyone wears a seatbelt</li><li>Roundabout = clockwise, yield right</li><li>Never drink and drive</li><li>Pedestrians at crossings = always stop</li><li>Check mirrors + blind spot before moving</li></ul>
+    <h3>Code ${K.state.vehicleCode} vehicle controls</h3>
+    <p>Identify the controls fitted to your actual vehicle. Layout and transmission can differ.</p>
+    <ul>${K.CONTROL_LESSONS.filter(x=>x.code===K.state.vehicleCode).map(x=>`<li><strong>${safeHTML(x.t)}</strong> — ${safeHTML(x.d)}</li>`).join('')}<li>${safeHTML(K.MEMORY[3].note)}</li></ul>
   </div>
   <button class="btn btn-soft no-print" id="printStudyPage">🖨️ Print this page</button>`;
   bindGo();
