@@ -19,6 +19,8 @@ assert.match(K.ROW[2].opts[K.ROW[2].ans],/only when safe/);
 assert.match(K.MEMORY[2].note,/Stop if necessary/);
 assert(!guide.includes('at an uncontrolled crossing, give way to traffic approaching from your right'));
 for(const r of K.RULES.slice(2,5))assert.match(r.a,/vehicle-class/,'General speed limit omits class restriction');
+const quick=html.slice(html.indexOf('function openCheat(){'),html.indexOf('function confetti(){'));
+assert(quick.includes('<h1')&&quick.includes('<h2'),'Quick reference needs a page heading and subsection headings');assert(!quick.includes('<h3'),'Quick reference must not skip its H2 level');
 assert(!html.includes('Indicator: down = left, up = right'));
 assert(!html.includes('No signs? Car on your right goes first'));
 assert(html.includes('K.CONTROL_LESSONS.filter(x=>x.code===K.state.vehicleCode)'), 'Reference must use the selected code controls');

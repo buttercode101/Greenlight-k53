@@ -27,7 +27,7 @@ await goto('signlibrary');await p.locator('#signSearch').fill('stop');assert(awa
 if(process.env.K53_BROWSER_MATRIX==='1'){
  const AxeBuilder=require('@axe-core/playwright').default;
  out.browser={name:process.env.K53_BROWSER||'chromium',version:browser.version()};out.layouts=[];
- for(const code of ['1','2','3']){await goto('journey');await p.locator('#vehicleCode').selectOption(code);await goto('cheat');assert.match(await p.locator('.cheat').innerText(),new RegExp('Code '+code+' vehicle controls'));assert(!((await p.locator('.cheat').innerText()).includes('Indicator: down = left')));
+ for(const code of ['1','2','3']){await goto('journey');await p.locator('#vehicleCode').selectOption(code);await goto('cheat');assert.match(await p.locator('.cheat').innerText(),new RegExp('Code '+code+' vehicle controls'));assert.equal(await p.locator('.cheat h1').count(),1);assert.equal(await p.locator('.cheat h2').count(),7);assert.equal(await p.locator('.cheat h3').count(),0);assert(!((await p.locator('.cheat').innerText()).includes('Indicator: down = left')));
   for(const theme of ['light','dark']){if(await p.evaluate(()=>document.documentElement.getAttribute('data-theme'))!==theme)await p.locator('#themeBtn').click();
    for(const width of [320,360,375,390,430,480,768,820,834,1024,1280,1440,1600,1920]){await p.setViewportSize({width,height:900});assert(!(await geometry(p)).overflow);const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations,[]);out.layouts.push({route:'cheat',code,theme,width,axeViolations:0});if(code==='2'&&theme==='light'&&[320,820,1024,1440].includes(width))await p.screenshot({path:path.join(outDir,'reference-'+width+'.png'),fullPage:true});}
   }

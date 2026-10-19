@@ -284,7 +284,7 @@ body{
 .footnote{text-align:center;font-size:12px;color:var(--ink-faint);margin-top:var(--s5);line-height:1.5;}
 .badge-xl{font-size:60px;text-align:center;margin:6px 0 2px;}
 /* ---------- Cheat sheet (print) ---------- */
-.cheat h3{margin:var(--s5) 0 6px;font-size:17px;letter-spacing:-0.3px;}
+.cheat h2{margin:var(--s5) 0 6px;font-size:17px;letter-spacing:-0.3px;}
 .cheat ul{margin:0;padding-left:20px;}
 .cheat li{margin-bottom:6px;font-size:15px;}
 .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:var(--r-pill);margin-right:6px;text-transform:uppercase;letter-spacing:.4px;}
@@ -1491,19 +1491,19 @@ function openCheat(){
     ${K.state.contentCorrection?'<p class="reference-note">Teaching updated 19 October: junction guidance and speed-limit qualifications were corrected. Saved review and unfinished papers use the updated wording; previous progress counts are retained.</p>':''}
     <h1 style="margin-top:0">Quick reference</h1>
     <p class="lead">Selected recap for Code ${K.state.vehicleCode}. Use the official manuals for full coverage.</p>
-    <h3><span class="tag tag-r">RED</span> Circle = DON'T / STOP</h3>
+    <h2><span class="tag tag-r">RED</span> Circle = DON'T / STOP</h2>
     <ul><li>STOP octagon — full stop, then go when safe</li><li>Give Way (red triangle down) — let others go first</li><li>No Entry red circle + white bar — wrong way</li><li>Speed limit red circle number — never go faster</li></ul>
-    <h3><span class="tag tag-t">RED-BORDERED TRIANGLE</span> = WARNING</h3>
+    <h2><span class="tag tag-t">RED-BORDERED TRIANGLE</span> = WARNING</h2>
     <ul><li>Children, animals, curves, hills, pedestrian crossing</li><li>All mean: slow down and be careful</li></ul>
-    <h3><span class="tag tag-b">BLUE CIRCLE</span> = YOU MUST</h3>
+    <h2><span class="tag tag-b">BLUE CIRCLE</span> = YOU MUST</h2>
     <ul><li>Turn left, keep left — an order, not a suggestion</li></ul>
-    <h3><span class="tag tag-g">GREEN/BLUE BOX</span> = INFO</h3>
+    <h2><span class="tag tag-g">GREEN/BLUE BOX</span> = INFO</h2>
     <ul><li>Hospital, parking, directions — helpful, not a command</li></ul>
-    <h3>Road markings</h3>
+    <h2>Road markings</h2>
     <ul><li>No-overtaking line (RM1): do not cross to pass moving traffic; check the manual for narrow exceptions.</li><li>A broken lane line may be crossed only where permitted and safe.</li><li>No-parking (RM13) and no-stopping (RM12) markings differ. Read any accompanying restrictions and times.</li><li>Approach pedestrian crossings carefully and yield as required.</li></ul>
-    <h3>Selected road rules</h3>
+    <h2>Selected road rules</h2>
     <ul><li>Drive on the LEFT, pass on the right</li><li>${safeHTML(K.MEMORY[2].note)}</li><li>General limits: urban 60 · rural 100 · freeway 120 km/h. Lower signed or vehicle-class limits and safe conditions also apply.</li><li>Yellow robot = stop if safe</li><li>At least two seconds behind in good conditions; more in rain</li><li>Everyone wears a seatbelt</li><li>Roundabout = clockwise, yield right</li><li>Never drink and drive</li><li>Pedestrians at crossings = always stop</li><li>Check mirrors + blind spot before moving</li></ul>
-    <h3>Code ${K.state.vehicleCode} vehicle controls</h3>
+    <h2>Code ${K.state.vehicleCode} vehicle controls</h2>
     <p>Identify the controls fitted to your actual vehicle. Layout and transmission can differ.</p>
     <ul>${K.CONTROL_LESSONS.filter(x=>x.code===K.state.vehicleCode).map(x=>`<li><strong>${safeHTML(x.t)}</strong> — ${safeHTML(x.d)}</li>`).join('')}<li>${safeHTML(K.MEMORY[3].note)}</li></ul>
   </div>
