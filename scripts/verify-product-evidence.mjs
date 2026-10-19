@@ -23,7 +23,8 @@ for(const code of ['1','2','3']){
  for(const topic of ['signs','rules','controls']){assert.equal(ctx.buildDrill(topic,10).length,10);assert.equal(ctx.buildDrill(topic,20).length,20);assert(ctx.buildDrill(topic,'all').length>=20);}
 }
 K.state.vehicleCode='2';
-const q=ctx.buildDrill('rules',1)[0];assert(!q.decisionId);
+const mixedRules=ctx.buildDrill('rules','all');assert(mixedRules.some(q=>q.decisionId),'Shared decision rules must remain available');
+const q=mixedRules.find(q=>!q.decisionId);assert(q,'An original rule is required for legacy-attempt checks');assert(!q.decisionId);
 ctx.recordAttempt(q,true);const key=ctx.reviewKey(q);
 assert.equal(K.state.attempts[key].firstOk,true);assert.equal(ctx.learningEvidence().firstAccuracy,100);
 now+=1000;ctx.recordAttempt(q,true);assert.equal(ctx.learningEvidence().retained,0,'Immediate repetition must not count as retention');

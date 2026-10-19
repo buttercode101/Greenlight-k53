@@ -8,7 +8,7 @@
     }
   ],
   "schema": 2,
-  "generated": "2026-10-05",
+  "generated": "2026-10-19",
   "note": "A source-area mapping is not an item-level fact check. Source checks are recorded separately from independent human review.",
   "records": [
     {
@@ -1105,20 +1105,29 @@
     },
     {
       "id": "rules-002",
-      "title": "No signs or robots (traffic lights) at a crossing — who goes first?",
-      "sha256_16": "54cf5a24b5c3a407",
-      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
+      "title": "How should you approach a crossing with no signs or traffic lights?",
+      "sha256_16": "343ecea2a3a177a4",
+      "source": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
       "sourceArea": "rules",
       "sourceMappingDate": "2026-10-04",
       "reviewer": null,
       "reviewDate": null,
       "reviewStatus": "Independent subject review pending",
-      "language": "en"
+      "language": "en",
+      "sourceLocator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
+        "locator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-19",
+        "method": "Compared with the indexed official NaTIS Module 39 passage. Direct retrieval returned HTTP 403. Agent source check only; independent instructor review remains pending.",
+        "finding": "Replaced automatic priority with observation and safe-entry procedure."
+      }
     },
     {
       "id": "rules-003",
       "title": "Town/city speed limit?",
-      "sha256_16": "e73b24b38e18fc80",
+      "sha256_16": "9dd3ef972ac33d2a",
       "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
       "sourceArea": "rules",
       "sourceMappingDate": "2026-10-04",
@@ -1130,7 +1139,7 @@
     {
       "id": "rules-004",
       "title": "Rural road speed limit (outside town, not a freeway)?",
-      "sha256_16": "44ba88a1adeebda7",
+      "sha256_16": "3bf547218e997f2d",
       "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
       "sourceArea": "rules",
       "sourceMappingDate": "2026-10-04",
@@ -1142,7 +1151,7 @@
     {
       "id": "rules-005",
       "title": "National highway (freeway) speed limit?",
-      "sha256_16": "83585f8f007fa4c2",
+      "sha256_16": "95d1db3b0c5887cf",
       "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
       "sourceArea": "rules",
       "sourceMappingDate": "2026-10-04",
@@ -1789,15 +1798,24 @@
     },
     {
       "id": "rule_variants-015",
-      "title": "At an uncontrolled intersection, a vehicle approaches from your right. What do you do?",
-      "sha256_16": "e210db6e395ce605",
-      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
+      "title": "At an uncontrolled junction, cross-traffic approaches from your right. What should you do?",
+      "sha256_16": "bf1a46d3e73cf689",
+      "source": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
       "sourceArea": "rules",
       "sourceMappingDate": "2026-10-04",
       "reviewer": null,
       "reviewDate": null,
       "reviewStatus": "Independent subject review pending",
-      "language": "en"
+      "language": "en",
+      "sourceLocator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
+        "locator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-19",
+        "method": "Compared with the indexed official NaTIS Module 39 passage. Direct retrieval returned HTTP 403. Agent source check only; independent instructor review remains pending.",
+        "finding": "Replaced automatic priority with observation and safe-entry procedure."
+      }
     },
     {
       "id": "rule_variants-016",
@@ -3034,15 +3052,24 @@
     },
     {
       "id": "row-003",
-      "title": "Uncontrolled crossing (no signs, no robots) — a car comes from your RIGHT.",
-      "sha256_16": "bf974189cb84da66",
-      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
+      "title": "Uncontrolled crossing (no signs or traffic lights) — cross-traffic is approaching.",
+      "sha256_16": "88318ffb292d69c3",
+      "source": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
       "sourceArea": "rules",
       "sourceMappingDate": "2026-10-04",
       "reviewer": null,
       "reviewDate": null,
       "reviewStatus": "Independent subject review pending",
-      "language": "en"
+      "language": "en",
+      "sourceLocator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
+        "locator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-19",
+        "method": "Compared with the indexed official NaTIS Module 39 passage. Direct retrieval returned HTTP 403. Agent source check only; independent instructor review remains pending.",
+        "finding": "Replaced automatic priority with observation and safe-entry procedure."
+      }
     },
     {
       "id": "row-004",
@@ -3107,14 +3134,23 @@
     {
       "id": "memory-003",
       "title": "At an uncontrolled crossing",
-      "sha256_16": "e196a04ec7caa80e",
-      "source": "https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road",
+      "sha256_16": "e736c80f5d83dde5",
+      "source": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
       "sourceArea": "rules",
       "sourceMappingDate": "2026-10-04",
       "reviewer": null,
       "reviewDate": null,
       "reviewStatus": "Independent subject review pending",
-      "language": "en"
+      "language": "en",
+      "sourceLocator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
+        "locator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-19",
+        "method": "Compared with the indexed official NaTIS Module 39 passage. Direct retrieval returned HTTP 403. Agent source check only; independent instructor review remains pending.",
+        "finding": "Replaced automatic priority with observation and safe-entry procedure."
+      }
     },
     {
       "id": "memory-004",

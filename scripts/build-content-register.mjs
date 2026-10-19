@@ -32,7 +32,7 @@ const reviews=JSON.parse(fs.readFileSync('content-reviews.json','utf8'));
 applyReviews(records,reviews.entries);
 if(process.argv.includes('--require-reviewed'))requireReviewedRelease(records);
 const supplements=[{id:'decision-practice',path:'assets/decision/content-register.json',items:82,scope:'Selected light-vehicle decisions; independent instructor review pending'}];
-const output=JSON.stringify({supplements,schema:2,generated:'2026-10-05',note:'A source-area mapping is not an item-level fact check. Source checks are recorded separately from independent human review.',records},null,2)+'\n';
+const output=JSON.stringify({supplements,schema:2,generated:'2026-10-19',note:'A source-area mapping is not an item-level fact check. Source checks are recorded separately from independent human review.',records},null,2)+'\n';
 if(process.argv.includes('--check')){if(fs.readFileSync('content-register.json','utf8')!==output)throw Error('Content register is stale; regenerate and review changes.');}
 else fs.writeFileSync('content-register.json',output);
 console.log('Registered',records.length,'teaching entries; external review pending.');

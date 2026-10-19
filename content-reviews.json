@@ -14,6 +14,58 @@
         "finding": "The scenario now states that another vehicle stopped earlier and requires waiting for it before proceeding safely. The previous simultaneous-arrival scenario was removed."
       },
       "independentReview": null
+    },
+    {
+      "id": "rules-002",
+      "sha256_16": "343ecea2a3a177a4",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
+        "locator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-19",
+        "method": "Compared with the indexed official NaTIS Module 39 passage. Direct retrieval returned HTTP 403. Agent source check only; independent instructor review remains pending.",
+        "finding": "Replaced automatic priority with observation and safe-entry procedure."
+      },
+      "independentReview": null
+    },
+    {
+      "id": "rule_variants-015",
+      "sha256_16": "bf1a46d3e73cf689",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
+        "locator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-19",
+        "method": "Compared with the indexed official NaTIS Module 39 passage. Direct retrieval returned HTTP 403. Agent source check only; independent instructor review remains pending.",
+        "finding": "Replaced automatic priority with observation and safe-entry procedure."
+      },
+      "independentReview": null
+    },
+    {
+      "id": "row-003",
+      "sha256_16": "88318ffb292d69c3",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
+        "locator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-19",
+        "method": "Compared with the indexed official NaTIS Module 39 passage. Direct retrieval returned HTTP 403. Agent source check only; independent instructor review remains pending.",
+        "finding": "Replaced automatic priority with observation and safe-entry procedure."
+      },
+      "independentReview": null
+    },
+    {
+      "id": "memory-003",
+      "sha256_16": "e736c80f5d83dde5",
+      "sourceCheck": {
+        "url": "https://www.natis.gov.za/index.php/downloads/general-documents?download=58%3Ak53-light-motor-vehicle-combinations-part2-code-eb",
+        "locator": "Module 39: Intersections — uncontrolled, printed page 58, steps 1–7 and 13",
+        "checkedBy": "Codex",
+        "checkedDate": "2026-10-19",
+        "method": "Compared with the indexed official NaTIS Module 39 passage. Direct retrieval returned HTTP 403. Agent source check only; independent instructor review remains pending.",
+        "finding": "Replaced automatic priority with observation and safe-entry procedure."
+      },
+      "independentReview": null
     }
   ]
 }

@@ -59,3 +59,5 @@ await import('./verify-decision.mjs');
 await import("./verify-readiness.mjs");
 
 await import("./verify-shared-bank.mjs");
+
+await import('./verify-content-corrections.mjs');

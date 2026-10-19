@@ -27,3 +27,39 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/verify-signs.mjs
+
+  browsers:
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+      - name: Install isolated browser test dependencies
+        run: npm install --prefix "$RUNNER_TEMP/greenlight-browser-tools" --ignore-scripts playwright@1.62.1 @axe-core/playwright@4.14.0
+      - name: Install official browser and host dependencies
+        run: node "$RUNNER_TEMP/greenlight-browser-tools/node_modules/playwright/cli.js" install --with-deps "${{ matrix.browser }}"
+      - name: Verify learner journey and layouts
+        run: node scripts/verify-learner-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_BROWSER: ${{ matrix.browser }}
+          K53_BROWSER_MATRIX: '1'
+          K53_EVIDENCE_DIR: artifacts/browser-${{ matrix.browser }}
+      - name: Retain browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: greenlight-${{ matrix.browser }}
+          path: artifacts/browser-${{ matrix.browser }}
+          retention-days: 7
