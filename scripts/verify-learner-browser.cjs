@@ -25,6 +25,9 @@ await goto('checklist');await p.locator('[data-test-task]').first().check();awai
 await goto('signlibrary');await p.locator('#signSearch').fill('stop');assert(await p.locator('#signResults article').count()>0);await p.locator('#signSearch').fill('zz-no-sign');assert.match(await p.locator('#signResults').innerText(),/No matching/);await goto('rhd');assert.equal(await p.locator('.cockpit-diagram').count(),1);record('Atlas filtering/empty state and RHD cockpit render');
 // Cross-engine regression matrix; no certificate or browser-security bypass settings.
 if(process.env.K53_BROWSER_MATRIX==='1'){
+ // The earlier journey asserts both cancelling and accepting exit guards.
+ // The screenshot walk deliberately leaves unfinished exercise screens.
+ accept=true;
  const AxeBuilder=require('@axe-core/playwright').default;
  out.browser={name:process.env.K53_BROWSER||'chromium',version:browser.version()};out.layouts=[];
  for(const code of ['1','2','3']){await goto('journey');await p.locator('#vehicleCode').selectOption(code);await goto('cheat');assert.match(await p.locator('.cheat').innerText(),new RegExp('Code '+code+' vehicle controls'));assert.equal(await p.locator('.cheat h1').count(),1);assert.equal(await p.locator('.cheat h2').count(),7);assert.equal(await p.locator('.cheat h3').count(),0);assert(!((await p.locator('.cheat').innerText()).includes('Indicator: down = left')));
@@ -39,6 +42,7 @@ if(process.env.K53_BROWSER_MATRIX==='1'){
   await goto(route);
   for(const theme of ['light','dark']){if(await p.evaluate(()=>document.documentElement.getAttribute('data-theme'))!==theme)await p.locator('#themeBtn').click();
    for(const width of [320,360,375,390,430,480,768,820,834,1024,1280,1440,1600,1920]){await p.setViewportSize({width,height:900});const shape=await geometry(p);assert(!shape.overflow,route+'/'+theme+'/'+width+' overflow');assert.deepEqual(shape.broken,[]);const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations,[],route+'/'+theme+'/'+width+' accessibility');out.layouts.push({route,theme,width,axeViolations:0});if(theme==='light'&&[320,820,1024,1440].includes(width))await p.screenshot({path:path.join(outDir,route+'-'+width+'.png'),fullPage:true});}
+   console.log('Layout matrix passed',route,theme);
   }
  }
  await goto('home');await p.setViewportSize({width:390,height:844});
