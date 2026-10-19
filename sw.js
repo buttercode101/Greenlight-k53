@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v36-interface-rhythm';
+const CACHE = 'greenlight-k53-v37-first-answer-copy';
 const CORE = [
   './',
   './index.html',
