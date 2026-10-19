@@ -25,6 +25,9 @@ await goto('checklist');await p.locator('[data-test-task]').first().check();awai
 await goto('signlibrary');await p.locator('#signSearch').fill('stop');assert(await p.locator('#signResults article').count()>0);await p.locator('#signSearch').fill('zz-no-sign');assert.match(await p.locator('#signResults').innerText(),/No matching/);await goto('rhd');assert.equal(await p.locator('.cockpit-diagram').count(),1);record('Atlas filtering/empty state and RHD cockpit render');
 // Cross-engine regression matrix; no certificate or browser-security bypass settings.
 if(process.env.K53_BROWSER_MATRIX==='1'){
+ // The earlier journey asserts both cancelling and accepting exit guards.
+ // The screenshot walk deliberately leaves unfinished exercise screens.
+ accept=true;
  const AxeBuilder=require('@axe-core/playwright').default;
  out.browser={name:process.env.K53_BROWSER||'chromium',version:browser.version()};out.layouts=[];
  for(const code of ['1','2','3']){await goto('journey');await p.locator('#vehicleCode').selectOption(code);await goto('cheat');assert.match(await p.locator('.cheat').innerText(),new RegExp('Code '+code+' vehicle controls'));assert.equal(await p.locator('.cheat h1').count(),1);assert.equal(await p.locator('.cheat h2').count(),7);assert.equal(await p.locator('.cheat h3').count(),0);assert(!((await p.locator('.cheat').innerText()).includes('Indicator: down = left')));
@@ -34,5 +37,19 @@ if(process.env.K53_BROWSER_MATRIX==='1'){
  }
  await p.goto('http://127.0.0.1:8089/study-guide.html');for(const width of [320,360,375,390,430,480,768,820,834,1024,1280,1440,1600,1920]){await p.setViewportSize({width,height:900});assert(!(await geometry(p)).overflow);const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations,[]);out.layouts.push({route:'study-guide',width,axeViolations:0});}
  record('Cross-engine reference and standalone guide matrix',{states:out.layouts.length});
+ // All shared-shell views after typography/layout changes; both supported themes.
+ for(const route of ['home','learn','session1','session2','session3','practice','tests','mock','sim','review','journey','checklist','signlibrary','diagnostic','progress','flash','row','situations','concepts','practical','memory','sources','rhd','revision']){
+  await goto(route);
+  for(const theme of ['light','dark']){if(await p.evaluate(()=>document.documentElement.getAttribute('data-theme'))!==theme)await p.locator('#themeBtn').click();
+   for(const width of [320,360,375,390,430,480,768,820,834,1024,1280,1440,1600,1920]){await p.setViewportSize({width,height:900});const shape=await geometry(p);assert(!shape.overflow,route+'/'+theme+'/'+width+' overflow');assert.deepEqual(shape.broken,[]);const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations,[],route+'/'+theme+'/'+width+' accessibility');out.layouts.push({route,theme,width,axeViolations:0});if(theme==='light'&&[320,820,1024,1440].includes(width))await p.screenshot({path:path.join(outDir,route+'-'+width+'.png'),fullPage:true});}
+   console.log('Layout matrix passed',route,theme);
+  }
+ }
+ await goto('home');await p.setViewportSize({width:390,height:844});
+ await p.evaluate(()=>localStorage.clear());await p.reload();await p.locator('#next-title').waitFor();
+ const action=await p.locator('.next-step .btn').boundingBox();assert(action.y+action.height<650,'First study action must fit the initial phone viewport');
+ assert.equal(await p.locator('.readiness-breakdown').getAttribute('open'),null);await p.locator('.readiness-breakdown > summary').click();assert(await p.locator('.status-grid').isVisible());
+ record('Shared UI matrix and progressive topic disclosure',{states:out.layouts.length});
+
 }
 assert.deepEqual(out.errors,[]);fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.log('PASS',out.checks.length,'full learner journey checks');await browser.close();server.close();})().catch(async e=>{out.failure=e.stack;fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.error(e);await browser?.close();server.close();process.exitCode=1});
