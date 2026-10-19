@@ -1,9 +1,9 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v35-reference-headings';
+const CACHE = 'greenlight-k53-v36-interface-rhythm';
 const CORE = [
   './',
   './index.html',
-  './assets/product.css?v=32',
+  './assets/product.css?v=36',
   './study-guide.html',
   './privacy.html',
   './corrections.html',
