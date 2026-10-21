@@ -1,0 +1,5 @@
+backup/
+artifacts/
+research/
+*.md
+.github/
