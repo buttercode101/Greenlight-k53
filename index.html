@@ -209,7 +209,7 @@ body{
 .opt{display:block;width:100%;text-align:left;border:1px solid var(--line);
   background:var(--paper);border-radius:var(--r-std);padding:14px var(--s4);font-size:16px;
   margin-bottom:var(--s2);cursor:pointer;font-family:inherit;color:var(--ink);
-  transition:border-color .12s, background .12s;}
+  transition:border-color .12s;}
 .opt:active{border-color:var(--accent);}
 .opt.correct{border-color:var(--ok);background:var(--ok-soft);}
 .opt.wrong{border-color:var(--err);background:var(--err-soft);}
@@ -609,7 +609,7 @@ const CONTROLS=[
  {q:'When may you adjust the mirrors?',opts:['While driving fast','Only when the vehicle is stationary','Any time, even while moving','Only in an emergency'],ans:1,ex:'Mirrors may only be adjusted when the vehicle is stationary.'},
  {q:'What is the HOOTER (horn) for?',opts:['To greet or say hello','To warn of danger only','To hurry a slow driver','To show frustration'],ans:1,ex:'Hooter = warn other road users of danger, nothing else.'},
  {q:'What does the SPEEDOMETER show?',opts:['Fuel level','Current speed','Engine temperature','Distance travelled'],ans:1,ex:'Speedometer shows how fast you are travelling right now.'},
- {q:'To keep a parked vehicle from rolling you must…',opts:['Leave it in neutral only','Apply parking brake + neutral/Park','Leave it in gear only','Press and hold the brake'],ans:1,ex:'Apply the parking brake to prevent rolling; select Park in an automatic.'}
+ {q:'Which fitted control helps keep a parked vehicle stationary?',opts:['The accelerator','The parking brake','The indicator lever','The windscreen wiper switch'],ans:1,ex:'The parking brake helps keep a parked vehicle stationary. Follow the vehicle operating instructions for transmission and gradient precautions.'}
 ];
 
 /* Vehicle-code control practice. These are original learning questions, not official exam items. */
@@ -2356,7 +2356,7 @@ function finishMock(onlySec){
     <p class="result-sub"><strong>${attemptedCorrect}/${attemptedTotal}</strong> correct${onlySec?' in this section':' across the mock'}</p>
     <table class="span-table" style="margin:var(--s4) 0"><thead><tr><th>Section</th><th>Result</th><th>Pass mark</th></tr></thead><tbody>${rows}</tbody></table>
     <p class="footnote" style="margin-bottom:var(--s4)">This practice paper: Rules ${SECTION_META.rules.need}/${SECTION_META.rules.n} · Signs ${SECTION_META.signs.need}/${SECTION_META.signs.n} · Controls ${SECTION_META.controls.need}/${SECTION_META.controls.n}. You must reach each on its own.</p>
-    ${overallPass?'<p>You passed this practice test. Review the official material before booking.</p>':'<p>Review the sections you missed, then try again.</p>'}
+    ${overallPass?(onlySec?'<p>You passed this section. The other sections were not assessed in this sitting.</p>':'<p>You passed this practice test. Review the official material before booking.</p>'):'<p>Review the sections you missed, then try again.</p>'}
     ${retryMissedButton(missed)}${!missed.length&&K.state.review.length?`<button class="btn btn-soft" id="revBtn">Review my weak spots (${K.state.review.length})</button>`:''}
     ${mockDecisionFollowup(K.state.mockResults||{})}
     <button class="btn btn-ghost" id="shareBtn" type="button">📤 Share Result</button>
