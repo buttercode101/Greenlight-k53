@@ -976,7 +976,8 @@ function initTheme(){
 function dayKey(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
 /* ---------- TEXT-TO-SPEECH (browser speechSynthesis — offline, no service) ---------- */
 const TTS = (()=>{
-  function ok(){return typeof speechSynthesis!=='undefined';}
+  function nativeHost(){return typeof window!=='undefined'&&!!window.AndroidNative&&typeof window.AndroidNative.speak==='function';}
+  function ok(){return nativeHost()||typeof speechSynthesis!=='undefined';}
   function pickVoice(){
     if(!ok())return null;
     const vs=speechSynthesis.getVoices();
@@ -991,9 +992,10 @@ const TTS = (()=>{
     for(const match of prefs){const f=vs.find(match);if(f)return f;}
     return vs[0];
   }
-  function stop(){if(ok())speechSynthesis.cancel();}
+  function stop(){if(nativeHost()){try{window.AndroidNative.stop&&window.AndroidNative.stop();}catch(e){}return;}if(typeof speechSynthesis!=='undefined')speechSynthesis.cancel();}
   function speak(text){ 
     if(!ok()||!text)return;
+    if(nativeHost()){try{stop();window.AndroidNative.speak(text,Number(state.rate)||1);return;}catch(e){}}
     stop();
     const u=new SpeechSynthesisUtterance(text);
     const v=pickVoice(); if(v)u.voice=v;
@@ -1002,7 +1004,7 @@ const TTS = (()=>{
     u.pitch=1;
     speechSynthesis.speak(u);
   }
-  if(ok()){speechSynthesis.onvoiceschanged=()=>{}; speechSynthesis.getVoices();}
+  if(typeof speechSynthesis!=='undefined'){speechSynthesis.onvoiceschanged=()=>{}; speechSynthesis.getVoices();}
   return {ok,speak,stop};
 })();
 window.__TTS=TTS;
@@ -1062,7 +1064,7 @@ function syncConnectivity(){const label=document.getElementById('connectionLabel
 window.addEventListener('online',syncConnectivity);window.addEventListener('offline',syncConnectivity);
 function topbar(){
   const focus=focusProgress();
-  const isStandaloneNow=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
+  const isStandaloneNow=!!window.AppHost||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
   const installBtn = !isStandaloneNow ? `<button class="theme-toggle" type="button" id="topbarInstall" aria-label="Install app" title="Install GreenLight K53">${icon('download')}</button>` : '';
 
   return `<div class="topbar no-print"><div class="brand">Green<span>Light</span> K53<small class="connection-label" id="connectionLabel" role="status">${connectivityLabel()}</small></div>
@@ -2031,6 +2033,8 @@ function navigateFromPractice(navigate,onCancel=()=>{}){
 function bindArtExpansion(scope){
  scope.querySelectorAll('.question-art,.review-art,.signcard,.controls-figure').forEach(figure=>{const art=figure.querySelector('img,svg');if(!art||figure.dataset.artBound)return;figure.dataset.artBound='true';const button=ce('button');button.type='button';button.className='art-expand';button.textContent='Enlarge illustration';button.addEventListener('click',()=>{const dialog=ce('dialog');dialog.className='art-viewer';dialog.setAttribute('aria-label','Enlarged study illustration');const close=ce('button');close.type='button';close.className='btn btn-soft';close.textContent='Close illustration';dialog.append(art.cloneNode(true),close);document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{dialog.remove();button.focus();});dialog.showModal();close.focus();});if(figure.matches('.question-art,.review-art'))figure.after(button);else figure.append(button);});
 }
+if(window.AppHost)window.requestAndroidHome=()=>{navigateFromPractice(()=>{renderHome();rememberView('home');window.scrollTo(0,0)});return true};
+if(window.AppHost)window.handleAndroidBack=()=>{const dialog=document.querySelector('dialog[open]');if(dialog){dialog.close();return true}if(currentArea!=='home'||new URLSearchParams(location.search).get('go')){navigateFromPractice(()=>{renderHome();rememberView('home');window.scrollTo(0,0)});return true}return false};
 function bindGo(root,options={}){
   showStorageStatus();
   bindArtExpansion(root||app);
@@ -2536,7 +2540,7 @@ try{
 let deferredPrompt=null;
 let installDismissed=false;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone=(window.matchMedia&&(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true));
+const isStandalone=!!window.AppHost||(window.matchMedia&&(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true));
 window.addEventListener('beforeinstallprompt',(e)=>{
   e.preventDefault(); deferredPrompt=e;
 });
@@ -2595,7 +2599,7 @@ function maybeShowInstall(){
 }
 // Installation guidance is available on demand through the top bar.
 /* PWA: one install/update flow for every study tool. */
-if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) {
+if (!globalThis.AppHost && 'serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) {
   navigator.serviceWorker.ready.then(()=>{window.__offlineReady=true;syncConnectivity();});
   let waitingWorker=null,applyRequested=false,dismissed=false;
   const busy=()=>assessmentActive||decisionModule?.isActive()||!!app.querySelector('.opt');
@@ -2624,7 +2628,7 @@ if ('serviceWorker' in navigator && (location.protocol==='https:' || location.ho
    respects the offline-first design, and sends no personal data. */
 (function(){
   try{
-    if(navigator.onLine===false) return;
+    if(window.AppHost||navigator.onLine===false) return;
     var bp=document.createElement('script');
     bp.setAttribute('src','/_vercel/insights/script.js');
     bp.setAttribute('defer','');
