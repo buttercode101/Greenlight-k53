@@ -2,15 +2,17 @@ package com.buttercode.mobile;
 
 import android.app.*;import android.os.*;import android.content.*;import android.content.pm.PackageManager;import android.graphics.Color;import android.net.Uri;import android.view.*;import android.webkit.*;import android.widget.*;import android.provider.MediaStore;
 import androidx.core.content.FileProvider;import androidx.webkit.*;
-import org.json.*;import java.io.*;import java.util.*;import java.util.concurrent.*;
+import org.json.*;import java.io.*;import java.util.*;import java.util.concurrent.*;import android.speech.tts.TextToSpeech;
 
 public class MainActivity extends androidx.activity.ComponentActivity {
  protected WebView web;private LinearLayout root;private ProgressBar progress;private TextView failure;
  private ExportStore exports;private final ExecutorService files=Executors.newSingleThreadExecutor();
+ private TextToSpeech speech;private boolean speechReady;
  private ValueCallback<Uri[]> chooser;private Uri cameraUri;private File saveFile;private String saveMime;
  private static final int PICK=10,CAMERA=11,SAVE=12,MIC=13,PROJECTION=14;
  private boolean microphone;private final String origin=BuildConfig.APP_ORIGIN;
  @Override public void onCreate(Bundle state){super.onCreate(state);exports=new ExportStore(getCacheDir());
+  speech=new TextToSpeech(this,status->{speechReady=status==TextToSpeech.SUCCESS;if(speechReady){speech.setLanguage(Locale.UK);speech.setSpeechRate(1f);}});
   root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setBackgroundColor(Color.rgb(247,246,242));
   root.setOnApplyWindowInsetsListener((v,insets)->{if(Build.VERSION.SDK_INT>=30){android.graphics.Insets bars=insets.getInsets(WindowInsets.Type.systemBars()|WindowInsets.Type.displayCutout());v.setPadding(bars.left,bars.top,bars.right,bars.bottom);}else v.setPadding(insets.getSystemWindowInsetLeft(),insets.getSystemWindowInsetTop(),insets.getSystemWindowInsetRight(),insets.getSystemWindowInsetBottom());return insets;});
   setContentView(root);getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -28,6 +30,8 @@ public class MainActivity extends androidx.activity.ComponentActivity {
      case "exportChunk":exports.chunk(body.getString("token"),body.getInt("sequence"),body.getString("bytes"));data=true;break;
      case "exportFinish":File completed=exports.finish(body.getString("token"));String mime=exports.mime,name=exports.name;runOnUiThread(()->offerExport(completed,name,mime));data=true;break;
      case "exportAbort":exports.abort();data=true;break;
+     case "speak":final String speakText=body.optString("text");final float speakRate=(float)body.optDouble("rate",1);runOnUiThread(()->readAloud(speakText,speakRate));data=true;break;
+     case "stopSpeech":runOnUiThread(this::stopReading);data=true;break;
      case "print":runOnUiThread(()->{android.print.PrintManager pm=(android.print.PrintManager)getSystemService(PRINT_SERVICE);pm.print(getString(com.buttercode.mobile.R.string.app_name),web.createPrintDocumentAdapter(getString(com.buttercode.mobile.R.string.app_name)),null);});data=true;break;
      default:throw new IOException("Unsupported native operation.");}
     post(reply,new JSONObject().put("id",id).put("ok",true).put("data",data));
@@ -71,7 +75,9 @@ public class MainActivity extends androidx.activity.ComponentActivity {
  private void offerExport(File file,String name,String mime){if(isFinishing())return;new AlertDialog.Builder(this).setTitle("Your file is ready").setItems(new String[]{"Save "+name,"Share file"},(d,n)->{if(n==1){Uri uri=FileProvider.getUriForFile(this,BuildConfig.APPLICATION_ID+".files",file);Intent share=new Intent(Intent.ACTION_SEND).setType(mime).putExtra(Intent.EXTRA_STREAM,uri).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);try{startActivity(Intent.createChooser(share,"Share file"));}catch(ActivityNotFoundException e){showFailure("No sharing app is available.");}}else{saveFile=file;saveMime=mime;try{startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType(mime.split(";")[0]).putExtra(Intent.EXTRA_TITLE,name),SAVE);}catch(ActivityNotFoundException e){showFailure("No file saver is available.");}}}).show();}
  protected void chooseRecording(){showFailure("Native recording is not included in this build.");}
  protected void recordings(){showFailure("Native recordings are not included in this build.");}
+ private void readAloud(String text,float rate){if(!speechReady||text==null||text.isBlank())return;speech.setSpeechRate(Math.max(0.5f,Math.min(2f,rate)));speech.speak(text.length()>3000?text.substring(0,3000):text,TextToSpeech.QUEUE_FLUSH,null,"greenlight-read");}
+ private void stopReading(){if(speechReady)speech.cancel();}
  @Override protected void onActivityResult(int request,int result,Intent data){super.onActivityResult(request,result,data);if(request==PICK){if(result!=RESULT_OK||data==null){finishChooser(null);return;}ArrayList<Uri> uris=new ArrayList<>();if(data.getClipData()!=null)for(int n=0;n<data.getClipData().getItemCount();n++)uris.add(data.getClipData().getItemAt(n).getUri());else if(data.getData()!=null)uris.add(data.getData());finishChooser(uris.toArray(new Uri[0]));}else if(request==CAMERA)finishChooser(result==RESULT_OK&&cameraUri!=null?new Uri[]{cameraUri}:null);else if(request==SAVE&&result==RESULT_OK&&data!=null&&data.getData()!=null&&saveFile!=null){File source=saveFile;Uri destination=data.getData();files.execute(()->{try(InputStream in=new FileInputStream(source);OutputStream out=getContentResolver().openOutputStream(destination,"w")){if(out==null)throw new IOException();byte[] buffer=new byte[32768];for(int n;(n=in.read(buffer))!=-1;)out.write(buffer,0,n);runOnUiThread(()->Toast.makeText(this,"File saved",Toast.LENGTH_SHORT).show());}catch(IOException e){runOnUiThread(()->showFailure("The file could not be saved. Your app data is unchanged."));}});} }
  @Override protected void onSaveInstanceState(Bundle out){if(web!=null)web.saveState(out);super.onSaveInstanceState(out);}
- @Override protected void onDestroy(){if(chooser!=null)chooser.onReceiveValue(null);exports.abort();files.shutdown();if(web!=null){web.stopLoading();web.destroy();web=null;}super.onDestroy();}
+ @Override protected void onDestroy(){if(speech!=null){speech.stop();speech.shutdown();speech=null;}if(chooser!=null)chooser.onReceiveValue(null);exports.abort();files.shutdown();if(web!=null){web.stopLoading();web.destroy();web=null;}super.onDestroy();}
 }
