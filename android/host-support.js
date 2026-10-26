@@ -50,6 +50,6 @@ window.__ANDROID_APP__=true;
  }
  function scheduleChrome(){if(!scheduled){scheduled=true;requestAnimationFrame(updateChrome)}}
  document.addEventListener('transitionend',scheduleChrome,true);
- function startChrome(){new MutationObserver(scheduleChrome).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['data-theme','class','style']});scheduleChrome()}
+ function startChrome(){const style=document.createElement('style');style.textContent='.app-header .product-nav{display:flex;flex-wrap:wrap;gap:0}.app-header .product-nav button{flex:1 0 auto;padding-inline:8px;white-space:nowrap}';document.head.append(style);new MutationObserver(scheduleChrome).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['data-theme','class','style']});scheduleChrome()}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',startChrome,{once:true});else startChrome();
 })();
