@@ -1062,7 +1062,7 @@ function syncConnectivity(){const label=document.getElementById('connectionLabel
 window.addEventListener('online',syncConnectivity);window.addEventListener('offline',syncConnectivity);
 function topbar(){
   const focus=focusProgress();
-  const isStandaloneNow=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
+  const isStandaloneNow=!!window.AppHost||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
   const installBtn = !isStandaloneNow ? `<button class="theme-toggle" type="button" id="topbarInstall" aria-label="Install app" title="Install GreenLight K53">${icon('download')}</button>` : '';
 
   return `<div class="topbar no-print"><div class="brand">Green<span>Light</span> K53<small class="connection-label" id="connectionLabel" role="status">${connectivityLabel()}</small></div>
@@ -2536,7 +2536,7 @@ try{
 let deferredPrompt=null;
 let installDismissed=false;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone=(window.matchMedia&&(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true));
+const isStandalone=!!window.AppHost||(window.matchMedia&&(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true));
 window.addEventListener('beforeinstallprompt',(e)=>{
   e.preventDefault(); deferredPrompt=e;
 });
@@ -2595,7 +2595,7 @@ function maybeShowInstall(){
 }
 // Installation guidance is available on demand through the top bar.
 /* PWA: one install/update flow for every study tool. */
-if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) {
+if (!globalThis.AppHost && 'serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) {
   navigator.serviceWorker.ready.then(()=>{window.__offlineReady=true;syncConnectivity();});
   let waitingWorker=null,applyRequested=false,dismissed=false;
   const busy=()=>assessmentActive||decisionModule?.isActive()||!!app.querySelector('.opt');
