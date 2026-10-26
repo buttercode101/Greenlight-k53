@@ -2031,6 +2031,7 @@ function navigateFromPractice(navigate,onCancel=()=>{}){
 function bindArtExpansion(scope){
  scope.querySelectorAll('.question-art,.review-art,.signcard,.controls-figure').forEach(figure=>{const art=figure.querySelector('img,svg');if(!art||figure.dataset.artBound)return;figure.dataset.artBound='true';const button=ce('button');button.type='button';button.className='art-expand';button.textContent='Enlarge illustration';button.addEventListener('click',()=>{const dialog=ce('dialog');dialog.className='art-viewer';dialog.setAttribute('aria-label','Enlarged study illustration');const close=ce('button');close.type='button';close.className='btn btn-soft';close.textContent='Close illustration';dialog.append(art.cloneNode(true),close);document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{dialog.remove();button.focus();});dialog.showModal();close.focus();});if(figure.matches('.question-art,.review-art'))figure.after(button);else figure.append(button);});
 }
+if(window.AppHost)window.requestAndroidHome=()=>{navigateFromPractice(()=>{renderHome();rememberView('home');window.scrollTo(0,0)});return true};
 if(window.AppHost)window.handleAndroidBack=()=>{const dialog=document.querySelector('dialog[open]');if(dialog){dialog.close();return true}if(currentArea!=='home'||new URLSearchParams(location.search).get('go')){navigateFromPractice(()=>{renderHome();rememberView('home');window.scrollTo(0,0)});return true}return false};
 function bindGo(root,options={}){
   showStorageStatus();
