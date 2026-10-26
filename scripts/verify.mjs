@@ -9,7 +9,7 @@ const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
 assert.equal(scripts.length, 2, 'Expected data and view scripts');
 for (const match of scripts) new vm.Script(match[1]);
 assert(!html.includes('database-loader.js'), 'Dead database loader must not run');
-assert(html.includes('https://greenlight-k53-review.vercel.app/'), 'Canonical URL must match public production deployment');
+assert(html.includes('https://k53.skillcert.co.za/'), 'Canonical URL must match public production deployment');
 
 const signPaths = [...html.matchAll(/svg:'(assets\/signs\/[^']+)'/g)].map(match => match[1]);
 assert(signPaths.length >= 28, 'Not enough sign questions for a 28-question section');

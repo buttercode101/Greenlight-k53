@@ -25,7 +25,7 @@ The current web version is free and has no ads. Read-aloud voice availability de
 
 GreenLight is an independent study aid. It is not affiliated with the South African Government, RTMC, NaTIS or a DLTC. Questions are original selected practice, not the official question bank or a complete syllabus. Independent subject review remains pending. Practice scores are not a guarantee of passing. Use the current official manuals and confirm arrangements with your DLTC.
 
-Privacy policy: https://greenlight-k53-review.vercel.app/privacy.html
+Privacy policy: https://k53.skillcert.co.za/privacy.html
 
 Required before upload:
 - Verify the actual Play Console app/package and signing identity. Do not invent a fingerprint or replace an existing signing key.

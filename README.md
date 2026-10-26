@@ -4,7 +4,7 @@
 
 GreenLight K53 helps South African learner's licence candidates study road signs, rules and vehicle controls, practise questions, and review mistakes before test day. Learning, decision scenarios and mock assessments feed a shared progress and review journey.
 
-[Open GreenLight](https://greenlight-k53-review.vercel.app) · [Run locally](#quick-start) · [Verification](REPOSITORY-VERIFICATION.md) · [Content review](CONTENT_AUDIT.md)
+[Open GreenLight](https://k53.skillcert.co.za) · [Run locally](#quick-start) · [Verification](REPOSITORY-VERIFICATION.md) · [Content review](CONTENT_AUDIT.md)
 
 ## Your learning journey
 

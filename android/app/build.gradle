@@ -3,7 +3,7 @@ android {
  namespace 'com.buttercode.mobile'
  compileSdk 36
  defaultConfig { applicationId 'za.co.buttercode.greenlightk53'; minSdk 26; targetSdk 36; versionCode 1; versionName '0.1.0-internal'; testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-  buildConfigField 'String','APP_ORIGIN','"https://greenlight-k53-review.vercel.app"'
+  buildConfigField 'String','APP_ORIGIN','"https://k53.skillcert.co.za"'
   buildConfigField 'boolean','SCREEN_CAPTURE','false'
   buildConfigField 'boolean','BUNDLED_OFFLINE','true'
  }

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import assert from 'node:assert/strict';
 
-const origin = 'https://greenlight-k53-review.vercel.app';
+const origin = 'https://k53.skillcert.co.za';
 const events = {};
 const entries = new Map();
 const key = input => new URL(typeof input === 'string' ? input : input.url, origin + '/').href;
