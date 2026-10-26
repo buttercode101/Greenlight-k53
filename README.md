@@ -1,41 +1,61 @@
 # GreenLight K53
 
-**Learn the South African road rules. Practise the decisions. Walk into your learner's licence test prepared.**
+**Learn the rules. Practise your weak spots. Prepare with a plan.**
 
-GreenLight K53 is a South African learner's licence study and practice application. It brings road signs, road rules, vehicle controls, practice questions, mock assessments and progress review into one learning journey.
+GreenLight K53 helps South African learner's licence candidates study road signs, rules and vehicle controls, practise questions, and review mistakes before test day. Learning, decision scenarios and mock assessments feed a shared progress and review journey.
 
-## The learning journey
+[Open GreenLight](https://greenlight-k53-review.vercel.app) · [Run locally](#quick-start) · [Verification](REPOSITORY-VERIFICATION.md) · [Content review](CONTENT_AUDIT.md)
 
-1. **Learn** road signs, rules of the road and vehicle controls.
-2. **Practise** questions and review mistakes.
-3. **Assess** your readiness with mock tests.
-4. **Review** weak areas and revisit difficult decisions.
-5. **Prepare** for test day with a focused revision plan.
+## Your learning journey
 
-## Who it is for
+1. Choose the vehicle code you are preparing for.
+2. Learn signs, rules and controls in focused sections.
+3. Practise questions and use Drive scenarios to apply the same topics to decisions.
+4. Review mistakes and revisit weak topics through the shared review queue.
+5. Take a timed mock and use section results to plan your next session.
 
-First-time South African learner's licence candidates, returning candidates who want structured revision, and people who prefer mobile-friendly practice over a long study manual.
+Drive is one practice format within the learning journey. It is not a replacement for studying the rules or an official driving assessment.
 
-## What to verify before release
+## What is included
 
-The repository includes implementation and validation notes. Those documents are evidence of prior work, **not a substitute for current production acceptance**.
+| Area | What you can do |
+| --- | --- |
+| Learn | Study illustrated signs, road rules and code-specific vehicle controls |
+| Practise | Answer questions and revisit mistakes |
+| Drive | Work through decision scenarios connected to topic practice |
+| Assess | Take rotating mock papers with section-level results |
+| Recover | Resume an unfinished assessment with its original deadline and locked answers |
+| Review | See shared progress, persistent mistakes and targeted follow-ups |
+| Offline | Use cached study assets after initial loading and service-worker setup |
 
-- Confirm question coverage and correctness against authoritative South African K53 material.
-- Check that progress persists across refreshes and that review queues reflect mistakes.
-- Run complete mock tests, including interruption and recovery scenarios.
-- Verify offline installation and use on supported mobile browsers.
-- Inspect navigation, readability, overflow and touch targets at phone, tablet and desktop widths.
-- Compare the deployed commit and configuration with the repository before declaring a release ready.
+## Quick start
 
-## Technical and audit documentation
+The application is static HTML, CSS and JavaScript. No npm packages, account or API keys are needed. Use Node.js 22 or 24 for checks, and Python 3 to serve it:
 
-- [UI polish audit](UI_POLISH_AUDIT.md)
-- [Validation record](VALIDATION.md)
+```bash
+python3 -m http.server 3000
+```
 
-## Status
+Open http://localhost:3000. Production installation needs HTTPS. Installation prompts depend on browser support and engagement; a prompt is not guaranteed on every visit. Study progress belongs to the current browser and origin.
 
-**Release acceptance pending.** The presence of tests or audit records does not establish physical-phone or live-production certification. Consult the current validation record for what was actually exercised.
+Run the complete developer verification set:
 
-## Contributing
+```bash
+node scripts/verify-all.mjs
+```
 
-Keep fixes small and evidence-based. Reproduce defects, add regression coverage where practical, and document remaining verification limitations. Do not treat test failures or incomplete browser coverage as passing.
+The runner executes the same ten source/content/offline/recovery checks used by CI and exits unsuccessfully if any check fails. Browser acceptance remains separate; see `.github/workflows/verify.yml` and the existing browser scripts.
+
+## Content and readiness
+
+This is an independent study tool, not an official test provider or a guarantee of passing. Repository checks validate question structure, code scoping, scoring, persistence and content-review records. They do not establish complete coverage or qualified independent factual review. Simplified sign illustrations have recorded comparisons; this is not official artwork certification.
+
+## Project guide
+
+- [Fresh repository verification](REPOSITORY-VERIFICATION.md)
+- [Content audit](CONTENT_AUDIT.md) and [source register](content-register.json)
+- [Assessment and recovery evidence](VALIDATION.md) — dated historical checks
+- [Decision practice](DECISION_PRACTICE.md) and [UI audit](UI_POLISH_AUDIT.md)
+- [Contributing](CONTRIBUTING.md) · [Security reporting](SECURITY.md)
+
+The canonical source branch is `master`. Current production equality, physical-device offline use and qualified independent content review remain release acceptance gates.

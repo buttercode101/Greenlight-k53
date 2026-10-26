@@ -2,6 +2,8 @@ name: Verify K53
 on:
   push:
   pull_request:
+permissions:
+  contents: read
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -10,23 +12,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: '22'
-      - run: node scripts/security-headers.mjs --check
-      - run: node scripts/verify.mjs
-      - run: node scripts/verify-content.mjs
-      - run: node scripts/verify-offline.mjs
-      - run: node scripts/verify-assessment.mjs
-      - run: node scripts/verify-recovery.mjs
-      - run: node scripts/build-content-register.mjs --check
-      - run: node scripts/verify-review.mjs
-      - run: node scripts/verify-product-evidence.mjs
-  signs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-        with:
-          node-version: '22'
-      - run: node scripts/verify-signs.mjs
+      - run: node scripts/verify-all.mjs
 
   browsers:
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
