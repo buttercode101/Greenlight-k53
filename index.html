@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0f1720" />
-    <meta name="description" content="Premium South African learner's licence prep with road signs, rules, controls and mock test practice." />
-    <title>Greenlight K53 | Premium Learner's Licence Prep</title>
+    <meta name="description" content="South African K53 practice preview with six questions and sample study cards. Not a complete syllabus or exam-readiness assessment." />
+    <title>Greenlight K53 | K53 Practice Preview</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -339,7 +339,7 @@
           <button class="chip" type="button" data-view="overview">Overview</button>
           <button class="chip" type="button" data-view="signs">Road signs</button>
           <button class="chip" type="button" data-view="rules">Rules</button>
-          <button class="chip primary" type="button" data-view="quiz">Start mock</button>
+          <button class="chip primary" type="button" data-view="quiz">Start practice</button>
         </div>
       </header>
 
@@ -352,24 +352,24 @@
           title: 'Learning dashboard',
           label: 'Everything in one place',
           summary: [
-            { value: '64', label: 'mock questions' },
-            { value: '3', label: 'vehicle codes' },
-            { value: '4.9/5', label: 'study clarity' }
+            { value: '6', label: 'practice questions' },
+            { value: '6', label: 'sample signs' },
+            { value: '6', label: 'sample rules' }
           ],
           features: [
             { icon: '✓', title: 'Focused learning flow', text: 'Study signs, rules and vehicle controls in a rhythm designed for clarity and confidence.' },
-            { icon: '⚡', title: 'Fast exam readiness', text: 'Short, high-signal practice blocks make progress feel measurable without overwhelming the learner.' },
+            { icon: '⚡', title: 'Short practice check', text: 'Answer six questions and read the explanations. This score does not measure exam readiness.' },
             { icon: '🚦', title: 'Road law clarity', text: 'Plain-language explanations keep decisions practical and memorable.' },
-            { icon: '📘', title: 'Revision built in', text: 'Return to weak areas repeatedly with a clean review flow that supports repetition.' }
+            { icon: '📘', title: 'Repeat the practice', text: 'Retry the same six questions. Progress and results are not saved after you reload.' }
           ]
         },
         signs: {
           title: 'Road sign library',
           label: 'Read the signs before the road',
           summary: [
-            { value: '18', label: 'core signs' },
-            { value: '6', label: 'families' },
-            { value: '100%', label: 'visual-first' }
+            { value: '6', label: 'sample signs' },
+            { value: '6', label: 'reference cards' },
+            { value: 'Preview', label: 'not a complete sign bank' }
           ],
           cards: [
             { title: 'Stop', detail: 'Complete stop before moving on when safe.', icon: '🛑' },
@@ -384,9 +384,9 @@
           title: 'Road rules',
           label: 'Use the rules, not guesswork',
           summary: [
-            { value: '12', label: 'core rules' },
-            { value: '3', label: 'learning tracks' },
-            { value: '1', label: 'decision habit' }
+            { value: '6', label: 'sample rules' },
+            { value: 'Preview', label: 'not a complete rule book' },
+            { value: '6', label: 'reference cards' }
           ],
           cards: [
             { title: 'Keep left', detail: 'In South Africa, drive on the left and pass on the right when safe.', icon: '🛣️' },
@@ -401,12 +401,12 @@
           title: 'Vehicle controls',
           label: 'Know the controls before you move',
           summary: [
-            { value: '24', label: 'control prompts' },
-            { value: '3', label: 'vehicle classes' },
-            { value: '100%', label: 'control ownership' }
+            { value: '6', label: 'sample controls' },
+            { value: 'Preview', label: 'no vehicle-code selection' },
+            { value: '6', label: 'reference cards' }
           ],
           cards: [
-            { title: 'Clutch', detail: 'Right foot handles brake and accelerator in a manual setup.', icon: '🦶' },
+            { title: 'Clutch', detail: 'In a manual vehicle, the left foot operates the clutch pedal.', icon: '🦶' },
             { title: 'Steering', detail: 'Always keep directional control smooth and precise.', icon: '🧭' },
             { title: 'Indicators', detail: 'Signal in good time before turning or changing lanes.', icon: '🚨' },
             { title: 'Parking brake', detail: 'Secure the vehicle whenever parked or stationary.', icon: '🧱' },
@@ -550,14 +550,14 @@
         return `
           <section class="hero">
             <div class="hero-copy">
-              <div class="eyebrow">Premium learner prep</div>
-              <h1>Learn the road. Pass with confidence.</h1>
+              <div class="eyebrow">Practice preview</div>
+              <h1>Try a short K53 practice.</h1>
               <p>
-                A cleaner, calmer way to study South African K53 road signs, rules and vehicle controls.
-                Everything is designed to feel clear, focused and confidence-building from the first lesson to the final mock.
+                A preview with six practice questions and six sample cards each for signs, rules and controls.
+                This is not a complete K53 course or a full mock exam. Vehicle-code selection, saved progress, Drive and offline study are not available in this preview.
               </p>
               <div class="cta-row">
-                <button class="cta primary" type="button" data-view="quiz">Start mock</button>
+                <button class="cta primary" type="button" data-view="quiz">Start practice</button>
                 <button class="cta secondary" type="button" data-view="signs">Study signs</button>
               </div>
               <div class="hero-stats">
@@ -578,9 +578,9 @@
                 <div class="signal-visual">K53</div>
                 <div class="road-panel">
                   <div class="road-mini">
-                    <div class="mini-card"><strong>94%</strong><span>clarity</span></div>
-                    <div class="mini-card"><strong>4.8</strong><span>flow score</span></div>
-                    <div class="mini-card"><strong>3x</strong><span>faster review</span></div>
+                    <div class="mini-card"><strong>6</strong><span>questions</span></div>
+                    <div class="mini-card"><strong>6</strong><span>signs</span></div>
+                    <div class="mini-card"><strong>6</strong><span>rules</span></div>
                   </div>
                 </div>
               </div>
@@ -592,20 +592,20 @@
             <button class="nav-pill" type="button" data-view="signs">Signs</button>
             <button class="nav-pill" type="button" data-view="rules">Rules</button>
             <button class="nav-pill" type="button" data-view="controls">Controls</button>
-            <button class="nav-pill" type="button" data-view="quiz">Mock test</button>
+            <button class="nav-pill" type="button" data-view="quiz">Practice quiz</button>
           </nav>
 
           <section class="main-area">
             <div class="panel content-panel">
               <div class="content-header">
-                <h2>Everything you need to pass</h2>
+                <h2>What this preview includes</h2>
                 <span class="soft-tag">clear path</span>
               </div>
 
               <div class="summary-grid">
-                <div class="summary-card"><strong>12</strong><span>high-impact rules</span></div>
-                <div class="summary-card"><strong>18</strong><span>critical signs</span></div>
-                <div class="summary-card"><strong>6</strong><span>practice loops</span></div>
+                <div class="summary-card"><strong>6</strong><span>sample rules</span></div>
+                <div class="summary-card"><strong>6</strong><span>sample signs</span></div>
+                <div class="summary-card"><strong>6</strong><span>sample controls</span></div>
               </div>
 
               <div class="feature-list">
@@ -636,7 +636,7 @@
                 </div>
               </div>
 
-              <button class="mini-cta" type="button" data-view="quiz">Take a timed mock</button>
+              <button class="mini-cta" type="button" data-view="quiz">Try six practice questions</button>
 
               <div class="study-card">
                 <h4>Study rhythm</h4>
@@ -721,10 +721,10 @@
           const percent = Math.round((state.score / state.questions.length) * 100);
           return `
             <section class="result-box">
-              <h3>${percent >= 70 ? 'Strong progress' : 'Keep building momentum'}</h3>
+              <h3>${percent >= 70 ? 'Practice result' : 'Keep building momentum'}</h3>
               <p>
                 ${percent >= 70
-                  ? 'You are showing solid understanding. Keep repeating the weak areas and move to a full mock when ready.'
+                  ? 'You answered this short practice set. Its score does not establish exam readiness, and your result is not saved.'
                   : 'This is a useful checkpoint. Review the explanations and try another round to improve your confidence.'}
               </p>
               <div class="score-row">
@@ -733,7 +733,7 @@
                 <div class="score-pill"><strong>${Math.max(0, state.questions.length - state.score)}</strong><span>to review</span></div>
               </div>
               <div class="cta-row" style="margin-top: 18px;">
-                <button class="cta primary" type="button" id="restartQuiz">Retry mock</button>
+                <button class="cta primary" type="button" id="restartQuiz">Retry practice</button>
                 <button class="cta secondary" type="button" data-view="overview">Back to overview</button>
               </div>
             </section>
@@ -748,7 +748,7 @@
             <div class="panel content-panel">
               <div class="quiz-card">
                 <div class="question-meta">
-                  <span>Mock practice</span>
+                  <span>Practice preview</span>
                   <span>${state.mockIndex + 1} / ${state.questions.length}</span>
                 </div>
 
@@ -782,3 +782,4 @@
     </script>
   </body>
 </html>
+
