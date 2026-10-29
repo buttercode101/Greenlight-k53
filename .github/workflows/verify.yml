@@ -10,8 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-        with:
-          node-version: '22'
+      - name: Install lint dependencies
+        run: npm install -D eslint prettier
+      - name: Run lint
+        run: npx eslint . --max-warnings=0
       - run: node scripts/verify-all.mjs
 
   browsers:
