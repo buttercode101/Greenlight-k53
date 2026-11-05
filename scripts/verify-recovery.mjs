@@ -1,80 +1,107 @@
-import fs from 'node:fs';
-import vm from 'node:vm';
 import assert from 'node:assert/strict';
-const html=fs.readFileSync('index.html','utf8');
-function between(a,b){return html.slice(html.indexOf(a),html.indexOf(b,html.indexOf(a)));}
-class Element{
- constructor(){this.children=[];this.listeners={};this.disabled=false;this.classList={add(){},remove(){}};}
- set innerHTML(v){this.html=v;this.nodes={};this.options=[...v.matchAll(/class="opt"[^>]*data-i="(\d+)"/g)].map(m=>{const e=new Element();e.index=m[1];return e;});}
- get innerHTML(){return this.html||'';}
- querySelector(s){return this.nodes[s]??=new Element();}
- querySelectorAll(s){if(s==='.opt')return this.options||[];return [];}
- addEventListener(k,fn){this.listeners[k]=fn;}
- getAttribute(){return this.index;}
- appendChild(e){this.children.push(e);this.card=e;}
- click(){if(!this.disabled)this.listeners.click?.();}
-}
-function setup(){
- const app=new Element();let time=1000,saved,attempts=0;
- const window={addEventListener(){},confirm:()=>true,scrollTo(){}};
- const ctx=vm.createContext({window,console,Math,Date:class extends Date{static now(){return time;}},localStorage:{getItem:()=>null,setItem(){}},app,ce:()=>new Element(),$:s=>app.querySelector(s),document:{querySelector:s=>app.querySelector(s),getElementById:()=>null},setInterval:()=>1,clearInterval(){},safeHTML:s=>String(s),backbar:()=>'',bookmarkButton:()=>'',evidence:()=>'',bindBookmark(){},bindGo(){},focusPracticeContent(){},renderAnswerTools(){},recordAttempt(){attempts++;},addReview(){},confetti(){},setVehicleCode(c){ctx.K.state.vehicleCode=c;},renderHome(){},openReview(){}});
- vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1],ctx);
- vm.runInContext(between('let practiceStartedAt=', '/* Portable progress'),ctx);
- ctx.K=window.__K53;ctx.K.save=()=>{saved=JSON.parse(JSON.stringify(ctx.K.state));return true;};
- const metadata=html.match(/const SECTION_META=(\{[\s\S]*?\n\});/)[1];
- vm.runInContext("const SECTION_ORDER=['rules','signs','controls'];const SECTION_META="+metadata+";",ctx);
- vm.runInContext(between('function reviewKey(', 'const TOPIC_PATTERNS'),ctx);
- vm.runInContext(between('function mistakeKeys(', 'function reviewDue('),ctx);
- vm.runInContext(between('let mockData=[];','function openMock(){'),ctx);
- vm.runInContext(between('function startMock(','/* ---------- SHARE CARD'),ctx);
- vm.runInContext(between('function mockDecisionFollowup(','function finishMock('),ctx);
- vm.runInContext(between('function startSim(','window.__views='),ctx);
- ctx.finishMock=()=>{ctx.clearAssessment();};
- return {ctx,app,setTime:t=>time=t,get saved(){return saved;},get attempts(){return attempts;}};
-}
-for(const mode of ['sim','mock']){
- const h=setup();vm.runInContext('mockSeconds=60',h.ctx);
- if(mode==='sim')h.ctx.startSim();else h.ctx.startMock('rules');
- assert(h.ctx.validAssessment(h.saved.activeAssessment));
- const original=structuredClone(h.saved.activeAssessment);
- assert.equal(original.deadline,61000);
- const answer=h.app.card.options[0];answer.click();
- const checkpoint=structuredClone(h.saved.activeAssessment);
- assert.equal(checkpoint.answers[0],0);assert.equal(h.attempts,1);
- const reloaded=setup();reloaded.setTime(21000);
- reloaded.ctx.K.state=h.saved;
- // Use the actual resume entry point, with safe local asset rendering.
- reloaded.ctx.reviewArt=()=>'';
- reloaded.ctx.resumeAssessment();
- assert.equal(reloaded.saved.activeAssessment.deadline,61000);
- assert.deepEqual(reloaded.saved.activeAssessment.questions.map(q=>q.q),checkpoint.questions.map(q=>q.q));
- assert(reloaded.app.card.options.every(b=>b.disabled),'Submitted answer must remain locked');
- assert.equal(reloaded.attempts,0,'Resume must not record an attempt twice');
- reloaded.app.card.querySelector('.next').click();
- assert.equal(reloaded.saved.activeAssessment.i,1);
- assert(reloaded.app.card.options.every(b=>!b.disabled),'Next unanswered question remains available');
- reloaded.setTime(62000);reloaded.app.card.options[0].click();
- assert.equal(reloaded.attempts,0,'An answer after the deadline must not count');
- assert.equal(reloaded.saved.activeAssessment,undefined,'Expired attempt clears checkpoint');
- for(const change of [{version:2},{code:'9'},{deadline:-1},{i:100},{answers:[]},{questions:[]},{answers:[99,...checkpoint.answers.slice(1)]}])assert.equal(h.ctx.validAssessment({...checkpoint,...change}),false);
- console.log(`${mode}: exact paper, locked answers, preserved deadline, no duplicate scoring, late-answer rejection and corrupt checkpoint checks passed.`);
-}
-// Reload before submitting the first answer: nothing is scored or locked.
-{
- const h=setup();h.ctx.startSim();const r=setup();r.ctx.K.state=h.saved;r.ctx.reviewArt=()=>'';r.ctx.resumeAssessment();
- assert.equal(r.saved.activeAssessment.i,0);assert.equal(r.attempts,0);assert(r.app.card.options.every(b=>!b.disabled));
-}
-// Full learning mock: the section break survives refresh; the next section gets its own checkpoint.
-{
- const h=setup();h.ctx.startMock();
- for(let i=0;i<28;i++){h.app.card.options[0].click();h.app.card.querySelector('.next').click();}
- assert.equal(h.saved.activeAssessment.i,28);
- const result=structuredClone(h.saved.mockResults.rules);
- const r=setup();r.ctx.K.state=h.saved;r.ctx.reviewArt=()=>'';r.ctx.resumeAssessment();
- assert.deepEqual(r.saved.mockResults.rules,result);
- assert.equal(r.attempts,0);
- r.app.querySelector('#nextSecBtn').click();
- assert.equal(r.saved.activeAssessment.sec,'signs');assert.equal(r.saved.activeAssessment.i,0);
- assert.equal(r.saved.activeAssessment.answers.filter(a=>a!==null).length,0);
-}
-console.log('Pre-answer refresh and full learning-mock section-break recovery passed.');
+import { makeRun } from '../assets/decision/engine.js';
+import {
+  newSave, nextCard, pauseSave, resumeSave, validateSave,
+  readSave, writeSave, clearSave, CONTENT_VERSION,
+} from '../assets/decision/session.js';
+import { progress, record } from '../assets/decision/model.js';
+
+// Checkpoint/recovery lives in session.js: newSave -> writeSave/readSave ->
+// validateSave, with pause/resume preserving the time budget across reloads.
+const store = new Map();
+globalThis.sessionStorage = {
+  getItem: (k) => store.get(k) ?? null,
+  setItem: (k, v) => store.set(k, v),
+  removeItem: (k) => store.delete(k),
+};
+globalThis.window = { sessionStorage: globalThis.sessionStorage, dispatchEvent() {} };
+
+const roundtrip = (save) => validateSave(JSON.parse(JSON.stringify(save)));
+
+// Timed and untimed saves roundtrip through serialization exactly.
+const timedRun = makeRun({ mode: 'signs', timedSetting: true });
+const save = newSave(timedRun, 1000);
+assert(roundtrip(save));
+assert.deepEqual(roundtrip(save).ids, save.ids);
+const untimed = newSave(makeRun({ mode: 'signs', timedSetting: false }), 1000);
+assert.equal(untimed.deadline, null);
+assert(roundtrip(untimed));
+
+// Pause, "reload" later, resume: the frozen remainder survives and the new
+// deadline is resume-time + remainder (never a fresh full budget).
+const paused = pauseSave(save, 3500);
+const reloaded = JSON.parse(JSON.stringify(paused));
+assert(roundtrip(reloaded));
+const resumed = resumeSave(roundtrip(reloaded), 21_000);
+assert.equal(resumed.remainingMs, paused.remainingMs, 'Reload must not restore spent time');
+assert.equal(resumed.deadline, 21_000 + paused.remainingMs);
+assert(roundtrip(resumed));
+
+// sessionStorage read/write/clear path.
+writeSave(resumed);
+assert.deepEqual(readSave().ids, resumed.ids);
+clearSave();
+assert.equal(readSave(), null, 'Cleared checkpoint must read back as absent');
+
+// Pre-answer reload: nothing scored, nothing locked, budget intact.
+assert.equal(roundtrip(newSave(timedRun, 1000)).answers.length, 0);
+assert.equal(roundtrip(newSave(timedRun, 1000)).index, 0);
+
+// Answered (reveal-phase) save validates with exactly one locked answer.
+const q0 = timedRun.questions[0];
+const answered = {
+  ...save,
+  phase: 'reveal',
+  answers: [{ id: q0.id, full: true, partial: false, helped: false, choiceOk: true, orderOk: null, timedOut: false, choice: q0.correct }],
+};
+assert(roundtrip(answered), 'Revealed-answer checkpoint must validate');
+assert.equal(roundtrip({ ...answered, answers: [] }), null, 'Reveal phase with no answer must be rejected');
+
+// Corrupt checkpoints are rejected (the hostile-restore matrix).
+const corrupt = [
+  { version: 1 },
+  { contentVersion: '1999-01-01' },
+  { runId: 'short' },
+  { mode: 'no-such-mode' },
+  { ids: ['no-such-card'] },
+  { ids: [save.ids[0], save.ids[0]] },
+  { index: save.ids.length },
+  { index: -1 },
+  { answers: answered.answers, phase: 'answer' },
+  { answers: [{ ...answered.answers[0], id: 'S02' }], phase: 'reveal' },
+  { answers: [{ ...answered.answers[0], choice: 99 }], phase: 'reveal' },
+  { answers: [{ ...answered.answers[0], full: true, timedOut: true }], phase: 'reveal' },
+  { options: [0, 0, 1, 2] },
+  { remainingMs: q0.seconds * 1000 + 1 },
+  { remainingMs: -5 },
+  { deadline: -1 },
+  { deadline: Date.now() + q0.seconds * 1000 + 5000 },
+];
+for (const change of corrupt) assert.equal(validateSave({ ...save, ...change }), null, 'Corrupt save must be rejected: ' + JSON.stringify(change));
+assert.equal(validateSave(null), null);
+assert.equal(validateSave('junk'), null);
+assert.equal(validateSave({ ...save, contentVersion: CONTENT_VERSION + '.x' }), null);
+
+// Ordering picks must be a prefix of the card's order, pool the remainder.
+const obs = newSave(makeRun({ mode: 'observe', timedSetting: false }), 1000);
+const oq = makeRun({ mode: 'observe', timedSetting: false }).questions[0];
+const probe = newSave(makeRun({ mode: 'weak', timedSetting: false, weakIds: ['O02'] }), 1000);
+const o2 = probe.questions ?? probe;
+const runO2 = makeRun({ mode: 'weak', timedSetting: false, weakIds: ['O02'] });
+const sO2 = newSave(runO2, 1000);
+assert(!sO2.pool.includes('invented'));
+assert.equal(validateSave({ ...sO2, picked: ['invented'] }), null, 'Invented pick must be rejected');
+assert.equal(validateSave({ ...sO2, pool: sO2.pool.slice(1) }), null, 'Dropped pool step must be rejected');
+
+// No double scoring: the same event id records once; finishing twice counts once.
+const state = { review: [], attempts: {} };
+progress(state);
+const good = { id: q0.id, full: true, partial: false, helped: false, choiceOk: true, orderOk: null, timedOut: false, choice: q0.correct };
+record(state, q0, good, 'recovery-1', 1000);
+record(state, q0, good, 'recovery-1', 1000);
+assert.equal(state.attempts['decision:' + q0.id].correct, 1, 'Duplicate event must not rescore');
+assert.equal(progress(state).xp, 10);
+
+delete globalThis.sessionStorage;
+delete globalThis.window;
+console.log('Recovery: roundtrip, frozen-budget resume, locked answers, corrupt-save rejection and no double scoring passed.');
