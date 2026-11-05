@@ -1,69 +1,84 @@
 import fs from 'node:fs';
-import vm from 'node:vm';
+import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
-const html=fs.readFileSync('index.html','utf8');
-const js=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
-const names=[...html.matchAll(/^const ([A-Z][A-Z0-9_]+)=/gm)].map(m=>m[1]);
-assert.equal(new Set(names).size,names.length,'Duplicate top-level constant across inline scripts');
-assert(js,'Data script missing');
-const window={};const ctx=vm.createContext({window,localStorage:{getItem:()=>null,setItem:()=>{}},console,Date,Math});
-vm.runInContext(js,ctx);
-const K=window.__K53;
-assert.equal(K.SIGNS.length,39);
-assert.equal(K.MARKINGS.length,10);
-for(const code of ['1','2','3']){
- const rules=K.rulesForCode(code),extras=K.extraForCode(code),controls=K.controlsForCode(code);
- assert(rules.length+extras.length>=28,`Code ${code} rules below 28`);
- assert(controls.length>=8,`Code ${code} controls below 8`);
- for(const [pool,n] of [[rules.concat(extras),28],[K.SIGNS.concat(K.MARKINGS,K.SIGN_VARIANTS),28],[controls.concat(K.CONTROL_VARIANTS),8]]){
-  const papers=[1,2,3].map(i=>K.selectPaper(pool,n,i));
-  papers.forEach(p=>assert.equal(p.length,n));
-  assert.equal(new Set(papers.flat()).size,n*3,`Code ${code} paper rosters overlap within a section`);
- }
- assert.equal(new Set(controls.map(x=>x.q)).size,controls.length);
- for(const q of controls.concat(extras,K.SIGN_VARIANTS,K.CONTROL_VARIANTS)){
-  assert(q.q?.trim()&&q.ex?.trim(),`Code ${code} incomplete explanation`);
-  assert(Number.isInteger(q.ans)&&q.ans>=0&&q.ans<q.opts.length);
-  assert.equal(new Set(q.opts.map(x=>x.trim())).size,q.opts.length,`Duplicate choices: ${q.q}`);
- }
- if(code==='1')assert(!rules.some(x=>/learner drive a car|seatbelt|trailer/i.test(x.q)));
- console.log(`Code ${code}: ${rules.length}+${extras.length} rules, ${K.SIGNS.length}+${K.MARKINGS.length} signs/markings, ${controls.length} controls`);
+import { BANK } from '../assets/decision/bank.js';
+import { getPracticeQuestions } from '../assets/decision/practice.js';
+import { makeRun } from '../assets/decision/engine.js';
+import { reviewQuestion } from '../assets/decision/model.js';
+import { questionSource } from '../assets/decision/sources.js';
+
+assert.equal(BANK.length, 82, 'BANK must hold 82 questions');
+assert.equal(new Set(BANK.map(q => q.id)).size, 82, 'Duplicate question ids');
+const topics = BANK.reduce((a, q) => (a[q.topic] = (a[q.topic] || 0) + 1, a), {});
+assert.deepEqual(topics, { signs: 28, rules: 34, observe: 10, controls: 10 });
+
+// Choice invariants for every question, including ordering cards.
+for (const q of BANK) {
+  assert(q.situation?.trim() && q.ask?.trim() && q.why?.trim() && q.rule?.trim(), q.id + ': incomplete text');
+  assert(Number.isInteger(q.seconds) && q.seconds > 0, q.id + ': seconds must be positive');
+  if (q.order) {
+    assert(q.order.length > 0 && new Set(q.order).size === q.order.length, q.id + ': ordering steps must be unique');
+  }
+  if (q.options.length === 0) {
+    assert(q.order?.length > 0 && q.correct === -1, q.id + ': optionless card must be an ordering card');
+  } else {
+    assert(q.options.length >= 2 && Number.isInteger(q.correct) && q.correct >= 0 && q.correct < q.options.length, q.id + ': answer out of range');
+    assert.equal(new Set(q.options.map(x => x.trim())).size, q.options.length, 'Duplicate choices: ' + q.id);
+    assert(q.options.every(x => x.trim()), q.id + ': empty choice');
+  }
 }
-assert(K.SIGN_VARIANTS.length>=35&&K.RULE_VARIANTS.length>=23&&K.CONTROL_VARIANTS.length>=15);
-for(const code of ['1','2','3'])assert.equal(K.CONTROL_LESSONS.filter(x=>x.code===code).length,5);
-for(const code of ['1','2','3']){
- const rules=K.rulesForCode(code).concat(K.extraForCode(code));
- const sign=K.SIGNS.concat(K.MARKINGS,K.SIGN_VARIANTS);
- const ctrl=K.controlsForCode(code).concat(K.CONTROL_VARIANTS);
- const papers=[1,2,3].map(i=>({rules:K.selectPaper(rules,28,i),sign:K.selectPaper(sign,28,i),ctrl:K.selectPaper(ctrl,8,i)}));
- for(const paper of papers){
-  assert(paper.rules.some(x=>K.RULE_VARIANTS.includes(x)),`Code ${code} paper omits new rule scenarios`);
-  assert(paper.sign.some(x=>K.SIGN_VARIANTS.includes(x)),`Code ${code} paper omits sign scenarios`);
-  assert(paper.ctrl.some(x=>K.CONTROL_VARIANTS.includes(x)),`Code ${code} paper omits shared controls`);
- }
+assert.equal(BANK.filter(q => q.order).length, 5, 'Expected 5 ordering cards');
+assert.equal(BANK.filter(q => q.options.length === 0).length, 4, 'Expected 4 optionless ordering cards');
+
+// The decision register must fingerprint-match the bank exactly.
+const register = JSON.parse(fs.readFileSync('assets/decision/content-register.json', 'utf8'));
+assert.equal(register.items.length, 82);
+for (const q of BANK) {
+  const r = register.items.find(x => x.id === q.id);
+  assert(r, 'Missing register item: ' + q.id);
+  assert.equal(r.sha256, crypto.createHash('sha256').update(JSON.stringify(q)).digest('hex'), 'Stale fingerprint: ' + q.id);
+  assert.deepEqual(r.source, questionSource(q), 'Source mismatch: ' + q.id);
 }
-assert.equal(new Set([...K.MOCK_EXTRA,...K.RULE_VARIANTS,...K.SIGN_VARIANTS,...K.CONTROL_VARIANTS].map(x=>x.q)).size,K.MOCK_EXTRA.length+K.RULE_VARIANTS.length+K.SIGN_VARIANTS.length+K.CONTROL_VARIANTS.length);
-assert(!/Monday|first.time pass|official question bank access/i.test(html));
-const registry=JSON.parse(fs.readFileSync('content-register.json','utf8'));
-assert.equal(registry.records.length,295);
-assert(registry.records.every(x=>/^https:\/\/www\.(natis\.gov\.za|gov\.za)\//.test(x.source)));
-assert(registry.records.every(x=>x.reviewStatus==='Independently reviewed' ? x.reviewer&&x.reviewDate&&x.sourceLocator&&x.independentReview : x.reviewer===null&&x.reviewDate===null));
-const extract=(name)=>{
- const start=html.indexOf('const '+name+'=[');assert(start>=0);
- const end=/\n\s*\];/.exec(html.slice(start));assert(end);
- return vm.runInNewContext('('+html.slice(start+('const '+name+'=').length,start+end.index+end[0].length).replace(/;$/,'')+')');
-};
-const situations=extract('SITUATIONS');
-assert.equal(situations.length,6);
-for(const s of situations){
- assert(K.SIGNS.some(sign=>sign.id===s.sign),`Missing scene sign ${s.sign}`);
- assert.equal(s.opts.length,s.why.length);
- assert.equal(new Set(s.opts).size,s.opts.length);
- assert(Number.isInteger(s.ans)&&s.ans>=0&&s.ans<s.opts.length);
- assert(s.q&&s.ex&&s.note&&s.why.every(x=>x.trim()));
+
+// Shared-bank denominators: ordering cards are excluded from choice pools.
+assert.equal(getPracticeQuestions('signs').length, 28);
+assert.equal(getPracticeQuestions('rules').length, 34);
+assert.equal(getPracticeQuestions('controls').length, 10);
+assert.equal(getPracticeQuestions('observe').length, 5);
+assert.equal(getPracticeQuestions('mixed').length, 77);
+assert.equal(getPracticeQuestions('mixed', '1').length, 0, 'Product is Code 2 only');
+assert.equal(getPracticeQuestions('mixed', '3').length, 0, 'Product is Code 2 only');
+for (const item of getPracticeQuestions('mixed')) {
+  assert(item.decisionId && item.source?.url && item.q && item.ex, 'Practice item missing evidence fields');
 }
-assert.equal(registry.records.filter(x=>x.id.startsWith('situations-')).length,situations.length);
-assert.equal(registry.records.filter(x=>x.id.startsWith('practical-')).length,12);
-assert(html.includes('situations:openSituations')&&html.includes('data-go="situations"'));
-assert(html.includes('practical:openPractical')&&html.includes('concepts:openConceptFocus'));
-console.log('Control choice invariants and code scope passed.');
+assert.equal(new Set(getPracticeQuestions('mixed').map(x => x.decisionId)).size, 77, 'Practice pool must deduplicate');
+
+// Paper roster: 8 signs + 8 rules + 4 controls, internal needs 7/6/3.
+const paper = makeRun({ mode: 'paper', timedSetting: true });
+assert.equal(paper.timed, false, 'Paper runs untimed');
+assert.equal(paper.questions.length, 20);
+assert.equal(new Set(paper.questions.map(q => q.id)).size, 20, 'Paper roster must not repeat');
+assert.deepEqual(paper.sections, [
+  { title: 'Road signs', from: 0, to: 8, need: 7 },
+  { title: 'Rules of the road', from: 8, to: 16, need: 6 },
+  { title: 'Vehicle controls', from: 16, to: 20, need: 3 },
+]);
+assert.equal(paper.questions.slice(0, 8).every(q => q.topic === 'signs'), true);
+assert.equal(paper.questions.slice(8, 16).every(q => q.topic === 'rules'), true);
+assert.equal(paper.questions.slice(16).every(q => q.topic === 'controls'), true);
+
+// Displayed art exists and is precached; review records point at it.
+const sw = fs.readFileSync('sw.js', 'utf8');
+for (const q of BANK.filter(q => q.sign || q.scene)) {
+  const p = 'assets/decision/art/' + q.id + '.svg';
+  assert(fs.existsSync(p) && sw.includes('./' + p), 'Art missing or not precached: ' + p);
+  const rq = reviewQuestion(q);
+  assert.equal(rq.key, 'decision:' + q.id);
+  assert.equal(rq.svg, p);
+}
+for (const q of BANK.filter(q => !q.sign && !q.scene)) assert.equal(reviewQuestion(q).svg, '');
+const ordering = reviewQuestion(BANK.find(q => q.options.length === 0));
+assert.match(ordering.a, /Correct sequence:/);
+assert.equal(ordering.ans, -1);
+
+console.log('Content integrity: 82 fingerprints, choice/ordering invariants, 28/34/10/5/77 denominators, 20-question paper roster and displayed art passed.');

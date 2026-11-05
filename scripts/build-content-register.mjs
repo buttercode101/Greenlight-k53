@@ -1,38 +1,52 @@
 import fs from 'node:fs';
-import vm from 'node:vm';
 import crypto from 'node:crypto';
-import {applyReviews,requireReviewedRelease} from './review-records.mjs';
-const html=fs.readFileSync('index.html','utf8');
-const sources={SIGNS:'signs',MARKINGS:'signs',SIGN_VARIANTS:'signs',SITUATIONS:'signs',RULES:'rules',RULE_VARIANTS:'rules',CONTROLS:'controls',CONTROL_VARIANTS:'controls',CONTROL_LESSONS:'controls',MOTORCYCLE_CONTROLS:'controls',HEAVY_CONTROLS:'controls',MOCK_EXTRA:'rules',ROW:'rules',MEMORY:'rules',STOPPING:'rules',REVISION:'rules',RHD_TIPS:'controls',DLTC_CHECKLIST:'application'};
-const urls={signs:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/road-traffic-signs',rules:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/rules-of-the-road',controls:'https://www.natis.gov.za/index.php/downloads/learner-driver-manual/vehicle-controls',application:'https://www.gov.za/services/driving-licence/apply-learners-licence'};
-const records=[];
-for(const [name,topic] of Object.entries(sources)){
- const start=html.indexOf('const '+name+'=[');if(start<0)throw Error('Missing '+name);
- const close=/\n\s*\];/.exec(html.slice(start));if(!close)throw Error('Unclosed '+name);
- const end=start+close.index+close[0].length;
- const literal=html.slice(start+('const '+name+'=').length,end).replace(/;$/,'');
- const data=vm.runInNewContext('('+literal+')');
- for(const [i,item] of data.entries()){
-  const itemTopic=name==='RHD_TIPS'&&i===4?'rules':topic;
-  const content=Array.isArray(item)?item[1]||item[0]:item.q||item.name||item.t||item.scene||item.trick||item.speed;
-  const digest=crypto.createHash('sha256').update(JSON.stringify(item)).digest('hex').slice(0,16);
-  records.push({id:name.toLowerCase()+'-'+String(i+1).padStart(3,'0'),title:content,sha256_16:digest,source:urls[itemTopic],sourceArea:itemTopic,sourceMappingDate:'2026-10-04',reviewer:null,reviewDate:null,reviewStatus:'Independent subject review pending',language:'en'});
- }
+import assert from 'node:assert/strict';
+import { applyReviews, requireReviewedRelease } from './review-records.mjs';
+import { BANK } from '../assets/decision/bank.js';
+import { questionSource } from '../assets/decision/sources.js';
+
+// The live content is BANK (82 decision cards). The root content-register.json
+// also carries frozen legacy records generated from inline data that has since
+// been deleted; they can no longer be regenerated, so --check only proves
+// their recorded reviews still bind to unchanged fingerprints.
+const fingerprint = (q) => crypto.createHash('sha256').update(JSON.stringify(q)).digest('hex');
+const decisionRegister = () => ({
+  version: 1,
+  scope: 'Selected light-vehicle decision practice; not a complete syllabus or independent instructor sign-off',
+  items: BANK.map((q) => ({ id: q.id, sha256: fingerprint(q), source: questionSource(q) })),
+});
+
+const root = JSON.parse(fs.readFileSync('content-register.json', 'utf8'));
+const reviews = JSON.parse(fs.readFileSync('content-reviews.json', 'utf8'));
+
+function authoritativeDecisionRegister() {
+  const onDisk = JSON.parse(fs.readFileSync('assets/decision/content-register.json', 'utf8'));
+  assert.equal(onDisk.items.length, 82, 'Decision register must hold 82 items');
+  assert.deepEqual(onDisk.items.map((x) => x.id), BANK.map((q) => q.id), 'Decision register ids must match BANK order');
+  for (const q of BANK) {
+    const item = onDisk.items.find((x) => x.id === q.id);
+    assert.equal(item.sha256, fingerprint(q), 'Stale fingerprint: ' + q.id);
+    assert.deepEqual(item.source, questionSource(q), 'Source drift: ' + q.id);
+  }
+  return onDisk;
 }
-const practicalStart=html.indexOf('const PRACTICAL_GUIDES={');
-if(practicalStart<0)throw Error('Missing practical guides');
-const practicalEnd=/\n\};/.exec(html.slice(practicalStart));
-if(!practicalEnd)throw Error('Unclosed practical guides');
-const practical=vm.runInNewContext('('+html.slice(practicalStart+'const PRACTICAL_GUIDES='.length,practicalStart+practicalEnd.index+practicalEnd[0].length).replace(/;$/,'')+')');
-for(const [code,guide] of Object.entries(practical))for(const [i,step] of guide.steps.entries()){
- const digest=crypto.createHash('sha256').update(JSON.stringify(step)).digest('hex').slice(0,16);
- records.push({id:`practical-${code}-${i+1}`,title:step[0],sha256_16:digest,source:guide.source,sourceArea:'practical',sourceMappingDate:'2026-10-04',reviewer:null,reviewDate:null,reviewStatus:'Independent subject review pending',language:'en'});
+
+if (process.argv.includes('--check')) {
+  authoritativeDecisionRegister();
+  // The root register's living part is its decision supplement pointer.
+  const supplement = root.supplements.find((s) => s.id === 'decision-practice');
+  assert(supplement, 'Decision supplement missing from root register');
+  assert.equal(supplement.items, BANK.length, 'Supplement must declare 82 items');
+  assert.equal(supplement.path, 'assets/decision/content-register.json');
+  // Every recorded review must still bind to its record fingerprint; a stale
+  // or unknown review throws inside applyReviews.
+  applyReviews(structuredClone(root.records), reviews.entries);
+  if (process.argv.includes('--require-reviewed')) requireReviewedRelease(root.records);
+  console.log(
+    'Content register fresh: 82/82 BANK fingerprints match the decision register; ' +
+      root.records.length + ' legacy records still bind to ' + reviews.entries.length + ' recorded reviews.',
+  );
+} else {
+  fs.writeFileSync('assets/decision/content-register.json', JSON.stringify(decisionRegister(), null, 2) + '\n');
+  console.log('Registered', BANK.length, 'decision items; external review pending.');
 }
-const reviews=JSON.parse(fs.readFileSync('content-reviews.json','utf8'));
-applyReviews(records,reviews.entries);
-if(process.argv.includes('--require-reviewed'))requireReviewedRelease(records);
-const supplements=[{id:'decision-practice',path:'assets/decision/content-register.json',items:82,scope:'Selected light-vehicle decisions; independent instructor review pending'}];
-const output=JSON.stringify({supplements,schema:2,generated:'2026-10-19',note:'A source-area mapping is not an item-level fact check. Source checks are recorded separately from independent human review.',records},null,2)+'\n';
-if(process.argv.includes('--check')){if(fs.readFileSync('content-register.json','utf8')!==output)throw Error('Content register is stale; regenerate and review changes.');}
-else fs.writeFileSync('content-register.json',output);
-console.log('Registered',records.length,'teaching entries; external review pending.');
