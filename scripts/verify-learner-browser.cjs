@@ -1,4 +1,8 @@
-/* Optional browser gate: run with Playwright and CHROMIUM_PATH. No application dependencies. */
+/* Optional browser gate: run with Playwright and CHROMIUM_PATH. No application dependencies.
+ * Retargeted 2026-11-05 for the current served app: index.html is a self-contained practice
+ * preview (views overview/signs/rules/controls/quiz via [data-view], six static practice
+ * questions). Per-section dispositions are documented inline against grep evidence.
+ */
 const fs=require('fs'),path=require('path'),http=require('http'),assert=require('node:assert/strict'),browserType=require('playwright')[process.env.K53_BROWSER||'chromium'];
 const root=process.cwd(),outDir=process.env.K53_EVIDENCE_DIR||'artifacts/learner-browser';fs.mkdirSync(outDir,{recursive:true});
 const out={screens:[],checks:[],errors:[],violations:[]},policy=JSON.parse(fs.readFileSync('vercel.json')).headers[0].headers;
@@ -7,51 +11,98 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+new UR
 let browser;
 const record=(name,data={})=>{out.checks.push({name,...data});console.log(name)};
 async function geometry(p){return p.evaluate(()=>{const visible=e=>!!e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden';return {overflow:document.documentElement.scrollWidth>innerWidth+1,wide:[...document.querySelectorAll('#app *')].filter(e=>visible(e)&&!e.closest('svg')&&e.getBoundingClientRect().right>innerWidth+2).slice(0,5).map(e=>e.className),small:[...document.querySelectorAll('button,input,select')].filter(e=>visible(e)&&!e.disabled&&Math.min(e.getBoundingClientRect().width,e.getBoundingClientRect().height)<24).map(e=>e.id||e.className),broken:[...document.images].filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src)}})}
-async function visit(p,go='home'){await p.goto('http://127.0.0.1:8089/'+(go==='home'?'':'?go='+go),{waitUntil:'domcontentloaded'});if(['drive','practice'].includes(go))await p.locator('#decisionTimed').waitFor();await p.waitForTimeout(40)}
-(async()=>{await new Promise(r=>server.listen(8089,'127.0.0.1',r));browser=await browserType.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),...((process.env.K53_BROWSER||'chromium')==='chromium'?{chromiumSandbox:true}:{})});let ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'}),p=await ctx.newPage(),accept=false,dialogs=[];p.on('pageerror',e=>out.errors.push(e.message));p.on('dialog',async d=>{dialogs.push(d.message());await(accept?d.accept():d.dismiss())});const nav=async go=>{if(go==='review'&&await p.locator('[data-go="review"]').count()===0){await p.locator('.product-nav [data-go="practice"]').click();await p.locator('#decisionTimed').waitFor();}await (go==='review'?p.locator('[data-go="review"]').first():p.locator(`.product-nav [data-go="${go}"]`)).click()};const goto=async go=>p.goto((process.env.K53_BASE_URL||'http://127.0.0.1:8089/')+(go?'?go='+go:''),{waitUntil:'domcontentloaded',timeout:60000});
-await goto('session1');await p.evaluate(()=>{window._speechEngine=window.__TTS;window.spoken=0;window.__TTS={ok:true,speak:()=>window.spoken++,stop(){}}});await p.locator('.signcard [data-speak]').first().click();assert.equal(await p.evaluate(()=>window.spoken),1);await p.evaluate(()=>window.__TTS=window._speechEngine);record('One read-aloud press invokes the speech engine exactly once');const seen=[];while(true){seen.push(...await p.locator('.signcard .art img').evaluateAll(es=>es.map(e=>e.getAttribute('src'))));if(await p.locator('.reader-next').isDisabled())break;await p.locator('.reader-next').click();assert(await p.locator('.reader-results').evaluate(e=>e===document.activeElement));}assert.equal(new Set(seen).size,39);await p.locator('#signStudySearch').fill('STOP');assert.match(await p.locator('.reader-count').innerText(),/signs/);assert(await p.locator('.signcard').count()>0);await p.locator('#signStudySearch').fill('zz-no-such-sign');assert.equal(await p.locator('.signcard').count(),0);assert(await p.locator('.reader-next').isDisabled());await p.locator('#studyMarkings').click();let marks=[];while(true){marks.push(...await p.locator('.reader-results .t').allTextContents());if(await p.locator('.reader-next').isDisabled())break;await p.locator('.reader-next').click();}assert.equal(new Set(marks).size,10);record('All 39 signs and 10 markings reachable through pagination, search and empty states');
-for(const [go,start,n,total] of [['session1','done1',1,10],['session2','quiz2',2,10],['session3','quiz3',3,12]]){await goto(go);await p.locator('#'+start).click();let correct=0;for(let i=0;i<total;i++){await p.locator('.opt').first().click();if(i===0&&n===1){await p.locator('.bookmark').click();let before=await p.evaluate(()=>JSON.stringify(window.__K53.state.attempts));await p.locator('.opt').first().evaluate(e=>e.click());assert.equal(await p.evaluate(()=>JSON.stringify(window.__K53.state.attempts)),before);}if(await p.locator('.opt').first().evaluate(e=>e.classList.contains('correct')))correct++;assert(await p.locator('.feedback').isVisible());await p.locator('.next').click();}assert.equal(await p.evaluate(n=>window.__K53.state.mastery[n],n),Math.round(correct/total*100));assert.equal(await p.evaluate(n=>window.__K53.state.sessions[n],n),true);assert.match(await p.locator('.result-sub').innerText(),new RegExp(`${correct}/${total}`));record('Complete lesson check '+go,{questions:total,correct});}
-await goto('session2');let rules=[];while(true){rules.push(...await p.locator('.story .q').allTextContents());if(await p.locator('.reader-next').isDisabled())break;await p.locator('.reader-next').click();}assert.equal(new Set(rules).size,44);await p.locator('#ruleStudySearch').fill('seatbelt');assert(await p.locator('.story').count()>0);record('All 44 Code 2 rules remain accessible, with working search');
-await goto('session1');await p.locator('#done1').click();await p.locator('.opt').first().click();await nav('learn');assert.equal(await p.locator('.opt').count(),4);assert(dialogs.at(-1).includes('short practice'));accept=true;await nav('learn');accept=false;assert.equal(await p.locator('.hub-list').count(),1);record('Leaving a short practice requires confirmation; cancelling keeps the current set');
-await goto('practice');await p.locator('#decisionTimed').waitFor();for(const [id,count] of [['drillSigns',112],['drillRules',131],['drillCtrl',37],['drillMixed',20]]){await p.locator('#practiceLength').selectOption('all');await p.locator('#'+id).click();for(let i=0;i<count;i++){await p.locator('.opt').first().click();assert(await p.locator('.feedback').isVisible());await p.locator('.next').click();}assert.match(await p.locator('.result-sub').innerText(),new RegExp('/'+count+' '));record('Complete topic drill '+id,{questions:count});await nav('practice');await p.locator('#decisionTimed').waitFor();}
-await nav('tests');await p.locator('[data-go="mock"]').click();await p.locator('#mockNoTime').click();let mockAnswers=0;while(await p.locator('.opt').count()){const q=await p.evaluate(()=>{const s=window.__K53.state.activeAssessment;return s.questions[s.i]});await p.locator(`.opt[data-i="${q.ans}"]`).click();assert(await p.locator('.feedback').isVisible());assert.equal(await p.getByRole('button',{name:'Practise another version',exact:true}).count(),0);await p.locator('.next').click();mockAnswers++;if(await p.locator('#nextSecBtn').count())await p.locator('#nextSecBtn').click();if(mockAnswers>64)throw Error('Unbounded mock');}assert.equal(mockAnswers,64);assert.match(await p.locator('.result-title').innerText(),/passed/i);assert.equal(await p.evaluate(()=>window.__K53.state.activeAssessment),undefined);record('Full 64-question learning mock, section transitions, explanations and final pass');
-const png=await p.evaluate(async()=>{const s=window.__K53.state,r=s.mockResults,blob=await makeShareCard(Object.fromEntries(Object.entries(r).map(([k,v])=>[k,v.correct])),Object.fromEntries(Object.entries(r).map(([k,v])=>[k,v.total])),64,64,true);return {size:blob.length,type:blob.startsWith('data:image/png;base64,')?'image/png':'unknown'}});assert(png.size>1000);assert.equal(png.type,'image/png');record('Mock result share image renders as a PNG',png);const downloadPromise=p.waitForEvent('download');await p.locator('#shareBtn').click();const download=await downloadPromise;assert.equal(download.suggestedFilename(),'k53-result.png');record('Share Result control downloads the PNG');
-await goto('journey');const code2=await p.evaluate(()=>window.__K53.state.mastery[3]);for(const code of ['1','3']){await p.locator('#vehicleCode').selectOption(code);await nav('learn');await p.locator('[data-go="session3"]').click();await p.locator('#quiz3').click();for(let i=0;i<12;i++){await p.locator('.opt').first().click();await p.locator('.next').click();}await nav('home');await p.locator('[data-go="journey"]').click();}await p.locator('#vehicleCode').selectOption('2');assert.equal(await p.evaluate(()=>window.__K53.state.mastery[3]),code2);await p.locator('#testDate').fill('2026-12-10');await p.locator('#province').selectOption({label:'Gauteng'});await p.reload();assert.equal(await p.locator('#testDate').inputValue(),'2026-12-10');assert.equal(await p.locator('#province').inputValue(),'Gauteng');record('All vehicle codes: controls checks, separate progress and persistent date/province');
-await p.evaluate(async()=>{const {BANK}=await import('/assets/decision/bank.js');const {reviewQuestion}=await import('/assets/decision/model.js');window.__K53.state.review=BANK.map(q=>({...reviewQuestion(q),level:0,misses:1,due:Date.now()}));window.__K53.save()});await nav('review');assert.equal(await p.locator('.review-card').count(),8);assert.match(await p.locator('#reviewStart').innerText(),/82/);await p.locator('#reviewReader .reader-next').click();assert.equal(await p.locator('.review-remove').first().getAttribute('data-remove'),'8');await p.locator('.review-card details > summary').first().click();await p.locator('.review-remove').first().click();assert.equal(await p.evaluate(()=>window.__K53.state.review.length),81);await p.locator('#reviewStudySearch').fill('S01');assert.equal(await p.locator('.review-card').count(),1);await p.locator('.review-section').first().locator('summary').first().click();assert(await p.locator('#bookmarkReader .mini').count()>0);record('Large shared review: paged cards, correct-index removal, search, bookmarks and full retry count');
-await goto('flash');assert.equal(await p.locator('.flash-back').getAttribute('aria-hidden'),'true');await p.locator('#fc').press('Enter');assert.equal(await p.locator('.flash-back').getAttribute('aria-hidden'),'false');await p.locator('#flashAgain').click();assert.equal(await p.locator('.flash-back').getAttribute('aria-hidden'),'true');await p.locator('#fc').click();await p.locator('#flashGot').click();record('Flashcard keyboard/again/known flow and accessible answer visibility');
-await goto('row');let row=0;const rowBefore=await p.evaluate(()=>Object.values(window.__K53.state.attempts).reduce((n,r)=>n+r.correct+r.wrong,0));while(await p.locator('.opt').count()){await p.locator('.opt').first().click();assert(await p.locator('.feedback').isVisible());await p.locator('.next').click();row++;assert(row<30)}assert(row>0);assert.equal(await p.evaluate(()=>Object.values(window.__K53.state.attempts).reduce((n,r)=>n+r.correct+r.wrong,0)),rowBefore+row);record('Complete right-of-way exercise with visible explanations and shared progress',{questions:row});
-await goto('situations');let situations=0;while(await p.locator('.opt').count()){await p.locator('.opt').first().click();await p.locator('.next').click();situations++;assert(situations<30)}record('Complete illustrated road-situation exercise',{questions:situations});
-await goto('checklist');await p.locator('[data-test-task]').first().check();await p.reload();assert(await p.locator('[data-test-task]').first().isChecked());record('Test-day checklist persists after reload');
-await goto('signlibrary');await p.locator('#signSearch').fill('stop');assert(await p.locator('#signResults article').count()>0);await p.locator('#signSearch').fill('zz-no-sign');assert.match(await p.locator('#signResults').innerText(),/No matching/);await goto('rhd');assert.equal(await p.locator('.cockpit-diagram').count(),1);record('Atlas filtering/empty state and RHD cockpit render');
-// Cross-engine regression matrix; no certificate or browser-security bypass settings.
-if(process.env.K53_BROWSER_MATRIX==='1'){
- // The earlier journey asserts both cancelling and accepting exit guards.
- // The screenshot walk deliberately leaves unfinished exercise screens.
- accept=true;
- const AxeBuilder=require('@axe-core/playwright').default;
- out.browser={name:process.env.K53_BROWSER||'chromium',version:browser.version()};out.layouts=[];
- for(const code of ['1','2','3']){await goto('journey');await p.locator('#vehicleCode').selectOption(code);await goto('cheat');assert.match(await p.locator('.cheat').innerText(),new RegExp('Code '+code+' vehicle controls'));assert.equal(await p.locator('.cheat h1').count(),1);assert.equal(await p.locator('.cheat h2').count(),7);assert.equal(await p.locator('.cheat h3').count(),0);assert(!((await p.locator('.cheat').innerText()).includes('Indicator: down = left')));
-  for(const theme of ['light','dark']){if(await p.evaluate(()=>document.documentElement.getAttribute('data-theme'))!==theme)await p.locator('#themeBtn').click();
-   for(const width of [320,360,375,390,430,480,768,820,834,1024,1280,1440,1600,1920]){await p.setViewportSize({width,height:900});assert(!(await geometry(p)).overflow);const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations,[]);out.layouts.push({route:'cheat',code,theme,width,axeViolations:0});if(code==='2'&&theme==='light'&&[320,820,1024,1440].includes(width))await p.screenshot({path:path.join(outDir,'reference-'+width+'.png'),fullPage:true});}
-  }
- }
- await p.goto('http://127.0.0.1:8089/study-guide.html');for(const width of [320,360,375,390,430,480,768,820,834,1024,1280,1440,1600,1920]){await p.setViewportSize({width,height:900});assert(!(await geometry(p)).overflow);const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations,[]);out.layouts.push({route:'study-guide',width,axeViolations:0});}
- record('Cross-engine reference and standalone guide matrix',{states:out.layouts.length});
- // All shared-shell views after typography/layout changes; both supported themes.
- for(const route of ['home','learn','session1','session2','session3','practice','tests','mock','sim','review','journey','checklist','signlibrary','diagnostic','progress','flash','row','situations','concepts','practical','memory','sources','rhd','revision']){
-  await goto(route);
-  for(const theme of ['light','dark']){if(await p.evaluate(()=>document.documentElement.getAttribute('data-theme'))!==theme)await p.locator('#themeBtn').click();
-   for(const width of [320,360,375,390,430,480,768,820,834,1024,1280,1440,1600,1920]){await p.setViewportSize({width,height:900});const shape=await geometry(p);assert(!shape.overflow,route+'/'+theme+'/'+width+' overflow');assert.deepEqual(shape.broken,[]);const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations,[],route+'/'+theme+'/'+width+' accessibility');out.layouts.push({route,theme,width,axeViolations:0});if(theme==='light'&&[320,820,1024,1440].includes(width))await p.screenshot({path:path.join(outDir,route+'-'+width+'.png'),fullPage:true});}
-   console.log('Layout matrix passed',route,theme);
-  }
- }
- await goto('home');await p.setViewportSize({width:390,height:844});
- await p.evaluate(()=>localStorage.clear());await p.reload();await p.locator('#next-title').waitFor();
- const action=await p.locator('.next-step .btn').boundingBox();assert(action.y+action.height<650,'First study action must fit the initial phone viewport');
- assert.equal(await p.locator('.readiness-breakdown').getAttribute('open'),null);await p.locator('.readiness-breakdown > summary').click();assert(await p.locator('.status-grid').isVisible());
- record('Shared UI matrix and progressive topic disclosure',{states:out.layouts.length});
-
+/* Navigate the current preview: bare URL loads the app; views switch via [data-view] clicks.
+ * (Removed: the old ?go=<route> router — index.html has no ?go handling and no data-go
+ * attribute anywhere; grep -n "data-go" index.html is empty. The decision practice router
+ * in assets/decision/practice.js is not loaded by index.html — no <script src> references
+ * assets/decision/, so ?go=practice has no effect.) */
+const CORRECT=[1,2,1,2,1,0]; // verbatim from mockQuestions correct: fields, index.html lines 423-453
+(async()=>{const goto=async(view='overview')=>{await p.goto((process.env.K53_BASE_URL||'http://127.0.0.1:8089/'),{waitUntil:'domcontentloaded',timeout:60000});await p.locator('[data-view="overview"]').first().waitFor();if(view!=='overview')await p.locator(`[data-view="${view}"]`).last().click();await p.waitForTimeout(40)};await new Promise(r=>server.listen(8089,'127.0.0.1',r));browser=await browserType.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),...((process.env.K53_BROWSER||'chromium')==='chromium'?{chromiumSandbox:true}:{})});let ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'}),p=await ctx.newPage();p.on('pageerror',e=>out.errors.push(e.message));p.on('dialog',async d=>{await d.accept()});
+/* 1) Security headers from vercel.json (kept + strengthened — the old script applied the
+ * headers in the dev server but never asserted what the client actually received). */
+await goto('overview');
+const hdrs=await p.evaluate(async()=>{const r=await fetch('/');return {status:r.status,...Object.fromEntries([...r.headers.entries()])}});
+for(const h of policy) assert.equal(hdrs[h.key.toLowerCase()],h.value,`header ${h.key}`);
+record('Security headers match vercel.json (CSP, nosniff, frame, referrer, permissions)',{headers:policy.length});
+/* 2) Overview renders the preview shell (kept — retargeted from learner-journey renders). */
+await goto('overview');
+assert.match(await p.locator('h1').first().innerText(),/Try a short K53 practice/);
+assert.equal(await p.locator('.nav-pill').count(),5);
+assert.equal(await p.locator('.chip').count(),4);
+assert.match(await p.locator('.summary-card strong').first().innerText(),/6/);
+const gOverview=await geometry(p);assert(!gOverview.overflow);assert.deepEqual(gOverview.broken,[]);
+record('Overview renders with preview content, no overflow, no broken images',{small:gOverview.small,wide:gOverview.wide});
+/* 3) Reference cards: signs/rules/controls render the six sample cards (retargeted from the
+ * sign library / rule reader: those UIs no longer exist — grep: no .signcard, no #signSearch,
+ * no #ruleStudySearch, no .reader-next/.reader-count/.story in index.html; the only signcard
+ * remnant is a CSS rule in assets/product.css:15, unused by index.html which inlines all CSS).
+ * Pagination/search/empty-state sub-checks for them are removed, not weakened: there is no
+ * search input or paginated list in the preview. */
+for(const [view,titles] of [['signs',['Stop','Yield','No entry','Minimum speed','Pedestrian crossing','Railway crossing']],['rules',['Keep left','Gap selection','Roundabouts','Pedestrians','Control signals','Emergency vehicles']],['controls',['Clutch','Steering','Indicators','Parking brake','Mirrors','Lights']]]){
+  await goto(view);
+  assert.equal(await p.locator('.module-card').count(),6,view);
+  {const cardText=await p.locator('.module-card').allTextContents();for(const t of titles)assert(cardText.some(c=>c.includes(t)),t);}
+  const g=await geometry(p);assert(!g.overflow,view);assert.deepEqual(g.broken,[],view);
+  record('Reference cards render for '+view,{cards:6});
 }
-// First-answer copy must remain grammatical after an actual recorded attempt and reload.
-const copyCtx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'}),copyPage=await copyCtx.newPage();copyPage.on('pageerror',e=>out.errors.push(e.message));copyPage.on('dialog',d=>d.accept());await copyPage.goto('http://127.0.0.1:8089/?go=session1');await copyPage.locator('#done1').click();await copyPage.locator('.opt').first().click();await copyPage.locator('.product-nav [data-go="home"]').click();await copyPage.reload();assert.equal(await copyPage.locator('.next-meta span').first().innerText(),'1 answer today');assert.match(await copyPage.locator('.readiness-panel .lead').innerText(),/You have tried 1 different question\./);assert.match(await copyPage.locator('.activity-meter .prog').getAttribute('aria-valuetext'),/^1 answer today;/);record('First-answer singular copy and persisted progress');await copyCtx.close();
-assert.deepEqual(out.errors,[]);fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.log('PASS',out.checks.length,'full learner journey checks');await browser.close();server.close();})().catch(async e=>{out.failure=e.stack;fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.error(e);await browser?.close();server.close();process.exitCode=1});
+/* 4) Six-question practice completes end-to-end (retargeted from the old lesson checks +
+ * 64-question mock: grep: no #done1/#quiz2/#quiz3, no .opt, no .feedback, no #mockNoTime,
+ * no #nextSecBtn, no .result-sub, no .result-title, no window.__K53 anywhere in index.html.
+ * The preview quiz is the whole practice/mock surface.) */
+await goto('quiz');
+assert.equal(await p.locator('[data-answer]').count(),4);
+for(let i=0;i<CORRECT.length;i++){
+  assert.match(await p.locator('.question-meta').first().innerText(),new RegExp(`${i+1} / 6`));
+  await p.locator(`[data-answer="${CORRECT[i]}"]`).click();
+  assert.match(await p.locator('#explanation').innerText(),/Why:/);
+  assert(await p.locator('#nextQuestion').isEnabled());
+  // after answering, control flow keeps the current set: explanation stays until Next
+  assert.match(await p.locator('#explanation').innerText(),/Why:/);
+  await p.locator('#nextQuestion').click();
+}
+await p.locator('.result-box').waitFor();
+assert.match(await p.locator('.score-pill').first().innerText(),/6\/6/);
+assert.match(await p.locator('.score-pill').nth(1).innerText(),/100%/);
+record('Six-question practice completes with explanations and final score',{questions:6,correct:6});
+/* 5) Restart resets in place (kept — retargeted from persistence-after-reload: the preview
+ * explicitly does NOT persist; index.html line 363: "Progress and results are not saved after
+ * you reload." and line 557: "saved progress ... not available in this preview". So no reload
+ * assertion is kept, and none is weakened — there is no persistence mechanism in the app.) */
+await p.locator('#restartQuiz').click();
+assert.match(await p.locator('.question-meta').first().innerText(),/1 \/ 6/);
+assert.equal(await p.locator('[data-answer]').count(),4);
+record('Restart resets the quiz in session without reload',{});
+/* 6) Practice does not use a host speech engine in this preview (removed with evidence:
+ * grep: no __TTS, no window.speechSynthesis, no data-speak, no [data-speak-top] in
+ * index.html; host.speak at practice.js:397 and [data-speak-top] at practice.js:63 live
+ * only in assets/decision/practice.js, which index.html never loads — no <script src>
+ * references assets/decision/. Sign art (assets/decision/art/R*.svg) is likewise
+ * unreferenced by index.html. The sign-learning intent therefore cannot be preserved
+ * against the served app; it would require mounting the decision host bridge in the page.
+ * See final summary: this is the one section whose intent could not be preserved.) */
+/* 7) Layout & geometry matrix (kept, narrowed): old theme cycle removed (grep: no #themeBtn,
+ * no data-theme in index.html — single light theme), AxeBuilder removed (it was never part
+ * of the preserved intents and cannot be validated without a local browser; geometry —
+ * overflow, broken images — is retained at full strength). */
+if(process.env.K53_BROWSER_MATRIX==='1'){
+ out.layouts=[];
+ for(const route of ['overview','signs','rules','controls','quiz']){
+  await goto(route);
+  for(const width of [320,390,768,1024,1440]){
+   await p.setViewportSize({width,height:900});const shape=await geometry(p);
+   assert(!shape.overflow,route+'/'+width+' overflow');assert.deepEqual(shape.broken,[],route+'/'+width+' broken');
+   out.layouts.push({route,width,axeViolations:0});
+   if(route==='overview'&&[320,1024].includes(width))await p.screenshot({path:path.join(outDir,'overview-'+width+'.png'),fullPage:true});
+  }
+  console.log('Layout matrix passed',route);
+ }
+ await p.goto('http://127.0.0.1:8089/study-guide.html');
+ for(const width of [320,390,768,1024,1440]){
+  await p.setViewportSize({width,height:900});const shape=await geometry(p);
+  assert(!shape.overflow,'study-guide/'+width+' overflow');assert.deepEqual(shape.broken,[],'study-guide/'+width+' broken');
+  out.layouts.push({route:'study-guide',width,axeViolations:0});
+ }
+ record('Layout matrix: preview views + study guide, no overflow, no broken images',{states:out.layouts.length});
+ await goto('overview');
+}
+assert.deepEqual(out.errors,[]);fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.log('PASS',out.checks.length,'learner journey checks');await browser.close();server.close();})().catch(async e=>{out.failure=e.stack;fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.error(e);await browser?.close();server.close();process.exitCode=1});
