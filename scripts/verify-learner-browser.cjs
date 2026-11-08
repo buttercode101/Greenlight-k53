@@ -89,7 +89,9 @@ await p.locator('#app h1').first().waitFor({timeout:60000});
 {const text=await p.locator('#app').innerText();assert.match(text,/\/6 correct/,'diagnostic result score');}
 record('Diagnostic completes 6 questions and reports the result');
 await goto();
-await goNav('session1');
+await goNav('learn');
+await p.locator('[data-go="session1"]').first().click();
+await p.waitForTimeout(150);
 await p.locator('#done1').waitFor({timeout:60000});
 await p.locator('#done1').click();
 await p.locator('.opt').first().waitFor({timeout:60000});
