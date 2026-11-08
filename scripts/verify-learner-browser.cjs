@@ -95,7 +95,7 @@ await p.waitForTimeout(150);
 await p.locator('#done1').waitFor({timeout:60000});
 await p.locator('#done1').click();
 await p.locator('.opt').first().waitFor({timeout:60000});
-assert.match(await p.locator('.kicker').first().innerText(),/Question \d+ of 10/);
+assert.match(await p.locator('.kicker').first().innerText(),/question \d+ of 10/i);
 for(let i=0;i<2;i++){
   await p.locator('.opt').first().click();
   await p.locator('.feedback:not(.hidden)').waitFor({timeout:30000});
@@ -103,7 +103,7 @@ for(let i=0;i<2;i++){
   await p.waitForTimeout(100);
 }
 await p.locator('.kicker').first().waitFor({timeout:60000});
-assert.match(await p.locator('.kicker').first().innerText(),/Question 3 of 10/);
+assert.match(await p.locator('.kicker').first().innerText(),/question 3 of 10/i);
 assert(await p.locator('.opt').first().isVisible());
 record('Session-1 check starts, answers two questions and advances');
 await goto();
