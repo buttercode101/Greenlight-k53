@@ -1,7 +1,23 @@
-/* Optional browser gate: run with Playwright and CHROMIUM_PATH. No application dependencies.
- * Retargeted 2026-11-05 for the current served app: index.html is a self-contained practice
- * preview (views overview/signs/rules/controls/quiz via [data-view], six static practice
- * questions). Per-section dispositions are documented inline against grep evidence.
+/* K53 learner-journey browser verification (retargeted 2026-11-08).
+ *
+ * The previous revision waited for `[data-view="overview"]` and other
+ * selectors from a self-contained 6-question practice preview that is
+ * not the served app. index.html is the full K53 product: a [data-go]
+ * router + #app views, 64-question mocks, session checks (#done1/#quiz2/
+ * #quiz3), a 6-question diagnostic (#diagnosticStart), and the sign
+ * atlas (#signSearch). That revision timed out in Firefox/WebKit on
+ * locator('[data-view="overview"]') — the app never rendered it.
+ *
+ * This revision verifies the journeys that actually exist, with the
+ * same or stronger geometry checks (horizontal overflow + broken
+ * images at 320/390/768/1024/1440 via the layout matrix):
+ *   - security headers served from vercel.json arrive on the client
+ *   - home renders with the real nav and next-step CTA
+ *   - learn hub renders; sign atlas search filters and empty-state work
+ *   - diagnostic completes 6/6 questions and reports a score
+ *   - session-1 check starts and advances (2 questions exercised)
+ *   - mock hub renders with real start buttons
+ *   - layout matrix: no overflow / no broken images across routes
  */
 const fs=require('fs'),path=require('path'),http=require('http'),assert=require('node:assert/strict'),browserType=require('playwright')[process.env.K53_BROWSER||'chromium'];
 const root=process.cwd(),outDir=process.env.K53_EVIDENCE_DIR||'artifacts/learner-browser';fs.mkdirSync(outDir,{recursive:true});
@@ -11,98 +27,111 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+new UR
 let browser;
 const record=(name,data={})=>{out.checks.push({name,...data});console.log(name)};
 async function geometry(p){return p.evaluate(()=>{const visible=e=>!!e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden';return {overflow:document.documentElement.scrollWidth>innerWidth+1,wide:[...document.querySelectorAll('#app *')].filter(e=>visible(e)&&!e.closest('svg')&&e.getBoundingClientRect().right>innerWidth+2).slice(0,5).map(e=>e.className),small:[...document.querySelectorAll('button,input,select')].filter(e=>visible(e)&&!e.disabled&&Math.min(e.getBoundingClientRect().width,e.getBoundingClientRect().height)<24).map(e=>e.id||e.className),broken:[...document.images].filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src)}})}
-/* Navigate the current preview: bare URL loads the app; views switch via [data-view] clicks.
- * (Removed: the old ?go=<route> router — index.html has no ?go handling and no data-go
- * attribute anywhere; grep -n "data-go" index.html is empty. The decision practice router
- * in assets/decision/practice.js is not loaded by index.html — no <script src> references
- * assets/decision/, so ?go=practice has no effect.) */
-const CORRECT=[1,2,1,2,1,0]; // verbatim from mockQuestions correct: fields, index.html lines 423-453
-(async()=>{const goto=async(view='overview')=>{await p.goto((process.env.K53_BASE_URL||'http://127.0.0.1:8089/'),{waitUntil:'domcontentloaded',timeout:60000});await p.locator('[data-view="overview"]').first().waitFor();if(view!=='overview')await p.locator(`[data-view="${view}"]`).last().click();await p.waitForTimeout(40)};await new Promise(r=>server.listen(8089,'127.0.0.1',r));browser=await browserType.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),...((process.env.K53_BROWSER||'chromium')==='chromium'?{chromiumSandbox:true}:{})});let ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'}),p=await ctx.newPage();p.on('pageerror',e=>out.errors.push(e.message));p.on('dialog',async d=>{await d.accept()});
-/* 1) Security headers from vercel.json (kept + strengthened — the old script applied the
- * headers in the dev server but never asserted what the client actually received). */
-await goto('overview');
+(async()=>{
+await new Promise(r=>server.listen(8089,'127.0.0.1',r));
+browser=await browserType.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),...((process.env.K53_BROWSER||'chromium')==='chromium'?{chromiumSandbox:true}:{})});
+const ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'}),p=await ctx.newPage();
+p.on('pageerror',e=>out.errors.push(e.message));p.on('dialog',async d=>{await d.accept()});
+const HOME='http://127.0.0.1:8089/';
+async function goto(){
+  await p.goto(HOME,{waitUntil:'domcontentloaded',timeout:60000});
+  await p.locator('#app h1').first().waitFor({timeout:60000});
+}
+async function goNav(go){
+  await p.locator(`[data-go="${go}"]`).first().click();
+  await p.locator('#app').waitFor({timeout:60000});
+  await p.waitForTimeout(150);
+}
+await goto();
 const hdrs=await p.evaluate(async()=>{const r=await fetch('/');return {status:r.status,...Object.fromEntries([...r.headers.entries()])}});
 for(const h of policy) assert.equal(hdrs[h.key.toLowerCase()],h.value,`header ${h.key}`);
-record('Security headers match vercel.json (CSP, nosniff, frame, referrer, permissions)',{headers:policy.length});
-/* 2) Overview renders the preview shell (kept — retargeted from learner-journey renders). */
-await goto('overview');
-assert.match(await p.locator('h1').first().innerText(),/Try a short K53 practice/);
-assert.equal(await p.locator('.nav-pill').count(),5);
-assert.equal(await p.locator('.chip').count(),4);
-assert.match(await p.locator('.summary-card strong').first().innerText(),/6/);
-const gOverview=await geometry(p);assert(!gOverview.overflow);assert.deepEqual(gOverview.broken,[]);
-record('Overview renders with preview content, no overflow, no broken images',{small:gOverview.small,wide:gOverview.wide});
-/* 3) Reference cards: signs/rules/controls render the six sample cards (retargeted from the
- * sign library / rule reader: those UIs no longer exist — grep: no .signcard, no #signSearch,
- * no #ruleStudySearch, no .reader-next/.reader-count/.story in index.html; the only signcard
- * remnant is a CSS rule in assets/product.css:15, unused by index.html which inlines all CSS).
- * Pagination/search/empty-state sub-checks for them are removed, not weakened: there is no
- * search input or paginated list in the preview. */
-for(const [view,titles] of [['signs',['Stop','Yield','No entry','Minimum speed','Pedestrian crossing','Railway crossing']],['rules',['Keep left','Gap selection','Roundabouts','Pedestrians','Control signals','Emergency vehicles']],['controls',['Clutch','Steering','Indicators','Parking brake','Mirrors','Lights']]]){
-  await goto(view);
-  assert.equal(await p.locator('.module-card').count(),6,view);
-  {const cardText=await p.locator('.module-card').allTextContents();for(const t of titles)assert(cardText.some(c=>c.includes(t)),t);}
-  const g=await geometry(p);assert(!g.overflow,view);assert.deepEqual(g.broken,[],view);
-  record('Reference cards render for '+view,{cards:6});
+record('Security headers match vercel.json',{headers:policy.length});
+await goto();
+assert.match(await p.locator('#app h1').first().innerText(),/Make your next answer count/);
+assert.equal(await p.locator('.product-nav [data-go]').count(),5,'nav buttons');
+assert.equal(await p.locator('.path-card').count(),4,'home path cards');
+assert(await p.locator('.next-step .btn').first().isVisible(),'next-step CTA');
+{const g=await geometry(p);assert(!g.overflow,'home overflow');assert.deepEqual(g.broken,[],'home broken images');}
+record('Home renders with nav, path cards and next step, no overflow, no broken images');
+await goNav('learn');
+assert.match(await p.locator('#app h1').first().innerText(),/Learn the test topics/);
+assert.equal(await p.locator('[data-go="session1"]').count(),1);
+assert.equal(await p.locator('[data-go="session2"]').count(),1);
+assert.equal(await p.locator('[data-go="session3"]').count(),1);
+assert.equal(await p.locator('[data-go="signlibrary"]').count(),1);
+{const g=await geometry(p);assert(!g.overflow,'learn overflow');assert.deepEqual(g.broken,[],'learn broken images');}
+record('Learn hub renders with session entries and sign atlas link');
+await goNav('signlibrary');
+assert.match(await p.locator('#signCount').first().innerText(),/matching entries/);
+await p.locator('#signSearch').fill('stop');
+await p.waitForFunction(()=>/matching entries/.test(document.querySelector('#signCount').textContent));
+{const count=await p.locator('#signCount').innerText();assert.match(count,/Showing \d+ of \d+ matching entries/);
+ const cards=await p.locator('.atlas-card').count();assert(cards>0,`expected atlas cards for "stop", got ${cards}`);}
+await p.locator('#signCategory').selectOption('all');
+await p.locator('#signSearch').fill('zzzzqqq-nothing');
+await p.waitForFunction(()=>/No matching entries/.test(document.querySelector('#signResults').textContent));
+record('Sign atlas search filters and reports the empty state');
+await goto();
+await p.evaluate(()=>{localStorage.clear()});
+await goto();
+await p.locator('.next-step .btn, [data-go="diagnostic"]').first().click();
+await p.locator('#diagnosticStart').waitFor({timeout:60000});
+await p.locator('#diagnosticStart').click();
+for(let i=0;i<6;i++){
+  await p.locator('.opt').first().waitFor({timeout:60000});
+  assert(await p.locator('.opt').count()>=2,`Q${i+1} should offer options`);
+  await p.locator('.opt').first().click();
+  await p.locator('.feedback:not(.hidden)').waitFor({timeout:30000});
+  await p.locator('.next').click();
+  await p.waitForTimeout(100);
 }
-/* 4) Six-question practice completes end-to-end (retargeted from the old lesson checks +
- * 64-question mock: grep: no #done1/#quiz2/#quiz3, no .opt, no .feedback, no #mockNoTime,
- * no #nextSecBtn, no .result-sub, no .result-title, no window.__K53 anywhere in index.html.
- * The preview quiz is the whole practice/mock surface.) */
-await goto('quiz');
-assert.equal(await p.locator('[data-answer]').count(),4);
-for(let i=0;i<CORRECT.length;i++){
-  assert.match(await p.locator('.question-meta').first().innerText(),new RegExp(`${i+1} / 6`));
-  await p.locator(`[data-answer="${CORRECT[i]}"]`).click();
-  assert.match(await p.locator('#explanation').innerText(),/Why:/);
-  assert(await p.locator('#nextQuestion').isEnabled());
-  // after answering, control flow keeps the current set: explanation stays until Next
-  assert.match(await p.locator('#explanation').innerText(),/Why:/);
-  await p.locator('#nextQuestion').click();
+await p.locator('#app h1').first().waitFor({timeout:60000});
+{const text=await p.locator('#app').innerText();assert.match(text,/\/6 correct/,'diagnostic result score');}
+record('Diagnostic completes 6 questions and reports the result');
+await goto();
+await goNav('session1');
+await p.locator('#done1').waitFor({timeout:60000});
+await p.locator('#done1').click();
+await p.locator('.opt').first().waitFor({timeout:60000});
+assert.match(await p.locator('.kicker').first().innerText(),/Question \d+ of 10/);
+for(let i=0;i<2;i++){
+  await p.locator('.opt').first().click();
+  await p.locator('.feedback:not(.hidden)').waitFor({timeout:30000});
+  await p.locator('.next').click();
+  await p.waitForTimeout(100);
 }
-await p.locator('.result-box').waitFor();
-assert.match(await p.locator('.score-pill').first().innerText(),/6\/6/);
-assert.match(await p.locator('.score-pill').nth(1).innerText(),/100%/);
-record('Six-question practice completes with explanations and final score',{questions:6,correct:6});
-/* 5) Restart resets in place (kept — retargeted from persistence-after-reload: the preview
- * explicitly does NOT persist; index.html line 363: "Progress and results are not saved after
- * you reload." and line 557: "saved progress ... not available in this preview". So no reload
- * assertion is kept, and none is weakened — there is no persistence mechanism in the app.) */
-await p.locator('#restartQuiz').click();
-assert.match(await p.locator('.question-meta').first().innerText(),/1 \/ 6/);
-assert.equal(await p.locator('[data-answer]').count(),4);
-record('Restart resets the quiz in session without reload',{});
-/* 6) Practice does not use a host speech engine in this preview (removed with evidence:
- * grep: no __TTS, no window.speechSynthesis, no data-speak, no [data-speak-top] in
- * index.html; host.speak at practice.js:397 and [data-speak-top] at practice.js:63 live
- * only in assets/decision/practice.js, which index.html never loads — no <script src>
- * references assets/decision/. Sign art (assets/decision/art/R*.svg) is likewise
- * unreferenced by index.html. The sign-learning intent therefore cannot be preserved
- * against the served app; it would require mounting the decision host bridge in the page.
- * See final summary: this is the one section whose intent could not be preserved.) */
-/* 7) Layout & geometry matrix (kept, narrowed): old theme cycle removed (grep: no #themeBtn,
- * no data-theme in index.html — single light theme), AxeBuilder removed (it was never part
- * of the preserved intents and cannot be validated without a local browser; geometry —
- * overflow, broken images — is retained at full strength). */
+await p.locator('.kicker').first().waitFor({timeout:60000});
+assert.match(await p.locator('.kicker').first().innerText(),/Question 3 of 10/);
+assert(await p.locator('.opt').first().isVisible());
+record('Session-1 check starts, answers two questions and advances');
+await goto();
+await goNav('tests');
+await p.locator('[data-go="mock"]').first().click();
+await p.locator('#mockGo').waitFor({timeout:60000});
+assert(await p.locator('#mockNoTime').isVisible());
+assert(await p.locator('#mockSec').isVisible());
+{const t=await p.locator('.result-title').first().innerText();assert.match(t,/Learning mock/);}
+record('Mock hub renders with timed, untimed and section start buttons');
 if(process.env.K53_BROWSER_MATRIX==='1'){
  out.layouts=[];
- for(const route of ['overview','signs','rules','controls','quiz']){
-  await goto(route);
+ for(const route of ['home','learn','practice','tests','checklist']){
+  await goto();
+  if(route!=='home') await goNav(route);
   for(const width of [320,390,768,1024,1440]){
    await p.setViewportSize({width,height:900});const shape=await geometry(p);
    assert(!shape.overflow,route+'/'+width+' overflow');assert.deepEqual(shape.broken,[],route+'/'+width+' broken');
    out.layouts.push({route,width,axeViolations:0});
-   if(route==='overview'&&[320,1024].includes(width))await p.screenshot({path:path.join(outDir,'overview-'+width+'.png'),fullPage:true});
+   if(route==='home'&&[320,1024].includes(width))await p.screenshot({path:path.join(outDir,'home-'+width+'.png'),fullPage:true});
   }
   console.log('Layout matrix passed',route);
  }
- await p.goto('http://127.0.0.1:8089/study-guide.html');
+ await p.goto('http://127.0.0.1:8089/study-guide.html',{waitUntil:'domcontentloaded',timeout:60000});
  for(const width of [320,390,768,1024,1440]){
   await p.setViewportSize({width,height:900});const shape=await geometry(p);
   assert(!shape.overflow,'study-guide/'+width+' overflow');assert.deepEqual(shape.broken,[],'study-guide/'+width+' broken');
   out.layouts.push({route:'study-guide',width,axeViolations:0});
  }
- record('Layout matrix: preview views + study guide, no overflow, no broken images',{states:out.layouts.length});
- await goto('overview');
+ record('Layout matrix: real routes + study guide, no overflow, no broken images',{states:out.layouts.length});
+ await goto();
 }
 assert.deepEqual(out.errors,[]);fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.log('PASS',out.checks.length,'learner journey checks');await browser.close();server.close();})().catch(async e=>{out.failure=e.stack;fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.error(e);await browser?.close();server.close();process.exitCode=1});
