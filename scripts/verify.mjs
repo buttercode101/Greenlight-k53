@@ -32,7 +32,7 @@ for (const go of ['mock:openMock', 'session1:openSession1', 'session3:openSessio
   assert(html.includes(go), 'Deep link route missing: ' + go);
 assert(html.includes('unknownGoNotice'), 'Unknown ?go= must land on Home with a notice');
 assert(html.includes("STORE='k53ww_v2'") || html.includes('k53ww_v2'), 'Canonical progress store missing');
-assert(sw.includes("CACHE = 'greenlight-k53-v40-phase4'"), 'SW cache must be bumped for the reconnected release');
+assert(sw.includes("CACHE = 'greenlight-k53-v41-selfhost-fonts'"), 'SW cache must be bumped for the reconnected release');
 assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/decision/practice.js?v=33'), 'SW precache versions must match the shell');
 
 // Sign learning: registered SVG art, never emoji-only cards; honest progress.
