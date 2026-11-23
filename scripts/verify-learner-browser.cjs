@@ -29,7 +29,7 @@ const record=(name,data={})=>{out.checks.push({name,...data});console.log(name)}
 async function geometry(p){return p.evaluate(()=>{const visible=e=>!!e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden';return {overflow:document.documentElement.scrollWidth>innerWidth+1,wide:[...document.querySelectorAll('#app *')].filter(e=>visible(e)&&!e.closest('svg')&&e.getBoundingClientRect().right>innerWidth+2).slice(0,5).map(e=>e.className),small:[...document.querySelectorAll('button,input,select')].filter(e=>visible(e)&&!e.disabled&&Math.min(e.getBoundingClientRect().width,e.getBoundingClientRect().height)<24).map(e=>e.id||e.className),broken:[...document.images].filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src)}})}
 (async()=>{
 await new Promise(r=>server.listen(8089,'127.0.0.1',r));
-browser=await browserType.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),...((process.env.K53_BROWSER||'chromium')==='chromium'?{chromiumSandbox:true}:{})});
+browser=await browserType.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),...((process.env.K53_BROWSER||'chromium')==='chromium'?{chromiumSandbox:false,args:['--no-sandbox']}:{})});
 const ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'}),p=await ctx.newPage();
 p.on('pageerror',e=>out.errors.push(e.message));p.on('dialog',async d=>{await d.accept()});
 const HOME='http://127.0.0.1:8089/';
