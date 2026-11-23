@@ -206,3 +206,8 @@ input,select,textarea{max-width:100%;border-color:var(--line);border-radius:9px;
 
 /* Contrast correction for metadata chips on the dark next-step surface. */
 .dashboard .next-step .next-meta span{color:#d5e3d9;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2)}
+
+/* A deliberate display/body pairing: self-hosted Barlow Condensed for key headlines, Inter/system UI for reading and controls. */
+.plan-intro h1,.dashboard .next-step h2,.block h1,.result-title{font-family:'Barlow Condensed','Inter',system-ui,sans-serif;font-weight:700;letter-spacing:-.025em}
+.plan-intro h1{line-height:.98}
+.dashboard .next-step h2{line-height:.98}
