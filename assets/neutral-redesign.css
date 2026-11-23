@@ -191,6 +191,8 @@ input,select,textarea{max-width:100%;border-color:var(--line);border-radius:9px;
 }
 @media(max-width:360px){
   .wrap{width:calc(100% - 24px)}
+  .product-nav button{padding:6px 8px;font-size:11px}
+  .activity-count{display:none}
   .app-header{margin:0 -12px;padding:0 12px}
   .activity-count{max-width:65px;overflow:hidden;text-overflow:ellipsis}
   .topbar{gap:6px}
