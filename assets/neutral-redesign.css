@@ -213,3 +213,6 @@ input,select,textarea{max-width:100%;border-color:var(--line);border-radius:9px;
 .plan-intro h1,.dashboard .next-step h2,.block h1,.result-title{font-family:'Barlow Condensed','Inter',system-ui,sans-serif;font-weight:700;letter-spacing:-.025em}
 .plan-intro h1{line-height:.98}
 .dashboard .next-step h2{line-height:.98}
+
+/* Button subtitles stay fully opaque so small learning labels meet contrast. */
+.hub-list .btn .sub{opacity:1;color:var(--ink-soft)}
