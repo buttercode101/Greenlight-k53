@@ -21,7 +21,7 @@ record('Home visual contract: dark-panel contrast, editorial font and collapsed 
 const a11yRoutes=['home','learn','practice','tests','checklist'];
 for(const theme of ['light','dark']){
  for(const route of a11yRoutes){
-  await p.setViewportSize({width:390,height:844});await visit(p,route);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);
+  await p.setViewportSize({width:390,height:844});await visit(p,route);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await p.mouse.move(0,0);await p.waitForTimeout(250);
   const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
   if(scan.violations.length){out.violations.push(...scan.violations.map(v=>({theme,route,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})));assert.equal(scan.violations.length,0,theme+'/'+route+' WCAG 2.1 AA violations: '+JSON.stringify(out.violations.slice(-scan.violations.length)));}
   record('Accessibility scan passed: '+theme+' / '+route,{axeViolations:scan.violations.length});
