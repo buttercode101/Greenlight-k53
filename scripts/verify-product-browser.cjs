@@ -18,7 +18,7 @@ assert.equal(visual.chipColor,'rgb(213, 227, 217)','next-step metadata chips mus
 assert.match(visual.displayFont,/Barlow Condensed/,'display headings must use the local display font');
 assert.equal(visual.detailsOpen,false,'readiness evidence must be user-expanded, not forced open');
 record('Home visual contract: dark-panel contrast, editorial font and collapsed evidence disclosure');
-const a11yRoutes=['home','learn','practice','tests','checklist'];
+const a11yRoutes=['home','learn','tests','session1','session2','session3','practice','mock','sim','flash','row','memory','journey','sources','checklist','signlibrary','situations','concepts','practical','rhd','revision','review','cheat'];
 for(const theme of ['light','dark']){
  for(const route of a11yRoutes){
   await p.setViewportSize({width:390,height:844});await visit(p,route);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await p.mouse.move(0,0);await p.waitForTimeout(250);
