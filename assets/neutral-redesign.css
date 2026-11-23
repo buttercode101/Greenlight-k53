@@ -1,7 +1,7 @@
 /* GreenLight K53 — neutral product interface, version 1.
    Presentation-only overrides. Keep engine, content and state contracts untouched. */
 :root{
-  --ink:#17211b;--ink-soft:#56635b;--ink-faint:#738077;
+  --ink:#17211b;--ink-soft:#56635b;--ink-faint:#657168;
   --paper:#f7f8f6;--warm:#eef1ed;--accent:#176b4a;--accent-soft:#e6f1ea;--accent-dark:#10563b;
   --ok:#176b4a;--ok-soft:#e6f1ea;--warn:#8b641e;--warn-soft:#f7f0df;--err:#a63e36;--err-soft:#f8e9e7;
   --line:#dfe5df;--line-soft:#e9ede9;--ring:rgba(23,107,74,.22);
