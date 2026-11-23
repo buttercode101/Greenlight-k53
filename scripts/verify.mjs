@@ -34,7 +34,7 @@ assert(html.includes('unknownGoNotice'), 'Unknown ?go= must land on Home with a 
 assert(html.includes("STORE='k53ww_v2'") || html.includes('k53ww_v2'), 'Canonical progress store missing');
 assert(sw.includes("CACHE = 'greenlight-k53-v43-neutral-ui'"), 'SW cache must be bumped for the neutral UI release');
 assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=2') && sw.includes('./assets/decision/practice.js?v=33'), 'SW precache versions must match the shell and include neutral UI');
-assert(html.includes('./assets/neutral-redesign.css?v=1'), 'Neutral UI stylesheet must be linked after the existing product styles');
+assert(html.includes('./assets/neutral-redesign.css?v=2'), 'Neutral UI stylesheet must be linked after the existing product styles');
 
 // Sign learning: registered SVG art, never emoji-only cards; honest progress.
 assert(!html.includes('68%'), 'Hardcoded fake progress (68%) must not return');
