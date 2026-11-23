@@ -51,7 +51,7 @@ a{color:var(--accent-dark);text-underline-offset:3px}
 .plan-settings{min-height:42px;padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink-soft);font-size:12px;font-weight:650;white-space:nowrap}
 .plan-settings:hover{border-color:var(--accent);color:var(--accent-dark)}
 .dashboard{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.8fr);gap:16px;align-items:start;margin-bottom:18px}
-.dashboard .next-step{align-self:start;min-height:320px;background:#1b3527;color:#f5f8f5;border:1px solid #244b37;border-radius:16px}
+.dashboard .next-step{align-self:stretch;min-height:320px;background:#1b3527;color:#f5f8f5;border:1px solid #244b37;border-radius:16px}
 .dashboard .next-step .kicker{color:#a9d8bb;margin:0}
 .dashboard .next-step h2{color:#fff;margin:0;font-size:clamp(32px,3.4vw,44px);line-height:1.04}
 .dashboard .next-step p:not(.kicker){color:#d6e2d9}
@@ -220,3 +220,6 @@ input,select,textarea{max-width:100%;border-color:var(--line);border-radius:9px;
 /* Dark-theme action buttons use a deeper green so white labels retain AA contrast. */
 html[data-theme="dark"] .btn-primary,html[data-theme="dark"] .btn-ok{background:#236b46;color:#fff}
 html[data-theme="dark"] .btn-primary:hover,html[data-theme="dark"] .btn-ok:hover{background:#1f6240;color:#fff}
+
+/* Let the dark feature panel fill the desktop dashboard row; anchor its trust note at the base. */
+.dashboard .next-step .trust-note{margin-top:auto}
