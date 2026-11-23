@@ -439,7 +439,7 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 #drillSigns .ti,#drillRules .ti,#drillCtrl .ti,#drillMixed .ti{width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:8px}
 </style>
 <link rel="stylesheet" href="./assets/product.css?v=37">
-<link rel="stylesheet" href="./assets/neutral-redesign.css?v=2">
+<link rel="stylesheet" href="./assets/neutral-redesign.css?v=3">
 </head>
 <body>
 <a class="skip-link" href="#app">Skip to main content</a>
@@ -1158,7 +1158,7 @@ function renderHome(){
 
   <div class="dashboard">
     <section class="next-step" aria-labelledby="next-title"><div class="next-meta"><span>${focus.count} answer${focus.count===1?'':'s'} today</span><span>${reviewDue().length} due to review</span></div><p class="kicker">Next step</p><h2 id="next-title">${next.title}</h2><p>${next.copy}</p><button class="btn btn-primary" ${next.mode?`data-practice-mode="${next.mode}"`:`data-go="${next.go}"`}>${next.cta} →</button><p class="trust-note">Daily target: 10 answers. Every recorded attempt counts.</p></section>
-    <section class="block readiness-panel"><div class="readiness-heading"><p class="kicker">Practice readiness</p><span class="readiness-number">${ev.assessed?r.score:'—'}${ev.assessed?'<small>/100</small>':''}</span></div><h2>${ev.assessed?r.verdict:'Not assessed yet'}</h2><p class="lead">${ev.assessed?r.msg:'Take the quick check to see your topic progress and a focused study plan.'}</p>${ev.assessed?`<div class="prog" role="progressbar" aria-label="Readiness practice index" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div>`:''}<details class="readiness-breakdown" ${ev.assessed?'open':''}><summary>View your topic progress</summary><div class="status-grid">${statuses}</div>${ev.assessed?learningEvidenceHTML(ev):''}${decisionEvidenceHTML()}</details><p class="footnote">A practice index, not a pass probability. Selected coverage and independent subject review remain incomplete.</p></section>
+    <section class="block readiness-panel"><div class="readiness-heading"><p class="kicker">Practice readiness</p><span class="readiness-number">${ev.assessed?r.score:'—'}${ev.assessed?'<small>/100</small>':''}</span></div><h2>${ev.assessed?r.verdict:'Not assessed yet'}</h2><p class="lead">${ev.assessed?r.msg:'Take the quick check to see your topic progress and a focused study plan.'}</p>${ev.assessed?`<div class="prog" role="progressbar" aria-label="Readiness practice index" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${r.score}"><i style="width:${r.score}%"></i></div>`:''}<details class="readiness-breakdown"><summary>View your topic progress</summary><div class="status-grid">${statuses}</div>${ev.assessed?learningEvidenceHTML(ev):''}${decisionEvidenceHTML()}</details><p class="footnote">A practice index, not a pass probability. Selected coverage and independent subject review remain incomplete.</p></section>
   </div><div class="resume-list" role="group" aria-label="Unfinished practice"><div id="assessmentResumeSlot"></div><div id="practiceResumeSlot"></div></div>
   <section class="block study-path" aria-labelledby="path-title"><p class="kicker">Your preparation</p><h2 id="path-title">Keep moving forward.</h2><div class="path-grid">
     <button class="path-card" data-go="learn"><span class="path-number">1</span><span><b>Learn</b><span>Signs, road rules and vehicle controls</span></span><span aria-hidden="true">→</span></button>
