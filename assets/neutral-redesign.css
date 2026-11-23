@@ -203,3 +203,6 @@ input,select,textarea{max-width:100%;border-color:var(--line);border-radius:9px;
   .library{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Contrast correction for metadata chips on the dark next-step surface. */
+.dashboard .next-step .next-meta span{color:#d5e3d9;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2)}
