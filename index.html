@@ -1553,7 +1553,7 @@ function renderFlash(){
   <div class="block">
     <div class="flash-progress" aria-live="polite">Card ${flashSeen+1} of ${flashTotal} · short round</div>
     <div class="prog" aria-hidden="true"><i style="width:${Math.round((flashTotal-flashDeck.length)/flashTotal*100)}%"></i></div>
-    <div class="flash-stage"><div class="flash-card" id="fc" role="button" tabindex="0" aria-label="Flip flashcard to reveal answer">
+    <div class="flash-stage"><div class="flash-card" id="fc" role="button" tabindex="0" >
       <div class="flash-face" aria-hidden="false">${front}</div>
       <div class="flash-face flash-back" aria-hidden="true"><span class="hint">Answer</span>
         <div class="tt" style="font-size:19px;font-weight:700">${c.back.t}</div>
