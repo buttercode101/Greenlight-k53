@@ -1,5 +1,5 @@
 /* Optional browser gate: run with Playwright and CHROMIUM_PATH. No application dependencies. */
-const fs=require('fs'),path=require('path'),http=require('http'),assert=require('node:assert/strict'),{chromium}=require('playwright');
+const fs=require('fs'),path=require('path'),http=require('http'),assert=require('node:assert/strict'),{chromium}=require('playwright'),AxeBuilder=require('@axe-core/playwright').default;
 const root=process.cwd(),outDir=process.env.K53_EVIDENCE_DIR||'artifacts/product-browser';fs.mkdirSync(outDir,{recursive:true});
 const out={screens:[],checks:[],errors:[],violations:[]},policy=JSON.parse(fs.readFileSync('vercel.json')).headers[0].headers;
 const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json'};
@@ -18,6 +18,15 @@ assert.equal(visual.chipColor,'rgb(213, 227, 217)','next-step metadata chips mus
 assert.match(visual.displayFont,/Barlow Condensed/,'display headings must use the local display font');
 assert.equal(visual.detailsOpen,false,'readiness evidence must be user-expanded, not forced open');
 record('Home visual contract: dark-panel contrast, editorial font and collapsed evidence disclosure');
+const a11yRoutes=['home','learn','practice','tests','checklist'];
+for(const theme of ['light','dark']){
+ for(const route of a11yRoutes){
+  await p.setViewportSize({width:390,height:844});await visit(p,route);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);
+  const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
+  if(scan.violations.length){out.violations.push(...scan.violations.map(v=>({theme,route,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})));assert.equal(scan.violations.length,0,theme+'/'+route+' WCAG 2.1 AA violations: '+JSON.stringify(out.violations.slice(-scan.violations.length)));}
+  record('Accessibility scan passed: '+theme+' / '+route,{axeViolations:scan.violations.length});
+ }
+}
 const views=['home','learn','tests','session1','session2','session3','practice','mock','sim','flash','row','memory','journey','sources','checklist','signlibrary','situations','concepts','practical','rhd','revision','review','cheat'];
 for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[768,1024],[834,1194],[1024,768],[1366,900],[1920,1080],[844,390]])for(const theme of ['light','dark']){await p.setViewportSize({width,height});for(const go of views){await visit(p,go);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);const g=await geometry(p);assert(!g.overflow&&g.wide.length===0&&g.small.length===0&&g.broken.length===0,JSON.stringify({width,height,theme,go,...g}));const violations=await p.evaluate(()=>window.__policy);assert.deepEqual(violations,[],go+' must obey CSP');out.screens.push({width,height,theme,view:go,...g});if([390,834,1366].includes(width)&&['home','practice','journey','rhd'].includes(go))await p.screenshot({path:path.join(outDir,`${go}-${width}-${theme}.png`),fullPage:true,animations:"disabled"});}console.log('screen matrix',width,height,theme)}
 record('506 screens: no horizontal overflow, broken images, tiny controls, page errors or CSP violations');
