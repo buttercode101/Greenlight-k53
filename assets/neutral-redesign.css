@@ -216,3 +216,7 @@ input,select,textarea{max-width:100%;border-color:var(--line);border-radius:9px;
 
 /* Button subtitles stay fully opaque so small learning labels meet contrast. */
 .hub-list .btn .sub{opacity:1;color:var(--ink-soft)}
+
+/* Dark-theme action buttons use a deeper green so white labels retain AA contrast. */
+html[data-theme="dark"] .btn-primary,html[data-theme="dark"] .btn-ok{background:#236b46;color:#fff}
+html[data-theme="dark"] .btn-primary:hover,html[data-theme="dark"] .btn-ok:hover{background:#1f6240;color:#fff}
