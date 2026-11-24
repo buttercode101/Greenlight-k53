@@ -573,3 +573,8 @@ html[data-theme="dark"] #app .btn-ok{color:#14241a!important}
   #app .x-command-side>strong{font-size:30px!important}
   #app .x-side-foot{font-size:11px!important;line-height:1.35!important}
 }
+
+/* Reader controls remain legible on the dark review surface. */
+#app .reader-tools label,
+#app .reader-count,
+#app .reader-page{color:var(--gl-muted)!important}
