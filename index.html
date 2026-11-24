@@ -442,6 +442,9 @@ html[data-theme="dark"] .hero-note{color:var(--ink-faint);}
 <link rel="stylesheet" href="./assets/neutral-redesign.css?v=9">
 <!-- Neutral redesign release: self-hosted styles, offline precache, accessible themes. -->
 <link rel="stylesheet" href="./assets/experience-rebuild.css?v=14">
+<link rel="stylesheet" href="./assets/sm2-experience.css?v=3">
+<link rel="stylesheet" href="./assets/experience-finish.css?v=2">
+<script src="./assets/spaced-repetition.js?v=1"></script>
 </head>
 <body>
 <a class="skip-link" href="#app">Skip to main content</a>
@@ -933,6 +936,7 @@ state.lang='en';
 state.mastery=Object.fromEntries(Object.entries(stateObject(state.mastery)).filter(([k,v])=>['1','2','3'].includes(k)&&Number.isFinite(v)&&v>=0&&v<=100));
 for(const field of ['secPass','mockResults','practicalDone','testTasks'])state[field]=stateObject(state[field]);
 state.installNudged=state.installNudged||false;
+if(window.GreenLightSM2)window.GreenLightSM2.ensure(state);
 
 // Content corrections update retained teaching, without rewriting historical attempt totals.
 function refreshCorrectedStudyContent(){
@@ -1355,7 +1359,9 @@ function recordAttempt(q,ok){
     history.push({id:sign.id,variant:q.q,ok:!!ok,at:Date.now()});
     if(history.length>300)history.splice(0,history.length-300);
   }
-  K.state.attempts[key]=row;K.save();syncPracticeProgress();
+  K.state.attempts[key]=row;
+  if(window.GreenLightSM2)window.GreenLightSM2.recordToReview(K.state,{key,questionId:key,q:q.q,opts:q.opts,ans:q.ans,a:q.opts?.[q.ans],ex:q.ex||"",svg:q.svg||"",topic:row.topic,code:questionCode(q)||""},!!ok,now);
+  K.save();syncPracticeProgress();
 }
 function bookmarkButton(q){
   const key=reviewKey(q),saved=!!K.state.bookmarks[key];
@@ -1375,6 +1381,8 @@ function addReview(q,answer){
   const item=typeof q==='string'?{q,a:answer}:q;
   const key=item.opts?reviewKey(item):item.q+'|'+item.a;
   const now=Date.now();
+  const sm2Id=window.GreenLightSM2?.questionId({questionId:key});
+  if(sm2Id&&K.state.sm2?.items?.[sm2Id])return;
   let found=K.state.review.find(r=>r.key===key);
   if(!found){found={key,q:item.q,a:item.opts?item.opts[item.ans]:item.a,opts:item.opts||null,ans:item.ans,ex:item.ex||'',svg:item.svg||'',due:now,level:0,misses:0};K.state.review.push(found);}
   found.opts=item.opts||found.opts;
@@ -1393,13 +1401,27 @@ function reviewDue(){return K.state.review.filter(r=>visibleForCode(r.q)&&(r.dec
 function openReview(){
   currentArea='review';rememberView('review');
   const due=reviewDue();
-  const visible=K.state.review.map((r,i)=>({r,i})).filter(({r})=>visibleForCode(r.q));
+  const sm2Stats=window.GreenLightSM2?window.GreenLightSM2.getStats(K.state,Date.now(),K.state.vehicleCode):{total:K.state.review.length,due:due.length,scheduled:0,attempts:0,lapses:0,byTopic:[]};
+  const visible=K.state.review.map((r,i)=>({r,i})).filter(({r})=>visibleForCode(r.q)).sort((a,b)=>a.r.due-b.r.due);
+  const reviewable=visible.filter(({r})=>r.decisionId||(Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)));
+  const queueTotal=reviewable.length;
+  const scheduledCount=Math.max(0,queueTotal-due.length);
+  const dailyMap=new Map((sm2Stats.daily||[]).map(day=>[day.date,day]));
+  const heatmap=Array.from({length:14},(_,i)=>{const date=new Date();date.setHours(12,0,0,0);date.setDate(date.getDate()-(13-i));const key=[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-');const day=dailyMap.get(key)||{attempts:0,correct:0,wrong:0};return {key,label:date.toLocaleDateString('en-ZA',{weekday:'long',day:'numeric'}),...day};});
+  const recentAttempts=heatmap.reduce((n,day)=>n+day.attempts,0);
   const reviewMarkup=({r,i})=>`<article class="mini review-card"><div class="t"><span>${safeHTML(r.q)}</span></div>${r.svg?`<div class="review-art">${reviewArt(r.svg)}</div>`:''}<details class="d"><summary>Answer and saved question options</summary><p>Answer: ${safeHTML(r.a)}</p><button class="review-remove" data-remove="${i}" type="button" aria-label="Remove saved question">Remove from review</button></details>${r.decisionId||(Array.isArray(r.opts)&&Number.isInteger(r.ans))?`<button class="btn btn-soft review-retry" data-retry="${i}" type="button">Retry this question →</button>`:''}<p class="footnote">${r.due<=Date.now()?'Ready to retry':`Next review ${new Date(r.due).toLocaleDateString('en-ZA')}`}</p></article>`;
   const bookmarks=Object.values(K.state.bookmarks).filter(b=>visibleForCode(b.q));
   app.innerHTML=backbar('Review')+`<div class="block">
     <p class="kicker">Practice your mistakes</p><h2>Weak spots</h2>
-    <p class="lead">${due.length} ready now · ${visible.length} saved. Retry missed questions; correct answers come back tomorrow, then after three and seven days. Progress stays on this device.</p>
+    <p class="lead">${due.length} ready now · ${scheduledCount} scheduled for later · ${queueTotal} concepts in your recall plan. Reviews adapt to your answers and stay on this device.</p>
+    <div class="sm2-overview" aria-label="Spaced repetition overview"><div class="sm2-metric"><span>Due now</span><strong>${due.length}</strong></div><div class="sm2-metric"><span>In rotation</span><strong>${queueTotal}</strong></div><div class="sm2-metric"><span>Recall attempts</span><strong>${sm2Stats.attempts}</strong></div><div class="sm2-orbit" aria-hidden="true"><div class="sm2-orbit-core">${scheduledCount}<small>ahead</small></div><i></i><b></b></div></div>
+    <div class="sm2-history-block"><div class="sm2-history-heading"><b>Recall activity</b><span>Last 14 days · ${recentAttempts} recorded answer${recentAttempts===1?'':'s'}</span></div><div class="sm2-history" role="group" aria-label="Daily review activity over the last 14 days">${heatmap.map(day=>`<span class="sm2-day" role="img" data-level="${day.attempts?Math.min(4,Math.ceil(day.attempts/3)):0}" title="${day.key}: ${day.attempts} answers, ${day.correct} correct, ${day.wrong} missed" aria-label="${day.label}: ${day.attempts} answers"><i aria-hidden="true">${day.key.slice(-2)}</i></span>`).join('')}</div></div>
     ${due.length?`<button class="btn btn-primary" id="reviewStart" type="button">Review ${Math.min(10,due.length)} question${due.length===1?'':'s'}${due.length>10?' · '+due.length+' due':''} →</button>`:''}
+    <div class="sm2-cycle" aria-label="Interactive spaced-repetition guide">
+      <button class="sm2-flip" type="button" data-sm2-flip aria-pressed="false"><span class="sm2-flip-inner"><span class="sm2-flip-face sm2-front" aria-hidden="false"><b>01</b><strong>First recall</strong><small>Tomorrow</small><em>Tap to explore</em></span><span class="sm2-flip-face sm2-back" aria-hidden="true"><strong>1 day</strong><small>Missed or correct? Review tomorrow.</small></span></span></button>
+      <button class="sm2-flip" type="button" data-sm2-flip aria-pressed="false"><span class="sm2-flip-inner"><span class="sm2-flip-face sm2-front" aria-hidden="false"><b>02</b><strong>Build retention</strong><small>After recall two</small><em>Tap to explore</em></span><span class="sm2-flip-face sm2-back" aria-hidden="true"><strong>6 days</strong><small>Correct recall widens the next gap.</small></span></span></button>
+      <button class="sm2-flip" type="button" data-sm2-flip aria-pressed="false"><span class="sm2-flip-inner"><span class="sm2-flip-face sm2-front" aria-hidden="false"><b>03</b><strong>Long-term recall</strong><small>Up to 21 days</small><em>Tap to explore</em></span><span class="sm2-flip-face sm2-back" aria-hidden="true"><strong>Up to 21 days</strong><small>Intervals adapt, up to 21 days.</small></span></span></button>
+    </div>
     <div id="reviewReader"></div>
     <details class="review-section"><summary>Saved questions · ${bookmarks.length}</summary><div id="bookmarkReader"></div></details>
     <details class="review-section"><summary>Topic weaknesses</summary><div class="lesson-grid">${topicStats().map(t=>`<div class="mini"><div class="t">${safeHTML(t.topic)}</div><p>${t.correct}/${t.correct+t.wrong} correct across ${t.items} concepts · ${t.wrong} misses</p></div>`).join('')||'<p>Finish a few practice questions to identify weak topics.</p>'}</div></details>
@@ -1407,6 +1429,7 @@ function openReview(){
     <button class="btn btn-ghost" data-go="home">Home</button>
   </div>`;
   if($('#reviewStart'))$('#reviewStart').addEventListener('click',()=>startReview(due.map(r=>r.key)));
+  app.querySelectorAll('[data-sm2-flip]').forEach(card=>card.addEventListener('click',()=>{const flipped=card.classList.toggle('is-flipped');card.setAttribute('aria-pressed',String(flipped));card.querySelector('.sm2-front').setAttribute('aria-hidden',String(flipped));card.querySelector('.sm2-back').setAttribute('aria-hidden',String(!flipped));}));
   if(visible.length)mountStudyReader($('#reviewReader'),{key:'reviewStudy',items:visible,noun:'questions',size:8,grid:'review-grid',render:reviewMarkup});else $('#reviewReader').innerHTML='<p class="empty-state">No mistakes saved yet. Try a topic drill or a learning mock.</p>';
   if(bookmarks.length)mountStudyReader($('#bookmarkReader'),{key:'bookmarkStudy',items:bookmarks,noun:'saved questions',grid:'review-grid',render:b=>`<article class="mini"><div class="t">${safeHTML(b.q)}</div>${b.svg?`<div class="review-art">${reviewArt(b.svg)}</div>`:''}<details><summary>Answer and explanation</summary><p>${safeHTML(b.a)} · ${safeHTML(b.ex)}</p></details></article>`});else $('#bookmarkReader').innerHTML='<p>Save a question during practice to find it here.</p>';
   $('#reviewReader').addEventListener('click',e=>{const retry=e.target.closest('[data-retry]');if(retry){const r=K.state.review[Number(retry.dataset.retry)];if(r)startReview([r.key]);return;}const b=e.target.closest('[data-remove]');if(b){K.state.review.splice(Number(b.dataset.remove),1);K.save();openReview();}});
@@ -1428,8 +1451,8 @@ function startReview(keys){
       if(b.disabled)return;
       const chosen=Number(b.dataset.i),ok=chosen===r.ans;
       buttons.forEach(x=>x.disabled=true);buttons[r.ans].classList.add('correct');
-      recordAttempt({q:r.q,opts:r.opts,ans:r.ans,svg:r.svg},ok);if(!ok){b.classList.add('wrong');r.level=0;r.due=Date.now();r.misses=(r.misses||0)+1;}
-      else{correct++;r.level=Math.min((r.level||0)+1,3);r.due=Date.now()+[0,1,3,7][r.level]*86400000;}
+      recordAttempt({q:r.q,opts:r.opts,ans:r.ans,svg:r.svg},ok);if(!ok){b.classList.add('wrong');}
+      else{correct++;}
       K.save();fb.className='feedback '+(ok?'ok':'no');fb.textContent=(ok?'Correct. ':'Not yet. ')+(r.ex||'Answer: '+r.a);next.classList.remove('hidden');focusPracticeContent();
     }));
     next.addEventListener('click',()=>{i++;render();window.scrollTo(0,0);});bindGo();
@@ -1711,7 +1734,7 @@ function recordOutcome(kind,correct,total){
  K.state.outcomes.push({kind,code:K.state.vehicleCode,at:now,elapsedSeconds:Math.max(0,Math.round((now-practiceStartedAt)/1000)),correct,total});K.state.outcomes=K.state.outcomes.slice(-100);K.save();
 }
 /* Portable progress contains no unfinished exam or executable question markup. */
-const PORTABLE_FIELDS=['vehicleCode','sessions','mastery','secPass','mockPass','mockResults','acc','attempts','review','bookmarks','codeProgress','diagnostic','outcomes'];
+const PORTABLE_FIELDS=['vehicleCode','sessions','mastery','secPass','mockPass','mockResults','acc','attempts','review','sm2','bookmarks','codeProgress','diagnostic','outcomes'];
 function cleanPortable(value,depth=0){
  if(depth>12)throw Error('Backup nesting is invalid.');
  if(value===null||typeof value==='boolean')return value;
@@ -1730,6 +1753,7 @@ function validateBackup(text){
  const map=x=>x&&typeof x==='object'&&!Array.isArray(x);
  for(const field of ['sessions','mastery','secPass','mockResults','acc','attempts','bookmarks','codeProgress','diagnostic'])if(out[field]!==undefined&&!map(out[field]))throw Error('Invalid '+field+' in backup.');
  if(out.review!==undefined&&(!Array.isArray(out.review)||out.review.some(r=>!r||typeof r.q!=='string'||typeof r.key!=='string'||!Array.isArray(r.opts)||r.opts.some(o=>typeof o!=='string')||(!r.decisionId&&(!Number.isInteger(r.ans)||r.ans<0||r.ans>=r.opts.length)))))throw Error('Invalid review questions in backup.');
+ if(out.sm2!==undefined){if(!out.sm2||typeof out.sm2!=='object'||Array.isArray(out.sm2))throw Error('Invalid spaced-repetition history.');out.sm2=window.GreenLightSM2.ensure({sm2:out.sm2});}
  for(const row of Object.values(out.attempts||{}))if(!map(row)||typeof row.q!=='string'||!Number.isFinite(row.correct)||row.correct<0||!Number.isFinite(row.wrong)||row.wrong<0)throw Error('Invalid attempt history in backup.');
  const count=v=>Number.isFinite(v)&&v>=0&&v<=1e9;
  const boolMap=(value,allowed)=>map(value)&&Object.entries(value).every(([k,v])=>allowed.includes(k)&&typeof v==='boolean');
@@ -2086,7 +2110,7 @@ function bindGo(root,options={}){
 let decisionModule=null,decisionLoading=false;
 function practiceHeader(title,back='practice'){currentArea='practice';let bar=backbar(title).replace('class="backbar no-print"','class="backbar practice-back no-print"');if(back==='practice')bar=bar.replace('<button data-go="home"','<button data-go="practice"').replace('Back to home','Back to Practise');return bar;}
 function decisionBridge(){return {root:app,state:K.state,save:K.save,touch:K.touch,header:practiceHeader,bind:(scope=app)=>bindGo(scope,{decision:true}),toggleTheme:K.toggleTheme,speak:speakText,stopSpeech,storageStatus:showStorageStatus,openPractice,openDecision};}
-async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=33');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
+async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=34');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
 function showRoadPracticeRecovery(){const slot=document.getElementById('practiceResumeSlot');if(slot&&K.state.vehicleCode==='2')loadDecisionModule().then(module=>{if(slot.isConnected)module.renderResumeNotice(decisionBridge(),slot);}).catch(()=>{});}
 async function openDecision(args={}){
   if(decisionLoading)return;

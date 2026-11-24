@@ -1,0 +1,52 @@
+/* Spaced-repetition interface: purposeful motion, lightweight surfaces, no JS animation loop. */
+.sm2-overview{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(76px,.55fr);align-items:center;gap:12px;padding:18px 20px;margin:18px 0;border:1px solid var(--x-line,var(--line));background:var(--x-paper,var(--paper));overflow:hidden}
+.sm2-metric{display:grid;gap:3px;min-width:0}
+.sm2-metric span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--x-muted,var(--ink-soft));font-weight:700}
+.sm2-metric strong{font-size:clamp(22px,3vw,30px);line-height:1.1;font-variant-numeric:tabular-nums;color:var(--x-ink,var(--ink))}
+.sm2-orbit{width:72px;height:72px;position:relative;display:grid;place-items:center;justify-self:end;perspective:500px}
+.sm2-orbit:before,.sm2-orbit:after{content:"";position:absolute;inset:5px;border:1px solid var(--x-green,var(--accent));border-radius:50%;opacity:.45;transform:rotateX(62deg) rotateZ(-25deg)}
+.sm2-orbit:after{inset:0;transform:rotateX(62deg) rotateZ(35deg);opacity:.25}
+.sm2-orbit i,.sm2-orbit b{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--x-green,var(--accent));box-shadow:0 0 0 4px var(--x-green-soft,var(--accent-soft))}
+.sm2-orbit i{top:7px;left:14px;animation:sm2-orbit-a 8s linear infinite}
+.sm2-orbit b{right:8px;bottom:17px;animation:sm2-orbit-b 11s linear infinite}
+.sm2-orbit-core{z-index:1;width:47px;height:47px;border-radius:50%;display:grid;place-content:center;text-align:center;background:var(--x-dark,var(--ink));color:#fff;font-size:17px;font-weight:800;line-height:1}
+.sm2-orbit-core small{font-size:8px;text-transform:uppercase;letter-spacing:.08em;color:#c7dfcf}
+.sm2-cycle{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0 22px;perspective:900px}
+.sm2-cycle-step{min-width:0;display:grid;gap:4px;padding:13px 14px;border:1px solid var(--x-line,var(--line));background:var(--x-paper,var(--paper));transform:translateZ(0);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;transform-style:preserve-3d}
+.sm2-cycle-step:hover,.sm2-cycle-step:focus-within{transform:translateY(-3px) rotateX(2deg);border-color:var(--x-green,var(--accent));box-shadow:0 8px 18px #14261a12}
+.sm2-cycle-step b{font-size:10px;letter-spacing:.12em;color:var(--x-green,var(--accent))}
+.sm2-cycle-step span{font-size:13px;font-weight:700;color:var(--x-ink,var(--ink))}
+.sm2-cycle-step small{font-size:12px;color:var(--x-muted,var(--ink-soft))}
+.review-card{animation:sm2-enter .34s both;animation-delay:calc(var(--sm2-index,0)*35ms);transform-style:preserve-3d}
+.review-card:hover{transform:translateY(-2px);transition:transform .18s ease}
+@keyframes sm2-enter{from{transform:translateY(7px)}to{transform:translateY(0)}}
+@keyframes sm2-orbit-a{to{transform:rotate(360deg) translateX(3px) rotate(-360deg)}}
+@keyframes sm2-orbit-b{to{transform:rotate(-360deg) translateX(4px) rotate(360deg)}}
+html[data-theme="dark"] .sm2-overview,html[data-theme="dark"] .sm2-cycle-step{background:var(--x-paper,var(--paper));border-color:var(--x-line,var(--line))}
+@media(max-width:560px){.sm2-overview{grid-template-columns:repeat(3,minmax(0,1fr));padding:14px;gap:8px}.sm2-orbit{grid-column:1/-1;justify-self:center;width:60px;height:60px}.sm2-cycle{gap:6px}.sm2-cycle-step{padding:11px 9px}.sm2-cycle-step span{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.sm2-orbit i,.sm2-orbit b{animation:none}.sm2-cycle-step,.review-card,.review-card:hover{animation:none;transition:none;transform:none}}
+
+.sm2-history-block{margin:18px 0 22px;padding:15px 17px;border:1px solid var(--x-line,var(--line));background:var(--x-paper,var(--paper))}
+.sm2-history-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.sm2-history-heading b{font-size:14px;color:var(--x-ink,var(--ink))}
+.sm2-history-heading span{font-size:11px;color:var(--x-muted,var(--ink-soft))}
+.sm2-history{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:5px}
+.sm2-day{position:relative;display:grid;place-items:center;min-width:0;aspect-ratio:1;background:var(--x-canvas,var(--warm));border:1px solid var(--x-line,var(--line));transition:transform .16s ease}
+.sm2-day[data-level="1"]{background:#dcebdd;border-color:#c5dec9}.sm2-day[data-level="2"]{background:#b9d9c0;border-color:#a6cdae}.sm2-day[data-level="3"]{background:#7fb991;border-color:#6da980}.sm2-day[data-level="4"]{background:#377b50;border-color:#377b50}
+.sm2-day[data-level="4"] i{color:#fff}
+.sm2-day:hover{transform:translateY(-2px) scale(1.04)}
+ .sm2-day i{position:static;font-size:9px;font-style:normal;font-weight:700;color:var(--x-muted,var(--ink-faint));white-space:nowrap}
+.sm2-history{padding-bottom:0}
+.sm2-flip{min-width:0;height:118px;padding:0;border:0;background:transparent;color:var(--x-ink,var(--ink));perspective:850px;text-align:left;cursor:pointer}
+.sm2-flip-inner{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.sm2-flip.is-flipped .sm2-flip-inner{transform:rotateY(180deg)}
+.sm2-flip-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;padding:13px;border:1px solid var(--x-line,var(--line));background:var(--x-paper,var(--paper));backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 3px 12px #14261a0b}
+.sm2-flip-face b{font-size:10px;letter-spacing:.13em;color:var(--x-green,var(--accent))}
+.sm2-flip-face strong{font-size:15px;line-height:1.2}
+.sm2-flip-face small{font-size:11px;line-height:1.45;color:var(--x-muted,var(--ink-soft))}
+.sm2-flip-face em{font-size:10px;font-style:normal;color:var(--x-green,var(--accent));margin-top:auto}
+.sm2-flip-face.sm2-back{transform:rotateY(180deg);background:var(--x-dark,var(--ink));color:#fff}
+.sm2-flip-face.sm2-back small{color:#e0e9e2}
+.sm2-flip:focus-visible{outline:3px solid var(--x-green,var(--accent));outline-offset:4px}
+@media(max-width:560px){.sm2-history{gap:3px}.sm2-day i{font-size:8px}.sm2-flip{height:130px}.sm2-flip-face{padding:10px}.sm2-flip-face strong{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.sm2-day,.sm2-flip-inner{transition:none}.sm2-day:hover{transform:none}}

@@ -1,11 +1,14 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v64-experience';
+const CACHE = 'greenlight-k53-v72-learner-cockpit-v2';
 const CORE = [
   './',
   './index.html',
   './assets/product.css?v=37',
   './assets/neutral-redesign.css?v=9',
   './assets/experience-rebuild.css?v=14',
+  './assets/sm2-experience.css?v=3',
+  './assets/experience-finish.css?v=2',
+  './assets/spaced-repetition.js?v=1',
   './assets/fonts/fonts.css',
   './assets/fonts/inter-var.woff2',
   './assets/fonts/barlowcondensed-700.woff2',
@@ -120,10 +123,12 @@ const CORE = [
   './assets/decision/engine.js?v=33',
   './assets/decision/model.js',
   './assets/decision/model.js?v=33',
+  './assets/decision/model.js?v=34',
   './assets/decision/practice.css',
   './assets/decision/practice.css?v=33',
   './assets/decision/practice.js',
   './assets/decision/practice.js?v=33',
+  './assets/decision/practice.js?v=34',
   './assets/decision/session.js',
   './assets/decision/session.js?v=33',
   './assets/decision/sources.js',

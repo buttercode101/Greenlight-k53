@@ -18,6 +18,71 @@ assert.equal(visual.chipColor,'rgb(180, 200, 184)','next-move metadata chips mus
 assert(visual.displayFont,'home display heading must have a computed font');
 
 record('Home visual contract: dark-panel contrast, editorial font and collapsed evidence disclosure');
+
+const cockpitContract=await p.evaluate(()=>{
+ const link=document.querySelector('link[href*="experience-finish.css?v=2"]');
+ const root=document.documentElement;
+ const topic=document.querySelector('.x-topic');
+ const command=document.querySelector('.x-command');
+ return {
+  linked:!!link&&!!link.sheet,
+  topicRadius:topic&&getComputedStyle(topic).borderRadius,
+  commandRadius:command&&getComputedStyle(command).borderRadius,
+  topicCount:document.querySelectorAll('.x-topic').length,
+  headingFont:getComputedStyle(document.querySelector('.x-welcome h1')).fontFamily,
+  lightCanvas:getComputedStyle(root).getPropertyValue('--gl-canvas').trim()
+ };
+});
+assert(cockpitContract.linked,'learner cockpit v2 stylesheet must load');
+assert.equal(cockpitContract.topicCount,3,'all three learning pathways must be present');
+assert.equal(cockpitContract.topicRadius,'5px','learning pathways must use the deliberate low-radius surface system');
+assert(cockpitContract.headingFont.includes('Barlow Condensed'),'learner journey must use the editorial display face');
+assert(cockpitContract.lightCanvas,'light theme canvas token must resolve');
+await p.setViewportSize({width:320,height:568});
+const mobileCockpit=await p.evaluate(()=>({
+ columns:getComputedStyle(document.querySelector('.x-topics')).gridTemplateColumns.split(' ').length,
+ commandColumns:getComputedStyle(document.querySelector('.x-command')).gridTemplateColumns.split(' ').length,
+ bodyWidth:document.documentElement.scrollWidth,
+ viewport:innerWidth
+}));
+assert.equal(mobileCockpit.columns,1,'320px learner pathways must stack');
+assert.equal(mobileCockpit.commandColumns,1,'320px next-move panel must stack');
+assert(mobileCockpit.bodyWidth<=mobileCockpit.viewport,'320px cockpit must not overflow');
+
+await p.setViewportSize({width:390,height:844});
+const dockFit=await p.evaluate(()=>{
+ const command=document.querySelector('.x-command').getBoundingClientRect();
+ const dock=document.querySelector('.product-nav').getBoundingClientRect();
+ return {commandBottom:command.bottom,dockTop:dock.top,sideHeight:document.querySelector('.x-command-side').getBoundingClientRect().height};
+});
+assert(dockFit.commandBottom<=dockFit.dockTop-4,'390px next-move panel must finish before the fixed navigation dock: '+JSON.stringify(dockFit));
+
+await p.setViewportSize({width:1440,height:900});
+const desktopCockpit=await p.evaluate(()=>({
+ columns:getComputedStyle(document.querySelector('.x-topics')).gridTemplateColumns.split(' ').length,
+ commandColumns:getComputedStyle(document.querySelector('.x-command')).gridTemplateColumns.split(' ').length
+}));
+assert.equal(desktopCockpit.columns,3,'desktop learner pathways must use three balanced columns');
+assert.equal(desktopCockpit.commandColumns,2,'desktop next-move panel must use two deliberate columns');
+
+await p.setViewportSize({width:1024,height:768});
+const tabletCockpit=await p.evaluate(()=>{
+ const grid=document.querySelector('.x-topics'),last=grid?.lastElementChild;
+ return {columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,lastSpan:getComputedStyle(last).gridColumn};
+});
+assert.equal(tabletCockpit.columns,2,'1024px desktop/tablet learner pathways must use two balanced columns');
+assert.equal(tabletCockpit.lastSpan,'1 / -1','third pathway must occupy the full second row at tablet desktop width');
+
+await p.evaluate(()=>document.documentElement.dataset.theme='dark');
+const darkCockpit=await p.evaluate(()=>({
+ canvas:getComputedStyle(document.documentElement).getPropertyValue('--gl-canvas').trim(),
+ surface:getComputedStyle(document.querySelector('.x-topic')).backgroundColor,
+ ink:getComputedStyle(document.querySelector('.x-topic-copy b')).color
+}));
+assert.notEqual(darkCockpit.canvas,cockpitContract.lightCanvas,'dark canvas must differ from light canvas');
+assert.notEqual(darkCockpit.surface,'rgba(0, 0, 0, 0)','dark topic surface must remain painted');
+record('Learner cockpit v2: linked/offline-ready styles, three pathways, editorial type, 320px and 1440px composition, dark theme');
+
 const a11yRoutes=['home','learn','tests','session1','session2','session3','practice','mock','sim','flash','row','memory','journey','sources','checklist','signlibrary','situations','concepts','practical','rhd','revision','review','cheat'];
 for(const theme of ['light','dark']){
  for(const route of a11yRoutes){
@@ -28,7 +93,7 @@ for(const theme of ['light','dark']){
  }
 }
 const views=['home','learn','tests','session1','session2','session3','practice','mock','sim','flash','row','memory','journey','sources','checklist','signlibrary','situations','concepts','practical','rhd','revision','review','cheat'];
-for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[768,1024],[834,1194],[1024,768],[1366,900],[1920,1080],[844,390]])for(const theme of ['light','dark']){await p.setViewportSize({width,height});for(const go of views){await visit(p,go);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);const g=await geometry(p);assert(!g.overflow&&g.wide.length===0&&g.small.length===0&&g.broken.length===0,JSON.stringify({width,height,theme,go,...g}));const violations=await p.evaluate(()=>window.__policy);assert.deepEqual(violations,[],go+' must obey CSP');out.screens.push({width,height,theme,view:go,...g});if([390,1366].includes(width))await p.screenshot({path:path.join(outDir,`${go}-${width}-${theme}.png`),fullPage:false,animations:"disabled"});}console.log('screen matrix',width,height,theme)}
+for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[768,1024],[834,1194],[1024,768],[1366,900],[1920,1080],[844,390]])for(const theme of ['light','dark']){await p.setViewportSize({width,height});for(const go of views){await visit(p,go);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);const g=await geometry(p);assert(!g.overflow&&g.wide.length===0&&g.small.length===0&&g.broken.length===0,JSON.stringify({width,height,theme,go,...g}));const violations=await p.evaluate(()=>window.__policy);assert.deepEqual(violations,[],go+' must obey CSP');out.screens.push({width,height,theme,view:go,...g});if([390,1366].includes(width)||(width===1024&&go==='home'))await p.screenshot({path:path.join(outDir,`${go}-${width}-${theme}.png`),fullPage:false,animations:"disabled"});}console.log('screen matrix',width,height,theme)}
 record('506 screens: no horizontal overflow, broken images, tiny controls, page errors or CSP violations');
 await p.setViewportSize({width:390,height:844});await visit(p);assert.equal(await p.locator('.drive-entry').count(),0);assert.deepEqual(await p.locator('.product-nav button').allTextContents(),['Home','Learn','Practise','Mock','Test Day']);assert.equal(await p.locator('.product-nav [data-go="drive"]').count(),0);assert.equal(await p.locator('.x-topic').count(),3);assert.equal(await p.locator('.x-quick>button').count(),4);await p.locator('.product-nav [data-go="learn"]').click();await p.locator('.x-lesson-list [data-go="session2"]').click();assert.equal(await p.locator('.product-nav [aria-current="page"]').innerText(),'Learn');await p.locator('.product-nav [data-go="tests"]').click();assert.equal(await p.locator('.x-assessment-pair article').count(),2);assert.equal(await p.locator('.product-nav [aria-current="page"]').innerText(),'Mock');await p.locator('.product-nav [data-go="practice"]').click();await p.locator('#decisionTimed').waitFor();assert.equal(await p.locator('#roadPracticeTitle').innerText(),'Drive');assert.equal(await p.locator('.topbar').count(),1);assert(await p.locator('#decisionPracticePanel').evaluate(e=>e.previousElementSibling.id==='sectionDrills'));assert.equal(await p.locator('.drive-more').getAttribute('open'),null);assert.equal(await p.locator('.drive-quick [data-decision-mode]').count(),3);await p.locator('.drive-more > summary').click();record('Task navigation, dedicated Learn/Tests hubs and secondary Drive placement preserve learner hierarchy');
 await p.locator('[data-decision-mode="signs"]').click();const id=await p.locator('[data-question-id]').getAttribute('data-question-id');await p.locator('#themeBtn').click();assert.equal(await p.locator('[data-question-id]').getAttribute('data-question-id'),id);assert.equal(await p.locator('.topbar .ti').count(),3);record('Theme switch keeps the active decision and uses reliable SVG controls');
@@ -40,6 +105,81 @@ await visit(p,'journey');await p.locator('#testDate').fill('2026-12-01');await p
 for(const view of ['home','practice','journey','memory','mock']){await p.setViewportSize({width:640,height:450});await visit(p,view);const g=await geometry(p);assert(!g.overflow&&g.wide.length===0,JSON.stringify({zoom:2,cssViewport:'640x450',view,...g}));}record('200% zoom-equivalent 640×450 viewport reflows Home, Drive, planning, memory and mock screens');
 for(const stored of [{attempts:{bad:null},review:[null],bookmarks:{bad:null}},{sessions:'bad',mastery:'bad',mockResults:'bad',secPass:'bad',practicalDone:'bad',codeProgress:'bad'},{attempts:{bad:{q:'<img src=x onerror="window.pwned=1">',topic:'<img src=x onerror="window.pwned=2">',correct:1,wrong:1}},review:[],bookmarks:{}}]){await p.evaluate(s=>localStorage.setItem('k53ww_v2',JSON.stringify(s)),stored);await visit(p);assert.equal(await p.locator('.x-welcome').count(),1);assert.equal(await p.evaluate(()=>window.pwned||false),false);assert.equal(await p.locator('#app img[src="x"]').count(),0);}record('Malformed saved progress recovers; stored markup stays inert');
 await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.textContent='window.pwned=1';document.body.append(s)});assert.equal(await p.evaluate(()=>window.pwned||false),false);assert((await p.evaluate(()=>window.__policy)).includes('script-src-elem'));record('CSP blocks injected executable inline scripts');
-await p.goto('http://127.0.0.1:8088/study-guide.html');await p.evaluate(()=>window.print=()=>window.printed=true);await p.locator('#printGuide').click();assert.equal(await p.evaluate(()=>window.printed),true);assert.deepEqual(await p.evaluate(()=>window.__policy),[]);record('Printable guide works under the enforced security policy');
+
+ // Exercise the populated SM-2 review surface, not only its empty state.
+ await visit(p);
+ await p.evaluate(()=>{
+  const state=JSON.parse(localStorage.getItem('k53ww_v2')||'{}');
+  state.vehicleCode='2';
+  const q={id:'ui-sm2-fixture',key:'ui-sm2-fixture',q:'When should a learner check the mirrors?',opts:['Before changing direction','Only after stopping'],ans:0,ex:'Observe before changing direction.',topic:'Observation',code:'2'};
+  window.GreenLightSM2.recordToReview(state,q,false,Date.now()-3*window.GreenLightSM2.DAY,'ui-sm2-fixture-event');
+  const oldDate=new Date(Date.now()-20*window.GreenLightSM2.DAY);
+  const oldKey=[oldDate.getFullYear(),String(oldDate.getMonth()+1).padStart(2,'0'),String(oldDate.getDate()).padStart(2,'0')].join('-');
+  state.sm2.days[oldKey]={attempts:9,correct:9,wrong:0};
+  for(const [offset,attempts] of [[5,4],[7,7],[9,10]]){
+   const date=new Date(Date.now()-offset*window.GreenLightSM2.DAY);
+   const key=[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-');
+   state.sm2.days[key]={attempts,correct:attempts-1,wrong:1};
+  }
+  state.review.push({key:'ui-legacy-review',q:'What should you do before moving off?',a:'Observe all around',opts:['Accelerate immediately','Observe all around'],ans:1,ex:'Observe before moving.',due:Date.now()+window.GreenLightSM2.DAY,level:1,misses:1,code:'2'});
+  localStorage.setItem('k53ww_v2',JSON.stringify(state));
+ });
+ await visit(p,'review');
+ await p.locator('.sm2-overview').waitFor();
+ const entranceOpacity=await p.locator('.review-card').first().evaluate(el=>getComputedStyle(el).opacity);
+ assert.equal(entranceOpacity,'1','review entrance motion must preserve text contrast at every frame');
+ assert.equal(await p.locator('.sm2-day').count(),14,'review activity heatmap has 14 days');
+ for(const level of ['1','2','3','4'])assert(await p.locator('.sm2-day[data-level="'+level+'"]').count()>0,'heatmap includes intensity level '+level);
+ assert.equal(await p.locator('[data-sm2-flip]').count(),3,'review guide has three interactive interval cards');
+ assert(await p.locator('#reviewStart').isVisible(),'due question is actionable');
+ const metrics=await p.locator('.sm2-metric strong').allTextContents();
+ assert.deepEqual(metrics,['1','2','1'],'dashboard counts due, legacy scheduled and SM-2 attempts consistently');
+ assert.match(await p.locator('.block .lead').first().innerText(),/1 ready now · 1 scheduled for later · 2 concepts/,'legacy review items remain in the learner queue');
+ assert.match(await p.locator('.sm2-history-heading').innerText(),/Last 14 days · 22 recorded answers/,'heatmap total reflects only its 14-day window');
+ const reviewThemes={};
+ for(const theme of ['light','dark']){
+  await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);
+  await p.setViewportSize({width:390,height:844});
+  const paint=await p.evaluate(()=>({
+   linked:!!document.querySelector('link[href*="experience-finish.css"]'),
+   background:getComputedStyle(document.querySelector('.sm2-overview')).backgroundColor,
+   foreground:getComputedStyle(document.querySelector('.sm2-metric strong')).color
+  }));
+  assert(paint.linked,'final interaction stylesheet must load as a real stylesheet');
+  assert.notEqual(paint.background,paint.foreground,'review metrics need distinct surface and text colours');
+  reviewThemes[theme]=paint;
+  const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
+  if(scan.violations.length){
+   const computed=await p.evaluate(()=>[...document.querySelectorAll('.review-card .t>span,.review-card .d>summary,.review-card .btn-soft,.review-card .footnote')].map(el=>({tag:el.tagName,cls:el.className,text:(el.textContent||'').slice(0,90),color:getComputedStyle(el).color,background:getComputedStyle(el).backgroundColor,opacity:getComputedStyle(el).opacity,parentBackground:getComputedStyle(el.parentElement).backgroundColor,grandBackground:getComputedStyle(el.parentElement.parentElement).backgroundColor,matchesFinish:el.matches('#app .review-card .btn-soft')||el.matches('#app .review-card .footnote')})));
+   const details=scan.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,checks:n.any.map(a=>a.data)}))}));
+   out.violations.push({theme,details,computed});
+   fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));
+  }
+  assert.equal(scan.violations.length,0,theme+'/review populated SM-2 WCAG 2.1 AA violations: '+JSON.stringify(out.violations.at(-1)||scan.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))));
+  for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[768,1024],[1024,768],[1366,900],[1920,1080],[844,390]]){
+   await p.setViewportSize({width,height});
+   const g=await geometry(p);
+   assert(!g.overflow&&g.wide.length===0&&g.small.length===0&&g.broken.length===0,JSON.stringify({theme,width,height,route:'review-populated',...g}));
+   out.screens.push({width,height,theme,view:'review-populated',...g});
+   if([390,1366].includes(width))await p.screenshot({path:path.join(outDir,`review-populated-${width}-${theme}.png`),fullPage:false,animations:'disabled'});
+  }
+ }
+ assert.notEqual(reviewThemes.light.background,reviewThemes.dark.background,'light and dark review surfaces must visibly differ');
+ await p.setViewportSize({width:390,height:844});
+ const actionLayout=await p.evaluate(()=>{
+  const cta=document.getElementById('reviewStart')?.getBoundingClientRect();
+  const guide=document.querySelector('.sm2-cycle')?.getBoundingClientRect();
+  return {ctaTop:cta?.top,ctaBottom:cta?.bottom,guideTop:guide?.top,viewport:innerHeight};
+ });
+ assert(actionLayout.ctaTop<actionLayout.guideTop,'primary review action must precede the 3D explainer');
+ assert(actionLayout.ctaBottom<actionLayout.viewport-60,'primary review action must remain above the mobile dock');
+ await p.locator('[data-sm2-flip]').first().click();
+ assert.equal(await p.locator('[data-sm2-flip]').first().getAttribute('aria-pressed'),'true','interval card activation updates its accessible state');
+ await p.setViewportSize({width:320,height:568});
+ const backFace=await p.locator('[data-sm2-flip]').first().locator('.sm2-back').evaluate(el=>({scroll:el.scrollHeight,client:el.clientHeight}));
+ assert(backFace.scroll<=backFace.client+1,'3D recall explanation must fit inside its card at 320px');
+ record('Populated SM-2 review: light/dark contrast, AA accessibility, 20 responsive states and interactive 3D cards',{states:20});
+
+ await p.goto('http://127.0.0.1:8088/study-guide.html');await p.evaluate(()=>window.print=()=>window.printed=true);await p.locator('#printGuide').click();assert.equal(await p.evaluate(()=>window.printed),true);assert.deepEqual(await p.evaluate(()=>window.__policy),[]);record('Printable guide works under the enforced security policy');
 assert.deepEqual(out.errors,[]);fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.log('PASS',out.screens.length,'responsive screens;',out.checks.length,'interaction/security checks');await browser.close();server.close();
 })().catch(async e=>{out.failure=e.stack;fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.error(e);await browser?.close();server.close();process.exitCode=1});

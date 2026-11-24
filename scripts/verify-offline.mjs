@@ -37,6 +37,15 @@ async function dispatch(type, request) {
 }
 await dispatch('install');
 assert(entries.has(key('./index.html')) && entries.has(key('./assets/signs/hill.svg')));
+assert(entries.has(key('./assets/spaced-repetition.js?v=1')) && entries.has(key('./assets/sm2-experience.css?v=3')) && entries.has(key('./assets/experience-finish.css?v=2')), 'SM-2 engine and consolidated learner cockpit UI must be precached for offline use');
+for (const path of ['assets/decision/practice.js','assets/decision/engine.js','assets/decision/session.js','assets/decision/model.js']) {
+  const source = readFileSync(path, 'utf8');
+  const imports = [...source.matchAll(/from\s*["'](\.\/[^"']+)["']/g)].map(match => match[1]);
+  for (const dependency of imports) {
+    assert(entries.has(key('./assets/decision/' + dependency.slice(2))), path + ' dependency missing from offline precache: ' + dependency);
+  }
+}
+
 const navigation = { url: origin + '/', method: 'GET', mode: 'navigate' };
 assert.equal((await dispatch('fetch', navigation)).body, 'network:' + origin + '/');
 online = false;

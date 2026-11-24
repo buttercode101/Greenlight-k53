@@ -8,10 +8,24 @@ import assert from 'node:assert/strict';
 // The decision engine (assets/decision/*) is a separate ES module set.
 const html = fs.readFileSync('index.html', 'utf8');
 const sw = fs.readFileSync('sw.js', 'utf8');
-const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
-  .filter(m => !m[0].includes('application/ld+json'));
+const finishCss = fs.readFileSync('assets/experience-finish.css', 'utf8');
+const sm2Css = fs.readFileSync('assets/sm2-experience.css', 'utf8');
+assert(!sm2Css.includes('from{opacity:0;transform:translateY(7px)}'), 'Review card entrance motion must not fade text below contrast thresholds');
+assert(!html.includes('>\\n<link'), 'HTML must not contain literal escaped newlines between stylesheet tags');
+assert(!finishCss.includes(String.fromCharCode(92) + 'n'), 'Final CSS must not contain literal escaped newlines');
+assert(html.includes('<link rel="stylesheet" href="./assets/experience-finish.css?v=2">'), 'Consolidated final experience stylesheet must be a real HTML link');
+assert(finishCss.includes('--gl-canvas:#f3f1e9') && finishCss.includes('.x-welcome') && finishCss.includes('.x-command'), 'Consolidated learner cockpit v2 tokens and dashboard rules must exist');
+assert(finishCss.includes('#app #connectionLabel') && finishCss.includes('font-size:11px!important'), 'Connectivity status must retain readable contrast and type size');
+assert(finishCss.includes('#app .x-assessment-learn .kicker') && finishCss.includes('#app .x-assessment-learn p:not(.kicker)'), 'Learning mock card text must remain readable on its light surface');
+assert(finishCss.includes('html[data-theme="dark"] #app .x-assessment-learn button{color:#14241a!important}'), 'Learning mock action must use dark text on its dark-theme mint button');
+assert(finishCss.includes('html[data-theme="dark"] #app .btn-primary') && finishCss.includes('html[data-theme="dark"] #app .btn-ok'), 'Dark-theme primary actions must use a high-contrast label on mint fills');
+assert(finishCss.includes('grid-template-areas:"label value" "track track" "foot foot"'), 'Mobile practice meter must compact above the fixed navigation dock');
+assert(finishCss.includes('#app .reader-tools label') && finishCss.includes('#app .reader-page{color:var(--gl-muted)!important}'), 'Reader labels and pagination must use the accessible semantic text token');
+
+const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+  .filter(m => !/\bsrc=/.test(m[1]) && !/application\/ld\+json/.test(m[1]));
 assert.equal(scripts.length, 2, 'Expected data and view inline scripts');
-for (const m of scripts) assert.doesNotThrow(() => new vm.Script(m[1]), 'Inline script must parse');
+for (const m of scripts) assert.doesNotThrow(() => new vm.Script(m[2]), 'Inline script must parse');
 assert(!html.includes('database-loader.js'), 'Dead database loader must not run');
 assert(!html.includes('<iframe'), 'App must not embed another app via iframe');
 assert(html.includes('https://k53.skillcert.co.za/'), 'Canonical URL must match production');
@@ -19,7 +33,7 @@ assert(html.includes('https://k53.skillcert.co.za/'), 'Canonical URL must match 
 // Engine reconnection wiring (DESIGN_SYSTEM.md §8.2) — all 7 journeys.
 assert(html.includes('./assets/product.css?v=37'), 'product.css must be linked');
 assert(html.includes('./assets/decision/practice.css?v=33'), 'practice.css must be linked');
-assert(html.includes("import('./assets/decision/practice.js?v=33')"), 'practice.js must be dynamically imported');
+assert(html.includes("import('./assets/decision/practice.js?v=34')"), 'practice.js must be dynamically imported');
 assert(html.includes('./manifest.webmanifest'), 'Manifest link missing');
 assert(html.includes('serviceWorker'), 'Service worker registration missing');
 assert(html.includes("updateViaCache:'none'"), 'SW must revalidate itself');
@@ -32,8 +46,9 @@ for (const go of ['mock:openMock', 'session1:openSession1', 'session3:openSessio
   assert(html.includes(go), 'Deep link route missing: ' + go);
 assert(html.includes('unknownGoNotice'), 'Unknown ?go= must land on Home with a notice');
 assert(html.includes("STORE='k53ww_v2'") || html.includes('k53ww_v2'), 'Canonical progress store missing');
-assert(sw.includes("CACHE = 'greenlight-k53-v64-experience'"), 'SW cache must be bumped for the neutral UI release');
-assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=9') && sw.includes('./assets/experience-rebuild.css?v=14') && sw.includes('./assets/decision/practice.js?v=33'), 'SW precache versions must match the shell and include neutral UI');
+assert(sw.includes("CACHE = 'greenlight-k53-v72-learner-cockpit-v2'"), 'SW cache must be bumped for the learner cockpit v2 release');
+assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=9') && sw.includes('./assets/experience-rebuild.css?v=14') && sw.includes('./assets/decision/practice.js?v=34') && sw.includes('./assets/spaced-repetition.js?v=1') && sw.includes('./assets/sm2-experience.css?v=3') && sw.includes('./assets/experience-finish.css?v=2'), 'SW precache versions must match the shell and include consolidated learner cockpit v2');
+assert(html.includes('./assets/experience-finish.css?v=2'), 'Final experience stylesheet must be linked');
 assert(html.includes('./assets/neutral-redesign.css?v=9'), 'Neutral UI stylesheet must be linked after the existing product styles');
 
 // Sign learning: registered SVG art, never emoji-only cards; honest progress.
