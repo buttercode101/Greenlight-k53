@@ -2097,7 +2097,7 @@ function bindGo(root,options={}){
 let decisionModule=null,decisionLoading=false;
 function practiceHeader(title,back='practice'){currentArea='practice';let bar=backbar(title).replace('class="backbar no-print"','class="backbar practice-back no-print"');if(back==='practice')bar=bar.replace('<button data-go="home"','<button data-go="practice"').replace('Back to home','Back to Practise');return bar;}
 function decisionBridge(){return {root:app,state:K.state,save:K.save,touch:K.touch,header:practiceHeader,bind:(scope=app)=>bindGo(scope,{decision:true}),toggleTheme:K.toggleTheme,speak:speakText,stopSpeech,storageStatus:showStorageStatus,openPractice,openDecision};}
-async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=33');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
+async function loadDecisionModule(){decisionModule=decisionModule||await import('./assets/decision/practice.js?v=34');K.decisionQuestions=topic=>decisionModule.getPracticeQuestions(topic,K.state.vehicleCode);K.recordDecisionQuestion=(q,ok)=>{decisionModule.recordChoiceAttempt(K.state,q,ok);K.touch();K.save();};return decisionModule;}
 function showRoadPracticeRecovery(){const slot=document.getElementById('practiceResumeSlot');if(slot&&K.state.vehicleCode==='2')loadDecisionModule().then(module=>{if(slot.isConnected)module.renderResumeNotice(decisionBridge(),slot);}).catch(()=>{});}
 async function openDecision(args={}){
   if(decisionLoading)return;
