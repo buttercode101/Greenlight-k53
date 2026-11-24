@@ -48,6 +48,7 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
   state.vehicleCode='2';
   const q={id:'ui-sm2-fixture',key:'ui-sm2-fixture',q:'When should a learner check the mirrors?',opts:['Before changing direction','Only after stopping'],ans:0,ex:'Observe before changing direction.',topic:'Observation',code:'2'};
   window.GreenLightSM2.recordToReview(state,q,false,Date.now()-3*window.GreenLightSM2.DAY,'ui-sm2-fixture-event');
+  state.review.push({key:'ui-legacy-review',q:'What should you do before moving off?',a:'Observe all around',opts:['Accelerate immediately','Observe all around'],ans:1,ex:'Observe before moving.',due:Date.now()+window.GreenLightSM2.DAY,level:1,misses:1,code:'2'});
   localStorage.setItem('k53ww_v2',JSON.stringify(state));
  });
  await visit(p,'review');
@@ -55,6 +56,10 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
  assert.equal(await p.locator('.sm2-day').count(),14,'review activity heatmap has 14 days');
  assert.equal(await p.locator('[data-sm2-flip]').count(),3,'review guide has three interactive interval cards');
  assert(await p.locator('#reviewStart').isVisible(),'due question is actionable');
+ const metrics=await p.locator('.sm2-metric strong').allTextContents();
+ assert.deepEqual(metrics,['1','2','1'],'dashboard counts due, legacy scheduled and SM-2 attempts consistently');
+ assert.match(await p.locator('.block .lead').first().innerText(),/1 ready now · 1 scheduled for later · 2 concepts/,'legacy review items remain in the learner queue');
+ assert.match(await p.locator('.sm2-history-heading').innerText(),/Last 14 days · 1 recorded answer/,'heatmap total reflects only its 14-day window');
  const reviewThemes={};
  for(const theme of ['light','dark']){
   await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);
