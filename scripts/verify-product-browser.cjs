@@ -89,6 +89,9 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
  await p.setViewportSize({width:390,height:844});
  await p.locator('[data-sm2-flip]').first().click();
  assert.equal(await p.locator('[data-sm2-flip]').first().getAttribute('aria-pressed'),'true','interval card activation updates its accessible state');
+ await p.setViewportSize({width:320,height:568});
+ const backFace=await p.locator('[data-sm2-flip]').first().locator('.sm2-back').evaluate(el=>({scroll:el.scrollHeight,client:el.clientHeight}));
+ assert(backFace.scroll<=backFace.client+1,'3D recall explanation must fit inside its card at 320px');
  record('Populated SM-2 review: light/dark contrast, AA accessibility, 20 responsive states and interactive 3D cards',{states:20});
 
  await p.goto('http://127.0.0.1:8088/study-guide.html');await p.evaluate(()=>window.print=()=>window.printed=true);await p.locator('#printGuide').click();assert.equal(await p.evaluate(()=>window.printed),true);assert.deepEqual(await p.evaluate(()=>window.__policy),[]);record('Printable guide works under the enforced security policy');
