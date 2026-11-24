@@ -354,3 +354,7 @@ html[data-theme="dark"] #app .x-assessment-timed button{
 
 /* Dark-mode primary actions use the dark ink on the light signal-green fill. */
 html[data-theme="dark"] #app .btn-primary{color:#14241a!important}
+
+
+/* Test-day checklist targets are full 24px controls, not tiny 19px boxes. */
+#app .task-row input{width:24px!important;height:24px!important;min-width:24px!important;min-height:24px!important;margin-top:0!important}
