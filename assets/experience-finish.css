@@ -633,3 +633,30 @@ html[data-theme="dark"] #app .review-card :where(.kicker,.lead,label,.reader-cou
   #app .product-nav button{font-size:10px!important}
   #app .x-lesson-list>button{min-height:124px!important}
 }
+
+
+/* Touch ergonomics and tablet composition: final cross-route interaction rules. */
+@media (min-width:561px) and (max-width:850px){
+  #app .x-topics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #app .x-topic:last-child{grid-column:1/-1!important}
+}
+#app .theme-toggle,#app .speak,#app .backbar button{
+  width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;
+}
+#app .product-nav button{min-height:48px!important}
+#app .x-code,#app .x-command .x-primary,#app .x-assessment button,
+#app .x-library-links button,#app .btn,#app .opt,
+#app input:not([type="range"]),#app select,#app textarea{
+  min-height:44px!important;
+}
+#app .backbar button{display:grid!important;place-items:center!important;padding:0!important}
+#app :where(button,a,summary,input,select,textarea){
+  scroll-margin-block:calc(88px + env(safe-area-inset-top)) calc(104px + env(safe-area-inset-bottom));
+}
+@media(max-width:560px){
+  #app .product-nav button{min-height:52px!important}
+  #app .backbar button{width:44px!important;height:44px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #app .opt.correct,#app .opt.wrong{animation:none!important}
+}
