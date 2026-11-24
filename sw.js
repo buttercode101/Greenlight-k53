@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v76-drive-touch-targets';
+const CACHE = 'greenlight-k53-v77-pwa-touch-target-entry';
 const CORE = [
   './',
   './index.html',
