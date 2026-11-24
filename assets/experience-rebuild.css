@@ -337,3 +337,16 @@ html[data-theme="dark"] #app .x-assessment-timed button{
  #app .brand::before{width:24px;height:28px}
  #app .product-nav button[aria-current="page"]{box-shadow:inset 0 3px 0 var(--x-green)!important;padding-left:2px!important}
 }
+
+
+/* Compact header controls at the narrowest supported phones. */
+@media(max-width:380px){
+ #app>.app-header .topbar{gap:6px!important;min-width:0!important}
+ #app .topbar .brand{flex:1 1 auto!important;min-width:0!important;white-space:nowrap!important}
+ #app .topbar .brand small{display:none!important}
+ #app .topbar .brand::before{width:21px!important;height:25px!important}
+ #app .topbar .speak,#app .topbar #topbarInstall,#app .topbar .theme-toggle{
+  width:34px!important;height:34px!important;min-width:34px!important;flex:none!important
+ }
+ #app .topbar #topbarInstall{padding:0!important}
+}
