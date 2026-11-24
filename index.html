@@ -1406,9 +1406,9 @@ function openReview(){
   const reviewable=visible.filter(({r})=>r.decisionId||(Array.isArray(r.opts)&&r.opts.length>1&&Number.isInteger(r.ans)));
   const queueTotal=reviewable.length;
   const scheduledCount=Math.max(0,queueTotal-due.length);
-  const recentAttempts=(sm2Stats.daily||[]).reduce((n,day)=>n+day.attempts,0);
   const dailyMap=new Map((sm2Stats.daily||[]).map(day=>[day.date,day]));
   const heatmap=Array.from({length:14},(_,i)=>{const date=new Date();date.setHours(12,0,0,0);date.setDate(date.getDate()-(13-i));const key=[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-');const day=dailyMap.get(key)||{attempts:0,correct:0,wrong:0};return {key,label:date.toLocaleDateString('en-ZA',{weekday:'long',day:'numeric'}),...day};});
+  const recentAttempts=heatmap.reduce((n,day)=>n+day.attempts,0);
   const reviewMarkup=({r,i})=>`<article class="mini review-card"><div class="t"><span>${safeHTML(r.q)}</span></div>${r.svg?`<div class="review-art">${reviewArt(r.svg)}</div>`:''}<details class="d"><summary>Answer and saved question options</summary><p>Answer: ${safeHTML(r.a)}</p><button class="review-remove" data-remove="${i}" type="button" aria-label="Remove saved question">Remove from review</button></details>${r.decisionId||(Array.isArray(r.opts)&&Number.isInteger(r.ans))?`<button class="btn btn-soft review-retry" data-retry="${i}" type="button">Retry this question →</button>`:''}<p class="footnote">${r.due<=Date.now()?'Ready to retry':`Next review ${new Date(r.due).toLocaleDateString('en-ZA')}`}</p></article>`;
   const bookmarks=Object.values(K.state.bookmarks).filter(b=>visibleForCode(b.q));
   app.innerHTML=backbar('Review')+`<div class="block">
