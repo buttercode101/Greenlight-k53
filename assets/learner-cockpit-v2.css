@@ -13,7 +13,7 @@
   --gl-green:#1d6849;
   --gl-green-strong:#145438;
   --gl-green-soft:#e1ede4;
-  --gl-forest:#17271e;
+  --gl-forest:#17231d;
   --gl-forest-2:#203b2c;
   --gl-signal:#b9e4c5;
   --gl-amber:#956313;
@@ -90,7 +90,7 @@ body{background:var(--gl-canvas)!important;color:var(--gl-ink)!important}
   display:grid!important;grid-template-columns:minmax(0,1.5fr) minmax(220px,.7fr)!important;
   gap:28px!important;align-items:stretch!important;margin:26px 0 36px!important;
   padding:clamp(24px,3.4vw,42px)!important;border:1px solid #254735!important;border-radius:6px!important;
-  background:linear-gradient(112deg,var(--gl-forest),var(--gl-forest-2))!important;
+  background-color:var(--gl-forest)!important;background-image:linear-gradient(112deg,var(--gl-forest),var(--gl-forest-2))!important;
   color:#f4f6ef!important;box-shadow:var(--gl-shadow)!important;
 }
 #app .x-command:before{
@@ -108,7 +108,7 @@ body{background:var(--gl-canvas)!important;color:var(--gl-ink)!important}
 #app .x-command-main h2{
   max-width:19ch!important;margin:9px 0 13px!important;
   font:700 clamp(30px,3.4vw,48px)/.99 'Barlow Condensed','Arial Narrow',sans-serif!important;
-  letter-spacing:-.025em!important;color:#fbfcf7!important;
+  letter-spacing:-.025em!important;color:#f5f6f0!important;
 }
 #app .x-command-main>p:not(.kicker){max-width:58ch!important;color:#d4e0d5!important;font-size:14px!important;line-height:1.7!important}
 #app .x-command .x-primary{
@@ -122,7 +122,7 @@ body{background:var(--gl-canvas)!important;color:var(--gl-ink)!important}
   position:relative!important;display:flex!important;flex-direction:column!important;justify-content:center!important;
   min-width:0!important;padding:20px 0 20px 28px!important;border-left:1px solid rgba(223,241,225,.2)!important;
 }
-#app .x-side-label{color:#bdd3c2!important;font-size:10px!important;letter-spacing:.14em!important;font-weight:750!important}
+#app .x-side-label{color:#b4c8b8!important;font-size:10px!important;letter-spacing:.14em!important;font-weight:750!important}
 #app .x-command-side>strong{
   display:flex!important;align-items:baseline!important;gap:7px!important;margin:13px 0 14px!important;
   color:#fff!important;font:700 clamp(42px,5vw,64px)/.9 'Barlow Condensed','Arial Narrow',sans-serif!important;
