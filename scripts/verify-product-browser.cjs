@@ -48,6 +48,15 @@ const mobileCockpit=await p.evaluate(()=>({
 assert.equal(mobileCockpit.columns,1,'320px learner pathways must stack');
 assert.equal(mobileCockpit.commandColumns,1,'320px next-move panel must stack');
 assert(mobileCockpit.bodyWidth<=mobileCockpit.viewport,'320px cockpit must not overflow');
+
+await p.setViewportSize({width:390,height:844});
+const dockFit=await p.evaluate(()=>{
+ const command=document.querySelector('.x-command').getBoundingClientRect();
+ const dock=document.querySelector('.product-nav').getBoundingClientRect();
+ return {commandBottom:command.bottom,dockTop:dock.top,sideHeight:document.querySelector('.x-command-side').getBoundingClientRect().height};
+});
+assert(dockFit.commandBottom<=dockFit.dockTop-4,'390px next-move panel must finish before the fixed navigation dock: '+JSON.stringify(dockFit));
+
 await p.setViewportSize({width:1440,height:900});
 const desktopCockpit=await p.evaluate(()=>({
  columns:getComputedStyle(document.querySelector('.x-topics')).gridTemplateColumns.split(' ').length,
