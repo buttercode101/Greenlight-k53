@@ -1,12 +1,12 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v70-experience-finish';
+const CACHE = 'greenlight-k53-v71-experience-finish';
 const CORE = [
   './',
   './index.html',
   './assets/product.css?v=37',
   './assets/neutral-redesign.css?v=9',
   './assets/experience-rebuild.css?v=14',
-  './assets/sm2-experience.css?v=2',
+  './assets/sm2-experience.css?v=3',
   './assets/experience-finish.css?v=1',
   './assets/spaced-repetition.js?v=1',
   './assets/fonts/fonts.css',
