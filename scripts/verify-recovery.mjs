@@ -68,7 +68,7 @@ const corrupt = [
   { index: save.ids.length },
   { index: -1 },
   { answers: answered.answers, phase: 'answer' },
-  { answers: [{ ...answered.answers[0], id: 'S02' }], phase: 'reveal' },
+  { answers: [{ ...answered.answers[0], id: q0.id === 'S02' ? 'S01' : 'S02' }], phase: 'reveal' },
   { answers: [{ ...answered.answers[0], choice: 99 }], phase: 'reveal' },
   { answers: [{ ...answered.answers[0], full: true, timedOut: true }], phase: 'reveal' },
   { options: [0, 0, 1, 2] },
