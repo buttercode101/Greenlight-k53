@@ -536,3 +536,24 @@ html[data-theme="dark"] #app .x-assessment-learn button{color:#14241a!important}
 
 html[data-theme="dark"] #app .btn-primary,
 html[data-theme="dark"] #app .btn-ok{color:#14241a!important}
+
+/* On phones, the practice meter becomes a compact inline instrument so the
+   bottom dock never covers the useful part of the next-move panel. */
+@media(max-width:850px){
+  #app .x-command-side{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-areas:"label value" "track track" "foot foot"!important;
+    align-items:center!important;
+    gap:7px 12px!important;
+    padding:12px 0 0!important;
+  }
+  #app .x-side-label{grid-area:label!important}
+  #app .x-command-side>strong{
+    grid-area:value!important;
+    margin:0!important;
+    font-size:34px!important;
+  }
+  #app .x-track{grid-area:track!important}
+  #app .x-side-foot{grid-area:foot!important;margin:0!important}
+}
