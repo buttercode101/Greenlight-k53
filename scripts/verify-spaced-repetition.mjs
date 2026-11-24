@@ -23,6 +23,7 @@ assert.equal(sm2.getDueItems(state, row.nextReview - 1, "2").length, 0);
 assert.equal(sm2.getDueItems(state, row.nextReview, "2").length, 1);
 assert.equal(sm2.getDueItems(state, row.nextReview, "1").length, 0, "code-specific questions stay within their selected vehicle code");
 assert.equal(sm2.getStats(state, row.nextReview, "2").total, 1);
+assert.equal(sm2.getStats(state, row.nextReview, "2").daily.reduce((n,d)=>n+d.attempts,0), 4, "daily activity counts each unique answer event");
 const shared = {}; sm2.recordAnswer(shared, { q: "Shared road rule", opts: ["A", "B"], ans: 0 }, true, t0, "shared");
 assert.equal(sm2.getDueItems(shared, t0 + sm2.DAY, "1").length, 1, "shared questions remain available across codes");
 const queueState = {};
