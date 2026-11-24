@@ -350,3 +350,7 @@ html[data-theme="dark"] #app .x-assessment-timed button{
  }
  #app .topbar #topbarInstall{padding:0!important}
 }
+
+
+/* Dark-mode primary actions use the dark ink on the light signal-green fill. */
+html[data-theme="dark"] #app .btn-primary{color:#14241a!important}
