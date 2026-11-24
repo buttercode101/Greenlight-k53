@@ -106,6 +106,21 @@ await p.locator('.kicker').first().waitFor({timeout:60000});
 assert.match(await p.locator('.kicker').first().innerText(),/question 3 of 10/i);
 assert(await p.locator('.opt').first().isVisible());
 record('Session-1 check starts, answers two questions and advances');
+// Promote the just-recorded SM-2 items to due state in a controlled fixture;
+// this tests the actual learner UI without waiting a calendar day.
+const scheduled=await p.evaluate(()=>{const s=JSON.parse(localStorage.getItem('k53ww_v2')||'{}');const ids=Object.keys(s.sm2?.items||{});for(const item of Object.values(s.sm2?.items||{}))item.nextReview=Date.now()-1000;for(const row of s.review||[])row.due=Date.now()-1000;localStorage.setItem('k53ww_v2',JSON.stringify(s));return ids.length;});
+assert(scheduled>0,'answering practice questions should create SM-2 schedules');
+await goto();
+await p.locator('.x-quick [data-go="review"]').click();
+await p.locator('.sm2-overview').waitFor({timeout:60000});
+assert.equal(await p.locator('.sm2-day').count(),14,'14-day activity heatmap');
+assert.equal(await p.locator('[data-sm2-flip]').count(),3,'three interactive interval cards');
+assert(await p.locator('#reviewStart').isVisible(),'due queue should be actionable');
+await p.locator('[data-sm2-flip]').first().click();
+assert.equal(await p.locator('[data-sm2-flip]').first().getAttribute('aria-pressed'),'true','3D interval card flips on activation');
+assert.equal(await p.locator('[data-sm2-flip].is-flipped .sm2-back').count(),1,'back face is revealed');
+{const g=await geometry(p);assert(!g.overflow,'review overflow at 390px');assert.deepEqual(g.broken,[],'review broken images');}
+record('SM-2 due review, 14-day activity heatmap and accessible 3D interval cards work');
 await goto();
 await goNav('tests');
 await p.locator('[data-go="mock"]').first().click();
@@ -116,7 +131,7 @@ assert(await p.locator('#mockSec').isVisible());
 record('Mock hub renders with timed, untimed and section start buttons');
 if(process.env.K53_BROWSER_MATRIX==='1'){
  out.layouts=[];
- for(const route of ['home','learn','practice','tests','checklist']){
+ for(const route of ['home','learn','practice','tests','review','checklist']){
   await goto();
   if(route!=='home') await goNav(route);
   for(const width of [320,390,768,1024,1440]){
