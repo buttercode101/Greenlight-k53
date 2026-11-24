@@ -51,6 +51,11 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
   const oldDate=new Date(Date.now()-20*window.GreenLightSM2.DAY);
   const oldKey=[oldDate.getFullYear(),String(oldDate.getMonth()+1).padStart(2,'0'),String(oldDate.getDate()).padStart(2,'0')].join('-');
   state.sm2.days[oldKey]={attempts:9,correct:9,wrong:0};
+  for(const [offset,attempts] of [[5,4],[7,7],[9,10]]){
+   const date=new Date(Date.now()-offset*window.GreenLightSM2.DAY);
+   const key=[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-');
+   state.sm2.days[key]={attempts,correct:attempts-1,wrong:1};
+  }
   state.review.push({key:'ui-legacy-review',q:'What should you do before moving off?',a:'Observe all around',opts:['Accelerate immediately','Observe all around'],ans:1,ex:'Observe before moving.',due:Date.now()+window.GreenLightSM2.DAY,level:1,misses:1,code:'2'});
   localStorage.setItem('k53ww_v2',JSON.stringify(state));
  });
@@ -59,12 +64,13 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
  const entranceOpacity=await p.locator('.review-card').first().evaluate(el=>getComputedStyle(el).opacity);
  assert.equal(entranceOpacity,'1','review entrance motion must preserve text contrast at every frame');
  assert.equal(await p.locator('.sm2-day').count(),14,'review activity heatmap has 14 days');
+ for(const level of ['1','2','3','4'])assert(await p.locator('.sm2-day[data-level="'+level+'"]').count()>0,'heatmap includes intensity level '+level);
  assert.equal(await p.locator('[data-sm2-flip]').count(),3,'review guide has three interactive interval cards');
  assert(await p.locator('#reviewStart').isVisible(),'due question is actionable');
  const metrics=await p.locator('.sm2-metric strong').allTextContents();
  assert.deepEqual(metrics,['1','2','1'],'dashboard counts due, legacy scheduled and SM-2 attempts consistently');
  assert.match(await p.locator('.block .lead').first().innerText(),/1 ready now · 1 scheduled for later · 2 concepts/,'legacy review items remain in the learner queue');
- assert.match(await p.locator('.sm2-history-heading').innerText(),/Last 14 days · 1 recorded answer/,'heatmap total reflects only its 14-day window');
+ assert.match(await p.locator('.sm2-history-heading').innerText(),/Last 14 days · 22 recorded answers/,'heatmap total reflects only its 14-day window');
  const reviewThemes={};
  for(const theme of ['light','dark']){
   await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);
