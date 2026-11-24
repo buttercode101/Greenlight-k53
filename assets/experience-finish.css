@@ -832,3 +832,34 @@ body {
     min-width: 0;
   }
 }
+
+
+/* Touch-target calibration — primary controls and disclosure summaries
+   retain a 44px minimum without enlarging compact decorative elements. */
+#app .topbar .theme-toggle,
+#app .topbar .speak {
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  min-height:44px!important;
+}
+#app .lesson-tabs button {
+  min-height:44px!important;
+}
+#app :where(details > summary) {
+  min-height:44px!important;
+  padding-block:8px!important;
+}
+#app .pwa-card {
+  padding-right:56px!important;
+}
+#app .pwa-close {
+  top:0!important;
+  right:0!important;
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  min-height:44px!important;
+  border-radius:10px!important;
+  font-size:16px!important;
+}
