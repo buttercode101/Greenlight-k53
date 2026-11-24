@@ -1359,7 +1359,7 @@ function recordAttempt(q,ok){
     if(history.length>300)history.splice(0,history.length-300);
   }
   K.state.attempts[key]=row;
-  if(window.GreenLightSM2)window.GreenLightSM2.recordToReview(K.state,{key,questionId:key,q:q.q,opts:q.opts,ans:q.ans,a:q.opts?.[q.ans],ex:q.ex||"",svg:q.svg||"",topic:row.topic,code:K.state.vehicleCode},!!ok,now);
+  if(window.GreenLightSM2)window.GreenLightSM2.recordToReview(K.state,{key,questionId:key,q:q.q,opts:q.opts,ans:q.ans,a:q.opts?.[q.ans],ex:q.ex||"",svg:q.svg||"",topic:row.topic,code:questionCode(q)||""},!!ok,now);
   K.save();syncPracticeProgress();
 }
 function bookmarkButton(q){
