@@ -95,6 +95,13 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
  }
  assert.notEqual(reviewThemes.light.background,reviewThemes.dark.background,'light and dark review surfaces must visibly differ');
  await p.setViewportSize({width:390,height:844});
+ const actionLayout=await p.evaluate(()=>{
+  const cta=document.getElementById('reviewStart')?.getBoundingClientRect();
+  const guide=document.querySelector('.sm2-cycle')?.getBoundingClientRect();
+  return {ctaTop:cta?.top,ctaBottom:cta?.bottom,guideTop:guide?.top,viewport:innerHeight};
+ });
+ assert(actionLayout.ctaTop<actionLayout.guideTop,'primary review action must precede the 3D explainer');
+ assert(actionLayout.ctaBottom<actionLayout.viewport-60,'primary review action must remain above the mobile dock');
  await p.locator('[data-sm2-flip]').first().click();
  assert.equal(await p.locator('[data-sm2-flip]').first().getAttribute('aria-pressed'),'true','interval card activation updates its accessible state');
  await p.setViewportSize({width:320,height:568});
