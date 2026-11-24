@@ -578,3 +578,10 @@ html[data-theme="dark"] #app .btn-ok{color:#14241a!important}
 #app .reader-tools label,
 #app .reader-count,
 #app .reader-page{color:var(--gl-muted)!important}
+
+
+/* WCAG correction: populated SM-2 review metadata sits on a raised dark card.
+   The global muted token is too low-contrast against that card surface. */
+html[data-theme="dark"] #app .review-card :where(.kicker,.lead,label,.reader-count,.reader-page){
+  color:#edf3ed!important;
+}
