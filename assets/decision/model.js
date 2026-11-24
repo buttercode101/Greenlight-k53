@@ -127,6 +127,7 @@ export function record(state, q, answer, eventId, now = Date.now()) {
   d.xp += gained;
   const event = { answer: structuredClone(answer), gained, at: now };
   d.events[eventId] = event;
+  if (globalThis.GreenLightSM2) globalThis.GreenLightSM2.recordToReview(state, { ...item, topic: topicLabel[q.topic], code: "2" }, answer.full, now, "drive:" + eventId);
   const keys = Object.keys(d.events);
   if (keys.length > 2000)
     for (const k of keys.slice(0, keys.length - 2000)) delete d.events[k];
