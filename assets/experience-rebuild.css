@@ -302,3 +302,10 @@ html[data-theme=dark] #app .opt.wrong{background:#492824;color:#ffd0c8}
 /* AA contrast correction: muted copy remains subdued without becoming faint. */
 :root{--x-muted:#606c63}
 html[data-theme="dark"]{--x-muted:#a6b2a8}
+
+
+/* Secondary labels inside soft action tiles inherit a real text contrast,
+   rather than the softer decorative accent colour from the legacy theme. */
+#app .btn-soft .sub,#app .section-drill-grid .sub,#app [data-decision-mode] .sub{
+ color:var(--x-ink)!important;opacity:.88!important
+}
