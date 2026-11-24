@@ -179,6 +179,7 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
  const reviewThemes={};
  for(const theme of ['light','dark']){
   await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);
+  await p.waitForTimeout(250);
   await p.setViewportSize({width:390,height:844});
   const paint=await p.evaluate(()=>({
    linked:!!document.querySelector('link[href*="experience-finish.css"]'),
