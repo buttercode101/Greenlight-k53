@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v73-type-scale-calibration';
+const CACHE = 'greenlight-k53-v74-viewport-containment';
 const CORE = [
   './',
   './index.html',
@@ -7,7 +7,7 @@ const CORE = [
   './assets/neutral-redesign.css?v=9',
   './assets/experience-rebuild.css?v=14',
   './assets/sm2-experience.css?v=3',
-  './assets/experience-finish.css?v=3',
+  './assets/experience-finish.css?v=4',
   './assets/spaced-repetition.js?v=1',
   './assets/fonts/fonts.css',
   './assets/fonts/inter-var.woff2',
