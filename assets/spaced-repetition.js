@@ -103,6 +103,28 @@
       row.question.q && row.question.opts.length > 1 && row.question.ans >= 0
     ).sort((a, b) => a.nextReview - b.nextReview || a.lastReviewed - b.lastReviewed);
   }
+  function recordToReview(state, question, correct, now = Date.now(), eventId = "") {
+    const q = object(question);
+    const row = recordAnswer(state, q, correct, now, eventId);
+    if (!row) return null;
+    state.review = Array.isArray(state.review) ? state.review : [];
+    const id = row.id;
+    const key = cleanText(q.key) || (q.decisionId ? "decision:" + q.decisionId : id);
+    let saved = state.review.find(item => item && item.key === key);
+    const clean = sanitizeQuestion(q);
+    if (!saved) {
+      saved = { key, q: clean.q, a: clean.a, opts: clean.opts, ans: clean.ans, ex: clean.ex, svg: clean.svg, topic: clean.topic, code: clean.code, decisionId: clean.decisionId || undefined, level: 0, misses: 0, due: row.nextReview };
+      state.review.push(saved);
+    }
+    Object.assign(saved, {
+      q: clean.q, a: clean.a, opts: clean.opts, ans: clean.ans, ex: clean.ex,
+      svg: clean.svg, topic: clean.topic, code: clean.code,
+      decisionId: clean.decisionId || saved.decisionId,
+      level: row.repetitions, misses: row.lapses, due: row.nextReview,
+      sm2Id: id,
+    });
+    return row;
+  }
   function getStats(state, now = Date.now(), code = "") {
     const rows = Object.values(ensure(state).items).filter(row => !code || !row.question.code || row.question.code === String(code));
     const due = rows.filter(row => isDue(row, now));
@@ -119,5 +141,5 @@
     }
     return { total: rows.length, due: due.length, scheduled: future.length, attempts: accuracyAttempts, lapses, byTopic: Object.values(byTopic).sort((a,b)=>b.due-a.due || b.lapses-a.lapses) };
   }
-  root.GreenLightSM2 = Object.freeze({ VERSION, DAY, MAX_INTERVAL, questionId, ensure, recordAnswer, isDue, getDueItems, getStats });
+  root.GreenLightSM2 = Object.freeze({ VERSION, DAY, MAX_INTERVAL, questionId, ensure, recordAnswer, recordToReview, isDue, getDueItems, getStats });
 })(globalThis);
