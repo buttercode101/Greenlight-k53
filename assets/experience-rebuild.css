@@ -315,3 +315,25 @@ html[data-theme="dark"]{--x-muted:#a6b2a8}
 html[data-theme="dark"] #app .x-assessment-timed button{
  color:#14241a!important
 }
+
+
+/* GreenLight's signature mark: a quiet road-line glyph, used as a real
+   brand anchor rather than adding decorative icons to every card. */
+#app .brand{display:flex!important;align-items:center!important;gap:9px!important}
+#app .brand::before{
+ content:"";display:inline-block;flex:none;width:27px;height:32px;border-radius:5px;
+ background-color:var(--x-green);
+ background-image:repeating-linear-gradient(to bottom,rgba(255,255,255,.92) 0 5px,transparent 5px 10px);
+ background-size:2px 22px;background-position:center;background-repeat:no-repeat;
+ box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)
+}
+#app .brand small{margin-top:7px!important}
+#app .product-nav button{position:relative!important;transition:background .16s ease,color .16s ease,padding .16s ease!important}
+#app .product-nav button[aria-current="page"]{
+ box-shadow:inset 3px 0 0 var(--x-green)!important;
+ padding-left:18px!important
+}
+@media(max-width:850px){
+ #app .brand::before{width:24px;height:28px}
+ #app .product-nav button[aria-current="page"]{box-shadow:inset 0 3px 0 var(--x-green)!important;padding-left:2px!important}
+}
