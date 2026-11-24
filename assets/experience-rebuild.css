@@ -309,3 +309,9 @@ html[data-theme="dark"]{--x-muted:#a6b2a8}
 #app .btn-soft .sub,#app .section-drill-grid .sub,#app [data-decision-mode] .sub{
  color:var(--x-ink)!important;opacity:.88!important
 }
+
+
+/* Light sage action buttons need dark foregrounds in dark mode too. */
+html[data-theme="dark"] #app .x-assessment-timed button{
+ color:#14241a!important
+}
