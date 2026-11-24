@@ -393,3 +393,20 @@ html[data-theme="dark"] #app .btn-primary{color:#14241a!important}
   filter:none!important;transform:none!important;contain:none!important
  }
 }
+
+
+/* Align the desktop rail with the content grid; cancel the legacy
+   full-bleed header margin that otherwise clips its left edge. */
+@media(min-width:851px){
+ #app>.app-header{margin:0!important}
+}
+/* Keep the wordmark as one word and make the mark read as a road,
+   not a punctuation glyph. */
+#app .brand{gap:0!important}
+#app .brand::before{
+ margin-right:9px!important;
+ background-image:
+  linear-gradient(to right,transparent 5px,rgba(255,255,255,.82) 5px 7px,transparent 7px 20px,rgba(255,255,255,.82) 20px 22px,transparent 22px),
+  repeating-linear-gradient(to bottom,rgba(255,255,255,.96) 0 4px,transparent 4px 9px)!important;
+ background-size:27px 32px!important;background-position:center!important;background-repeat:no-repeat!important
+}
