@@ -372,3 +372,13 @@ html[data-theme="dark"] #app .btn-primary{color:#14241a!important}
 @media(max-width:850px){
  #app>.app-header .topbar .theme-toggle{margin-top:0!important;align-self:center!important}
 }
+
+
+/* Keep the mobile theme switch in the safe top control zone, never under
+   the fixed bottom task dock or an expanded content section. */
+@media(max-width:850px){
+ #app>.app-header .topbar .theme-toggle{
+  position:fixed!important;top:12px!important;right:14px!important;z-index:130!important;
+  margin:0!important;align-self:center!important
+ }
+}
