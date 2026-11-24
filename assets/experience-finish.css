@@ -504,3 +504,15 @@ html[data-theme="dark"] #app .opt.wrong{background:#4a2925!important;color:#ffd5
   letter-spacing:.02em!important;
   line-height:1.4!important;
 }
+
+/* Tablet desktop: keep the pathway compact without squeezing the rail. */
+@media (min-width:851px) and (max-width:1100px){
+  #app .x-topics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #app .x-topic:last-child{grid-column:1/-1!important;min-height:100px!important}
+}
+/* Keep the primary next-step action on one clear line on narrow phones. */
+#app .x-command .x-primary{white-space:nowrap!important;gap:12px!important}
+#app .x-command .x-primary span{flex:none!important}
+@media(max-width:560px){
+  #app .x-command .x-primary{font-size:12px!important}
+}
