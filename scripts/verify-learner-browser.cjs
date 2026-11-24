@@ -47,14 +47,14 @@ const hdrs=await p.evaluate(async()=>{const r=await fetch('/');return {status:r.
 for(const h of policy) assert.equal(hdrs[h.key.toLowerCase()],h.value,`header ${h.key}`);
 record('Security headers match vercel.json',{headers:policy.length});
 await goto();
-assert.match(await p.locator('#app h1').first().innerText(),/Make your next answer count/);
+assert.match(await p.locator('#app h1').first().innerText(),/Ready when/);
 assert.equal(await p.locator('.product-nav [data-go]').count(),5,'nav buttons');
-assert.equal(await p.locator('.path-card').count(),4,'home path cards');
-assert(await p.locator('.next-step .btn').first().isVisible(),'next-step CTA');
+assert.equal(await p.locator('.x-quick>button').count(),4,'home path cards');
+assert(await p.locator('.x-primary').first().isVisible(),'next-step CTA');
 {const g=await geometry(p);assert(!g.overflow,'home overflow');assert.deepEqual(g.broken,[],'home broken images');}
 record('Home renders with nav, path cards and next step, no overflow, no broken images');
 await goNav('learn');
-assert.match(await p.locator('#app h1').first().innerText(),/Learn the test topics/);
+assert.match(await p.locator('#app h1').first().innerText(),/Know it before/);
 assert.equal(await p.locator('[data-go="session1"]').count(),1);
 assert.equal(await p.locator('[data-go="session2"]').count(),1);
 assert.equal(await p.locator('[data-go="session3"]').count(),1);
@@ -74,7 +74,7 @@ record('Sign atlas search filters and reports the empty state');
 await goto();
 await p.evaluate(()=>{localStorage.clear()});
 await goto();
-await p.locator('.next-step .btn, [data-go="diagnostic"]').first().click();
+await p.locator('.x-primary, [data-go="diagnostic"]').first().click();
 await p.locator('#diagnosticStart').waitFor({timeout:60000});
 await p.locator('#diagnosticStart').click();
 for(let i=0;i<6;i++){
