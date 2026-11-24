@@ -31,7 +31,7 @@ html[data-theme="dark"] .sm2-overview,html[data-theme="dark"] .sm2-cycle-step{ba
 .sm2-history-heading b{font-size:14px;color:var(--x-ink,var(--ink))}
 .sm2-history-heading span{font-size:11px;color:var(--x-muted,var(--ink-soft))}
 .sm2-history{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:5px}
-.sm2-day{position:relative;display:grid;place-items:center;min-width:0;aspect-ratio:1;background:var(--x-canvas,var(--warm));border:1px solid var(--x-line,var(--line));transition:transform .16s ease,background .16s ease}
+.sm2-day{position:relative;display:grid;place-items:center;min-width:0;aspect-ratio:1;background:var(--x-canvas,var(--warm));border:1px solid var(--x-line,var(--line));transition:transform .16s ease}
 .sm2-day[data-level="1"]{background:#dcebdd;border-color:#c5dec9}.sm2-day[data-level="2"]{background:#b9d9c0;border-color:#a6cdae}.sm2-day[data-level="3"]{background:#7fb991;border-color:#6da980}.sm2-day[data-level="4"]{background:#377b50;border-color:#377b50}
 .sm2-day[data-level="4"] i{color:#fff}
 .sm2-day:hover{transform:translateY(-2px) scale(1.04)}
