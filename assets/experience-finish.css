@@ -557,3 +557,19 @@ html[data-theme="dark"] #app .btn-ok{color:#14241a!important}
   #app .x-track{grid-area:track!important}
   #app .x-side-foot{grid-area:foot!important;margin:0!important}
 }
+
+/* First-viewport mobile composition: keep the whole next move above the dock. */
+@media(max-width:560px){
+  #app .x-welcome{padding:32px 0 18px!important}
+  #app .x-command{padding:18px!important;gap:10px!important}
+  #app .x-command-main h2{
+    font-size:clamp(27px,8vw,34px)!important;
+    line-height:.94!important;
+    margin:7px 0 8px!important;
+  }
+  #app .x-command-main>p:not(.kicker){font-size:13px!important;line-height:1.5!important}
+  #app .x-command .x-primary{min-height:46px!important;margin-top:8px!important}
+  #app .x-command-side{padding-top:8px!important;gap:4px 10px!important}
+  #app .x-command-side>strong{font-size:30px!important}
+  #app .x-side-foot{font-size:11px!important;line-height:1.35!important}
+}
