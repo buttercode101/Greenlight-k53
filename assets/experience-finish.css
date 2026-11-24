@@ -1,0 +1,117 @@
+/* GreenLight — final interaction and responsive refinement.
+   Functional surfaces first: no glass panels, decorative gradients or layout-dependent animation. */
+:root{
+  --gl-focus:#176b43;
+  --gl-shadow:0 1px 2px rgba(22,36,27,.05),0 8px 24px rgba(22,36,27,.035);
+  --gl-ease:cubic-bezier(.2,.75,.25,1);
+  --gl-motion-fast:160ms;
+  --gl-motion:240ms;
+}
+html[data-theme="dark"]{
+  --gl-focus:#9bd6ad;
+  --gl-shadow:0 1px 2px rgba(0,0,0,.18),0 10px 28px rgba(0,0,0,.12);
+}
+#app{min-width:0;isolation:isolate}
+#app *{min-width:0}
+#app :where(h1,h2,h3,p,li,button,a,summary){overflow-wrap:anywhere}
+#app :where(.block,.mini,.stat,.lesson-card,.path-card,.review-card,.readiness-panel,.hero){
+  backface-visibility:hidden;
+}
+#app :where(.block,.mini,.stat,.lesson-card,.path-card,.review-card,.readiness-panel){
+  transition:border-color var(--gl-motion) var(--gl-ease),background-color var(--gl-motion) var(--gl-ease),box-shadow var(--gl-motion) var(--gl-ease);
+}
+#app :where(button,.btn,.opt,a,[role="button"]){
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+#app :where(button,.btn):not(:disabled){
+  transition:transform var(--gl-motion-fast) var(--gl-ease),box-shadow var(--gl-motion-fast) var(--gl-ease),background-color var(--gl-motion-fast) var(--gl-ease),border-color var(--gl-motion-fast) var(--gl-ease),color var(--gl-motion-fast) var(--gl-ease);
+}
+#app :where(button,.btn):not(:disabled):active{transform:translateY(1px) scale(.99)}
+#app :where(button,.btn):focus-visible,
+#app :where(a,summary,[tabindex]):focus-visible{
+  outline:3px solid var(--gl-focus)!important;
+  outline-offset:3px!important;
+}
+#app .opt:not(:disabled):hover{transform:translateX(3px)}
+#app .opt.correct{animation:gl-answer-correct 280ms var(--gl-ease) both}
+#app .opt.wrong{animation:gl-answer-wrong 260ms ease-out both}
+@keyframes gl-answer-correct{0%{transform:scale(.985)}65%{transform:scale(1.012)}100%{transform:scale(1)}}
+@keyframes gl-answer-wrong{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+#app .hero{position:relative;isolation:isolate}
+#app .hero-art{transform-style:preserve-3d;perspective:700px}
+#app .hero-art svg,#app .hero-art img{transform:translateZ(0);animation:gl-hero-settle 700ms var(--gl-ease) both}
+@keyframes gl-hero-settle{from{opacity:.65;transform:translateY(8px) rotateX(5deg)}to{opacity:1;transform:translateY(0) rotateX(0)}}
+#app .progress-bar i,#app .prog i{transition:width 520ms var(--gl-ease),background-color 220ms ease}
+#app .stat .n{font-variant-numeric:tabular-nums}
+#app .product-nav button[aria-current="page"]{position:relative}
+#app .product-nav button[aria-current="page"]:after{
+  content:"";position:absolute;left:18%;right:18%;bottom:4px;height:2px;
+  background:currentColor;transform-origin:left;animation:gl-nav-enter 220ms var(--gl-ease) both;
+}
+@keyframes gl-nav-enter{from{transform:scaleX(.25);opacity:.3}to{transform:scaleX(1);opacity:1}}
+#app .question-art,#app .review-art{perspective:700px}
+#app .question-art img,#app .review-art img{transform:translateZ(0);transition:transform 260ms var(--gl-ease),filter 260ms ease}
+#app .question-art img:hover,#app .review-art img:hover{transform:translateY(-2px) rotateY(-3deg) rotateX(2deg)}
+#app .cockpit-diagram{display:block;width:min(100%,560px);height:auto;overflow:visible}
+#app .cockpit-diagram [data-control]{cursor:pointer;transform-box:fill-box;transform-origin:center;transition:transform 180ms ease,filter 180ms ease}
+#app .cockpit-diagram [data-control]:hover,#app .cockpit-diagram [data-control]:focus{transform:translateY(-2px);filter:drop-shadow(0 3px 2px rgba(20,40,25,.18))}
+#app .empty-state{max-width:58ch;margin-inline:auto;text-wrap:pretty}
+#app .lead{max-width:66ch;text-wrap:pretty}
+#app .block{scroll-margin-top:120px}
+#app .mini p,#app .footnote{line-height:1.55}
+#app .sm2-overview{box-shadow:var(--gl-shadow)}
+#app .sm2-orbit{transform-style:preserve-3d}
+#app .sm2-orbit-core{box-shadow:0 4px 12px rgba(14,35,22,.16);transform:translateZ(10px)}
+#app .sm2-cycle-step{border-radius:var(--x-radius,7px)}
+#app .sm2-history-block{border-radius:var(--x-radius,7px)}
+#app .sm2-day{border-radius:3px}
+#app .sm2-day[data-level="1"]{background:#e4efe4}
+#app .sm2-day[data-level="2"]{background:#c5dfc9}
+#app .sm2-day[data-level="3"]{background:#8fbd9a}
+#app .sm2-day[data-level="4"]{background:#397e52}
+html[data-theme="dark"] #app .sm2-day{background:#202c24;border-color:#3a4b3e}
+html[data-theme="dark"] #app .sm2-day[data-level="1"]{background:#294333}
+html[data-theme="dark"] #app .sm2-day[data-level="2"]{background:#345b40}
+html[data-theme="dark"] #app .sm2-day[data-level="3"]{background:#427a52}
+html[data-theme="dark"] #app .sm2-day[data-level="4"]{background:#68a77a}
+#app .sm2-flip-face{border-radius:var(--x-radius,7px)}
+#app .sm2-flip-face.sm2-back{background:var(--x-dark,var(--ink))}
+@media(min-width:1100px){
+  #app .block{max-width:920px;margin-inline:auto}
+  #app .backbar{max-width:920px;margin-inline:auto}
+}
+@media(max-width:850px){
+  #app .block{scroll-margin-top:90px}
+  #app .hero{gap:clamp(14px,4vw,24px)}
+}
+@media(max-width:560px){
+  #app .sm2-overview{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #app .sm2-metric strong{font-size:clamp(20px,6vw,26px)}
+  #app .sm2-cycle{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #app .sm2-cycle-step{min-height:104px}
+  #app .sm2-flip{min-height:128px}
+  #app .question-art{max-width:min(100%,220px);margin-inline:auto}
+  #app .cockpit-diagram{max-height:58vh}
+}
+@media(max-width:360px){
+  #app .sm2-overview{padding:12px 10px;gap:6px}
+  #app .sm2-metric span{font-size:9px;letter-spacing:.045em}
+  #app .sm2-metric strong{font-size:20px}
+  #app .sm2-cycle-step{padding:9px 7px}
+  #app .sm2-cycle-step b{font-size:9px}
+  #app .sm2-cycle-step span{font-size:11px}
+  #app .sm2-cycle-step small{font-size:10px}
+}
+@media(max-height:520px) and (orientation:landscape){
+  #app .hero-art{min-height:90px}
+  #app .question-art{max-height:36vh}
+  #app .question-art img{max-height:36vh;width:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  #app *,#app *:before,#app *:after{
+    scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;transition-delay:0ms!important;
+  }
+  #app :where(button,.btn):active{transform:none}
+}
