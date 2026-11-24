@@ -495,3 +495,12 @@ html[data-theme="dark"] #app .opt.wrong{background:#4a2925!important;color:#ffd5
   #app *,#app *:before,#app *:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0ms!important}
   #app .x-topic:hover,#app .x-lesson-list>button:hover,#app .x-command .x-primary:hover{transform:none!important}
 }
+
+/* Connectivity status is functional information, not a faint brand caption. */
+#app #connectionLabel{
+  color:var(--gl-muted)!important;
+  font-size:11px!important;
+  font-weight:600!important;
+  letter-spacing:.02em!important;
+  line-height:1.4!important;
+}
