@@ -1,10 +1,11 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v50-neutral-ui';
+const CACHE = 'greenlight-k53-v51-experience';
 const CORE = [
   './',
   './index.html',
   './assets/product.css?v=37',
   './assets/neutral-redesign.css?v=9',
+  './assets/experience-rebuild.css?v=1',
   './assets/fonts/fonts.css',
   './assets/fonts/inter-var.woff2',
   './assets/fonts/barlowcondensed-700.woff2',
