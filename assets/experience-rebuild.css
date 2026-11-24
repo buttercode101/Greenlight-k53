@@ -358,3 +358,17 @@ html[data-theme="dark"] #app .btn-primary{color:#14241a!important}
 
 /* Test-day checklist targets are full 24px controls, not tiny 19px boxes. */
 #app .task-row input{width:24px!important;height:24px!important;min-width:24px!important;min-height:24px!important;margin-top:0!important}
+
+
+/* Display typography: self-hosted Barlow Condensed for a recognisable
+   road-learning voice; Inter remains the quiet, readable body face. */
+#app .brand{font-family:"Barlow Condensed",Inter,system-ui,sans-serif!important;font-weight:800!important;letter-spacing:-.025em!important}
+#app .x-welcome h1,#app .x-page-intro h1,#app .block h1,
+#app .x-command-main h2,#app .x-assessment h2,#app .x-lesson-list b,
+#app .x-progress-head h2,#app .x-library h2,#app .block h2{
+ font-family:"Barlow Condensed",Inter,system-ui,sans-serif!important;
+ font-weight:800!important;letter-spacing:-.025em!important
+}
+@media(max-width:850px){
+ #app>.app-header .topbar .theme-toggle{margin-top:0!important;align-self:center!important}
+}
