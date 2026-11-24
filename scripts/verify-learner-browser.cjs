@@ -120,6 +120,7 @@ await p.locator('[data-sm2-flip]').first().click();
 assert.equal(await p.locator('[data-sm2-flip]').first().getAttribute('aria-pressed'),'true','3D interval card flips on activation');
 assert.equal(await p.locator('[data-sm2-flip].is-flipped .sm2-back').count(),1,'back face is revealed');
 {const g=await geometry(p);assert(!g.overflow,'review overflow at 390px');assert.deepEqual(g.broken,[],'review broken images');}
+await p.screenshot({path:path.join(outDir,'review-3d-flipped.png'),fullPage:false});
 record('SM-2 due review, 14-day activity heatmap and accessible 3D interval cards work');
 await goto();
 await goNav('tests');
