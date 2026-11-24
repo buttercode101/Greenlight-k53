@@ -49,7 +49,7 @@
         question: sanitizeQuestion(row.question),
       }])),
       events: Object.fromEntries(Object.entries(events).filter(([id, at]) => typeof id === "string" && Number.isFinite(at)).slice(-2000)),
-      days: Object.fromEntries(Object.entries(days).filter(([day, row]) => /^\\d{4}-\\d{2}-\\d{2}$/.test(day) && row && Number.isFinite(row.attempts) && Number.isFinite(row.correct) && Number.isFinite(row.wrong)).sort(([a],[b])=>a.localeCompare(b)).slice(-90).map(([day,row])=>[day,{attempts:clamp(row.attempts,0,1000000),correct:clamp(row.correct,0,1000000),wrong:clamp(row.wrong,0,1000000)}])),
+      days: Object.fromEntries(Object.entries(days).filter(([day, row]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && row && Number.isFinite(row.attempts) && Number.isFinite(row.correct) && Number.isFinite(row.wrong)).sort(([a],[b])=>a.localeCompare(b)).slice(-90).map(([day,row])=>[day,{attempts:clamp(row.attempts,0,1000000),correct:clamp(row.correct,0,1000000),wrong:clamp(row.wrong,0,1000000)}])),
     };
     return state.sm2;
   }
