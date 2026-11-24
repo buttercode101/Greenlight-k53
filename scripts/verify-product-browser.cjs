@@ -20,7 +20,7 @@ assert(visual.displayFont,'home display heading must have a computed font');
 record('Home visual contract: dark-panel contrast, editorial font and collapsed evidence disclosure');
 
 const cockpitContract=await p.evaluate(()=>{
- const link=document.querySelector('link[href*="experience-finish.css?v=2"]');
+ const link=document.querySelector('link[href*="experience-finish.css"]');
  const root=document.documentElement;
  const topic=document.querySelector('.x-topic');
  const command=document.querySelector('.x-command');
@@ -81,7 +81,7 @@ const darkCockpit=await p.evaluate(()=>({
 }));
 assert.notEqual(darkCockpit.canvas,cockpitContract.lightCanvas,'dark canvas must differ from light canvas');
 assert.notEqual(darkCockpit.surface,'rgba(0, 0, 0, 0)','dark topic surface must remain painted');
-record('Learner cockpit v2: linked/offline-ready styles, three pathways, editorial type, 320px and 1440px composition, dark theme');
+record('Learner cockpit: linked/offline-ready styles, three pathways, editorial type, 320px and 1440px composition, dark theme');
 
 const a11yRoutes=['home','learn','tests','session1','session2','session3','practice','mock','sim','flash','row','memory','journey','sources','checklist','signlibrary','situations','concepts','practical','rhd','revision','review','cheat'];
 for(const theme of ['light','dark']){
