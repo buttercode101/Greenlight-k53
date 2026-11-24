@@ -32,8 +32,9 @@ for (const go of ['mock:openMock', 'session1:openSession1', 'session3:openSessio
   assert(html.includes(go), 'Deep link route missing: ' + go);
 assert(html.includes('unknownGoNotice'), 'Unknown ?go= must land on Home with a notice');
 assert(html.includes("STORE='k53ww_v2'") || html.includes('k53ww_v2'), 'Canonical progress store missing');
-assert(sw.includes("CACHE = 'greenlight-k53-v66-sm2'"), 'SW cache must be bumped for the neutral UI release');
-assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=9') && sw.includes('./assets/experience-rebuild.css?v=14') && sw.includes('./assets/decision/practice.js?v=34') && sw.includes('./assets/spaced-repetition.js?v=1') && sw.includes('./assets/sm2-experience.css?v=1'), 'SW precache versions must match the shell and include neutral UI');
+assert(sw.includes("CACHE = 'greenlight-k53-v67-experience-finish'"), 'SW cache must be bumped for the neutral UI release');
+assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=9') && sw.includes('./assets/experience-rebuild.css?v=14') && sw.includes('./assets/decision/practice.js?v=34') && sw.includes('./assets/spaced-repetition.js?v=1') && sw.includes('./assets/sm2-experience.css?v=1') && sw.includes('./assets/experience-finish.css?v=1'), 'SW precache versions must match the shell and include neutral UI');
+assert(html.includes('./assets/experience-finish.css?v=1'), 'Final experience stylesheet must be linked');
 assert(html.includes('./assets/neutral-redesign.css?v=9'), 'Neutral UI stylesheet must be linked after the existing product styles');
 
 // Sign learning: registered SVG art, never emoji-only cards; honest progress.
