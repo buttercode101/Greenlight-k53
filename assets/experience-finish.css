@@ -13,7 +13,7 @@ html[data-theme="dark"]{
 }
 #app{min-width:0;isolation:isolate}
 #app *{min-width:0}
-#app :where(h1,h2,h3,p,li,button,a,summary){overflow-wrap:anywhere}
+#app :where(h1,h2,h3,p,li,summary){overflow-wrap:anywhere}\n#app :where(button,a){overflow-wrap:normal;word-break:normal}
 #app :where(.block,.mini,.stat,.lesson-card,.path-card,.review-card,.readiness-panel,.hero){
   backface-visibility:hidden;
 }
