@@ -8,8 +8,8 @@ import assert from 'node:assert/strict';
 // The decision engine (assets/decision/*) is a separate ES module set.
 const html = fs.readFileSync('index.html', 'utf8');
 const sw = fs.readFileSync('sw.js', 'utf8');
-const scripts = [...html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)]
-  .filter(m => !/\\bsrc=/.test(m[1]) && !/application\\/ld\\+json/.test(m[1]));
+const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+  .filter(m => !/\bsrc=/.test(m[1]) && !/application\/ld\+json/.test(m[1]));
 assert.equal(scripts.length, 2, 'Expected data and view inline scripts');
 for (const m of scripts) assert.doesNotThrow(() => new vm.Script(m[2]), 'Inline script must parse');
 assert(!html.includes('database-loader.js'), 'Dead database loader must not run');
