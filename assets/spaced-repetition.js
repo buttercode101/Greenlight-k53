@@ -21,7 +21,7 @@
     if (typeof q === "string") return "gl:" + hash(q.trim().toLowerCase());
     q = object(q);
     const explicit = q.questionId || q.id || q.decisionId || q.reviewId;
-    if (typeof explicit === "string" && explicit.trim()) return explicit.startsWith("decision:") ? explicit : "gl:" + explicit.trim();
+    if (typeof explicit === "string" && explicit.trim()) return explicit.startsWith("decision:") ? explicit : "gl:" + hash(explicit.trim());
     const stableArt = cleanText(q.svg || q.sourceId || q.type);
     const prompt = cleanText(q.q || q.situation || q.ask).trim().toLowerCase().replace(/\s+/g, " ");
     const answer = cleanText(q.opts?.[q.ans] ?? q.a).trim().toLowerCase().replace(/\s+/g, " ");
@@ -78,7 +78,7 @@
     } else {
       repetitions = 0;
       interval = 1;
-      easeFactor = clamp(ease - 0.2, MIN_EASE, 3);
+      const quality = 1;\n      const delta = 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02);\n      easeFactor = clamp(ease + delta, MIN_EASE, 3);
     }
     const row = {
       id, repetitions, interval, easeFactor, nextReview: now + interval * DAY,
