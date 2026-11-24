@@ -17,6 +17,7 @@ assert(html.includes('<link rel="stylesheet" href="./assets/experience-finish.cs
 assert(finishCss.includes('--gl-canvas:#f3f1e9') && finishCss.includes('.x-welcome') && finishCss.includes('.x-command'), 'Consolidated learner cockpit v2 tokens and dashboard rules must exist');
 assert(finishCss.includes('#app #connectionLabel') && finishCss.includes('font-size:11px!important'), 'Connectivity status must retain readable contrast and type size');
 assert(finishCss.includes('#app .x-assessment-learn .kicker') && finishCss.includes('#app .x-assessment-learn p:not(.kicker)'), 'Learning mock card text must remain readable on its light surface');
+assert(finishCss.includes('html[data-theme="dark"] #app .x-assessment-learn button{color:#14241a!important}'), 'Learning mock action must use dark text on its dark-theme mint button');
 
 const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc=/.test(m[1]) && !/application\/ld\+json/.test(m[1]));
