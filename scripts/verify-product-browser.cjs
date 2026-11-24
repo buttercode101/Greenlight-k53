@@ -20,7 +20,7 @@ assert(visual.displayFont,'home display heading must have a computed font');
 record('Home visual contract: dark-panel contrast, editorial font and collapsed evidence disclosure');
 
 const cockpitContract=await p.evaluate(()=>{
- const link=document.querySelector('link[href*="learner-cockpit-v2.css"]');
+ const link=document.querySelector('link[href*="experience-finish.css?v=2"]');
  const root=document.documentElement;
  const topic=document.querySelector('.x-topic');
  const command=document.querySelector('.x-command');
