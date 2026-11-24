@@ -48,6 +48,9 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
   state.vehicleCode='2';
   const q={id:'ui-sm2-fixture',key:'ui-sm2-fixture',q:'When should a learner check the mirrors?',opts:['Before changing direction','Only after stopping'],ans:0,ex:'Observe before changing direction.',topic:'Observation',code:'2'};
   window.GreenLightSM2.recordToReview(state,q,false,Date.now()-3*window.GreenLightSM2.DAY,'ui-sm2-fixture-event');
+  const oldDate=new Date(Date.now()-20*window.GreenLightSM2.DAY);
+  const oldKey=[oldDate.getFullYear(),String(oldDate.getMonth()+1).padStart(2,'0'),String(oldDate.getDate()).padStart(2,'0')].join('-');
+  state.sm2.days[oldKey]={attempts:9,correct:9,wrong:0};
   state.review.push({key:'ui-legacy-review',q:'What should you do before moving off?',a:'Observe all around',opts:['Accelerate immediately','Observe all around'],ans:1,ex:'Observe before moving.',due:Date.now()+window.GreenLightSM2.DAY,level:1,misses:1,code:'2'});
   localStorage.setItem('k53ww_v2',JSON.stringify(state));
  });
