@@ -125,7 +125,8 @@ for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[
  const navCoversLast=!!(navRect&&lastRect&&lastRect.bottom>navRect.top+1&&lastRect.top<navRect.bottom-1);
  const tables=[...document.querySelectorAll('#app table')].filter(visible);
  const badTables=tables.filter(t=>{const cs=getComputedStyle(t);return t.scrollWidth>t.clientWidth+2&&!['auto','scroll'].includes(cs.overflowX)});
- const result={maxScroll:max,scrollY:scrolling.scrollTop,reachedBottom:scrolling.scrollTop>=max-1,navInsideViewport:!navRect||(navRect.top>=-1&&navRect.bottom<=innerHeight+1),navCoversLast,badTables:badTables.length};
+ const rect=r=>r&&({left:Math.round(r.left),top:Math.round(r.top),right:Math.round(r.right),bottom:Math.round(r.bottom),width:Math.round(r.width),height:Math.round(r.height)});
+ const result={maxScroll:max,scrollY:scrolling.scrollTop,reachedBottom:scrolling.scrollTop>=max-1,navInsideViewport:!navRect||(navRect.top>=-1&&navRect.bottom<=innerHeight+1),navCoversLast,lastControl:last&&{tag:last.tagName,id:last.id,className:typeof last.className==='string'?last.className:'',text:(last.innerText||last.getAttribute('aria-label')||'').trim().slice(0,90),rect:rect(lastRect)},navRect:rect(navRect),appPaddingBottom:getComputedStyle(document.querySelector('#app')).paddingBottom,badTables:badTables.length};
  scrolling.scrollTop=0;
  if(priorBehavior)html.style.setProperty('scroll-behavior',priorBehavior,priorPriority);
  else html.style.removeProperty('scroll-behavior');
