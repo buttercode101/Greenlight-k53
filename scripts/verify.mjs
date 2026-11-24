@@ -16,6 +16,7 @@ assert(!finishCss.includes(String.fromCharCode(92) + 'n'), 'Final CSS must not c
 assert(html.includes('<link rel="stylesheet" href="./assets/experience-finish.css?v=2">'), 'Consolidated final experience stylesheet must be a real HTML link');
 assert(finishCss.includes('--gl-canvas:#f3f1e9') && finishCss.includes('.x-welcome') && finishCss.includes('.x-command'), 'Consolidated learner cockpit v2 tokens and dashboard rules must exist');
 assert(finishCss.includes('#app #connectionLabel') && finishCss.includes('font-size:11px!important'), 'Connectivity status must retain readable contrast and type size');
+assert(finishCss.includes('#app .x-assessment-learn .kicker') && finishCss.includes('#app .x-assessment-learn p:not(.kicker)'), 'Learning mock card text must remain readable on its light surface');
 
 const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc=/.test(m[1]) && !/application\/ld\+json/.test(m[1]));
