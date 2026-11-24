@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 const html = fs.readFileSync('index.html', 'utf8');
 const sw = fs.readFileSync('sw.js', 'utf8');
 const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
-  .filter(m => !m[0].includes('application/ld+json'));
+  .filter(m => !m[0].includes('application/ld+json') && !/\\bsrc=/.test(m[1]));
 assert.equal(scripts.length, 2, 'Expected data and view inline scripts');
 for (const m of scripts) assert.doesNotThrow(() => new vm.Script(m[1]), 'Inline script must parse');
 assert(!html.includes('database-loader.js'), 'Dead database loader must not run');
@@ -19,7 +19,7 @@ assert(html.includes('https://k53.skillcert.co.za/'), 'Canonical URL must match 
 // Engine reconnection wiring (DESIGN_SYSTEM.md §8.2) — all 7 journeys.
 assert(html.includes('./assets/product.css?v=37'), 'product.css must be linked');
 assert(html.includes('./assets/decision/practice.css?v=33'), 'practice.css must be linked');
-assert(html.includes("import('./assets/decision/practice.js?v=33')"), 'practice.js must be dynamically imported');
+assert(html.includes("import('./assets/decision/practice.js?v=34')"), 'practice.js must be dynamically imported');
 assert(html.includes('./manifest.webmanifest'), 'Manifest link missing');
 assert(html.includes('serviceWorker'), 'Service worker registration missing');
 assert(html.includes("updateViaCache:'none'"), 'SW must revalidate itself');
@@ -32,8 +32,8 @@ for (const go of ['mock:openMock', 'session1:openSession1', 'session3:openSessio
   assert(html.includes(go), 'Deep link route missing: ' + go);
 assert(html.includes('unknownGoNotice'), 'Unknown ?go= must land on Home with a notice');
 assert(html.includes("STORE='k53ww_v2'") || html.includes('k53ww_v2'), 'Canonical progress store missing');
-assert(sw.includes("CACHE = 'greenlight-k53-v64-experience'"), 'SW cache must be bumped for the neutral UI release');
-assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=9') && sw.includes('./assets/experience-rebuild.css?v=14') && sw.includes('./assets/decision/practice.js?v=33'), 'SW precache versions must match the shell and include neutral UI');
+assert(sw.includes("CACHE = 'greenlight-k53-v65-sm2'"), 'SW cache must be bumped for the neutral UI release');
+assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=9') && sw.includes('./assets/experience-rebuild.css?v=14') && sw.includes('./assets/decision/practice.js?v=34') && sw.includes('./assets/spaced-repetition.js?v=1') && sw.includes('./assets/sm2-experience.css?v=1'), 'SW precache versions must match the shell and include neutral UI');
 assert(html.includes('./assets/neutral-redesign.css?v=9'), 'Neutral UI stylesheet must be linked after the existing product styles');
 
 // Sign learning: registered SVG art, never emoji-only cards; honest progress.
