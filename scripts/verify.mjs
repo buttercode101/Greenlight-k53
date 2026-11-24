@@ -20,6 +20,7 @@ assert(finishCss.includes('#app .x-assessment-learn .kicker') && finishCss.inclu
 assert(finishCss.includes('html[data-theme="dark"] #app .x-assessment-learn button{color:#14241a!important}'), 'Learning mock action must use dark text on its dark-theme mint button');
 assert(finishCss.includes('html[data-theme="dark"] #app .btn-primary') && finishCss.includes('html[data-theme="dark"] #app .btn-ok'), 'Dark-theme primary actions must use a high-contrast label on mint fills');
 assert(finishCss.includes('grid-template-areas:"label value" "track track" "foot foot"'), 'Mobile practice meter must compact above the fixed navigation dock');
+assert(finishCss.includes('#app .reader-tools label') && finishCss.includes('#app .reader-page{color:var(--gl-muted)!important}'), 'Reader labels and pagination must use the accessible semantic text token');
 
 const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc=/.test(m[1]) && !/application\/ld\+json/.test(m[1]));
