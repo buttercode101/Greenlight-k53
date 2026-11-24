@@ -704,10 +704,6 @@ body {
   min-inline-size: 0;
   max-inline-size: 100%;
 }
-#app :where(.lesson-grid, .stat-grid, .status-grid, .section-drill-grid,
-  .reader-results, .atlas-toolbar, .x-topics, .x-lower, .sm2-overview, .sm2-cycle) {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-}
 #app :where(.hero, .x-welcome, .x-progress-head, .x-command,
   .x-command-main, .x-command-side, .x-evidence-score, .x-topic,
   .x-topic-progress, .reader-tools, .reader-pages, .atlas-toolbar,
@@ -724,7 +720,6 @@ body {
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: normal;
-  text-align: inherit;
 }
 #app :where(button, .btn, .opt, [role="button"]) > :where(span, small, strong, b) {
   min-width: 0;
