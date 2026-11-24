@@ -76,7 +76,13 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
   assert.notEqual(paint.background,paint.foreground,'review metrics need distinct surface and text colours');
   reviewThemes[theme]=paint;
   const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
-  assert.equal(scan.violations.length,0,theme+'/review populated SM-2 WCAG 2.1 AA violations: '+JSON.stringify(scan.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))));
+  if(scan.violations.length){
+   const computed=await p.evaluate(()=>[...document.querySelectorAll('.review-card .t>span,.review-card .d>summary,.review-card .btn-soft,.review-card .footnote')].map(el=>({tag:el.tagName,cls:el.className,text:(el.textContent||'').slice(0,90),color:getComputedStyle(el).color,background:getComputedStyle(el).backgroundColor,opacity:getComputedStyle(el).opacity,parentBackground:getComputedStyle(el.parentElement).backgroundColor,grandBackground:getComputedStyle(el.parentElement.parentElement).backgroundColor,matchesFinish:el.matches('#app .review-card .btn-soft')||el.matches('#app .review-card .footnote')})));
+   const details=scan.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,checks:n.any.map(a=>a.data)}))}));
+   out.violations.push({theme,details,computed});
+   fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));
+  }
+  assert.equal(scan.violations.length,0,theme+'/review populated SM-2 WCAG 2.1 AA violations: '+JSON.stringify(out.violations.at(-1)||scan.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))));
   for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[768,1024],[1024,768],[1366,900],[1920,1080],[844,390]]){
    await p.setViewportSize({width,height});
    const g=await geometry(p);
