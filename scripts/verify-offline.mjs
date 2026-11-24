@@ -37,7 +37,7 @@ async function dispatch(type, request) {
 }
 await dispatch('install');
 assert(entries.has(key('./index.html')) && entries.has(key('./assets/signs/hill.svg')));
-assert(entries.has(key('./assets/spaced-repetition.js?v=1')) && entries.has(key('./assets/sm2-experience.css?v=1')), 'SM-2 engine and UI must be precached for offline use');
+assert(entries.has(key('./assets/spaced-repetition.js?v=1')) && entries.has(key('./assets/sm2-experience.css?v=1')) && entries.has(key('./assets/experience-finish.css?v=1')), 'SM-2 engine and UI must be precached for offline use');
 const navigation = { url: origin + '/', method: 'GET', mode: 'navigate' };
 assert.equal((await dispatch('fetch', navigation)).body, 'network:' + origin + '/');
 online = false;
