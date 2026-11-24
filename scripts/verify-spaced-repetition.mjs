@@ -23,6 +23,16 @@ assert.equal(sm2.getDueItems(state, row.nextReview - 1, "2").length, 0);
 assert.equal(sm2.getDueItems(state, row.nextReview, "2").length, 1);
 assert.equal(sm2.getDueItems(state, row.nextReview, "1").length, 1, "unscoped question remains visible to another code");
 assert.equal(sm2.getStats(state, row.nextReview, "2").total, 1);
+const queueState = {};
+const queueQ = { key: "existing-key", q: "Mirror check", opts: ["Check mirrors", "Guess"], ans: 0, ex: "Observe.", topic: "Observation", code: "2" };
+const queued = sm2.recordToReview(queueState, queueQ, false, t0, "queue-event");
+assert.equal(queueState.review.length, 1);
+assert.equal(queueState.review[0].key, "existing-key");
+assert.equal(queueState.review[0].due, t0 + sm2.DAY);
+sm2.recordToReview(queueState, queueQ, true, t0 + sm2.DAY, "queue-event-2");
+assert.equal(queueState.review[0].level, 1);
+assert.equal(queueState.review[0].misses, 1, "successful recall does not erase prior lapse history");
+
 const malformed = { sm2: { version: 1, items: { bad: { repetitions: -1, interval: -2, easeFactor: 0, nextReview: -1 } }, events: [] } };
 assert.equal(sm2.ensure(malformed).items.bad, undefined);
 const same = sm2.questionId({ q: "  STOP  ahead ", opts: ["Stop", "Go"], ans: 0 });
