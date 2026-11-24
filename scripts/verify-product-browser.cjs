@@ -56,6 +56,8 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
  });
  await visit(p,'review');
  await p.locator('.sm2-overview').waitFor();
+ const entranceOpacity=await p.locator('.review-card').first().evaluate(el=>getComputedStyle(el).opacity);
+ assert.equal(entranceOpacity,'1','review entrance motion must preserve text contrast at every frame');
  assert.equal(await p.locator('.sm2-day').count(),14,'review activity heatmap has 14 days');
  assert.equal(await p.locator('[data-sm2-flip]').count(),3,'review guide has three interactive interval cards');
  assert(await p.locator('#reviewStart').isVisible(),'due question is actionable');
