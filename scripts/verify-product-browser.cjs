@@ -109,7 +109,11 @@ for(const theme of ['light','dark']){
 }
 const views=['home','learn','tests','diagnostic','progress','session1','session2','session3','practice','mock','sim','flash','row','memory','journey','sources','checklist','signlibrary','situations','concepts','practical','rhd','revision','review','cheat'];
 for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[768,1024],[834,1194],[1024,768],[1366,900],[1920,1080],[844,390]])for(const theme of ['light','dark']){await p.setViewportSize({width,height});for(const go of views){await visit(p,go);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);const g=await geometry(p);assert(!g.overflow&&g.wide.length===0&&g.small.length===0&&g.broken.length===0,JSON.stringify({width,height,theme,go,...g}));const scrollState=await p.evaluate(async()=>{
- const scrolling=document.scrollingElement||document.documentElement;
+ const html=document.documentElement;
+ const priorBehavior=html.style.getPropertyValue('scroll-behavior');
+ const priorPriority=html.style.getPropertyPriority('scroll-behavior');
+ html.style.setProperty('scroll-behavior','auto','important');
+ const scrolling=document.scrollingElement||html;
  const max=Math.max(0,scrolling.scrollHeight-scrolling.clientHeight);
  scrolling.scrollTop=max;
  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
@@ -123,6 +127,8 @@ for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[
  const badTables=tables.filter(t=>{const cs=getComputedStyle(t);return t.scrollWidth>t.clientWidth+2&&!['auto','scroll'].includes(cs.overflowX)});
  const result={maxScroll:max,scrollY:scrolling.scrollTop,reachedBottom:scrolling.scrollTop>=max-1,navInsideViewport:!navRect||(navRect.top>=-1&&navRect.bottom<=innerHeight+1),navCoversLast,badTables:badTables.length};
  scrolling.scrollTop=0;
+ if(priorBehavior)html.style.setProperty('scroll-behavior',priorBehavior,priorPriority);
+ else html.style.removeProperty('scroll-behavior');
  return result;
 });
 assert(scrollState.reachedBottom&&scrollState.navInsideViewport&&!scrollState.navCoversLast&&scrollState.badTables===0,JSON.stringify({width,height,theme,go,scrollState}));
