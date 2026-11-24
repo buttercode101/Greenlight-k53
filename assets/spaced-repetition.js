@@ -32,6 +32,7 @@
     const old = object(state.sm2);
     const items = object(old.items);
     const events = object(old.events);
+    const days = object(old.days);
     state.sm2 = {
       version: VERSION,
       items: Object.fromEntries(Object.entries(items).filter(([id, row]) =>
@@ -48,6 +49,7 @@
         question: sanitizeQuestion(row.question),
       }])),
       events: Object.fromEntries(Object.entries(events).filter(([id, at]) => typeof id === "string" && Number.isFinite(at)).slice(-2000)),
+      days: Object.fromEntries(Object.entries(days).filter(([day, row]) => /^\\d{4}-\\d{2}-\\d{2}$/.test(day) && row && Number.isFinite(row.attempts) && Number.isFinite(row.correct) && Number.isFinite(row.wrong)).sort(([a],[b])=>a.localeCompare(b)).slice(-90).map(([day,row])=>[day,{attempts:clamp(row.attempts,0,1000000),correct:clamp(row.correct,0,1000000),wrong:clamp(row.wrong,0,1000000)}])),
     };
     return state.sm2;
   }
@@ -86,6 +88,11 @@
       question: sanitizeQuestion(question),
     };
     sm2.items[id] = row;
+    const date = new Date(now);
+    const dayKey = [date.getFullYear(), String(date.getMonth()+1).padStart(2,"0"), String(date.getDate()).padStart(2,"0")].join("-");
+    const day = sm2.days[dayKey] || (sm2.days[dayKey] = { attempts: 0, correct: 0, wrong: 0 });
+    day.attempts++; if (correct === true) day.correct++; else day.wrong++;
+    const dayKeys = Object.keys(sm2.days).sort(); if (dayKeys.length > 90) for (const key of dayKeys.slice(0, dayKeys.length - 90)) delete sm2.days[key];
     if (eventId) {
       sm2.events[eventId] = now;
       const keys = Object.keys(sm2.events);
@@ -139,7 +146,8 @@
       stat.due += isDue(row, now) ? 1 : 0;
       stat.lapses += row.lapses;
     }
-    return { total: rows.length, due: due.length, scheduled: future.length, attempts: accuracyAttempts, lapses, byTopic: Object.values(byTopic).sort((a,b)=>b.due-a.due || b.lapses-a.lapses) };
+    const daily = Object.entries(ensure(state).days).sort(([a],[b])=>a.localeCompare(b)).slice(-14).map(([date,value])=>({date,...value}));
+    return { total: rows.length, due: due.length, scheduled: future.length, attempts: accuracyAttempts, lapses, byTopic: Object.values(byTopic).sort((a,b)=>b.due-a.due || b.lapses-a.lapses), daily };
   }
   root.GreenLightSM2 = Object.freeze({ VERSION, DAY, MAX_INTERVAL, questionId, ensure, recordAnswer, recordToReview, isDue, getDueItems, getStats });
 })(globalThis);
