@@ -2,6 +2,7 @@ import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+// SM-2 review, progress history and offline presentation are part of the release gate.
 const checks = [
   ['security-headers.mjs', '--check'], ['verify.mjs'], ['verify-spaced-repetition.mjs'], ['verify-content.mjs'],
   ['verify-offline.mjs'], ['verify-assessment.mjs'], ['verify-recovery.mjs'],
