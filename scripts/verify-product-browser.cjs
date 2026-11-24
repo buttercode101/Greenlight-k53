@@ -122,7 +122,7 @@ for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[
  const visible=e=>!!e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden'&&(!e.closest('details:not([open])')||e.matches('summary'));
  const controls=[...document.querySelectorAll('#app button,#app a[href],#app input,#app select,#app textarea,#app summary,[role="button"]')].filter(e=>visible(e)&&!e.closest('.product-nav'));
  const last=controls.at(-1),lastRect=last?.getBoundingClientRect();
- const navCoversLast=!!(navRect&&lastRect&&lastRect.bottom>navRect.top+1&&lastRect.top<navRect.bottom-1);
+ const navCoversLast=!!(navRect&&lastRect&&lastRect.bottom>navRect.top+1&&lastRect.top<navRect.bottom-1&&lastRect.right>navRect.left+1&&lastRect.left<navRect.right-1);
  const tables=[...document.querySelectorAll('#app table')].filter(visible);
  const badTables=tables.filter(t=>{const cs=getComputedStyle(t);return t.scrollWidth>t.clientWidth+2&&!['auto','scroll'].includes(cs.overflowX)});
  const rect=r=>r&&({left:Math.round(r.left),top:Math.round(r.top),right:Math.round(r.right),bottom:Math.round(r.bottom),width:Math.round(r.width),height:Math.round(r.height)});
