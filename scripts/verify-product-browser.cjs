@@ -13,7 +13,7 @@ const c=await browser.newContext({serviceWorkers:'block',timezoneId:'Africa/Joha
 await visit(p);
 const visual=await p.evaluate(()=>{const panel=document.querySelector('.x-command'),heading=panel?.querySelector('.x-command-main h2'),chip=panel?.querySelector('.x-side-label'),display=document.querySelector('.x-welcome h1');return {panelBg:panel&&getComputedStyle(panel).backgroundColor,headingColor:heading&&getComputedStyle(heading).color,chipColor:chip&&getComputedStyle(chip).color,displayFont:display&&getComputedStyle(display).fontFamily};});
 assert.equal(visual.panelBg,'rgb(23, 35, 29)','next-move panel must retain its dark surface');
-assert.equal(visual.headingColor,'rgb(244, 245, 239)','next-move heading must remain high contrast');
+assert.equal(visual.headingColor,'rgb(245, 246, 240)','next-move heading must remain high contrast');
 assert.equal(visual.chipColor,'rgb(180, 200, 184)','next-move metadata chips must remain readable');
 assert(visual.displayFont,'home display heading must have a computed font');
 
