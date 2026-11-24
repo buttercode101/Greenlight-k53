@@ -660,3 +660,180 @@ html[data-theme="dark"] #app .review-card :where(.kicker,.lead,label,.reader-cou
 @media(prefers-reduced-motion:reduce){
   #app .opt.correct,#app .opt.wrong{animation:none!important}
 }
+
+
+/* ============================================================
+   Viewport containment — 2026-11-24
+   Prevent intrinsic content sizing from widening the page. Scroll
+   only the content that genuinely needs it (e.g. wide data tables).
+   ============================================================ */
+:root,
+html,
+body {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+html {
+  overflow-x: clip;
+}
+body {
+  inline-size: 100%;
+  overflow-x: clip;
+}
+#app,
+#app.wrap,
+#app main,
+#app :where(header, footer, section, article, aside, nav, form, fieldset) {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+#app *,
+#app *::before,
+#app *::after {
+  box-sizing: border-box;
+}
+#app :where(.block, .mini, .stat, .hero, .lesson-grid, .stat-grid,
+  .status-grid, .section-drill-grid, .reader-results, .atlas-toolbar,
+  .x-topics, .x-lower, .x-command, .x-evidence, .x-quick,
+  .sm2-overview, .sm2-cycle, .sm2-history, .product-nav) {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+#app :where([class*="grid"], [class*="Grid"], [class*="flex"], [class*="Flex"]) {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+#app :where(.lesson-grid, .stat-grid, .status-grid, .section-drill-grid,
+  .reader-results, .atlas-toolbar, .x-topics, .x-lower, .sm2-overview, .sm2-cycle) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+#app :where(.hero, .x-welcome, .x-progress-head, .x-command,
+  .x-command-main, .x-command-side, .x-evidence-score, .x-topic,
+  .x-topic-progress, .reader-tools, .reader-pages, .atlas-toolbar,
+  .backbar, .app-header, .product-nav) {
+  min-width: 0;
+}
+#app :where(.x-welcome, .x-progress-head, .x-evidence-score,
+  .reader-tools, .reader-pages, .backbar, .app-header) {
+  flex-wrap: wrap;
+}
+#app :where(button, .btn, .opt, a, summary, [role="button"]) {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-align: inherit;
+}
+#app :where(button, .btn, .opt, [role="button"]) > :where(span, small, strong, b) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+#app :where(p, li, dd, dt, label, small, strong, b, em, code, pre,
+  blockquote, figcaption, .lead, .footnote, .reference-note,
+  .x-subtitle, .x-side-foot, .x-topic-copy, .x-command-main,
+  .mini .d, .mini p, .reader-results, .empty-state) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+#app :where(pre, code) {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+#app :where(img, video, canvas, iframe, svg) {
+  max-width: 100%;
+}
+#app img,
+#app video,
+#app canvas {
+  height: auto;
+}
+#app :where(input, select, textarea) {
+  min-width: 0;
+  max-width: 100%;
+}
+#app textarea {
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+#app :where(table, .coverage-table, .span-table) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+#app :where(th, td) {
+  min-width: 0;
+  max-width: 100%;
+  padding-inline: clamp(8px, 1.5vw, 14px);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+#app :where(dialog, [role="dialog"], [aria-modal="true"],
+  .modal, .modal-content, .modal-panel, .sheet, .drawer) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: min(100% - 24px, 760px);
+  max-height: min(90dvh, 900px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+#app :where(dialog, [role="dialog"], [aria-modal="true"]) {
+  margin-inline: auto;
+}
+#app :where(dialog, [role="dialog"], [aria-modal="true"]) :where(form, section, header, footer) {
+  min-width: 0;
+  max-width: 100%;
+}
+#app :where(.overlay, .modal-backdrop, [data-overlay]) {
+  max-width: 100vw;
+  max-height: 100dvh;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+@media (max-width: 560px) {
+  #app.wrap {
+    width: 100% !important;
+    padding-inline: max(14px, env(safe-area-inset-left)) !important;
+  }
+  #app :where(.x-command, .x-lower, .x-evidence, .x-quick) {
+    min-width: 0;
+    max-width: 100%;
+  }
+  #app .x-command {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  #app .x-command-side {
+    border-left: 0 !important;
+    border-top: 1px solid rgba(223,241,225,.2) !important;
+  }
+  #app .x-command .x-primary {
+    max-width: 100% !important;
+    white-space: normal !important;
+    justify-content: space-between !important;
+  }
+  #app :where(.product-nav, .product-nav button) {
+    min-width: 0;
+  }
+  #app .product-nav button {
+    padding-inline: 5px !important;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 380px) {
+  #app.wrap {
+    padding-inline: max(12px, env(safe-area-inset-left)) !important;
+  }
+  #app :where(.x-topic, .x-topic-copy, .x-topic-progress) {
+    min-width: 0;
+  }
+}
