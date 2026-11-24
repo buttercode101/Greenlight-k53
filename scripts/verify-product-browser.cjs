@@ -40,6 +40,49 @@ await visit(p,'journey');await p.locator('#testDate').fill('2026-12-01');await p
 for(const view of ['home','practice','journey','memory','mock']){await p.setViewportSize({width:640,height:450});await visit(p,view);const g=await geometry(p);assert(!g.overflow&&g.wide.length===0,JSON.stringify({zoom:2,cssViewport:'640x450',view,...g}));}record('200% zoom-equivalent 640×450 viewport reflows Home, Drive, planning, memory and mock screens');
 for(const stored of [{attempts:{bad:null},review:[null],bookmarks:{bad:null}},{sessions:'bad',mastery:'bad',mockResults:'bad',secPass:'bad',practicalDone:'bad',codeProgress:'bad'},{attempts:{bad:{q:'<img src=x onerror="window.pwned=1">',topic:'<img src=x onerror="window.pwned=2">',correct:1,wrong:1}},review:[],bookmarks:{}}]){await p.evaluate(s=>localStorage.setItem('k53ww_v2',JSON.stringify(s)),stored);await visit(p);assert.equal(await p.locator('.x-welcome').count(),1);assert.equal(await p.evaluate(()=>window.pwned||false),false);assert.equal(await p.locator('#app img[src="x"]').count(),0);}record('Malformed saved progress recovers; stored markup stays inert');
 await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.textContent='window.pwned=1';document.body.append(s)});assert.equal(await p.evaluate(()=>window.pwned||false),false);assert((await p.evaluate(()=>window.__policy)).includes('script-src-elem'));record('CSP blocks injected executable inline scripts');
-await p.goto('http://127.0.0.1:8088/study-guide.html');await p.evaluate(()=>window.print=()=>window.printed=true);await p.locator('#printGuide').click();assert.equal(await p.evaluate(()=>window.printed),true);assert.deepEqual(await p.evaluate(()=>window.__policy),[]);record('Printable guide works under the enforced security policy');
+
+ // Exercise the populated SM-2 review surface, not only its empty state.
+ await visit(p);
+ await p.evaluate(()=>{
+  const state=JSON.parse(localStorage.getItem('k53ww_v2')||'{}');
+  state.vehicleCode='2';
+  const q={id:'ui-sm2-fixture',key:'ui-sm2-fixture',q:'When should a learner check the mirrors?',opts:['Before changing direction','Only after stopping'],ans:0,ex:'Observe before changing direction.',topic:'Observation',code:'2'};
+  window.GreenLightSM2.recordToReview(state,q,false,Date.now()-3*window.GreenLightSM2.DAY,'ui-sm2-fixture-event');
+  localStorage.setItem('k53ww_v2',JSON.stringify(state));
+ });
+ await visit(p,'review');
+ await p.locator('.sm2-overview').waitFor();
+ assert.equal(await p.locator('.sm2-day').count(),14,'review activity heatmap has 14 days');
+ assert.equal(await p.locator('[data-sm2-flip]').count(),3,'review guide has three interactive interval cards');
+ assert(await p.locator('#reviewStart').isVisible(),'due question is actionable');
+ const reviewThemes={};
+ for(const theme of ['light','dark']){
+  await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);
+  await p.setViewportSize({width:390,height:844});
+  const paint=await p.evaluate(()=>({
+   linked:!!document.querySelector('link[href*="experience-finish.css"]'),
+   background:getComputedStyle(document.querySelector('.sm2-overview')).backgroundColor,
+   foreground:getComputedStyle(document.querySelector('.sm2-metric strong')).color
+  }));
+  assert(paint.linked,'final interaction stylesheet must load as a real stylesheet');
+  assert.notEqual(paint.background,paint.foreground,'review metrics need distinct surface and text colours');
+  reviewThemes[theme]=paint;
+  const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
+  assert.equal(scan.violations.length,0,theme+'/review populated SM-2 WCAG 2.1 AA violations: '+JSON.stringify(scan.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))));
+  for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[768,1024],[1024,768],[1366,900],[1920,1080],[844,390]]){
+   await p.setViewportSize({width,height});
+   const g=await geometry(p);
+   assert(!g.overflow&&g.wide.length===0&&g.small.length===0&&g.broken.length===0,JSON.stringify({theme,width,height,route:'review-populated',...g}));
+   out.screens.push({width,height,theme,view:'review-populated',...g});
+   if([390,1366].includes(width))await p.screenshot({path:path.join(outDir,`review-populated-${width}-${theme}.png`),fullPage:false,animations:'disabled'});
+  }
+ }
+ assert.notEqual(reviewThemes.light.background,reviewThemes.dark.background,'light and dark review surfaces must visibly differ');
+ await p.setViewportSize({width:390,height:844});
+ await p.locator('[data-sm2-flip]').first().click();
+ assert.equal(await p.locator('[data-sm2-flip]').first().getAttribute('aria-pressed'),'true','interval card activation updates its accessible state');
+ record('Populated SM-2 review: light/dark contrast, AA accessibility, 20 responsive states and interactive 3D cards',{states:20});
+
+ await p.goto('http://127.0.0.1:8088/study-guide.html');await p.evaluate(()=>window.print=()=>window.printed=true);await p.locator('#printGuide').click();assert.equal(await p.evaluate(()=>window.printed),true);assert.deepEqual(await p.evaluate(()=>window.__policy),[]);record('Printable guide works under the enforced security policy');
 assert.deepEqual(out.errors,[]);fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.log('PASS',out.screens.length,'responsive screens;',out.checks.length,'interaction/security checks');await browser.close();server.close();
 })().catch(async e=>{out.failure=e.stack;fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.error(e);await browser?.close();server.close();process.exitCode=1});
