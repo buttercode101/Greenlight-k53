@@ -516,3 +516,18 @@ html[data-theme="dark"] #app .opt.wrong{background:#4a2925!important;color:#ffd5
 @media(max-width:560px){
   #app .x-command .x-primary{font-size:12px!important}
 }
+
+/* Learning mock is the quiet paper option; the timed simulation carries the dark emphasis. */
+#app .x-assessment-learn{
+  background:var(--gl-surface)!important;
+  color:var(--gl-ink)!important;
+  border-color:var(--gl-line)!important;
+}
+#app .x-assessment-learn .kicker{color:var(--gl-green-strong)!important}
+#app .x-assessment-learn h2{color:var(--gl-ink)!important}
+#app .x-assessment-learn p:not(.kicker){color:var(--gl-muted)!important}
+#app .x-assessment-learn button{
+  background:var(--gl-green-strong)!important;
+  color:#fff!important;
+  border-color:var(--gl-green-strong)!important;
+}
