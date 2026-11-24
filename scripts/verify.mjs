@@ -13,7 +13,14 @@ const sm2Css = fs.readFileSync('assets/sm2-experience.css', 'utf8');
 assert(!sm2Css.includes('from{opacity:0;transform:translateY(7px)}'), 'Review card entrance motion must not fade text below contrast thresholds');
 assert(!html.includes('>\\n<link'), 'HTML must not contain literal escaped newlines between stylesheet tags');
 assert(!finishCss.includes(String.fromCharCode(92) + 'n'), 'Final CSS must not contain literal escaped newlines');
-assert(html.includes('<link rel="stylesheet" href="./assets/experience-finish.css?v=1">'), 'Final experience stylesheet must be a real HTML link');
+assert(html.includes('<link rel="stylesheet" href="./assets/experience-finish.css?v=2">'), 'Consolidated final experience stylesheet must be a real HTML link');
+assert(finishCss.includes('--gl-canvas:#f3f1e9') && finishCss.includes('.x-welcome') && finishCss.includes('.x-command'), 'Consolidated learner cockpit v2 tokens and dashboard rules must exist');
+assert(finishCss.includes('#app #connectionLabel') && finishCss.includes('font-size:11px!important'), 'Connectivity status must retain readable contrast and type size');
+assert(finishCss.includes('#app .x-assessment-learn .kicker') && finishCss.includes('#app .x-assessment-learn p:not(.kicker)'), 'Learning mock card text must remain readable on its light surface');
+assert(finishCss.includes('html[data-theme="dark"] #app .x-assessment-learn button{color:#14241a!important}'), 'Learning mock action must use dark text on its dark-theme mint button');
+assert(finishCss.includes('html[data-theme="dark"] #app .btn-primary') && finishCss.includes('html[data-theme="dark"] #app .btn-ok'), 'Dark-theme primary actions must use a high-contrast label on mint fills');
+assert(finishCss.includes('grid-template-areas:"label value" "track track" "foot foot"'), 'Mobile practice meter must compact above the fixed navigation dock');
+assert(finishCss.includes('#app .reader-tools label') && finishCss.includes('#app .reader-page{color:var(--gl-muted)!important}'), 'Reader labels and pagination must use the accessible semantic text token');
 
 const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc=/.test(m[1]) && !/application\/ld\+json/.test(m[1]));
@@ -39,9 +46,9 @@ for (const go of ['mock:openMock', 'session1:openSession1', 'session3:openSessio
   assert(html.includes(go), 'Deep link route missing: ' + go);
 assert(html.includes('unknownGoNotice'), 'Unknown ?go= must land on Home with a notice');
 assert(html.includes("STORE='k53ww_v2'") || html.includes('k53ww_v2'), 'Canonical progress store missing');
-assert(sw.includes("CACHE = 'greenlight-k53-v71-experience-finish'"), 'SW cache must be bumped for the neutral UI release');
-assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=9') && sw.includes('./assets/experience-rebuild.css?v=14') && sw.includes('./assets/decision/practice.js?v=34') && sw.includes('./assets/spaced-repetition.js?v=1') && sw.includes('./assets/sm2-experience.css?v=3') && sw.includes('./assets/experience-finish.css?v=1'), 'SW precache versions must match the shell and include neutral UI');
-assert(html.includes('./assets/experience-finish.css?v=1'), 'Final experience stylesheet must be linked');
+assert(sw.includes("CACHE = 'greenlight-k53-v72-learner-cockpit-v2'"), 'SW cache must be bumped for the learner cockpit v2 release');
+assert(sw.includes('./assets/product.css?v=37') && sw.includes('./assets/neutral-redesign.css?v=9') && sw.includes('./assets/experience-rebuild.css?v=14') && sw.includes('./assets/decision/practice.js?v=34') && sw.includes('./assets/spaced-repetition.js?v=1') && sw.includes('./assets/sm2-experience.css?v=3') && sw.includes('./assets/experience-finish.css?v=2'), 'SW precache versions must match the shell and include consolidated learner cockpit v2');
+assert(html.includes('./assets/experience-finish.css?v=2'), 'Final experience stylesheet must be linked');
 assert(html.includes('./assets/neutral-redesign.css?v=9'), 'Neutral UI stylesheet must be linked after the existing product styles');
 
 // Sign learning: registered SVG art, never emoji-only cards; honest progress.
