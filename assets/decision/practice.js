@@ -19,7 +19,7 @@ import {
   finish,
   weakIds,
   importLegacy,
-} from "./model.js?v=32";
+} from "./model.js?v=34";
 const esc = (v) =>
   String(v ?? "").replace(
     /[&<>"']/g,
