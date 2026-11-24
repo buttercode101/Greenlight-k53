@@ -116,3 +116,13 @@ html[data-theme="dark"] #app .sm2-day[data-level="4"]{background:#68a77a}
   }
   #app :where(button,.btn):active{transform:none}
 }
+
+/* Review cards: explicit high-contrast text on both paper themes. */
+#app .review-card .t>span,
+#app .review-card .d,
+#app .review-card .d>summary,
+#app .review-card .d p{color:var(--x-ink)!important}
+#app .review-card .btn-soft{background:#e1ede4!important;color:#14583d!important;border:1px solid #9db9a7!important}
+#app .review-card .footnote{color:#536258!important}
+html[data-theme="dark"] #app .review-card .btn-soft{background:#263d2e!important;color:#bde5c9!important;border-color:#4d6954!important}
+html[data-theme="dark"] #app .review-card .footnote{color:#c5d0c7!important}
