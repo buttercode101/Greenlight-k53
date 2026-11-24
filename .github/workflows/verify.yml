@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [firefox, webkit]
+        browser: [firefox, webkit, chromium]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -42,10 +42,19 @@ jobs:
           K53_BROWSER: ${{ matrix.browser }}
           K53_BROWSER_MATRIX: '1'
           K53_EVIDENCE_DIR: artifacts/browser-${{ matrix.browser }}
+      - name: Verify full product UI matrix (Chromium)
+        if: matrix.browser == 'chromium'
+        run: node scripts/verify-product-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_EVIDENCE_DIR: artifacts/product-browser
       - name: Retain browser evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: greenlight-${{ matrix.browser }}
-          path: artifacts/browser-${{ matrix.browser }}
+          path: |
+            artifacts/browser-${{ matrix.browser }}
+            artifacts/product-browser
+          if-no-files-found: ignore
           retention-days: 7
