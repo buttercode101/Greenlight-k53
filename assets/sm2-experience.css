@@ -19,7 +19,7 @@
 .sm2-cycle-step small{font-size:12px;color:var(--x-muted,var(--ink-soft))}
 .review-card{animation:sm2-enter .34s both;animation-delay:calc(var(--sm2-index,0)*35ms);transform-style:preserve-3d}
 .review-card:hover{transform:translateY(-2px);transition:transform .18s ease}
-@keyframes sm2-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sm2-enter{from{transform:translateY(7px)}to{transform:translateY(0)}}
 @keyframes sm2-orbit-a{to{transform:rotate(360deg) translateX(3px) rotate(-360deg)}}
 @keyframes sm2-orbit-b{to{transform:rotate(-360deg) translateX(4px) rotate(360deg)}}
 html[data-theme="dark"] .sm2-overview,html[data-theme="dark"] .sm2-cycle-step{background:var(--x-paper,var(--paper));border-color:var(--x-line,var(--line))}
