@@ -127,6 +127,7 @@ const CORE = [
   './assets/decision/practice.css?v=33',
   './assets/decision/practice.js',
   './assets/decision/practice.js?v=33',
+  './assets/decision/practice.js?v=34',
   './assets/decision/session.js',
   './assets/decision/session.js?v=33',
   './assets/decision/sources.js',
