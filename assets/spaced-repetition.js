@@ -78,7 +78,9 @@
     } else {
       repetitions = 0;
       interval = 1;
-      const quality = 1;\n      const delta = 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02);\n      easeFactor = clamp(ease + delta, MIN_EASE, 3);
+      const quality = 1;
+      const delta = 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02);
+      easeFactor = clamp(ease + delta, MIN_EASE, 3);
     }
     const row = {
       id, repetitions, interval, easeFactor, nextReview: now + interval * DAY,
