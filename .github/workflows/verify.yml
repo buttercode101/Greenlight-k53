@@ -12,6 +12,8 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: '22'
+      - name: Regenerate and display CSP headers for verification
+        run: node scripts/security-headers.mjs && cat vercel.json
       - run: node scripts/verify-all.mjs
 
   browsers:
