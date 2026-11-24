@@ -11,7 +11,7 @@ const sw = fs.readFileSync('sw.js', 'utf8');
 const finishCss = fs.readFileSync('assets/experience-finish.css', 'utf8');
 assert(!html.includes('>\\n<link'), 'HTML must not contain literal escaped newlines between stylesheet tags');
 assert(!finishCss.includes('\\\\n'), 'Final CSS must not contain literal escaped newlines');
-assert.match(html, /<link rel="stylesheet" href="\\.\\/assets\\/experience-finish\\.css\\?v=1">/, 'Final experience stylesheet must be a real HTML link');
+assert(html.includes('<link rel="stylesheet" href="./assets/experience-finish.css?v=1">'), 'Final experience stylesheet must be a real HTML link');
 
 const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
   .filter(m => !/\bsrc=/.test(m[1]) && !/application\/ld\+json/.test(m[1]));
