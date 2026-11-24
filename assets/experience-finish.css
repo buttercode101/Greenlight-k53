@@ -531,3 +531,5 @@ html[data-theme="dark"] #app .opt.wrong{background:#4a2925!important;color:#ffd5
   color:#fff!important;
   border-color:var(--gl-green-strong)!important;
 }
+
+html[data-theme="dark"] #app .x-assessment-learn button{color:#14241a!important}
