@@ -410,3 +410,11 @@ html[data-theme="dark"] #app .btn-primary{color:#14241a!important}
   repeating-linear-gradient(to bottom,rgba(255,255,255,.96) 0 4px,transparent 4px 9px)!important;
  background-size:27px 32px!important;background-position:center!important;background-repeat:no-repeat!important
 }
+
+
+#app .brand span{margin-right:4px!important}
+@media(max-width:850px){
+ #app .product-nav button[data-go="checklist"]{
+  white-space:nowrap!important;font-size:9px!important;letter-spacing:0!important
+ }
+}
