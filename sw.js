@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v77-pwa-touch-target-entry';
+const CACHE = 'greenlight-k53-v78-static-support-theme';
 const CORE = [
   './',
   './index.html',
@@ -8,6 +8,8 @@ const CORE = [
   './assets/experience-rebuild.css?v=14',
   './assets/sm2-experience.css?v=3',
   './assets/experience-finish.css?v=6',
+  './assets/static-pages.css?v=1',
+  './assets/static-pages.js?v=1',
   './assets/spaced-repetition.js?v=1',
   './assets/fonts/fonts.css',
   './assets/fonts/inter-var.woff2',

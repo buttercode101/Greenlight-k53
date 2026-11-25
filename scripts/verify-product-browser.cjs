@@ -254,5 +254,37 @@ p.once('dialog',d=>d.accept());
 await Promise.all([p.waitForNavigation({waitUntil:'domcontentloaded'}),p.locator('#restorePreview button').click()]);
 await p.locator('#app h1').first().waitFor();assert.equal(await p.evaluate(()=>window.__K53.state.vehicleCode),'3','confirmed restore must apply the selected backup');
 record('Progress restore: preview, destructive confirmation, cancellation preservation and confirmed restore all work');
+// Public support pages are part of the product: theme parity, reflow, touch and print.
+const supportPages=['study-guide.html','privacy.html','corrections.html'];
+for(const theme of ['light','dark']){
+ for(const [width,height] of [[320,568],[375,812],[390,844],[430,932],[600,960],[768,1024],[1024,768],[1120,840],[1280,800],[1440,900],[1920,1080],[844,390]]){
+  for(const page of supportPages){
+   await p.goto('http://127.0.0.1:8088/',{waitUntil:'domcontentloaded'});
+   await p.evaluate(t=>{const raw=localStorage.getItem('k53ww_v2');const state=raw?JSON.parse(raw):{};state.theme=t;localStorage.setItem('k53ww_v2',JSON.stringify(state));},theme);
+   await p.goto('http://127.0.0.1:8088/'+page,{waitUntil:'domcontentloaded'});
+   await p.setViewportSize({width,height});await p.waitForTimeout(40);
+   const g=await p.evaluate(()=>{
+    const visible=e=>!!e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden';
+    const escaped=[...document.querySelectorAll('main *')].filter(e=>visible(e)&&(e.getBoundingClientRect().right>innerWidth+2||e.getBoundingClientRect().left< -2)).slice(0,8).map(e=>({tag:e.tagName,className:typeof e.className==='string'?e.className:'',left:Math.round(e.getBoundingClientRect().left),right:Math.round(e.getBoundingClientRect().right)}));
+    const targets=[...document.querySelectorAll('nav a,nav button,.button')].filter(visible).map(e=>({text:(e.innerText||e.getAttribute('aria-label')||'').trim(),width:e.getBoundingClientRect().width,height:e.getBoundingClientRect().height}));
+    return {overflow:document.documentElement.scrollWidth>innerWidth+1||document.body.scrollWidth>innerWidth+1,escaped,targets,broken:[...document.images].filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src),grid:document.querySelector('.grid')?getComputedStyle(document.querySelector('.grid')).gridTemplateColumns.split(' ').length:null};
+   });
+   const themed=await p.evaluate(()=>({theme:document.documentElement.dataset.theme,bg:getComputedStyle(document.body).backgroundColor}));
+   assert.equal(themed.theme,theme,page+' must restore saved '+theme+' theme');
+   assert(!g.overflow&&g.escaped.length===0&&g.broken.length===0,JSON.stringify({page,width,height,theme,...g}));
+   assert(g.targets.every(t=>t.width>=44&&t.height>=44),JSON.stringify({page,width,height,theme,targets:g.targets}));
+   if(page==='study-guide.html'&&width===320)assert.equal(g.grid,1,'study guide cards must stack on narrow phones');
+   if(page==='study-guide.html'&&width===1440)assert.equal(g.grid,3,'study guide cards must use three desktop columns');
+   const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa']).analyze();
+   if(scan.violations.length){out.violations.push(...scan.violations.map(v=>({theme,page,width,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})));assert.equal(scan.violations.length,0,page+'/'+width+'/'+theme+' WCAG 2.2 AA violations: '+JSON.stringify(out.violations.slice(-scan.violations.length)));}
+   out.screens.push({page,width,height,theme,overflow:g.overflow,escaped:g.escaped.length,axeViolations:scan.violations.length});
+  }
+ }
+}
+await p.goto('http://127.0.0.1:8088/privacy.html',{waitUntil:'domcontentloaded'});
+await p.locator('[data-theme-toggle]').click();assert.equal(await p.locator('html').getAttribute('data-theme'),'dark');
+await p.goto('http://127.0.0.1:8088/index.html',{waitUntil:'domcontentloaded'});
+assert.equal(await p.locator('html').getAttribute('data-theme'),'dark','support-page theme choice must carry back into the app');
+record('Support pages: 72 light/dark viewport states, WCAG 2.2 AA scans, 44px nav actions and cross-page theme persistence',{states:72});
 assert.deepEqual(out.errors,[]);fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.log('PASS',out.screens.length,'responsive screens;',out.checks.length,'interaction/security checks');await browser.close();server.close();
 })().catch(async e=>{out.failure=e.stack;fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.error(e);await browser?.close();server.close();process.exitCode=1});

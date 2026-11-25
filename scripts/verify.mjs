@@ -103,6 +103,18 @@ assert(html.includes('24 months'), 'Learner-licence validity disclosure missing'
 // Result screens must bridge onward (missed review + next step), not dead-end.
 assert(html.includes('retryMissedButton') || html.includes('Review mistakes') || html.includes('Review missed'), 'Result screen must offer missed-question review');
 
+// Public support pages share the saved light/dark theme and offline asset graph.
+for (const page of ['study-guide.html', 'privacy.html', 'corrections.html']) {
+  const markup = fs.readFileSync(page, 'utf8');
+  assert(markup.includes('assets/static-pages.css?v=1'), page + ': shared responsive stylesheet missing');
+  assert(markup.includes('assets/static-pages.js?v=1'), page + ': saved theme controller missing');
+  assert(markup.includes('data-theme-toggle'), page + ': accessible theme control missing');
+}
+const supportCss = fs.readFileSync('assets/static-pages.css', 'utf8');
+assert(supportCss.includes('prefers-reduced-motion'), 'Support pages must respect reduced motion');
+assert(supportCss.includes('overflow-wrap:anywhere'), 'Support pages must contain long text');
+assert(supportCss.includes('html[data-theme="dark"]'), 'Support pages must style both themes');
+
 // Accessibility invariants (product.css + live regions in the engines).
 const css = fs.readFileSync('assets/product.css', 'utf8');
 assert(css.includes(':focus-visible'), 'Visible keyboard focus styling missing');
