@@ -109,6 +109,7 @@ for (const page of ['study-guide.html', 'privacy.html', 'corrections.html']) {
   assert(markup.includes('assets/static-pages.css?v=1'), page + ': shared responsive stylesheet missing');
   assert(markup.includes('assets/static-pages.js?v=1'), page + ': saved theme controller missing');
   assert(markup.includes('data-theme-toggle'), page + ': accessible theme control missing');
+  assert(markup.includes('viewport-fit=cover'), page + ': safe-area viewport configuration missing');
 }
 const supportCss = fs.readFileSync('assets/static-pages.css', 'utf8');
 assert(supportCss.includes('prefers-reduced-motion'), 'Support pages must respect reduced motion');
