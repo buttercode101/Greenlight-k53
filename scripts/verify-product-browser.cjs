@@ -99,16 +99,19 @@ assert.notEqual(darkCockpit.surface,'rgba(0, 0, 0, 0)','dark topic surface must 
 record('Learner cockpit: linked/offline-ready styles, three pathways, editorial type, 320px and 1440px composition, dark theme');
 
 const a11yRoutes=['home','learn','tests','diagnostic','progress','session1','session2','session3','practice','mock','sim','flash','row','memory','journey','sources','checklist','signlibrary','situations','concepts','practical','rhd','revision','review','cheat'];
+const a11yViewports=[[320,568],[390,844],[1440,900]];
 for(const theme of ['light','dark']){
- for(const route of a11yRoutes){
-  await p.setViewportSize({width:390,height:844});await visit(p,route);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await p.mouse.move(0,0);await p.waitForTimeout(250);
-  const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
-  if(scan.violations.length){out.violations.push(...scan.violations.map(v=>({theme,route,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})));assert.equal(scan.violations.length,0,theme+'/'+route+' WCAG 2.1 AA violations: '+JSON.stringify(out.violations.slice(-scan.violations.length)));}
-  record('Accessibility scan passed: '+theme+' / '+route,{axeViolations:scan.violations.length});
+ for(const [width,height] of a11yViewports){
+  for(const route of a11yRoutes){
+   await p.setViewportSize({width,height});await visit(p,route);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);await p.mouse.move(0,0);await p.waitForTimeout(250);
+   const scan=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa']).analyze();
+   if(scan.violations.length){out.violations.push(...scan.violations.map(v=>({theme,route,width,height,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})));assert.equal(scan.violations.length,0,theme+'/'+route+'/'+width+'px WCAG 2.2 AA violations: '+JSON.stringify(out.violations.slice(-scan.violations.length)));}
+   record('WCAG 2.2 AA scan passed: '+theme+' / '+route+' / '+width+'px',{axeViolations:scan.violations.length});
+  }
  }
 }
 const views=['home','learn','tests','diagnostic','progress','session1','session2','session3','practice','mock','sim','flash','row','memory','journey','sources','checklist','signlibrary','situations','concepts','practical','rhd','revision','review','cheat'];
-for(const [width,height] of [[320,568],[360,800],[390,844],[480,900],[640,900],[768,1024],[834,1194],[1024,768],[1366,900],[1920,1080],[844,390]])for(const theme of ['light','dark']){await p.setViewportSize({width,height});for(const go of views){await visit(p,go);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);const g=await geometry(p);assert(!g.overflow&&g.wide.length===0&&g.small.length===0&&g.broken.length===0&&g.smallTargets.length===0,JSON.stringify({width,height,theme,go,...g}));const scrollState=await p.evaluate(async()=>{
+for(const [width,height] of [[320,568],[360,800],[375,812],[390,844],[430,932],[480,900],[600,960],[640,900],[768,1024],[834,1194],[1024,768],[1120,840],[1280,800],[1366,900],[1440,900],[1920,1080],[844,390]])for(const theme of ['light','dark']){await p.setViewportSize({width,height});for(const go of views){await visit(p,go);await p.evaluate(t=>document.documentElement.dataset.theme=t,theme);const g=await geometry(p);assert(!g.overflow&&g.wide.length===0&&g.small.length===0&&g.broken.length===0&&g.smallTargets.length===0,JSON.stringify({width,height,theme,go,...g}));const scrollState=await p.evaluate(async()=>{
  const html=document.documentElement;
  const priorBehavior=html.style.getPropertyValue('scroll-behavior');
  const priorPriority=html.style.getPropertyPriority('scroll-behavior');
