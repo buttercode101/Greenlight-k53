@@ -228,12 +228,13 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
 await p.setViewportSize({width:320,height:568});await visit(p);await p.evaluate(()=>maybeShowInstall());await p.locator('#pwaClose').waitFor();const closeBox=await p.locator('#pwaClose').boundingBox();assert(closeBox&&closeBox.width>=43.5&&closeBox.height>=43.5&&closeBox.x>=0&&closeBox.x+closeBox.width<=320&&closeBox.y>=0&&closeBox.y+closeBox.height<=568,'install prompt close target must be at least 44px and stay inside the viewport: '+JSON.stringify(closeBox));await p.locator('#pwaClose').click();await p.locator('#installBanner').waitFor({state:'detached'});assert.equal(await p.locator('#installBanner').count(),0);record('Install prompt dismissal: 44px target remains inside the 320px viewport');
 
 // Exercise the actual backup/export/restore controls, including cancellation and invalid files.
+await p.evaluate(()=>{window.__K53.state.vehicleCode='2';window.__K53.state.attempts.restoreSentinel={q:'Current backup',correct:1,wrong:0};window.__K53.save();});
 await visit(p,'progress');
 await p.locator('.lesson-reference > summary').click();
 const [backupDownload]=await Promise.all([p.waitForEvent('download'),p.locator('#exportProgress').click()]);
 assert.match(backupDownload.suggestedFilename(),/^greenlight-progress-\d{4}-\d{2}-\d{2}\.json$/);
 const backup=JSON.parse(fs.readFileSync(await backupDownload.path(),'utf8'));
-assert.equal(backup.product,'GreenLight K53');assert.equal(backup.schema,1);assert(['1','2','3'].includes(backup.progress.vehicleCode));
+assert.equal(backup.product,'GreenLight K53');assert.equal(backup.schema,1);assert.equal(backup.progress.vehicleCode,'2');assert.equal(backup.progress.attempts.restoreSentinel.q,'Current backup');
 assert.match(await p.locator('#backupStatus').innerText(),/Backup download requested/);
 const [evidenceDownload]=await Promise.all([p.waitForEvent('download'),p.locator('#exportEvidence').click()]);
 assert.equal(evidenceDownload.suggestedFilename(),'greenlight-learning-evidence.json');
@@ -249,10 +250,10 @@ const portable=await p.evaluate(()=>JSON.stringify({product:'GreenLight K53',sch
 await p.locator('#progressFile').setInputFiles({name:'valid-greenlight-backup.json',mimeType:'application/json',buffer:Buffer.from(portable)});
 await p.locator('#restorePreview button').waitFor();assert.match(await p.locator('#restorePreview').innerText(),/Code 3/);
 p.once('dialog',d=>d.dismiss());await p.locator('#restorePreview button').click();
-assert.equal(await p.evaluate(()=>window.__K53.state.vehicleCode),currentCode,'cancelled restore must preserve current progress');
+assert.equal(await p.evaluate(()=>window.__K53.state.vehicleCode),currentCode,'cancelled restore must preserve current progress');assert.equal(await p.evaluate(()=>window.__K53.state.attempts.restoreSentinel.q),'Current backup','cancelled restore must preserve recorded attempts');
 p.once('dialog',d=>d.accept());
 await Promise.all([p.waitForNavigation({waitUntil:'domcontentloaded'}),p.locator('#restorePreview button').click()]);
-await p.locator('#app h1').first().waitFor();assert.equal(await p.evaluate(()=>window.__K53.state.vehicleCode),'3','confirmed restore must apply the selected backup');
+await p.locator('#app h1').first().waitFor();assert.equal(await p.evaluate(()=>window.__K53.state.vehicleCode),'3','confirmed restore must apply the selected backup');assert.equal(await p.evaluate(()=>window.__K53.state.attempts.restoreSentinel),undefined,'confirmed restore must replace the previous attempt history');
 record('Progress restore: preview, destructive confirmation, cancellation preservation and confirmed restore all work');
 // Public support pages are part of the product: theme parity, reflow, touch and print.
 const supportPages=['study-guide.html','privacy.html','corrections.html'];
