@@ -17,7 +17,7 @@ jobs:
   browsers:
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     permissions:
       contents: read
     strategy:
@@ -28,6 +28,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: '24'
@@ -48,6 +49,48 @@ jobs:
         env:
           NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
           K53_EVIDENCE_DIR: artifacts/product-browser
+      - name: Verify deep navigation, return paths and saved-state recovery (Chromium)
+        if: matrix.browser == 'chromium'
+        run: node scripts/verify-navigation-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_EVIDENCE_DIR: artifacts/deep-navigation
+      - name: Verify clarity redesign, keyboard and reduced motion (Chromium)
+        if: matrix.browser == 'chromium'
+        run: node scripts/verify-clarity-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_EVIDENCE_DIR: artifacts/deep-clarity
+      - name: Verify populated product states and visual polish (Chromium)
+        if: matrix.browser == 'chromium'
+        run: node scripts/verify-polish-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_EVIDENCE_DIR: artifacts/deep-polish
+      - name: Verify all decision cards and complete simulations (Chromium)
+        if: matrix.browser == 'chromium'
+        run: node scripts/verify-decision-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_EVIDENCE_DIR: artifacts/deep-decisions
+      - name: Verify Drive timing, interruption and storage edge cases (Chromium)
+        if: matrix.browser == 'chromium'
+        run: node scripts/verify-decision-edge-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_EVIDENCE_DIR: artifacts/deep-decision-edge
+      - name: Verify readiness, section results and weak-topic follow-ups (Chromium)
+        if: matrix.browser == 'chromium'
+        run: node scripts/verify-readiness-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_EVIDENCE_DIR: artifacts/deep-readiness
+      - name: Verify real service-worker upgrade and offline resume (Chromium)
+        if: matrix.browser == 'chromium'
+        run: node scripts/verify-unified-browser.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/greenlight-browser-tools/node_modules
+          K53_EVIDENCE_DIR: artifacts/deep-offline
       - name: Retain browser evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -56,5 +99,6 @@ jobs:
           path: |
             artifacts/browser-${{ matrix.browser }}
             artifacts/product-browser
+            artifacts/deep-*
           if-no-files-found: ignore
           retention-days: 7
