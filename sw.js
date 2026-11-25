@@ -1,5 +1,5 @@
 /* GreenLight K53 — service worker (offline-first PWA) */
-const CACHE = 'greenlight-k53-v78-static-support-theme';
+const CACHE = 'greenlight-k53-v79-375px-header-containment';
 const CORE = [
   './',
   './index.html',
@@ -7,7 +7,7 @@ const CORE = [
   './assets/neutral-redesign.css?v=9',
   './assets/experience-rebuild.css?v=14',
   './assets/sm2-experience.css?v=3',
-  './assets/experience-finish.css?v=6',
+  './assets/experience-finish.css?v=7',
   './assets/static-pages.css?v=1',
   './assets/static-pages.js?v=1',
   './assets/spaced-repetition.js?v=1',

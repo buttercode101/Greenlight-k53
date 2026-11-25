@@ -879,3 +879,12 @@ body {
     max-width:100%!important;
   }
 }
+
+/* The 361–380px shell uses a 12px inset; match the full-bleed header
+   to that exact inset so its left edge never escapes the viewport. */
+@media (min-width:361px) and (max-width:380px){
+  #app>.app-header{
+    margin-inline:calc(0px - max(12px,env(safe-area-inset-left)))!important;
+    padding-inline:max(12px,env(safe-area-inset-left))!important;
+  }
+}
