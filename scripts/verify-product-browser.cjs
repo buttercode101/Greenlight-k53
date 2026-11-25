@@ -227,5 +227,32 @@ await visit(p);await p.evaluate(()=>{const s=document.createElement('script');s.
  await p.goto('http://127.0.0.1:8088/study-guide.html');await p.evaluate(()=>window.print=()=>window.printed=true);await p.locator('#printGuide').click();assert.equal(await p.evaluate(()=>window.printed),true);assert.deepEqual(await p.evaluate(()=>window.__policy),[]);record('Printable guide works under the enforced security policy');
 await p.setViewportSize({width:320,height:568});await visit(p);await p.evaluate(()=>maybeShowInstall());await p.locator('#pwaClose').waitFor();const closeBox=await p.locator('#pwaClose').boundingBox();assert(closeBox&&closeBox.width>=43.5&&closeBox.height>=43.5&&closeBox.x>=0&&closeBox.x+closeBox.width<=320&&closeBox.y>=0&&closeBox.y+closeBox.height<=568,'install prompt close target must be at least 44px and stay inside the viewport: '+JSON.stringify(closeBox));await p.locator('#pwaClose').click();await p.locator('#installBanner').waitFor({state:'detached'});assert.equal(await p.locator('#installBanner').count(),0);record('Install prompt dismissal: 44px target remains inside the 320px viewport');
 
+// Exercise the actual backup/export/restore controls, including cancellation and invalid files.
+await visit(p,'progress');
+await p.locator('.lesson-reference > summary').click();
+const [backupDownload]=await Promise.all([p.waitForEvent('download'),p.locator('#exportProgress').click()]);
+assert.match(backupDownload.suggestedFilename(),/^greenlight-progress-\\d{4}-\\d{2}-\\d{2}\\.json$/);
+const backup=JSON.parse(fs.readFileSync(await backupDownload.path(),'utf8'));
+assert.equal(backup.product,'GreenLight K53');assert.equal(backup.schema,1);assert(['1','2','3'].includes(backup.progress.vehicleCode));
+assert.match(await p.locator('#backupStatus').innerText(),/Backup download requested/);
+const [evidenceDownload]=await Promise.all([p.waitForEvent('download'),p.locator('#exportEvidence').click()]);
+assert.equal(evidenceDownload.suggestedFilename(),'greenlight-learning-evidence.json');
+const evidence=JSON.parse(fs.readFileSync(await evidenceDownload.path(),'utf8'));assert.equal(evidence.schema,1);assert(evidence.evidence&&Array.isArray(evidence.outcomes));
+record('Progress exports: backup and learning-evidence downloads contain the documented JSON structure');
+await p.locator('#progressFile').setInputFiles({name:'invalid.json',mimeType:'application/json',buffer:Buffer.from('{not-json')});
+await p.locator('#restorePreview').getByText(/not valid JSON/i).waitFor();assert.equal(await p.locator('#restorePreview button').count(),0);
+await p.locator('#progressFile').setInputFiles({name:'oversized.json',mimeType:'application/json',buffer:Buffer.alloc(2500001,32)});
+await p.locator('#restorePreview').getByText(/smaller than 2.5 MB/i).waitFor();assert.equal(await p.locator('#restorePreview button').count(),0);
+record('Progress restore rejects malformed and oversized files without exposing a restore action');
+const currentCode=await p.evaluate(()=>window.__K53.state.vehicleCode);
+const portable=await p.evaluate(()=>JSON.stringify({product:'GreenLight K53',schema:1,exportedAt:new Date().toISOString(),progress:{vehicleCode:'3',attempts:{},review:[]}}));
+await p.locator('#progressFile').setInputFiles({name:'valid-greenlight-backup.json',mimeType:'application/json',buffer:Buffer.from(portable)});
+await p.locator('#restorePreview button').waitFor();assert.match(await p.locator('#restorePreview').innerText(),/Code 3/);
+p.once('dialog',d=>d.dismiss());await p.locator('#restorePreview button').click();
+assert.equal(await p.evaluate(()=>window.__K53.state.vehicleCode),currentCode,'cancelled restore must preserve current progress');
+p.once('dialog',d=>d.accept());
+await Promise.all([p.waitForNavigation({waitUntil:'domcontentloaded'}),p.locator('#restorePreview button').click()]);
+await p.locator('#app h1').first().waitFor();assert.equal(await p.evaluate(()=>window.__K53.state.vehicleCode),'3','confirmed restore must apply the selected backup');
+record('Progress restore: preview, destructive confirmation, cancellation preservation and confirmed restore all work');
 assert.deepEqual(out.errors,[]);fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.log('PASS',out.screens.length,'responsive screens;',out.checks.length,'interaction/security checks');await browser.close();server.close();
 })().catch(async e=>{out.failure=e.stack;fs.writeFileSync(path.join(outDir,'results.json'),JSON.stringify(out,null,2));console.error(e);await browser?.close();server.close();process.exitCode=1});
