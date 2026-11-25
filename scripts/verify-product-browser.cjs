@@ -281,7 +281,10 @@ for(const theme of ['light','dark']){
   }
  }
 }
+await p.goto('http://127.0.0.1:8088/',{waitUntil:'domcontentloaded'});
+await p.evaluate(()=>{const state=JSON.parse(localStorage.getItem('k53ww_v2')||'{}');state.theme='light';localStorage.setItem('k53ww_v2',JSON.stringify(state));});
 await p.goto('http://127.0.0.1:8088/privacy.html',{waitUntil:'domcontentloaded'});
+assert.equal(await p.locator('html').getAttribute('data-theme'),'light');
 await p.locator('[data-theme-toggle]').click();assert.equal(await p.locator('html').getAttribute('data-theme'),'dark');
 await p.goto('http://127.0.0.1:8088/index.html',{waitUntil:'domcontentloaded'});
 assert.equal(await p.locator('html').getAttribute('data-theme'),'dark','support-page theme choice must carry back into the app');
