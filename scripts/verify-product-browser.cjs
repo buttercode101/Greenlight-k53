@@ -231,7 +231,7 @@ await p.setViewportSize({width:320,height:568});await visit(p);await p.evaluate(
 await visit(p,'progress');
 await p.locator('.lesson-reference > summary').click();
 const [backupDownload]=await Promise.all([p.waitForEvent('download'),p.locator('#exportProgress').click()]);
-assert.match(backupDownload.suggestedFilename(),/^greenlight-progress-\\d{4}-\\d{2}-\\d{2}\\.json$/);
+assert.match(backupDownload.suggestedFilename(),/^greenlight-progress-\d{4}-\d{2}-\d{2}\.json$/);
 const backup=JSON.parse(fs.readFileSync(await backupDownload.path(),'utf8'));
 assert.equal(backup.product,'GreenLight K53');assert.equal(backup.schema,1);assert(['1','2','3'].includes(backup.progress.vehicleCode));
 assert.match(await p.locator('#backupStatus').innerText(),/Backup download requested/);
